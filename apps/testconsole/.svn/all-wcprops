@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole
+END
+Stdafx.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole/Stdafx.h
+END
+app.rc
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole/app.rc
+END
+testconsole.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole/testconsole.cpp
+END
+testconsole.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole/testconsole.vcproj
+END
+testconsole.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole/testconsole.h
+END
+app.ico
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole/app.ico
+END
+Stdafx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole/Stdafx.cpp
+END
+ReadMe.txt
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole/ReadMe.txt
+END
+AssemblyInfo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole/AssemblyInfo.cpp
+END
+resource.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testconsole/resource.h
+END

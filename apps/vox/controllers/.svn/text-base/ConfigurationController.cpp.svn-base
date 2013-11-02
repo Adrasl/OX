@@ -1,0 +1,521 @@
+#include <controllers/ConfigurationController.h>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/path.hpp>
+//#include <boost/filesystem/progress.hpp>
+#include <string>
+#include <sstream>
+#include <debugger.h> 
+
+ConfigurationController::ConfigurationController()
+{}
+
+ConfigurationController::~ConfigurationController()
+{}
+
+bool ConfigurationController::Load()
+{
+
+	ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
+
+	if ( app_config != NULL )
+	{
+		boost::filesystem::path b_ini_path = boost::filesystem::initial_path().string();
+		b_ini_path = b_ini_path / "/../../bin";
+		std::string ini_path = b_ini_path.normalize().string();
+		ini_path = ini_path + "/";
+		app_config->SetRootDirectory(ini_path);
+
+		std::stringstream wop_config;
+		wop_config << ini_path << "config.ini";
+		std::string config_file_name = wop_config.str();
+		std::ifstream config_file(config_file_name.c_str());
+
+		if ( config_file.is_open() )
+		{
+			while (!config_file.eof())
+			{
+				char str[5000];
+				const int size = 5000;
+
+				config_file.getline(str, size);
+
+				const std::string tag(str);
+
+				if      ( tag == "[ROOT_DIRECTORY]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetRootDirectory(str);						
+				}
+				else if ( tag == "[DATA_DIRECTORY]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetDataDirectory(str);						
+				}
+				else if ( tag == "[MODEL_DIRECTORY]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetModelDirectory(str);						
+				}
+				else if ( tag == "[SOUND_DIRECTORY]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetSoundDirectory(str);						
+				}
+				else if ( tag == "[IMAGE_DIRECTORY]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetImageDirectory(str);						
+				}
+				else if ( tag == "[EXTERN_DIRECTORY]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetExternDirectory(str);						
+				}
+				else if ( tag == "[UIRESOURCE_DIRECTORY]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetUIResourceDirectory(str);						
+				}
+				else if ( tag == "[DB_HOST]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetSDHost(str);						
+				}
+				else if ( tag == "[DB_PORT]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetSDPort(str);						
+				}
+				else if ( tag == "[DB_NAME]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetSDName(str);						
+				}
+				else if ( tag == "[DB_USER]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetSDUser(str);
+				}
+				else if ( tag == "[DB_PASSWORD]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetSDPassword(str);
+				}
+				else if ( tag == "[LANGUAGE]" )
+				{
+					config_file.getline(str, size);
+					app_config->SetLanguage(str);
+				}
+				else if ( tag == "[CAM_NUM]" )
+				{
+					unsigned int value;
+					std::stringstream wop;
+					config_file.getline(str, size);
+					wop << str;
+					wop >> value;
+					app_config->SetNumCams(value);
+				}
+				else if ( tag == "[CAM_CONFIG]" )
+				{
+					config_file.getline(str, size);
+					LoadCamConfig(str);
+				}
+				else if ( tag == "[DISPLAY_NUM]" )
+				{
+					unsigned int value;
+					std::stringstream wop;
+					config_file.getline(str, size);
+					wop << str;
+					wop >> value;
+					app_config->SetNumDisplays(value);
+				}
+				else if ( tag == "[DISPLAY_CONFIG]" )
+				{
+					config_file.getline(str, size);
+					LoadDisplayConfig(str);
+				}
+				else if ( tag == "[USE_RECOGNITION]" )
+				{
+					bool value;
+					std::stringstream wop;
+					config_file.getline(str, size);
+					wop << str;
+					wop >> value;
+					app_config->SetUseRecognition(value);
+				}
+				else if ( tag == "[AUTO_LOGIN]" )
+				{
+					bool value;
+					std::stringstream wop;
+					config_file.getline(str, size);
+					wop << str;
+					wop >> value;
+					app_config->SetAutoLogin(value);
+				}
+			}
+			config_file.close();
+		}
+		else
+		{
+			app_config->SetDataDirectory(ini_path + "data/")  ;
+			app_config->SetModelDirectory(ini_path + "data/models/") ;
+			app_config->SetSoundDirectory(ini_path + "data/sound/") ;
+			app_config->SetImageDirectory(ini_path + "data/images/") ;
+			app_config->SetExternDirectory(ini_path + "../extern/") ;
+			app_config->SetUIResourceDirectory(ini_path + "data/resources/") ;
+			app_config->SetSDHost("localhost");
+			app_config->SetSDPort("5432");
+			app_config->SetSDName("voxDB");
+			app_config->SetSDUser("vox");
+			app_config->SetSDPassword("vox");
+			app_config->SetLanguage("English");
+			app_config->SetNumCams(2);
+			app_config->SetNumDisplays(2);
+			app_config->SetUseRecognition(true);
+			app_config->SetAutoLogin(true);
+			core::CameraData cam_data1, cam_data2;
+			cam_data1.flip_h = true;
+			cam_data1.flip_v = false;
+			cam_data2.flip_h = false;
+			cam_data2.flip_v = false;
+			core::DisplayData win_data1, win_data2;
+			win_data1.resolution_x = 800;
+			win_data1.resolution_y = 600;
+			win_data2.resolution_x = 800;
+			win_data2.resolution_y = 600;
+			app_config->SetCameraData(1, cam_data1);
+			app_config->SetCameraData(2, cam_data2);
+			app_config->SetDisplayData(1, win_data1);
+			app_config->SetDisplayData(2, win_data2);
+
+			Save();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool ConfigurationController::Save()
+{
+	ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
+
+	if ( app_config != NULL )
+	{
+		std::string ini_path = app_config->GetRootDirectory();
+		
+		std::stringstream wop_config;
+		wop_config << ini_path << "config.ini";
+		std::string config_file_name = wop_config.str();
+		std::ofstream config_file(config_file_name.c_str());
+
+		if ( config_file.is_open() )
+		{
+			std::string tag;
+
+			tag = "[ROOT_DIRECTORY]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetRootDirectory() << std::endl;
+
+			tag = "[DATA_DIRECTORY]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetDataDirectory() << std::endl;
+
+			tag = "[MODEL_DIRECTORY]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetModelDirectory() << std::endl;
+
+			tag = "[SOUND_DIRECTORY]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetSoundDirectory() << std::endl;
+
+			tag = "[IMAGE_DIRECTORY]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetImageDirectory() << std::endl;
+
+			tag = "[EXTERN_DIRECTORY]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetExternDirectory() << std::endl;
+
+			tag = "[UIRESOURCE_DIRECTORY]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetUIResourceDirectory() << std::endl;
+
+			tag = "[DB_HOST]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetSDHost() << std::endl;
+
+			tag = "[DB_PORT]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetSDPort() << std::endl;
+
+			tag = "[DB_NAME]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetSDName() << std::endl;
+
+			tag = "[DB_USER]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetSDUser() << std::endl;
+
+			tag = "[DB_PASSWORD]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetSDPassword() << std::endl;
+
+			tag = "[LANGUAGE]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetLanguage() << std::endl;
+
+			tag = "[CAM_NUM]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetNumCams() << std::endl;
+
+			tag = "[CAM_CONFIG]";
+			config_file << tag << std::endl;
+			config_file << ParseCamConfig() << std::endl;
+
+			tag = "[DISPLAY_NUM]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetNumDisplays() << std::endl;
+
+			tag = "[DISPLAY_CONFIG]";
+			config_file << tag << std::endl;
+			config_file << ParseDisplayConfig() << std::endl;
+
+			tag = "[USE_RECOGNITION]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetUseRecognition() << std::endl;
+
+			tag = "[AUTO_LOGIN]";
+			config_file << tag << std::endl;
+			config_file << app_config->GetAutoLogin() << std::endl;
+
+			config_file.close();
+		}
+		return true;
+	}
+	return false;
+}
+
+void ConfigurationController::LoadCamConfig(const std::string &value)
+{
+	ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
+	std::string s_value = value;
+	core::CameraData cam_data;
+
+	int i = 1;
+	size_t pos = s_value.find("::ID::");
+	if    ( pos != std::string::npos )
+		s_value = s_value.substr(pos+6);
+	while ( pos != std::string::npos )
+	{
+		int next_pos = s_value.find("::X::");
+		{
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			if ( next_pos != std::string::npos)
+				wop >> i;
+			s_value = s_value.substr(next_pos+5);
+		}
+		next_pos = s_value.find("::Y::");
+		{
+			int data = 0;
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			wop >> data;
+			if ( next_pos != std::string::npos)
+				cam_data.x = data;
+			s_value = s_value.substr(next_pos+5);
+		}
+		next_pos = s_value.find("::Z::");
+		{
+			int data = 0;
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			wop >> data;
+			if ( next_pos != std::string::npos)
+				cam_data.y = data;
+			s_value = s_value.substr(next_pos+5);
+		}
+		next_pos = s_value.find("::FLIPH::");
+		{
+			int data = 0;
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			wop >> data;
+			if ( next_pos != std::string::npos)
+				cam_data.z = data;
+			s_value = s_value.substr(next_pos+9);
+		}
+		next_pos = s_value.find("::FLIPV::");
+		{
+			bool data = false;
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			wop >> data;
+			if ( next_pos != std::string::npos)
+				cam_data.flip_h = data;
+			s_value = s_value.substr(next_pos+9);
+		}
+		next_pos = s_value.find("::ID::");
+		{
+			bool data = false;
+			std::stringstream wop;
+			if ( next_pos != std::string::npos )
+			{
+				wop << s_value.substr(0, next_pos);
+				wop >> data;
+				if ( next_pos != std::string::npos)
+					cam_data.flip_v = data;
+				s_value = s_value.substr(next_pos+6);
+			}
+			else
+			{
+				wop << s_value.substr(0);
+				wop >> data;
+				cam_data.flip_v = data;
+			}
+		}
+		pos = next_pos;
+
+		app_config->SetCameraData( i, cam_data);
+	}
+}
+void ConfigurationController::LoadDisplayConfig(const std::string &value)
+{
+	ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
+	std::string s_value = value;
+	core::DisplayData win_data;
+
+	int i = 1;
+	size_t pos = s_value.find("::ID::");
+	if    ( pos != std::string::npos )
+		s_value = s_value.substr(pos+6);
+	while ( pos != std::string::npos )
+	{
+		int next_pos = s_value.find("::X::");
+		{
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			if ( next_pos != std::string::npos)
+				wop >> i;
+			s_value = s_value.substr(next_pos+5);
+		}
+		next_pos = s_value.find("::Y::");
+		{
+			int data = 0;
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			wop >> data;
+			if ( next_pos != std::string::npos)
+				win_data.x = data;
+			s_value = s_value.substr(next_pos+5);
+		}
+		next_pos = s_value.find("::Z::");
+		{
+			int data = 0;
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			wop >> data;
+			if ( next_pos != std::string::npos)
+				win_data.y = data;
+			s_value = s_value.substr(next_pos+5);
+		}
+		next_pos = s_value.find("::FLIPH::");
+		{
+			int data = 0;
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			wop >> data;
+			if ( next_pos != std::string::npos)
+				win_data.z = data;
+			s_value = s_value.substr(next_pos+9);
+		}
+		next_pos = s_value.find("::FLIPV::");
+		{
+			bool data = false;
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			wop >> data;
+			if ( next_pos != std::string::npos)
+				win_data.flip_h = data;
+			s_value = s_value.substr(next_pos+9);
+		}
+		next_pos = s_value.find("::RES_X::");
+		{
+			bool data = false;
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			wop >> data;
+			if ( next_pos != std::string::npos)
+				win_data.flip_v = data;
+			s_value = s_value.substr(next_pos+9);
+		}
+		next_pos = s_value.find("::RES_Y::");
+		{
+			unsigned int data = 0;
+			std::stringstream wop;
+			wop << s_value.substr(0, next_pos);
+			wop >> data;
+			if ( next_pos != std::string::npos)
+				win_data.resolution_x = data;
+			s_value = s_value.substr(next_pos+9);
+		}
+		next_pos = s_value.find("::ID::");
+		{
+			unsigned int data = 0;
+			std::stringstream wop;
+			if ( next_pos != std::string::npos )
+			{
+				wop << s_value.substr(0, next_pos);
+				wop >> data;
+				if ( next_pos != std::string::npos)
+					win_data.resolution_y = data;
+				s_value = s_value.substr(next_pos+6);
+			}
+			else
+			{
+				wop << s_value.substr(0);
+				wop >> data;
+				win_data.resolution_y = data;
+			}
+		}
+		pos = next_pos;
+
+		app_config->SetDisplayData( i, win_data);
+	}
+}
+std::string ConfigurationController::ParseCamConfig()
+{
+	ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
+	std::stringstream wop;
+
+	unsigned int cam_num = app_config->GetNumCams();
+
+	for (unsigned int i = 1; i <= cam_num; i++)
+	{
+		core::CameraData cam_data = app_config->GetCameraData(i);
+		wop << "::ID::" << i 
+			<< "::X::" << cam_data.x << "::Y::" << cam_data.y << "::Z::" << cam_data.z 
+			<< "::FLIPH::" << cam_data.flip_h << "::FLIPV::" << cam_data.flip_v;
+	}
+
+	return wop.str();
+}
+std::string ConfigurationController::ParseDisplayConfig()
+{
+	ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
+	std::stringstream wop;
+
+	unsigned int win_num = app_config->GetNumDisplays();
+
+	for (unsigned int i = 1; i <= win_num; i++)
+	{
+		core::DisplayData win_data = app_config->GetDisplayData(i);
+		wop << "::ID::" << i 
+			<< "::X::" << win_data.x << "::Y::" << win_data.y << "::Z::" << win_data.z 
+			<< "::FLIPH::" << win_data.flip_h << "::FLIPV::" << win_data.flip_v
+			<< "::RES_X::" << win_data.resolution_x << "::RES_Y::" << win_data.resolution_y;
+	}
+
+	return wop.str();
+}

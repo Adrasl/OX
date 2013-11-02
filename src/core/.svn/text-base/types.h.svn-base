@@ -1,0 +1,105 @@
+#ifndef _CORETYPES_
+#define _CORETYPES_
+
+#include <string>
+#include <core/Export.h>
+
+namespace core
+{
+
+	struct vector3F
+	{
+			float x;
+			float y;
+			float z;     
+	};
+
+	struct vector2I
+	{
+			int x;
+			int y;
+	};
+
+	struct Rect3F
+	{
+	  Rect3F()  
+	  { min[0] = min[1] = min[2] = 0;
+		max[0] = max[1] = max[2] = 0;
+	  }
+
+	  Rect3F(float a_minX, float a_minY, float a_minZ, float a_maxX, float a_maxY, float a_maxZ)
+	  { min[0] = a_minX; min[1] = a_minY; min[2] = a_minZ;
+		max[0] = a_maxX; max[1] = a_maxY; max[2] = a_maxZ;
+	  }
+
+	  float min[3];
+	  float max[3];
+	};
+
+
+	class _COREEXPORT_ Image
+	{
+		public:
+
+			Image(char *input, int size_x, int size_y, int n_channels, int depth, int width_step) 
+			{
+				image = input; 
+				width = size_x;
+				height = size_y;
+				nchannels = n_channels;
+				depth_ = depth;
+				widthstep = width_step;
+			}
+			~Image(){};
+			char *image;
+			int width, height, nchannels, depth_, widthstep;
+	};
+
+	template <class info> struct corePoint2D
+	{
+		info x;
+		info y;
+		corePoint2D& corePoint2D::operator=(corePoint2D& value) 
+		{	if(this != &value)
+			{	x = value.x;
+				y = value.y;		 
+			}
+			return *this;
+		}
+	};
+
+	template <class info> struct corePoint3D
+	{
+		info x;
+		info y;
+		info z;
+		corePoint3D& corePoint3D::operator=(corePoint3D& value) 
+		{	if(this != &value)
+			{	x = value.x;
+				y = value.y;
+				z = value.z;	 
+			}
+			return *this;
+		}
+	};
+
+	/** \brief state protocol data unit */
+	template <class info> struct corePDU3D
+	{
+		corePoint3D<info> position;
+		corePoint3D<info> velocity;
+		corePoint3D<info> acceleration;
+		corePDU3D& corePDU3D::operator=(corePDU3D& value) 
+		{	if(this != &value)
+			{	position = value.position;
+				velocity = value.velocity;
+				acceleration = value.acceleration;
+			}
+			return *this;
+		}
+	};
+
+
+}
+
+#endif

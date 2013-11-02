@@ -1,0 +1,192 @@
+\relax 
+\catcode`"\active
+\catcode`<\active
+\catcode`>\active
+\@nameuse{es@quoting}
+\select@language{spanish}
+\@writefile{toc}{\select@language{spanish}}
+\@writefile{lof}{\select@language{spanish}}
+\@writefile{lot}{\select@language{spanish}}
+\citation{Spalter99}
+\citation{Krueger85}
+\citation{Iges99}
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introducci\'on}{5}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\citation{Levin04}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Estado actual del tema}{7}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\citation{RCol09}
+\citation{KenB01}
+\citation{IJacobson09}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Metodolog\IeC {\'\i }a}{9}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Recursos necesarios}{11}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.1}Software}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.2}Hardware}{12}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Plan de trabajo y temporizaci\'on}{13}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces   Plan de trabajo y temporizaci\'on}}{14}}
+\newlabel{Temporizacion}{{5.1}{14}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Etapa 1: Acercamiento}{15}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}An\'alisis}{15}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.1}Documentaci\'on y herramientas}{15}}
+\@writefile{toc}{\contentsline {subsubsection}{UDK: Unreal Development Kit}{15}}
+\@writefile{toc}{\contentsline {subsubsection}{CryENGINE 3 Educational SDK}{17}}
+\@writefile{toc}{\contentsline {subsubsection}{Crystal Space}{17}}
+\@writefile{toc}{\contentsline {subsubsection}{Ogre, Object-Oriented Graphics Rendering Engine}{18}}
+\@writefile{toc}{\contentsline {subsubsection}{OSG: OpenSceneGraph}{18}}
+\@writefile{toc}{\contentsline {subsubsection}{Irrlicht: Lightning Fast Realtime 3D Engine}{19}}
+\@writefile{toc}{\contentsline {subsubsection}{Panda3D: Free 3D Game Engine}{20}}
+\@writefile{toc}{\contentsline {subsubsection}{Doxygen: Source code documentation generator tool}{20}}
+\@writefile{toc}{\contentsline {subsubsection}{Boost C++ Libraries }{21}}
+\@writefile{toc}{\contentsline {subsubsection}{Qt: Cross-platform Application and UI Framework}{21}}
+\@writefile{toc}{\contentsline {subsubsection}{wxWidgets: Cross-platform GUI Library}{21}}
+\@writefile{toc}{\contentsline {subsubsection}{OpenCV: Open Source Computer Vision}{22}}
+\@writefile{toc}{\contentsline {subsubsection}{Fmod: Music \& Sound Effects System}{23}}
+\@writefile{toc}{\contentsline {subsubsection}{OpenAL: Cross-platform 3D Audio API}{23}}
+\@writefile{toc}{\contentsline {subsubsection}{SDL\_Mixer: Simple DirectMedia Layer Mixer}{23}}
+\@writefile{toc}{\contentsline {subsubsection}{Clunk: Open Source 3D-Sound library}{24}}
+\@writefile{toc}{\contentsline {subsubsection}{Irrklang: High level 3D audio engine/API}{24}}
+\@writefile{toc}{\contentsline {subsubsection}{SFML: Simple and Fast Multimedia Library}{24}}
+\@writefile{toc}{\contentsline {subsubsection}{Chuck: Strongly-timed, Concurrent, and On-the-fly Audio Programming Language}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals}{25}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.2}An\'alisis de Requisitos de Usuario}{25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces   Modelo de Casos de Uso.}}{27}}
+\newlabel{F_CasosdeUso}{{6.1}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.3}An\'alisis de Requisitos de Software}{28}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Dise\~no}{28}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Estructuraci\'on de conceptos}{28}}
+\@writefile{toc}{\contentsline {subsubsection}{Aplicaci\'on}{28}}
+\@writefile{toc}{\contentsline {subsubsection}{Usuario}{28}}
+\@writefile{toc}{\contentsline {subsubsection}{Entorno}{29}}
+\@writefile{toc}{\contentsline {subsubsection}{Resumen}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Dise\~no de la Aplicaci\'on}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces   Diagrama de Clases UML.}}{31}}
+\newlabel{F_DiagramadeClasesUML}{{6.2}{31}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Etapa 2: Primera Demo}{33}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}An\'alisis}{33}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.1}An\'alisis de Requisitos de Usuario}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.1}{\ignorespaces   Modelo de Casos de Uso.}}{34}}
+\newlabel{F_CasosdeUsoPrimeraDemo}{{7.1}{34}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.2}Selecci\'on de Herramientas}{34}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.2}Dise\~no}{35}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.1}Dise\~no de la Aplicaci\'on}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{Dise\~no General en UML}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.2}{\ignorespaces   Diagrama de Clases UML. Resumen}}{36}}
+\newlabel{F_DiagramadeClasesUML_PrimeraDemo}{{7.2}{36}}
+\@writefile{toc}{\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{37}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.3}{\ignorespaces   Diagrama de Clases UML. Detalle - core}}{37}}
+\newlabel{F_DiagramadeClasesUML_PrimeraDemo_core}{{7.3}{37}}
+\@writefile{toc}{\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.4}{\ignorespaces   Diagrama de Clases UML. Detalle - igui}}{38}}
+\newlabel{F_DiagramadeClasesUML_PrimeraDemo_igui}{{7.4}{38}}
+\@writefile{toc}{\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{39}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.5}{\ignorespaces   Diagrama de Clases UML. Detalle - ipercept}}{39}}
+\newlabel{F_DiagramadeClasesUML_PrimeraDemo_ipercept}{{7.5}{39}}
+\@writefile{toc}{\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{40}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.6}{\ignorespaces   Diagrama de Clases UML. Detalle - iprod}}{40}}
+\newlabel{F_DiagramadeClasesUML_PrimeraDemo_iprod}{{7.6}{40}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.3}Implementaci\'on}{41}}
+\citation{wx09}
+\@writefile{toc}{\contentsline {subsubsection}{N\'ucleo de la Interfaz}{42}}
+\@writefile{toc}{\contentsline {subsubsection}{M\'odulo de GUI}{42}}
+\@writefile{toc}{\contentsline {subsubsection}{M\'odulo de Percepci\'on}{45}}
+\@writefile{toc}{\contentsline {subsubsection}{M\'odulo de Producci\'on}{45}}
+\@writefile{toc}{\contentsline {subsubsection}{Aplicaci\'on Principal}{45}}
+\newlabel{sec:AplicacionPrincipal}{{7.3}{45}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.4}Validaci\'on y Publicidad}{45}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Etapa 3: Funcionalidades A\~nadidas}{47}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {8.1}An\'alisis}{47}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.2}Dise\~no}{47}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.3}Implementaci\'on}{47}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.4}Validaci\'on y Publicidad}{47}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {9}Etapa 3+i: Funcionalidades A\~nadidas}{49}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {9.1}An\'alisis}{49}}
+\@writefile{toc}{\contentsline {section}{\numberline {9.2}Dise\~no}{49}}
+\@writefile{toc}{\contentsline {section}{\numberline {9.3}Implementaci\'on}{49}}
+\@writefile{toc}{\contentsline {section}{\numberline {9.4}Validaci\'on y Publicidad}{49}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {10}Etapa n: Revisi\'on Final}{51}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {10.1}Implementaci\'on}{51}}
+\@writefile{toc}{\contentsline {section}{\numberline {10.2}Validaci\'on y Publicidad}{51}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {11}Etapa n+1: Publicidad}{53}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {11.1}An\'alisis}{53}}
+\@writefile{toc}{\contentsline {section}{\numberline {11.2}Dise\~no}{53}}
+\@writefile{toc}{\contentsline {section}{\numberline {11.3}Implementaci\'on}{53}}
+\@writefile{toc}{\contentsline {section}{\numberline {11.4}Validaci\'on y Publicidad}{53}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {12}Etapa n+2: Implantaci\'on Final}{55}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {12.1}An\'alisis}{55}}
+\@writefile{toc}{\contentsline {section}{\numberline {12.2}Dise\~no}{55}}
+\@writefile{toc}{\contentsline {section}{\numberline {12.3}Implementaci\'on}{55}}
+\@writefile{toc}{\contentsline {section}{\numberline {12.4}Validaci\'on y Publicidad}{55}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {13}Resultados y conclusiones}{57}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {chapter}{\numberline {14}Trabajo Futuro}{59}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Manuales de usuario}{61}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Detalles Implementaci\'on}{63}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {B.1}Incompatibilidades}{63}}
+\newlabel{detallesImp:Incompatibilidades}{{B.1}{63}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1.1}winsock}{63}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1.2}CLR}{64}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1.3}NDEBUG}{64}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.2}M\'odulo de GUI, wxWidgets}{64}}
+\newlabel{detallesImp:ModuloGUI}{{B.2}{64}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.3}OpenCV, Open Source Computer Vision}{67}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {C}Redacci\'on de Proyectos}{69}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\bibcite{La86}{1}
+\bibcite{Ro93}{2}
+\bibcite{Castrillon05}{3}
+\bibcite{Chellappa95}{4}
+\bibcite{Cielniak03}{5}
+\bibcite{Deniz04}{6}
+\bibcite{Hjelmas01a}{7}
+\bibcite{Iges99}{8}
+\bibcite{Krueger85}{9}
+\bibcite{Levin04}{10}
+\bibcite{Samal92}{11}
+\bibcite{Spalter99}{12}
+\bibcite{Viola01cvpr}{13}
+\bibcite{Yang02}{14}
+\bibcite{OpenCV09}{15}
+\bibcite{Chuck09}{16}
+\bibcite{DME09}{17}
+\bibcite{UDK09}{18}
+\bibcite{UDKS09}{19}
+\bibcite{UDKFL09}{20}
+\bibcite{CryE309}{21}
+\bibcite{CryE3FL09}{22}
+\bibcite{CryMod09}{23}
+\bibcite{wx09}{24}
+\bibcite{wxFL09}{25}
+\bibcite{KenB01}{26}
+\bibcite{RCol09}{27}
+\bibcite{IJacobson09}{28}

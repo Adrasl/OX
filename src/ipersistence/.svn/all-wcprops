@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ProjectOX/!svn/ver/48/trunk/projectVOX/src/ipersistence
+END
+ipersistence.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/ProjectOX/!svn/ver/41/trunk/projectVOX/src/ipersistence/ipersistence.vcproj
+END
+mainpersistence.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/ipersistence/mainpersistence.h
+END
+EntityPersistence.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/ipersistence/EntityPersistence.cpp
+END
+WorldPersistence.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/ipersistence/WorldPersistence.h
+END
+UserPersistence.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/ProjectOX/!svn/ver/48/trunk/projectVOX/src/ipersistence/UserPersistence.cpp
+END
+vdouble_filter.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/ipersistence/vdouble_filter.cpp
+END
+EntityPersistence.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/ipersistence/EntityPersistence.h
+END
+UserPersistence.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/ProjectOX/!svn/ver/48/trunk/projectVOX/src/ipersistence/UserPersistence.h
+END
+mainpersistence.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/ProjectOX/!svn/ver/48/trunk/projectVOX/src/ipersistence/mainpersistence.cpp
+END
+types.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/ipersistence/types.h
+END
+vdouble_filter.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/ipersistence/vdouble_filter.h
+END
+WorldPersistence.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/ipersistence/WorldPersistence.cpp
+END

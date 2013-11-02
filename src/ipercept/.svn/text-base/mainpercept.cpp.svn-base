@@ -1,0 +1,128 @@
+#include <mainpercept.h>
+
+
+#include <debugger.h> 
+
+using namespace core;
+using namespace core::ipercept;
+
+PerceptAudio *MainPercept::perceptAudio_module = NULL;
+PerceptVideo *MainPercept::perceptVideo_module = NULL;
+
+MainPercept::MainPercept(IApplicationConfiguration *app_config_) : app_config(app_config_)
+{
+}
+
+MainPercept::~MainPercept()
+{
+	delete perceptAudio_module;
+	delete perceptVideo_module;
+}
+
+void MainPercept::Delete()
+{
+	perceptAudio_module->Delete();
+	perceptVideo_module->Delete();
+}
+
+void MainPercept::Init()
+{
+	if (perceptAudio_module == NULL)
+		perceptAudio_module = new PerceptAudio();
+	if (perceptVideo_module == NULL)
+		perceptVideo_module = new PerceptVideo(app_config);
+
+	perceptAudio_module->Init();
+	perceptVideo_module->Init();
+}
+
+void MainPercept::Calibrate(const bool &value)
+{
+	if (perceptVideo_module != NULL)
+		perceptVideo_module->Calibrate(value);
+}
+
+void MainPercept::CalculateHomography()
+{
+	if (perceptVideo_module != NULL)
+		perceptVideo_module->CalculateHomography();
+}
+
+void MainPercept::TrainBackground()
+{
+	if (perceptVideo_module != NULL)
+		perceptVideo_module->TrainBackground();
+}
+
+void MainPercept::GetHeadPosition(corePoint3D<double> &result)
+{
+	result.x = result.y = result.z = 0;
+	if (perceptVideo_module != NULL)
+		perceptVideo_module->GetHeadPosition(result);
+}
+
+void MainPercept::GetFeaturePosition(const std::string &feature, corePoint3D<double> &result)
+{
+	result.x = result.y = result.z = 0;
+	if (perceptVideo_module != NULL)
+		perceptVideo_module->GetFeaturePosition(feature, result);
+}
+
+void MainPercept::GetFeaturePositions(const std::string &feature, std::vector<float> &result, int &row_step, const float &scale)
+{
+	if (perceptVideo_module != NULL)
+		perceptVideo_module->GetFeaturePositions(feature, result, row_step, scale);
+}
+
+void MainPercept::GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<vector3F> > &result, const float &scale)
+{
+	if (perceptVideo_module != NULL)
+		perceptVideo_module->GetFeatureWeightedPositions(feature, result, scale);
+}
+
+bool MainPercept::PresenceDetected()
+{
+	if (perceptVideo_module != NULL)
+		return perceptVideo_module->PresenceDetected();
+	return false;
+}
+
+bool MainPercept::FaceDetected()
+{
+	if (perceptVideo_module != NULL)
+		return perceptVideo_module->FaceDetected();
+	return false;
+}
+
+void MainPercept::GetSpaceBoundingBox(corePoint3D<double> &min, corePoint3D<double> &max)
+{
+	if (perceptVideo_module != NULL)
+		return perceptVideo_module->GetSpaceBoundingBox(min, max);
+}
+
+char * MainPercept::GetCopyOfCurrentFeature(const std::string &feature, int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb)
+{
+	if (perceptVideo_module != NULL)
+		return perceptVideo_module->GetCopyOfCurrentFeature(feature, size_x, size_y, n_channels, depth, width_step, switch_rb);
+	return NULL;
+}
+
+int  MainPercept::RecognizeCurrentFace()
+{
+	if (perceptVideo_module != NULL)
+		return perceptVideo_module->RecognizeCurrentFace();
+	return -1;
+}
+
+void MainPercept::AddNewUserToRecognition(const int &user_id)
+{
+	if (perceptVideo_module != NULL)
+		perceptVideo_module->AddNewUserToRecognition(user_id);
+}
+
+bool MainPercept::IsFacePoolReady()
+{
+	if (perceptVideo_module)
+		return perceptVideo_module->IsFacePoolReady();
+	return false;
+}

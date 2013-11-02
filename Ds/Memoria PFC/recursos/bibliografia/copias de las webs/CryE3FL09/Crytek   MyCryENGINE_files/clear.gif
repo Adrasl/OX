@@ -1,0 +1,273 @@
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!-- 
+	This website is powered by TYPO3 - inspiring people to share!
+	TYPO3 is a free open source Content Management Framework initially created by Kasper Skaarhoj and licensed under GNU/GPL.
+	TYPO3 is copyright 1998-2006 of Kasper Skaarhoj. Extensions are copyright of their respective owners.
+	Information and contribution at http://typo3.com/ and http://typo3.org/
+-->
+
+	<base href="http://www.crytek.com" />
+	<link rel="SHORTCUT ICON" href="fileadmin/images/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="typo3temp/stylesheet_95c6ca7efd.css" />
+	<link rel="stylesheet" type="text/css" href="fileadmin/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="fileadmin/css/content.css" />
+	<link rel="stylesheet" type="text/css" href="fileadmin/css/slimbox.css" />
+
+<link rel="meta" href="http://www.crytek.com/labels.rdf" type="application/rdf xml" title="ICRA labels" />
+<meta http-equiv="pics-Label" content="(pics-1.1 &quot;http://www.icra.org/pics/vocabularyv03/&quot; l gen true for &quot;http://www.crytek.com&quot; r (n 0 s 0 v 3 l 2 oa 0 ob 0 oc 0 od 2 oe 0 of 2 og 2 oh 0 c 3))" /><meta name="robots" content="index,follow" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="Fr, 27 Nov 2009 16:00:00 GMT" />
+<meta http-equiv="Last-Modified" content="Fr, 27 Nov 2009 16:00:00 GMT" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+
+<script type="text/javascript" src="fileadmin/js/formbehaviour.js"></script>
+<script type="text/javascript" src="fileadmin/js/mootools.js"></script>
+<script type="text/javascript" src="fileadmin/js/swfobject.js"></script>
+<script src="fileadmin/js/AC_OETags.js" language="javascript" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript">
+<!--
+// -----------------------------------------------------------------------------
+// Globals
+// Major version of Flash required
+var requiredMajorVersion = 9;
+// Minor version of Flash required
+var requiredMinorVersion = 0;
+// Minor version of Flash required
+var requiredRevision = 0;
+// -----------------------------------------------------------------------------
+function showflashvideo(video){
+	if(self.location.href.indexOf("initplay")==-1){
+		if(self.location.href.indexOf("play")==-1){
+			self.location.href=self.location.pathname+"?initplay="+video;
+		}else{
+			//alert(self.location.href=self.location.pathname);
+			self.location.href=self.location.pathname+"?play="+video;
+		}
+	}else{
+		self.location.href=self.location.pathname+"?play="+video;
+	}
+
+}
+// -->
+
+</script>
+
+<link rel="stylesheet" type="text/css" href="fileadmin/css/flashbox.css" />
+
+<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements" />
+
+	<title>Crytek GmbH: Home</title>
+	<meta name="generator" content="TYPO3 4.1 CMS" />
+	<script type="text/javascript" src="typo3temp/javascript_ebd9c81938.js"></script>
+
+
+
+</head>
+<body>
+
+
+<div id="outerWrapper">
+	<div id="backgroundWrapper">
+		<div id="leftWrapper">
+			<div id="headerLeft"></div>
+			<div id="leftBorder"><img src="fileadmin/images/border_left.gif" alt="left border" /></div>
+		</div>
+
+		<div id="contentWrapper">
+			<div id="header">
+				<div id="headerTop">
+					<div id="leftHeaderMenu"><a href="index.php" title="Home">Home</a>&#124;<a href="culture/sitemap/" title="sitemap" onfocus="blurLink(this);">sitemap</a>&#124;<a href="links/press/" target="_blank" title="Press" onfocus="blurLink(this);">Press</a></div>
+					<div id="newsletterForm">
+<table width="100%">
+				<tr>
+				<td width="200"><span style="font-size:1.1em">Join Newsletter</span></td>
+				<td><form class="tt_address_form" action="newsletter" method="post">
+			
+				<fieldset>
+				
+				<input type="text" id="nlName" name="THR[tt_address][name]" title="Please insert your name." value="your name" />
+				
+
+				<input type="text" id="nlEmail" name="THR[tt_address][email]" title="Please insert your email address" value="your email" />
+				
+
+				<input type="image" name="submit" class="nlSubmit" src="fileadmin/images/btn_newsletter.gif" title="Subscribe" value="Subscribe" alt="Subscribe" />
+
+				<input type="hidden" name="THR[tt_address][module_sys_dmail_html]" value="1" />
+				<input type="hidden" name="THR[tt_address][category]" value="1" />
+				<input type="hidden" name="THR[tt_address][pid]" value="67" />
+				
+				</fieldset>
+			</form></td></tr></table>
+</div>
+				</div>
+				<div id="mainMenu"><a href="news/" title="Here you can find an archive of all news." onfocus="blurLink(this);">News</a>&#124;<a href="games/crysis2/overview/" title="Games" onfocus="blurLink(this);">Games</a>&#124;<a href="technology/cryengine-3/specifications/" title="Technology" onfocus="blurLink(this);">Technology</a>&#124;<a href="culture/crytek/" title="Culture" onfocus="blurLink(this);">Culture</a>&#124;<a href="career/" title="Career" onfocus="blurLink(this);">Career</a>&#124;<a href="community/" title="Community" onfocus="blurLink(this);">Community</a>&#124;<a href="developer/" target="_blank" title="Developer" onfocus="blurLink(this);">Developer</a>&#124;<a href="downloads/" title="Downloads" onfocus="blurLink(this);">Downloads</a>&#124;<a href="contact/" title="Contact" onfocus="blurLink(this);">Contact</a></div>
+			</div>
+			
+			<div id="flashContent">
+			<a target="_blank" href="http://www.adobe.com/go/getflash/"><img src="fileadmin/images/NOFLASH.jpg" style="border: 0; width: 836px; height: 288px" alt="" /></a>
+			</div>
+			<script language="JavaScript" type="text/javascript">
+			<!--
+			// Version check based upon the values entered above in "Globals"
+			var hasReqestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+      var randomNr=Math.random();
+			// Check to see if the version meets the requirements for playback
+			if (hasReqestedVersion) {
+				var so = new SWFObject("fileadmin/swf/FAR_FLASH.swf?id="+randomNr+"&amp;current=Home&amp;videos=", "FAR_FLASH", "836", "288", "8", "#ffffff");
+				so.addParam( "allowFullScreen", "true");
+				so.addVariable("play_video", getQueryParamValue("play"));
+				so.addVariable("init_video", getQueryParamValue("initplay"));
+				so.addVariable("allowFullScreen", "true");
+				so.write("flashContent");
+			} else {  // flash is too old or we can't detect the plugin
+				// keep flashcontent
+			}
+			// -->
+			</script>
+			<div id="swfbox"><script type="text/javascript" src="fileadmin/js/swfbox.js"></script></div>
+			<div id="breadcrumb"><a href="index.php" title="Home" onfocus="blurLink(this);" class="breadCrumbHome">Home</a></div>
+			<div id="content"><div id="content_top_home"></div><div id="teaserContent">
+	<!--  CONTENT ELEMENT, uid:7/list [begin] -->
+		<a id="c7"></a>
+		<!--  Plugin inserted: [begin] -->
+			
+<div class="news-latest-container">
+	
+			  <div class="news-latest-item">
+			  	<div class="news-latest-image"><a href="news/news/?tx_ttnews%5Btt_news%5D=165&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=8966bc7019" title="Free Educational License for CryENGINE® 3"><img src="fileadmin/user_upload/news/2009/news_20090311.gif" width="190" height="114" border="0" alt="" title="" /></a></div>
+				<h3><a href="news/news/?tx_ttnews%5Btt_news%5D=165&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=8966bc7019" title="Free Educational License for CryENGINE® 3">Free Educational License for CryENGINE® 3</a></h3>
+				<div class="news-latest-abstract">
+					<div class="news-latest-locationdate">Frankfurt (D) &raquo; Nov 18, 2009</div>
+					<p class="bodytext">All-in-one multiplatform development solution </p>
+<p class="bodytext">now available for educational institutions</p>
+				</div>
+                <div class="news-latest-morelink"><a href="news/news/?tx_ttnews%5Btt_news%5D=165&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=8966bc7019" title="Free Educational License for CryENGINE® 3">read more &raquo;</a></div>
+			  </div>
+
+		
+			  <div class="news-latest-item">
+			  	<div class="news-latest-image"><a href="news/news/?tx_ttnews%5Btt_news%5D=164&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=56269c0f06" title="CryENGINE® 3 is most innovative technology"><img src="fileadmin/user_upload/news/2009/news_20091109.gif" width="190" height="114" border="0" alt="" title="" /></a></div>
+				<h3><a href="news/news/?tx_ttnews%5Btt_news%5D=164&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=56269c0f06" title="CryENGINE® 3 is most innovative technology">CryENGINE® 3 is most innovative technology</a></h3>
+				<div class="news-latest-abstract">
+					<div class="news-latest-locationdate">Frankfurt (D) &raquo; Nov 09, 2009</div>
+					<p class="bodytext">During an award ceremony held at the Cinestar Metropolis in Frankfurt, the latest version of Crytek's CryENGINE®, CryENGINE® 3, has been honoured...</p>
+				</div>
+                <div class="news-latest-morelink"><a href="news/news/?tx_ttnews%5Btt_news%5D=164&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=56269c0f06" title="CryENGINE® 3 is most innovative technology">read more &raquo;</a></div>
+			  </div>
+
+		
+			  <div class="news-latest-item">
+			  	<div class="news-latest-image"><a href="news/news/?tx_ttnews%5Btt_news%5D=163&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=01ff92b856" title="Crysis: LIVE! at GameCity 2009"><img src="fileadmin/user_upload/news/2009/news_20091106.gif" width="190" height="114" border="0" alt="" title="" /></a></div>
+				<h3><a href="news/news/?tx_ttnews%5Btt_news%5D=163&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=01ff92b856" title="Crysis: LIVE! at GameCity 2009">Crysis: LIVE! at GameCity 2009</a></h3>
+				<div class="news-latest-abstract">
+					<div class="news-latest-locationdate">Nottingham (UK) &raquo; Nov 06, 2009</div>
+					<p class="bodytext">In the world of games events, Nottingham's GameCity is pretty unique - a free festival that celebrates not only the games themselves, but the people...</p>
+				</div>
+                <div class="news-latest-morelink"><a href="news/news/?tx_ttnews%5Btt_news%5D=163&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=01ff92b856" title="Crysis: LIVE! at GameCity 2009">read more &raquo;</a></div>
+			  </div>
+
+		
+			  <div class="news-latest-item">
+			  	<div class="news-latest-image"><a href="news/news/?tx_ttnews%5Btt_news%5D=162&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=38021d6ae7" title="OnNet to license CryENGINE® 3 for Project TGO"><img src="fileadmin/user_upload/news/2009/news_20092910.gif" width="190" height="114" border="0" alt="" title="" /></a></div>
+				<h3><a href="news/news/?tx_ttnews%5Btt_news%5D=162&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=38021d6ae7" title="OnNet to license CryENGINE® 3 for Project TGO">OnNet to license CryENGINE® 3 for Project TGO</a></h3>
+				<div class="news-latest-abstract">
+					<div class="news-latest-locationdate"> &raquo; Oct 29, 2009</div>
+					<p class="bodytext">OnNet Co. Ltd. and Crytek GmbH (“Crytek”) announced today that ‘Project TGO’ will be developed with CryENGINE® 3, the latest game engine from...</p>
+				</div>
+                <div class="news-latest-morelink"><a href="news/news/?tx_ttnews%5Btt_news%5D=162&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=38021d6ae7" title="OnNet to license CryENGINE® 3 for Project TGO">read more &raquo;</a></div>
+			  </div>
+
+		
+			  <div class="news-latest-item">
+			  	<div class="news-latest-image"><a href="news/news/?tx_ttnews%5Btt_news%5D=161&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=f8e013b4a4" title="Changyou.com Limited to License CryENGINE® 3"><img src="fileadmin/user_upload/news/2009/news_20092010.gif" width="190" height="114" border="0" alt="" title="" /></a></div>
+				<h3><a href="news/news/?tx_ttnews%5Btt_news%5D=161&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=f8e013b4a4" title="Changyou.com Limited to License CryENGINE® 3">Changyou.com Limited to License CryENGINE® 3 </a></h3>
+				<div class="news-latest-abstract">
+					<div class="news-latest-locationdate"> &raquo; Oct 20, 2009</div>
+					<p class="bodytext">Premier Chinese online brand chooses Crytek’s game development solution to bring great gaming experiences to their customers</p>
+				</div>
+                <div class="news-latest-morelink"><a href="news/news/?tx_ttnews%5Btt_news%5D=161&amp;tx_ttnews%5BbackPid%5D=1&amp;cHash=f8e013b4a4" title="Changyou.com Limited to License CryENGINE® 3">read more &raquo;</a></div>
+			  </div>
+
+		
+</div>
+
+		<!--  Plugin inserted: [end] -->
+			
+	<!--  CONTENT ELEMENT, uid:7/list [end] -->
+		</div><div id="rightContent">
+	<!--  CONTENT ELEMENT, uid:1296/image [begin] -->
+		<a id="c1296"></a><div class="csc-frame csc-frame-frame1">
+		<!--  Image block: [begin] -->
+			<div class="csc-textpic csc-textpic-center csc-textpic-above csc-textpic-caption-c"><div class="csc-textpic-imagewrap" style="width:196px;"><div class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:196px;"><div><a href="http://www.mycryengine.com" target="_blank"><img src="fileadmin/user_upload/cryengine3/cryengine3_196x260_animation.gif" width="196" height="260" border="0" alt="" /></a></div><div class="csc-textpic-caption"></div></div></div></div><div class="csc-textpic-clear"><!-- --></div>
+		<!--  Image block: [end] -->
+			</div>
+	<!--  CONTENT ELEMENT, uid:1296/image [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1138/image [begin] -->
+		<a id="c1138"></a><div class="csc-frame csc-frame-frame1">
+		<!--  Image block: [begin] -->
+			<div class="csc-textpic csc-textpic-center csc-textpic-above csc-textpic-caption-c"><div class="csc-textpic-imagewrap" style="width:196px;"><div class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:196px;"><div><a href="career/" target="_parent"><img src="fileadmin/user_upload/jobs/wearehiring.jpg" width="196" height="260" border="0" alt="" /></a></div><div class="csc-textpic-caption"></div></div></div></div><div class="csc-textpic-clear"><!-- --></div>
+		<!--  Image block: [end] -->
+			</div>
+	<!--  CONTENT ELEMENT, uid:1138/image [end] -->
+		</div>&nbsp;</div>
+		</div>
+
+		<div id="rightWrapper">
+			<div id="headerRight"></div>
+			<div id="rightBorder"><img src="fileadmin/images/border_right.gif" alt="right border" /></div>
+		</div>
+
+		<div id="bottomWrapper">
+			<div id="leftBorderPiece"></div>
+			<div id="contentBottom"><img src="clear.gif" width="1" height="5" alt="" /></div>
+			<div id="rightBorderPiece"></div>
+		</div>
+
+		<div id="footerWrapper">
+			<div id="footerLeft"></div>
+			<div id="footer">
+
+
+	<!--
+
+		BEGIN: Content of extension "crytek_logos", plugin "tx_cryteklogos_pi1"
+
+	-->
+	<div class="tx-cryteklogos-pi1">
+		<table class="tx-cryteklogos-pi1-logoBox"><tr></tr></table>
+	</div>
+	
+	<!-- END: Content of extension "crytek_logos", plugin "tx_cryteklogos_pi1" -->
+
+	</div>
+			<div id="footerRight"><div id="leftHeaderMenu" style="position:relative; left:-120px; bottom:-5px;"><a href="index.php" title="Home">Home</a>&#124;<a href="culture/sitemap/" title="sitemap" onfocus="blurLink(this);">sitemap</a>&#124;<a href="links/press/" target="_blank" title="Press" onfocus="blurLink(this);">Press</a></div></div>
+		</div>
+	</div>
+	<div id="footerBottom"><img src="clear.gif" width="1" height="9" alt="" /></div>
+	<div id="footerLinks">&copy; 2009 CRYTEK &#187; all rights reserved &#124;<a href="contact/" title="Contact us" onfocus="blurLink(this);">Contact us</a>&#124;<a href="contact/imprint/" title="Imprint" onfocus="blurLink(this);">Imprint</a>&#124;<a href="contact/legal/" title="Legal" onfocus="blurLink(this);">Legal</a></div>
+</div>
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://statistics.mycrysis.com/" : "http://statistics.mycrysis.com/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 5);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://statistics.mycrysis.com/piwik.php?idsite=5" style="border:0" alt="" /></p></noscript>
+
+<!-- End Piwik Tag -->
+
+</body>
+</html>

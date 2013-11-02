@@ -1,0 +1,311 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba
+END
+sqlparamparsertestcase.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/sqlparamparsertestcase.h
+END
+stdafx.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/stdafx.h
+END
+sql_queries.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/sql_queries.h
+END
+xmltestcase.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/xmltestcase.h
+END
+sqlarchive_basic.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/sqlarchive_basic.cpp
+END
+filterstestcase.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/filterstestcase.cpp
+END
+archive_lists.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/archive_lists.h
+END
+utils.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/utils.h
+END
+testdba.vcproj.Quantum-PC.Quantum.user
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/testdba.vcproj.Quantum-PC.Quantum.user
+END
+testobject.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/testobject.cpp
+END
+testdba.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/testdba.vcproj
+END
+dbplugin_test.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/dbplugin_test.h
+END
+app.ico
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/app.ico
+END
+connectstringtestcase.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/connectstringtestcase.cpp
+END
+dbplugintestsuite.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/dbplugintestsuite.cpp
+END
+sharedsqlarchive_tests.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/sharedsqlarchive_tests.h
+END
+sqlarchive_lists.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/sqlarchive_lists.cpp
+END
+main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/main.cpp
+END
+dbplugin_bugs.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/dbplugin_bugs.cpp
+END
+db_testbase.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/db_testbase.h
+END
+databaseconnection.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/databaseconnection.cpp
+END
+archive_storeable.h
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/archive_storeable.h
+END
+csvtestcase.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/csvtestcase.cpp
+END
+stdfilters_test.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/stdfilters_test.h
+END
+sqlparamparsertestcase.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/sqlparamparsertestcase.cpp
+END
+stdafx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/stdafx.cpp
+END
+db_basic.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/db_basic.h
+END
+resource.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/resource.h
+END
+xmltestcase.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/xmltestcase.cpp
+END
+open_for_write_test.xml
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/open_for_write_test.xml
+END
+archive_lists.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/archive_lists.cpp
+END
+utils.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/utils.cpp
+END
+app.rc
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/app.rc
+END
+dbplugin_test.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/dbplugin_test.cpp
+END
+sqlarchive_basic.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/sqlarchive_basic.h
+END
+filterstestcase.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/filterstestcase.h
+END
+sharedsqlarchive_tests.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/sharedsqlarchive_tests.cpp
+END
+testobject.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/testobject.h
+END
+db_testbase.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/db_testbase.cpp
+END
+archive_storeable.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/archive_storeable.cpp
+END
+connectstringtestcase.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/connectstringtestcase.h
+END
+stdfilters_test.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/stdfilters_test.cpp
+END
+dbplugintestsuite.h
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/dbplugintestsuite.h
+END
+sqlarchive_lists.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/sqlarchive_lists.h
+END
+db_basic.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/db_basic.cpp
+END
+testdba.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/testdba.cpp
+END
+dbplugin_bugs.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/dbplugin_bugs.h
+END
+databaseconnection.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/databaseconnection.h
+END
+ReadMe.txt
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/ReadMe.txt
+END
+AssemblyInfo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/AssemblyInfo.cpp
+END
+csvtestcase.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/testdba/csvtestcase.h
+END

@@ -1,0 +1,922 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0033)http://www.devmaster.net/engines/ -->
+<HTML dir="ltr" lang="en"><HEAD><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<LINK rel="stylesheet" type="text/css" href="./DevMaster.net - 3D Game and Graphics Engines Database_files/devmaster_f36ce932.css">
+	<STYLE type="text/css" id="vbulletin_css">
+<!--
+/* vBulletin 3 CSS For Style 'Default Style' (styleid: 2) */
+body
+{
+	background: #E1E1E2;
+	color: #000000;
+	font: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+	margin: 5px 10px 10px 10px;
+	padding: 0px;
+}
+a:link
+{
+	color: #22229C;
+}
+a:visited
+{
+	color: #22229C;
+}
+a:hover, a:active
+{
+	color: #FF4400;
+}
+.page
+{
+	background: #FFFFFF;
+	color: #000000;
+}
+td, th, p, li
+{
+	font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+.tborder
+{
+	background: #D1D1E1;
+	color: #000000;
+	border: 1px solid #0B198C;
+}
+.tcat
+{
+	background: #869BBF url(/forums/images/gradients/gradient_tcat.gif) repeat-x top left;
+	color: #FFFFFF;
+	font: bold 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+.tcat a:link
+{
+	color: #ffffff;
+	text-decoration: none;
+}
+.tcat a:visited
+{
+	color: #ffffff;
+	text-decoration: none;
+}
+.tcat a:hover, .tcat a:active
+{
+	color: #FFFF66;
+	text-decoration: underline;
+}
+.thead
+{
+	background: #5C7099 url(/forums/images/gradients/gradient_thead.gif) repeat-x top left;
+	color: #FFFFFF;
+	font: bold 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+.thead a:link
+{
+	color: #FFFFFF;
+}
+.thead a:visited
+{
+	color: #FFFFFF;
+}
+.thead a:hover, .thead a:active
+{
+	color: #FFFF00;
+}
+.tfoot
+{
+	background: #3E5C92;
+	color: #E0E0F6;
+}
+.tfoot a:link
+{
+	color: #E0E0F6;
+}
+.tfoot a:visited
+{
+	color: #E0E0F6;
+}
+.tfoot a:hover, .tfoot a:active
+{
+	color: #FFFF66;
+}
+.alt1, .alt1Active
+{
+	background: #F5F5FF;
+	color: #000000;
+}
+.alt2, .alt2Active
+{
+	background: #E1E4F2;
+	color: #000000;
+}
+td.inlinemod
+{
+	background: #FFFFCC;
+	color: #000000;
+}
+.wysiwyg
+{
+	background: #F5F5FF;
+	color: #000000;
+	font: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+textarea, .bginput
+{
+	font: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+.button
+{
+	font: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+select
+{
+	font: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+option, optgroup
+{
+	font-size: 11px;
+	font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+.smallfont
+{
+	font: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+.time
+{
+	color: #666686;
+}
+.navbar
+{
+	font: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+.highlight
+{
+	color: #FF0000;
+	font-weight: bold;
+}
+.fjsel
+{
+	background: #3E5C92;
+	color: #E0E0F6;
+}
+.fjdpth0
+{
+	background: #F7F7F7;
+	color: #000000;
+}
+.panel
+{
+	background: #E4E7F5 url(images/gradients/gradient_panel.gif) repeat-x top left;
+	color: #000000;
+	padding: 10px;
+	border: 2px outset;
+}
+.panelsurround
+{
+	background: #D5D8E5 url(images/gradients/gradient_panelsurround.gif) repeat-x top left;
+	color: #000000;
+}
+legend
+{
+	color: #22229C;
+	font: 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+.vbmenu_control
+{
+	background: #738FBF;
+	color: #FFFFFF;
+	font: bold 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+	padding: 3px 6px 3px 6px;
+	white-space: nowrap;
+}
+.vbmenu_control a:link
+{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.vbmenu_control a:visited
+{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.vbmenu_control a:hover, .vbmenu_control a:active
+{
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+.vbmenu_popup
+{
+	background: #FFFFFF;
+	color: #000000;
+	border: 1px solid #0B198C;
+}
+.vbmenu_option
+{
+	background: #BBC7CE;
+	color: #000000;
+	font: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.vbmenu_option a:link
+{
+	color: #22229C;
+	text-decoration: none;
+}
+.vbmenu_option a:visited
+{
+	color: #22229C;
+	text-decoration: none;
+}
+.vbmenu_option a:hover, .vbmenu_option a:active
+{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.vbmenu_hilite
+{
+	background: #8A949E;
+	color: #FFFFFF;
+	font: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.vbmenu_hilite a:link
+{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.vbmenu_hilite a:visited
+{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.vbmenu_hilite a:hover, .vbmenu_hilite a:active
+{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.headerStyle { background: #FFFFFF; }
+
+/* ***** styling for 'big' usernames on postbit etc. ***** */
+.bigusername { font-size: 14pt; }
+
+/* ***** small padding on 'thead' elements ***** */
+td.thead, div.thead { padding: 4px; }
+
+/* ***** basic styles for multi-page nav elements */
+.pagenav a { text-decoration: none; }
+.pagenav td { padding: 2px 4px 2px 4px; }
+
+/* ***** define margin and font-size for elements inside panels ***** */
+.fieldset { margin-bottom: 6px; }
+.fieldset, .fieldset td, .fieldset p, .fieldset li { font-size: 11px; }
+
+/* ***** don't change the following ***** */
+form { display: inline; }
+label { cursor: default; }
+.normal { font-weight: normal; }
+.inlineimg { vertical-align: middle; }
+
+H1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; COLOR: #00006f;
+}
+H2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 11pt; MARGIN-BOTTOM: 0.2em; FONT-FAMILY: Tahoma, Sans-serif
+}
+H3 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; MARGIN-BOTTOM: 0.2em; FONT-FAMILY: Tahoma, Sans-serif
+}
+H5 {
+	FONT-WEIGHT: bold; MARGIN-BOTTOM: 0.2em; BORDER-BOTTOM: black 0.1em solid; FONT-FAMILY: Tahoma, Sans-serif
+}
+-->
+</STYLE>	<LINK rel="alternate" type="application/rss+xml" title="RSS" href="http://www.devmaster.net/rss/">
+	<LINK rel="shortcut icon" href="http://www.devmaster.net/favicon.ico" type="image/x-icon">
+	<META name="Keywords" content="Engine, 3D Engines, Game Engines, Graphics Engines, Engines, Unreal, Torque, Doom, Source, Half-life, Database, List, DevMaster, resource, source code, review">
+	<META name="Description" content="Your source for 3D Game and Graphics Engines. This database is committed to providing you with the most accurate and up-to-date information for current engines around the web. Each engine contains a brief description as well as a list of supported features and general info (platform, API, etc.). Most engines contain reviews/ratings to help you better in your search.">
+	
+<TITLE>DevMaster.net - 3D Game and Graphics Engines Database</TITLE>
+</HEAD><BODY>
+	
+<SCRIPT src="./DevMaster.net - 3D Game and Graphics Engines Database_files/urchin.js" type="text/javascript">
+</SCRIPT>
+<SCRIPT type="text/javascript"> 
+_uacct = "UA-30217-5";
+urchinTracker();
+</SCRIPT>
+
+<A name="top"></A>
+<TABLE class="headerStyle" border="0" width="100%" cellpadding="0" cellspacing="0" align="center">
+<TBODY><TR>
+	<TD align="left"><A href="http://www.devmaster.net/"><IMG border="0" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/logo.gif" alt="DevMaster.net - Your source for game development" title="DevMaster.net - Your source for game development"></A></TD>
+	<TD align="right"><SCRIPT type="text/javascript"><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://www.devmaster.net/adsrvr/www/delivery/ajs.php':'http://www.devmaster.net/adsrvr/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=1");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></SCRIPT><SCRIPT type="text/javascript" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/ajs.php"></SCRIPT><SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-4748087847388234";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_type = "text_image";
+google_ad_channel = "";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "22229C";
+google_color_text = "000000";
+google_color_url = "000000";
+//--></SCRIPT>
+<SCRIPT type="text/javascript" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/show_ads.js">
+</SCRIPT><SCRIPT src="./DevMaster.net - 3D Game and Graphics Engines Database_files/expansion_embed.js"></SCRIPT><DIV id="beacon_1" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><IMG src="./DevMaster.net - 3D Game and Graphics Engines Database_files/lg.php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></DIV>
+<SCRIPT src="./DevMaster.net - 3D Game and Graphics Engines Database_files/test_domain.js"></SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><INS style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px"><INS style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px"><IFRAME allowtransparency="true" frameborder="0" height="60" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/ads(2).htm" style="left:0;position:absolute;top:0" vspace="0" width="468"></IFRAME></INS></INS><NOSCRIPT></NOSCRIPT></TD>
+</TR>
+</TBODY></TABLE>
+
+<TABLE class="tborder" cellpadding="6" cellspacing="1" width="100%">
+<TBODY><TR>
+	<TD class="tcat" style="color: rgb(255, 193, 37);" colspan="2" align="center" nowrap="nowrap" width="60%">
+		[[ <B><A href="http://www.devmaster.net/">Home</A> |
+		<A href="http://www.devmaster.net/forums/">Forums</A> | 
+		<A href="./DevMaster.net - 3D Game and Graphics Engines Database_files/DevMaster.net - 3D Game and Graphics Engines Database.htm">3D Engines Database</A> | 
+		<A href="http://www.devmaster.net/wiki/Main_Page">Wiki</A> |
+		<A href="http://www.devmaster.net/articles.php">Articles/Tutorials</A> | 
+		<A href="http://www.devmaster.net/jobs.php">Game Dev Jobs</A> | 
+		<A href="http://www.devmaster.net/chat/">IRC Chat Network</A> |
+		<A href="http://www.devmaster.net/forums/sendmessage.php">Contact Us</A></B> ]]
+	</TD>
+</TR>
+</TBODY></TABLE>
+<DIV class="smallfont">Welcome Guest!</DIV>
+<DIV align="center">
+	<DIV class="page" style="width:100%; text-align:left">
+		<DIV style="padding:0px 15px 0px 15px">
+
+<TABLE border="0" cellpadding="5" cellspacing="3" width="100%">
+<TBODY><TR>
+	<TD width="85%" valign="top">
+		<BR>
+		<BR>
+<TABLE border="0" cellpadding="1" cellspacing="1" width="100%">
+<TBODY><TR class="smallfont">
+	<TD width="50%"><A href="./DevMaster.net - 3D Game and Graphics Engines Database_files/DevMaster.net - 3D Game and Graphics Engines Database.htm"><IMG border="0" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/engines.gif"></A></TD>
+	<TD width="25%" align="right" nowrap="">
+	</TD>
+	<TD width="25%" align="right" nowrap="">
+</TR>
+</TBODY></TABLE>
+<BR>
+
+<P>Welcome to <B>DevMaster's Game and Graphics Engines Database</B>, your ultimate source for 3D Engines. This database is
+committed to providing you with the most accurate and up-to-date information for current engines around the web.
+Each engine contains a brief description as well as a list of supported features and general info (platform, API,
+etc.). In addition, you will find reviews/ratings from DevMaster.net staff or community members to help you decide
+which engine is right for you. This is a great way to know how your engine compares with others or to learn how engines
+use state-of-the-art technology. Be sure to share your thoughts about any engine you are familiar with by reviewing it.</P>
+<P>If you know of or have an engine that you suggest be included in our database, feel free to use our
+<A href="http://www.devmaster.net/engines/submit.php">submission form</A>. While we try our best to keep engines up-to-date, they do not necessarily reflect the latest
+version available. If you find any outdated/inaccurate information, we <I>highly</I> encourage you to submit the changes by
+clicking on the edit link (<IMG border="0" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/edit.gif" width="17" height="17" alt="Edit"> - located in the top-right corner) on the engine in question.</P>
+
+<DIV align="center"><SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-4748087847388234";
+google_ad_width = 728;
+google_ad_height = 15;
+google_ad_format = "728x15_0ads_al_s";
+google_ad_channel = "";
+google_color_border = "F5F5FF";
+google_color_bg = "FFFFFF";
+google_color_link = "22229C";
+google_color_text = "000000";
+google_color_url = "000000";
+//--></SCRIPT>
+<SCRIPT type="text/javascript" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/show_ads.js">
+</SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><IFRAME name="google_ads_frame" width="728" height="15" frameborder="0" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/ads(3).htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no"></IFRAME></DIV>
+<BR>
+<STYLE type="text/css">
+#quicklinks{ 
+	border: 1px solid #00c;
+	background: #ebeff5;
+}
+
+#quicklinks a:link, 
+#quicklinks  a:visited, 
+#quicklinks a:active{ 
+	color #00007f;
+	background-color: transparent; 
+	text-decoration: none;
+}
+
+#quicklinks a:hover{
+	background-color: transparent;
+	color: red; 
+	text-decoration: none;
+}
+</STYLE>
+
+<TABLE border="0">
+<TBODY><TR>
+	<TD>
+</TR>
+</TBODY></TABLE>
+
+<TABLE class="tborder" width="100%" cellpadding="0" cellspacing="0">
+<TBODY><TR class="alt2">
+	<TD width="35%" class="smallfont">
+
+	&nbsp;• <A href="http://www.devmaster.net/engines/index.php">Features Index</A><BR>
+	&nbsp;• <A href="http://www.devmaster.net/engines/submit.php">Submit Engine</A><BR>
+	&nbsp;• <A href="http://www.devmaster.net/engines/list.php">List All Engines</A></TD>
+	<TD width="35%" class="smallfont">
+	• <A href="http://www.devmaster.net/engines/list.php?order=date_added&ordertype=DESC">List Recently Added Engines</A><BR>
+	• <A href="http://www.devmaster.net/engines/list.php?order=date_updated&ordertype=DESC">List Recently Updated Engines</A><BR>
+	• <A href="http://www.devmaster.net/engines/faq.php">Frequently Asked Questions</A><BR></TD>
+	<TD width="30%" align="right" valign="middle" class="smallfont">
+	<FORM method="POST" action="http://www.devmaster.net/engines/search.php">
+		<TABLE border="0">
+			<TBODY><TR class="smallfont">
+				<TD><INPUT type="text" name="simple_search_keywords" size="20"><BR>
+				<A href="http://www.devmaster.net/engines/search.php">Advanced Search</A></TD>
+				<TD valign="top"><INPUT type="submit" value="Search" name="simple_search"></TD>
+			</TR>
+		</TBODY></TABLE>
+	</FORM></TD>
+</TR>
+</TBODY></TABLE>
+
+<TABLE border="0">
+<TBODY><TR>
+	<TD>
+</TR>
+</TBODY></TABLE><BR>
+<TABLE class="tborder" cellpadding="0" cellspacing="1" border="0" width="100%" align="center">
+		<TBODY><TR>
+		<TD class="alt1">
+			<TABLE width="100%" border="0" cellpadding="0" cellspacing="0">
+			<TBODY><TR class="thead">
+				<TD height="25" colspan="2"><B>&nbsp;<FONT size="2">General Info</FONT></B></TD>
+			</TR>
+			<TR>
+				<TD width="50%" valign="top">
+					<TABLE width="100%" border="0" cellpadding="2" cellspacing="3">
+																				<TBODY><TR>
+						<TD><B>Graphics API</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=4&sid=0">OpenGL</A> | <A href="http://www.devmaster.net/engines/list.php?fid=4&sid=1">DirectX</A> | <A href="http://www.devmaster.net/engines/list.php?fid=4&sid=2">Glide</A> | <A href="http://www.devmaster.net/engines/list.php?fid=4&sid=3">Software</A> | <A href="http://www.devmaster.net/engines/list.php?fid=4&sid=4">Other</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Operating Systems</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=5&sid=0">Windows</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=1">Linux</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=2">MacOS</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=3">Solaris</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=4">SunOS</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=5">HP/UX</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=6">FreeBSD</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=7">Irix</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=8">OS/2</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=9">Amiga</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=10">DOS</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=11">Xbox</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=12">Playstation</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=13">GameCube</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=14">GBA</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=15">PSP</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=16">N-Gage</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=17">BeOS</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=18">Xbox360</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=19">PS2</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=20">PS3</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=21">Nintendo Wii</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=22">Nintendo DS/iDS</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=23">iPhone</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=24">Flash</A> | <A href="http://www.devmaster.net/engines/list.php?fid=5&sid=25">Browser-based</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Programming Language</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=6&sid=0">C/C++</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=1">Java</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=2">C#</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=3">D</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=4">Delphi</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=5">Pascal</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=6">BASIC</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=7">Ada</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=8">Fortran</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=9">Lisp</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=10">Perl</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=11">Python</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=12">Visual Basic 6</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=13">VB.NET</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=14">ActionScript</A> | <A href="http://www.devmaster.net/engines/list.php?fid=6&sid=15">Javascript</A></SPAN></TD>
+					</TR>
+										</TBODY></TABLE>
+				</TD>
+				<TD width="50%" valign="top">
+					<TABLE width="100%" border="0" cellpadding="2" cellspacing="3">
+															<TBODY><TR>
+						<TD><B>Status</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=7&sid=0">Alpha</A> | <A href="http://www.devmaster.net/engines/list.php?fid=7&sid=1">Beta</A> | <A href="http://www.devmaster.net/engines/list.php?fid=7&sid=2">Productive/Stable</A> | <A href="http://www.devmaster.net/engines/list.php?fid=7&sid=3">Inactive</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Misc</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=11">Documentation</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>General Features</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=13&sid=0">Object-Oriented Design</A> | <A href="http://www.devmaster.net/engines/list.php?fid=13&sid=1">Plug-in Architecture</A> | <A href="http://www.devmaster.net/engines/list.php?fid=13&sid=2">Save/Load System</A> | <A href="http://www.devmaster.net/engines/list.php?fid=13&sid=3">Other</A></SPAN></TD>
+					</TR>
+										</TBODY></TABLE>
+				</TD>
+			</TR>
+			<TR>
+				<TD height="15" colspan="2">&nbsp;</TD>
+			</TR>
+			</TBODY></TABLE>
+		</TD>
+	</TR>
+		<TR>
+		<TD class="alt1">
+			<TABLE width="100%" border="0" cellpadding="0" cellspacing="0">
+			<TBODY><TR class="thead">
+				<TD height="25" colspan="2"><B>&nbsp;<FONT size="2">Game Features</FONT></B></TD>
+			</TR>
+			<TR>
+				<TD width="50%" valign="top">
+					<TABLE width="100%" border="0" cellpadding="2" cellspacing="3">
+																				<TBODY><TR>
+						<TD><B>Networking System</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=14&sid=0">Client-Server</A> | <A href="http://www.devmaster.net/engines/list.php?fid=14&sid=1">Peer-to-Peer</A> | <A href="http://www.devmaster.net/engines/list.php?fid=14&sid=2">Master Server</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Tools &amp; Editors</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=15">Scripting</A> | <A href="http://www.devmaster.net/engines/list.php?fid=16">Built-in Editors</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Sound &amp; Video</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=18&sid=0">2D Sound</A> | <A href="http://www.devmaster.net/engines/list.php?fid=18&sid=1">3D Sound</A> | <A href="http://www.devmaster.net/engines/list.php?fid=18&sid=2">Streaming Sound</A></SPAN></TD>
+					</TR>
+										</TBODY></TABLE>
+				</TD>
+				<TD width="50%" valign="top">
+					<TABLE width="100%" border="0" cellpadding="2" cellspacing="3">
+															<TBODY><TR>
+						<TD><B>Physics</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=19&sid=0">Basic Physics</A> | <A href="http://www.devmaster.net/engines/list.php?fid=19&sid=1">Collision Detection</A> | <A href="http://www.devmaster.net/engines/list.php?fid=19&sid=2">Rigid Body</A> | <A href="http://www.devmaster.net/engines/list.php?fid=19&sid=3">Vehicle Physics</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Artificial Intelligence</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=20&sid=0">Pathfinding</A> | <A href="http://www.devmaster.net/engines/list.php?fid=20&sid=1">Decision Making</A> | <A href="http://www.devmaster.net/engines/list.php?fid=20&sid=2">Finite State Machines</A> | <A href="http://www.devmaster.net/engines/list.php?fid=20&sid=3">Scripted</A> | <A href="http://www.devmaster.net/engines/list.php?fid=20&sid=4">Neural Networks</A></SPAN></TD>
+					</TR>
+										</TBODY></TABLE>
+				</TD>
+			</TR>
+			<TR>
+				<TD height="15" colspan="2">&nbsp;</TD>
+			</TR>
+			</TBODY></TABLE>
+		</TD>
+	</TR>
+		<TR>
+		<TD class="alt1">
+			<TABLE width="100%" border="0" cellpadding="0" cellspacing="0">
+			<TBODY><TR class="thead">
+				<TD height="25" colspan="2"><B>&nbsp;<FONT size="2">Graphics Features</FONT></B></TD>
+			</TR>
+			<TR>
+				<TD width="50%" valign="top">
+					<TABLE width="100%" border="0" cellpadding="2" cellspacing="3">
+																				<TBODY><TR>
+						<TD><B>Lighting</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=21&sid=0">Per-vertex</A> | <A href="http://www.devmaster.net/engines/list.php?fid=21&sid=1">Per-pixel</A> | <A href="http://www.devmaster.net/engines/list.php?fid=21&sid=2">Volumetric</A> | <A href="http://www.devmaster.net/engines/list.php?fid=21&sid=3">Lightmapping</A> | <A href="http://www.devmaster.net/engines/list.php?fid=21&sid=4">Radiosity</A> | <A href="http://www.devmaster.net/engines/list.php?fid=21&sid=5">Gloss maps</A> | <A href="http://www.devmaster.net/engines/list.php?fid=21&sid=6">Anisotropic</A> | <A href="http://www.devmaster.net/engines/list.php?fid=21&sid=7">BRDF</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Shadows</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=22&sid=0">Shadow Mapping</A> | <A href="http://www.devmaster.net/engines/list.php?fid=22&sid=1">Projected planar</A> | <A href="http://www.devmaster.net/engines/list.php?fid=22&sid=2">Shadow Volume</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Texturing</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=23&sid=0">Basic</A> | <A href="http://www.devmaster.net/engines/list.php?fid=23&sid=1">Multi-texturing</A> | <A href="http://www.devmaster.net/engines/list.php?fid=23&sid=2">Bumpmapping</A> | <A href="http://www.devmaster.net/engines/list.php?fid=23&sid=3">Mipmapping</A> | <A href="http://www.devmaster.net/engines/list.php?fid=23&sid=4">Volumetric</A> | <A href="http://www.devmaster.net/engines/list.php?fid=23&sid=5">Projected</A> | <A href="http://www.devmaster.net/engines/list.php?fid=23&sid=6">Procedural</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Shaders</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=24&sid=0">Vertex</A> | <A href="http://www.devmaster.net/engines/list.php?fid=24&sid=1">Pixel</A> | <A href="http://www.devmaster.net/engines/list.php?fid=24&sid=2">High Level</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Rendering</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=25&sid=0">Fixed-function</A> | <A href="http://www.devmaster.net/engines/list.php?fid=25&sid=1">Stereo Rendering</A> | <A href="http://www.devmaster.net/engines/list.php?fid=25&sid=2">Raytracing</A> | <A href="http://www.devmaster.net/engines/list.php?fid=25&sid=3">Raycasting</A> | <A href="http://www.devmaster.net/engines/list.php?fid=25&sid=4">Deferred Shading</A> | <A href="http://www.devmaster.net/engines/list.php?fid=25&sid=5">Render-to-Texture</A> | <A href="http://www.devmaster.net/engines/list.php?fid=25&sid=6">Voxel</A> | <A href="http://www.devmaster.net/engines/list.php?fid=25&sid=7">Fonts</A> | <A href="http://www.devmaster.net/engines/list.php?fid=25&sid=8">GUI</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Scene Management</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=26&sid=0">General</A> | <A href="http://www.devmaster.net/engines/list.php?fid=26&sid=1">BSP</A> | <A href="http://www.devmaster.net/engines/list.php?fid=26&sid=2">Portals</A> | <A href="http://www.devmaster.net/engines/list.php?fid=26&sid=3">Octrees</A> | <A href="http://www.devmaster.net/engines/list.php?fid=26&sid=4">Occlusion Culling</A> | <A href="http://www.devmaster.net/engines/list.php?fid=26&sid=5">PVS</A> | <A href="http://www.devmaster.net/engines/list.php?fid=26&sid=6">LOD</A></SPAN></TD>
+					</TR>
+										</TBODY></TABLE>
+				</TD>
+				<TD width="50%" valign="top">
+					<TABLE width="100%" border="0" cellpadding="2" cellspacing="3">
+															<TBODY><TR>
+						<TD><B>Animation</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=27&sid=0">Inverse Kinematics</A> | <A href="http://www.devmaster.net/engines/list.php?fid=27&sid=1">Forward Kinematics</A> | <A href="http://www.devmaster.net/engines/list.php?fid=27&sid=2">Keyframe Animation</A> | <A href="http://www.devmaster.net/engines/list.php?fid=27&sid=3">Skeletal Animation</A> | <A href="http://www.devmaster.net/engines/list.php?fid=27&sid=4">Morphing</A> | <A href="http://www.devmaster.net/engines/list.php?fid=27&sid=5">Facial Animation</A> | <A href="http://www.devmaster.net/engines/list.php?fid=27&sid=6">Animation Blending</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Meshes</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=28&sid=0">Mesh Loading</A> | <A href="http://www.devmaster.net/engines/list.php?fid=28&sid=1">Skinning</A> | <A href="http://www.devmaster.net/engines/list.php?fid=28&sid=2">Progressive</A> | <A href="http://www.devmaster.net/engines/list.php?fid=28&sid=3">Tessellation</A> | <A href="http://www.devmaster.net/engines/list.php?fid=28&sid=4">Deformation</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Surfaces &amp; Curves</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=29&sid=0">Splines</A> | <A href="http://www.devmaster.net/engines/list.php?fid=29&sid=1">Patches</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Special Effects</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=30&sid=0">Environment Mapping</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=1">Lens Flares</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=2">Billboarding</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=3">Particle System</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=4">Depth of Field</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=5">Motion Blur</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=6">Sky</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=7">Water</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=8">Fire</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=9">Explosion</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=10">Decals</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=11">Fog</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=12">Weather</A> | <A href="http://www.devmaster.net/engines/list.php?fid=30&sid=13">Mirror</A></SPAN></TD>
+					</TR>
+															<TR>
+						<TD><B>Terrain</B><BR>
+						<SPAN class="smallfont"><A href="http://www.devmaster.net/engines/list.php?fid=31&sid=0">Rendering</A> | <A href="http://www.devmaster.net/engines/list.php?fid=31&sid=1">CLOD</A> | <A href="http://www.devmaster.net/engines/list.php?fid=31&sid=2">Splatting</A></SPAN></TD>
+					</TR>
+										</TBODY></TABLE>
+				</TD>
+			</TR>
+			<TR>
+				<TD height="15" colspan="2">&nbsp;</TD>
+			</TR>
+			</TBODY></TABLE>
+		</TD>
+	</TR>
+	</TBODY></TABLE>
+
+<TABLE width="100%">
+<TBODY><TR valign="top" class="smallfont">
+	<TD align="left" nowrap="">We currently have <B>297</B> engines in our database.</TD>
+	<TD align="right" nowrap=""><B>Database editor:</B> TBD (would you like to be an editor? <A href="http://www.devmaster.net/forums/sendmessage.php">Let us know!</A>)
+	</TD>
+</TR>
+</TBODY></TABLE><BR>
+			</TD>
+		<TD width="15%" valign="top">
+		<BR>
+		<TABLE class="tborder" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
+<TBODY><TR>
+	<TD class="thead" align="center" nowrap="">Sponsored Links</TD>
+</TR>
+<TR>
+	<TD class="alt1">
+		<TABLE border="0" cellpadding="3" cellspacing="1" width="100%">
+		<TBODY><TR align="center">
+			<TD><SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-4748087847388234";
+google_ad_width = 200;
+google_ad_height = 200;
+google_ad_format = "200x200_as";
+google_ad_type = "text_image";
+google_ad_channel = "";
+google_color_border = "F5F5FF";
+google_color_bg = "F5F5FF";
+google_color_link = "22229C";
+google_color_text = "000000";
+google_color_url = "000000";
+//--></SCRIPT>
+<SCRIPT type="text/javascript" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/show_ads.js">
+</SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><INS style="display:inline-table;border:none;height:200px;margin:0;padding:0;position:relative;visibility:visible;width:200px"><INS style="display:block;border:none;height:200px;margin:0;padding:0;position:relative;visibility:visible;width:200px"><IFRAME allowtransparency="true" frameborder="0" height="200" hspace="0" id="google_ads_frame3" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/ads(1).htm" style="left:0;position:absolute;top:0" vspace="0" width="200"></IFRAME></INS></INS></TD>
+		</TR>
+		</TBODY></TABLE>
+	</TD>
+</TR>
+</TBODY></TABLE><BR>
+		<TABLE class="tborder" cellpadding="6" cellspacing="1" border="0" width="100%">
+<TBODY><TR>
+	<TD class="thead" align="center" nowrap="">Most Reviewed Commercial Engines</TD>
+</TR>
+<TR>
+	<TD class="alt1">
+		<TABLE border="0" cellpadding="3" cellspacing="1" width="100%">
+						<TBODY><TR>
+			<TD class="smallfont" align="right" valign="top" width="5">1.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=42">C4 Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">2.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=3">Torque Game Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">3.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=67">3DGameStudio</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">4.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=53">TV3D SDK 6.5</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">5.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=567">Leadwerks Engine 2</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">6.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=256">Unity</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">7.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=383">NeoAxis Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">8.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=448">DX Studio</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">9.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=600">Esenthel Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">10.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=499">ShiVa Engine</A></TD>
+		</TR>
+				</TBODY></TABLE>
+	</TD>
+</TR>
+</TBODY></TABLE><BR>
+		<BR>
+		<TABLE class="tborder" cellpadding="6" cellspacing="1" border="0" width="100%">
+<TBODY><TR>
+	<TD class="thead" align="center" nowrap="">Most Reviewed Open Source Engines</TD>
+</TR>
+<TR>
+	<TD class="alt1">
+		<TABLE border="0" cellpadding="3" cellspacing="1" width="100%">
+						<TBODY><TR>
+			<TD class="smallfont" align="right" valign="top" width="5">1.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=2">OGRE</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">2.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=4">Irrlicht</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">3.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=33">Crystal Space</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">4.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=95">Panda3D</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">5.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=78">jME</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">6.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=347">Blender Game Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">7.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=96">Reality Factory</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">8.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=69">The Nebula Device 2</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">9.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=68">RealmForge</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">10.</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=58">OpenSceneGraph</A></TD>
+		</TR>
+				</TBODY></TABLE>
+	</TD>
+</TR>
+</TBODY></TABLE><BR>
+		<TABLE class="tborder" cellpadding="6" cellspacing="1" border="0" width="100%">
+<TBODY><TR>
+	<TD class="thead" align="center" nowrap="">Latest Engines <A href="http://www.devmaster.net/engines/latest_feed.php"><IMG border="0" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/xml.gif"></A></TD>
+</TR>
+<TR>
+	<TD class="alt1">
+		<TABLE border="0" cellpadding="3" cellspacing="1" width="100%">
+						<TBODY><TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=398">Nytro Game Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=401">Monumental Technology Suite</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=416">Freely Available Networked Gaming (FANG) Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=613">PushButton Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=356">Lightsprint</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=322">Hoverware</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=600">Esenthel Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=345">Quick3dApplet</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=326">Globe_3D</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=327">Cube 2: Sauerbraten</A></TD>
+		</TR>
+				</TBODY></TABLE>
+	</TD>
+</TR>
+</TBODY></TABLE><BR>
+		<TABLE class="tborder" cellpadding="6" cellspacing="1" border="0" width="100%">
+<TBODY><TR>
+	<TD class="thead" align="center" nowrap="">Updated Engines <A href="http://www.devmaster.net/engines/updated_feed.php"><IMG border="0" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/xml.gif"></A></TD>
+</TR>
+<TR>
+	<TD class="alt1">
+		<TABLE border="0" cellpadding="3" cellspacing="1" width="100%">
+						<TBODY><TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=573">3D Rad v6</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=419">Linderdaum Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=67">3DGameStudio</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=356">Lightsprint</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=277">Raydium</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=103">Jolt3D!</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=237">3DzzD</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=383">NeoAxis Engine</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=256">Unity</A></TD>
+		</TR>
+				<TR>
+			<TD class="smallfont" align="right" valign="top" width="5">•</TD>
+			<TD class="smallfont" valign="top"><A href="http://www.devmaster.net/engines/engine_details.php?id=600">Esenthel Engine</A></TD>
+		</TR>
+				</TBODY></TABLE>
+	</TD>
+</TR>
+</TBODY></TABLE><BR><BR>
+		<DIV align="center">
+<SCRIPT type="text/javascript"><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://www.devmaster.net/adsrvr/www/delivery/ajs.php':'http://www.devmaster.net/adsrvr/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=2");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></SCRIPT><SCRIPT type="text/javascript" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/ajs(1).php"></SCRIPT><SPAN><SCRIPT type="text/javascript"><!--// <![CDATA[
+/* openads=http://www.devmaster.net/adsrvr/www/delivery bannerid=10 zoneid=2 source= */
+// ]]> --></SCRIPT><SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-4748087847388234";
+google_ad_width = 160;
+google_ad_height = 600;
+google_ad_format = "160x600_as";
+google_ad_type = "text_image";
+google_ad_channel = "";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "22229C";
+google_color_text = "000000";
+google_color_url = "000000";
+//--></SCRIPT>
+<SCRIPT type="text/javascript" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/show_ads.js">
+</SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><INS style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px"><INS style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px"><IFRAME allowtransparency="true" frameborder="0" height="600" hspace="0" id="google_ads_frame4" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/ads.htm" style="left:0;position:absolute;top:0" vspace="0" width="160"></IFRAME></INS></INS><SCRIPT type="text/javascript" src="./DevMaster.net - 3D Game and Graphics Engines Database_files/ag.php"></SCRIPT></SPAN><DIV id="beacon_10" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><IMG src="./DevMaster.net - 3D Game and Graphics Engines Database_files/lg(1).php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></DIV>
+<NOSCRIPT></NOSCRIPT>
+</DIV><BR>
+		<BR>
+	</TD>
+	</TR>
+</TBODY></TABLE>
+
+		</DIV>	
+	</DIV>
+</DIV>
+
+<DIV align="center">
+	<TABLE cellpadding="6" cellspacing="0" border="0" width="100%" class="page" align="center">
+<TBODY><TR>
+	<TD class="tfoot" align="right" width="100%">
+		<DIV class="smallfont">
+			<STRONG>
+				<A href="http://www.devmaster.net/forums/sendmessage.php" rel="nofollow">Contact Us</A> -
+				<A href="http://www.devmaster.net/legal.html">Privacy Statement</A> -
+				<A href="http://www.devmaster.net/engines/#top" onclick="self.scrollTo(0, 0); return false;">Top</A>
+			</STRONG>
+		</DIV>
+	</TD>
+</TR>
+</TBODY></TABLE>
+
+<BR>
+
+<DIV align="center" class="smallfont">
+	Copyright ©2003-2009, DevMaster.net. All rights reserved.
+</DIV></DIV>
+
+
+</BODY></HTML>

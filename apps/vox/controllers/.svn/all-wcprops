@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ProjectOX/!svn/ver/56/trunk/projectVOX/apps/vox/controllers
+END
+ConfigurationController.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/apps/vox/controllers/ConfigurationController.h
+END
+NavigationController.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/ProjectOX/!svn/ver/58/trunk/projectVOX/apps/vox/controllers/NavigationController.cpp
+END
+SessionController.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/ProjectOX/!svn/ver/43/trunk/projectVOX/apps/vox/controllers/SessionController.cpp
+END
+NavigationController.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/ProjectOX/!svn/ver/52/trunk/projectVOX/apps/vox/controllers/NavigationController.h
+END
+ConfigurationController.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/ProjectOX/!svn/ver/43/trunk/projectVOX/apps/vox/controllers/ConfigurationController.cpp
+END
+SessionController.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/apps/vox/controllers/SessionController.h
+END

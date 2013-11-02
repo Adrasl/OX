@@ -1,0 +1,263 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=latex 2009.10.31)  31 OCT 2009 15:55
+entering extended mode
+**Arte*Digital*-*Una*propuesta*de*Instalación*basada*en*Percepción*y*Vida*Artif
+icial.tex
+
+("C:\Users\e-pyme\Documents\My Dropbox\PFC\Ds\Memoria PFC\Arte Digital - Una pr
+opuesta de Instalación basada en Percepción y Vida Artificial.tex"
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for spanish, english, dumylang, nohyphen
+ation, german, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, load
+ed.
+("C:\Program Files\MikTex\tex\latex\base\book.cls"
+Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
+("C:\Program Files\MikTex\tex\latex\base\bk12.clo"
+File: bk12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Program Files\MikTex\tex\latex\geometry\geometry.sty"
+Package: geometry 2008/12/21 v4.2 Page Geometry
+
+("C:\Program Files\MikTex\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files\MikTex\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode not detected.
+)
+("C:\Program Files\MikTex\tex\generic\oberdiek\ifvtex.sty"
+Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+\Gm@cnth=\count88
+\Gm@cntv=\count89
+\c@Gm@tempcnt=\count90
+\Gm@bindingoffset=\dimen103
+\Gm@wd@mp=\dimen104
+\Gm@odd@mp=\dimen105
+\Gm@even@mp=\dimen106
+\Gm@dimlist=\toks15
+
+("C:\Program Files\MikTex\tex\latex\geometry\geometry.cfg"))
+("C:\Program Files\MikTex\tex\generic\babel\babel.sty"
+Package: babel 2008/07/06 v3.8l The Babel package
+
+*************************************
+* Local config file bblopts.cfg used
+*
+("C:\Program Files\MikTex\tex\latex\00miktex\bblopts.cfg"
+File: bblopts.cfg 2006/07/31 v1.0 MiKTeX 'babel' configuration
+)
+("C:\Program Files\MikTex\tex\generic\babel\spanish.ldf"
+Language: spanish.ldf 2009/01/02 v5.0h Spanish support from the babel system
+
+("C:\Program Files\MikTex\tex\generic\babel\babel.def"
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count91
+\U@D=\dimen107
+)
+\es@datefmt=\count92
+\es@quottoks=\toks16
+\es@quotdepth=\count93
+Package babel Info: Making " an active character on input line 492.
+Package babel Info: Making . an active character on input line 585.
+Package babel Info: Making < an active character on input line 630.
+Package babel Info: Making > an active character on input line 630.
+))
+("C:\Program Files\MikTex\tex\latex\base\inputenc.sty"
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
+
+("C:\Program Files\MikTex\tex\latex\base\latin1.def"
+File: latin1.def 2008/03/30 v1.1d Input encoding file
+))
+("C:\Program Files\MikTex\tex\latex\graphics\epsfig.sty"
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+
+("C:\Program Files\MikTex\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MikTex\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MikTex\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files\MikTex\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: dvips.def on input line 91.
+
+("C:\Program Files\MikTex\tex\latex\graphics\dvips.def"
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen108
+\Gin@req@width=\dimen109
+)
+\epsfxsize=\dimen110
+\epsfysize=\dimen111
+)
+
+LaTeX Warning: Unused global option(s):
+    [A4].
+
+No file Arte*Digital*-*Una*propuesta*de*Instalación*basada*en*Percepción*y*Vida
+*Artificial.aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+*geometry auto-detecting driver*
+*geometry detected driver: dvips*
+-------------------- Geometry parameters
+paper: class default
+landscape: --
+twocolumn: --
+twoside: true
+asymmetric: --
+h-parts: 71.13188pt, 500.484pt, 42.67912pt
+v-parts: 85.35826pt, 624.25346pt, 85.35826pt
+hmarginratio: --
+vmarginratio: --
+lines: --
+heightrounded: --
+bindingoffset: 0.0pt
+truedimen: --
+includehead: --
+includefoot: --
+includemp: --
+driver: dvips
+-------------------- Page layout dimensions and switches
+\paperwidth  614.295pt
+\paperheight 794.96999pt
+\textwidth  500.484pt
+\textheight 624.25346pt
+\oddsidemargin  -1.1381pt
+\evensidemargin -29.59087pt
+\topmargin  -18.78552pt
+\headheight 12.0pt
+\headsep    19.8738pt
+\footskip   30.0pt
+\marginparwidth 98.0pt
+\marginparsep   7.0pt
+\columnsep  10.0pt
+\skip\footins  10.8pt plus 4.0pt minus 2.0pt
+\hoffset 0.0pt
+\voffset 0.0pt
+\mag 1000
+\@twosidetrue \@mparswitchtrue 
+(1in=72.27pt, 1cm=28.45pt)
+-----------------------
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 26.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 26.
+[1
+
+
+] [2]
+Underfull \hbox (badness 10000) in paragraph at lines 38--41
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--44
+
+ []
+
+[3] [4] [5] [6]
+No file Arte*Digital*-*Una*propuesta*de*Instalación*basada*en*Percepción*y*Vida
+*Artificial.toc.
+\tf@toc=\write3
+[1
+
+] [2]
+Cap\'{\i }tulo 1.
+[3
+
+] [4
+
+]
+Cap\'{\i }tulo 2.
+[5] [6
+
+]
+Cap\'{\i }tulo 3.
+[7] [8
+
+]
+Cap\'{\i }tulo 4.
+[9] [10
+
+]
+Cap\'{\i }tulo 5.
+[11] [12
+
+]
+Cap\'{\i }tulo 6.
+[13] [14
+
+]
+Cap\'{\i }tulo 7.
+[15] [16
+
+]
+Cap\'{\i }tulo 8.
+[17] [18
+
+]
+Cap\'{\i }tulo 9.
+[19] [20
+
+]
+Ap\'{e}ndice A.
+[21] [22
+
+]
+Ap\'{e}ndice B.
+[23] [24
+
+]
+Ap\'{e}ndice C.
+[25] [26] [27] [28
+
+] [29] [30]
+("C:\Users\e-pyme\Documents\My Dropbox\PFC\Ds\Memoria PFC\Arte Digital - Una pr
+opuesta de Instalación basada en Percepción y Vida Artificial.aux")
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 1683 strings out of 495260
+ 22228 string characters out of 3180063
+ 82554 words of memory out of 3000000
+ 4929 multiletter control sequences out of 15000+200000
+ 7368 words of font info for 26 fonts, out of 3000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 32i,7n,31p,405b,352s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on "Arte Digital - Una propuesta de Instalación basada en Percep
+ción y Vida Artificial.dvi" (36 pages, 21988 bytes).

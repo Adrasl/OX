@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ProjectOX/!svn/ver/55/trunk/projectVOX/src/core
+END
+IApplication.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/ProjectOX/!svn/ver/48/trunk/projectVOX/src/core/IApplication.h
+END
+core.sln
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/core/core.sln
+END
+IApplicationConfiguration.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/core/IApplicationConfiguration.cpp
+END
+Export.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/core/Export.h
+END
+IApplicationConfiguration.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/ProjectOX/!svn/ver/43/trunk/projectVOX/src/core/IApplicationConfiguration.h
+END
+core.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ProjectOX/!svn/ver/41/trunk/projectVOX/src/core/core.vcproj
+END
+types.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ProjectOX/!svn/ver/55/trunk/projectVOX/src/core/types.h
+END

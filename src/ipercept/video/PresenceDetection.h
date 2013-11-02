@@ -1,0 +1,75 @@
+#ifndef _PRESENCEDETECTION_
+#define _PRESENCEDETECTION_
+
+#include <core/IPercept/video/IPresenceDetection.h>
+#include <core/IPercept/IPerceptVideo.h>
+#include <ipercept/CamWindow.h>
+
+#include <string>
+#include <vector>
+
+#include <cv.h>
+#include <cxcore.h>
+#include <cvaux.h>
+#include <highgui.h>
+
+#include <boost/thread.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+
+#include <core/types.h>
+
+namespace core
+{
+	namespace ipercept
+	{
+		class PresenceDetection : public core::IPresenceDetection
+		{
+			public:
+
+				PresenceDetection(IPerceptVideo* video_perception, const int camera_index);
+				virtual ~PresenceDetection();
+				virtual void Delete();
+				virtual void Init();
+
+				int GetCamIndex() { return cam_index; } ;
+				virtual char * GetCopyOfCurrentImage(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb = false);
+				virtual void SetCurrentImage(const int &size_x, const int &size_y, const int &n_channels, const int &depth, const int &width_step, char * data);
+
+				virtual void GetPresenceCenterOfMass(corePoint2D<int> &pos);
+				virtual void GetPresenceRec(corePoint2D<int> &corner_a, corePoint2D<int> &corner_b);
+				virtual bool PresenceDetected();
+				virtual void TrainBackground();
+
+			private:
+
+				void DoInit();
+				void DoMainLoop();
+				void Iterate();
+				void Capture();
+				virtual bool Apply(/* Image input, const float &scale, int &pos_x, int &pos_y*/);
+
+				void detect_and_draw();
+
+				boost::shared_ptr<boost::thread> m_thread;
+				boost::try_mutex m_mutex;
+				bool initialized, stop_requested;
+
+				IPerceptVideo* v_perception;
+				IplImage  *image, *background_image, *foreground_img, *latest_bkg;
+				IplImage  *last_image, *last_foreground_image;
+				int cam_index;
+
+				//CENCARA2_2Detector *ENCARAFaceDetector;
+				 corePoint2D<int> presenceCenterPos, presenceRec_a, presenceRec_b;
+
+				 CvGaussBGStatModelParams* background_params;
+				 CvBGStatModel *background_model, *bg_trainning_model;
+				 CvMoments foreground_moments;
+				 int background_trainning_frames;
+				 bool updated, first_time;
+		};
+	}
+}
+
+#endif

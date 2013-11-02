@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/ProjectOX/!svn/ver/48/trunk/projectVOX/src/core/IPersistence
+END
+IEntityPersistence.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/core/IPersistence/IEntityPersistence.h
+END
+IUserPersistence.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/ProjectOX/!svn/ver/48/trunk/projectVOX/src/core/IPersistence/IUserPersistence.h
+END
+IPersistence.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/core/IPersistence/IPersistence.h
+END
+IWorldPersistence.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/core/IPersistence/IWorldPersistence.h
+END

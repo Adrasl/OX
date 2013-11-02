@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ProjectOX/!svn/ver/43/trunk/projectVOX/src/igui
+END
+maingui.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/igui/maingui.h
+END
+MainFrame.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/igui/MainFrame.cpp
+END
+GUIUserInfo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/GUIUserInfo.cpp
+END
+frame.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/frame.h
+END
+GUIStart.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/GUIStart.cpp
+END
+GUIHelp.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/GUIHelp.h
+END
+MainFrame.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/igui/MainFrame.h
+END
+GUIUserInfo.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/GUIUserInfo.h
+END
+GUILogPanel.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/GUILogPanel.cpp
+END
+GUIStart.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/GUIStart.h
+END
+GUILogPanel.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/GUILogPanel.h
+END
+GUIConfiguration.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/ProjectOX/!svn/ver/43/trunk/projectVOX/src/igui/GUIConfiguration.cpp
+END
+igui.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/igui.vcproj
+END
+GUIConfiguration.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/ProjectOX/!svn/ver/31/trunk/projectVOX/src/igui/GUIConfiguration.h
+END
+GUIUser.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ProjectOX/!svn/ver/43/trunk/projectVOX/src/igui/GUIUser.cpp
+END
+Export.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/Export.h
+END
+GUIUser.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/igui/GUIUser.h
+END
+maingui .cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/ProjectOX/!svn/ver/43/trunk/projectVOX/src/igui/maingui%20.cpp
+END
+frame.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ProjectOX/!svn/ver/3/trunk/projectVOX/src/igui/frame.cpp
+END
+GUIHelp.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ProjectOX/!svn/ver/43/trunk/projectVOX/src/igui/GUIHelp.cpp
+END

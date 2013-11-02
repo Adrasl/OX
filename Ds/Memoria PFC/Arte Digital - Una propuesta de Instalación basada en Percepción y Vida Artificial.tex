@@ -1,0 +1,1512 @@
+% Definimos el estilo del documento
+\documentclass[12pt,A4,spanish]{book}
+
+% Definimos los márgenes de la página
+\usepackage[lmargin=2.5cm,rmargin=1.5cm,tmargin=3.0cm,bmargin=3.0cm]{geometry}
+
+% Utilizamos el paquete para utilizar español
+\usepackage[spanish]{babel}
+
+% Utilizamos el paquete para gestionar acentos
+\usepackage[latin1]{inputenc}
+
+%Utilizamos el paquete para inluir imágenes jpg
+\usepackage{graphicx}
+
+%Para evitar problemas de imágenes flotantes
+\usepackage{float}
+
+%Utilizamos el paquete para incorporar graficos postcript
+%\usepackage[dvips,final]{epsfig}
+
+%utilizamos paquete para introducir cuadros de código
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+\usepackage{listings}
+%\usepackage{times}
+\usepackage{color}
+
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+ 
+
+\lstset{ frame=Ltb,
+     framerule=0pt,
+     aboveskip=0.5cm,
+     framextopmargin=3pt,
+     framexbottommargin=3pt,
+     framexleftmargin=0.4cm,
+     framesep=0pt,
+     rulesep=.4pt,
+     backgroundcolor=\color{gray97},
+     rulesepcolor=\color{black},
+     %
+     stringstyle=\ttfamily,
+     showstringspaces = false,
+     basicstyle=\small\ttfamily,
+     commentstyle=\color{gray45},
+     keywordstyle=\bfseries,
+     %
+     numbers=left,
+     numbersep=15pt,
+     numberstyle=\tiny,
+     numberfirstline = false,
+     breaklines=true,
+   }
+ 
+% minimizar fragmentado de listados
+\lstnewenvironment{listing}[1][]
+   {\lstset{#1}\pagebreak[0]}{\pagebreak[0]}
+ 
+\lstdefinestyle{consola}
+   {basicstyle=\scriptsize\bf\ttfamily,
+    backgroundcolor=\color{gray75},
+   }
+ 
+\lstdefinestyle{C++}
+   {language=C++,
+   } 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\setcounter{tocdepth}{3}
+
+%Empieza el documento
+\begin{document}
+
+% Definimos titulo, autor, fecha, generamos titulo e indice de contenidos
+\title{ARTE DIGITAL: UNA PROPUESTA DE INSTALACIÓN BASADA EN TÉCNICAS DE PERCEPCIÓN Y VIDA ARTIFICIAL}
+\author{Antonio José Sánchez López}
+\date{Facultad de Informática.\\
+Universidad de Las Palmas de G.C.}
+
+\thispagestyle{empty}
+\maketitle
+
+%Definimos página posterior a la portada 
+\thispagestyle{empty}
+\noindent Facultad de Informática. Universidad de Las Palmas de G.C.
+
+% Definimos página con datos sobre el proyecto 
+\newpage
+\thispagestyle{empty}
+\section*{Proyecto fin de carrera}
+
+\bigskip
+\noindent {\bf Título: } Arte Digital: Una Propuesta de Instalación basada en Percepción y Vida Artificial\\
+{\bf Apellidos y nombre del alumno: } Sánchez López, Antonio José\\
+{\bf Fecha : } Octubre 2011 \\
+
+\vspace{2cm}
+\noindent{\bf Tutor: } Castrillón Santana, Modesto \\
+
+% Definimos página posterior 
+\newpage
+\thispagestyle{empty}
+\noindent Facultad de Informática. Universidad de Las Palmas de G.C.
+\newpage
+
+% Definimos una  pagina para los agradecimientos
+\newpage
+\thispagestyle{empty}
+\section*{Agradecimientos}
+ Aquí ponemos los agradecimientos
+
+% Definimos página posterior 
+\newpage
+\thispagestyle{empty}
+\noindent Facultad de Informática. Universidad de Las Palmas de G.C.
+\newpage
+\setcounter{page}{1}
+\tableofcontents
+
+% Definimos página posterior 
+\newpage
+\thispagestyle{empty}
+\noindent Facultad de Informática. Universidad de Las Palmas de G.C.
+\newpage
+
+% Empezamos capitulos
+
+
+\chapter{Introducci\'on}
+
+ La introducción es lo primero que se lee, pero habitualmente lo último que se escribe. Pues su redacción
+ depende de cómo se hayan escrito todas las otras secciones. Normalmente la introducción incluye una
+ descripción muy general del proyecto y termina con un desglose del contenido de la memoria.
+
+A lo largo de la historia, diversas disciplinas han hecho uso de la representación bidimensional para mostrar propuestas creativas. El ordenador es en la actualidad una herramienta de enorme potencial para el arte visual \cite{Spalter99}, tanto en el marco de la imagen estática, como en el contexto donde el factor tiempo se introduce en el proceso expresivo.
+\\
+
+Las imágenes son fácilmente comprendidas por los humanos, motivo por el cual es un ámbito válido de trabajo creativo. Por otro lado, esa diversidad posible en una imagen ocupa también a multitud de científicos del campo de la Visión por Computador en su búsqueda de técnicas para detectar y reconocer objetos en ese espacio de representación: la imagen. Espacio donde un humano reconoce objetos conocidos con gran facilidad.
+\\
+
+Desde el punto de vista de la imagen estática, una imagen es una matriz de píxeles que representan un punto en un espacio de muy alta dimensionalidad. La tecnología digital en este contexto, presenta la singularidad de la no existencia de un original único, el arte digital permite disponer del original en cualquier parte, éste es copiable hasta la saciedad sin pérdida. Adicionalmente, nuevos ámbitos tecnológicos han ido abriendo capacidades y posibilidades expresivas. Las tecnologías del vídeo digital y la animación introducen el factor tiempo en el proceso expresivo, la mutabilidad, la fugacidad y la narrativa temporal. La introducción de la interactividad a través del uso de las tecnologías de visión por computador aporta un nuevo canal expresivo y unas posibilidades para la generación de sensaciones a través de los conceptos de obra viva e interactiva, tal y como ya describiera Krueger en su concepto de Realidad Artificial \cite{Krueger85}. 
+\\
+
+La obra se puede convertir así en única y cambiante, reactiva a la interacción con su entorno en cada momento. Recupera el concepto de exclusividad, siendo además posible registrar la vida de la instalación. Este enfoque se relaciona de forma clara con el concepto de instalación manejado en el mundo artístico una obra es instalación si dialoga con el espacio que la circunda \cite{Iges99}. 
+\\
+
+La motivación de este proyecto es investigar el uso de capacidades actuales de Visión por Computador y Vida Artificial para su integración en instalaciones artísticas. Hay que destacar que nuestra experiencia se relaciona fundamentalmente con el mundo tecnológico, por tanto, no es nuestro objetivo presentar una obra de creación, sino mostrar las posibilidades interactivas que la Inteligencia Artificial puede introducir en el arte, yendo más allá de aplicaciones básicas en visión de segmentación de figura y fondo en contextos restringidos como en Messa di voce \cite{Levin04}, y abordando el contexto de detección de personas y vida artificial. 
+\\
+
+La exploración puede plantear y profundizar en nuevas posibilidades de interfaces y formas de interacción hombre-máquina.
+\\
+
+Abordar cuando tenga paciencia para repasar documentación y referencias e inspiración para escribir bonito... 
+\chapter{Estado actual del tema}
+ Descripción del estado actual del tema con referencia a trabajos anteriores en el caso de proyectos que
+ sean continuación o relacionados con otros proyectos.
+\\
+ 
+Abordar cuando tenga paciencia para repasar documentación y referencias e inspiración para escribir bonito... 
+
+\chapter{Metodología}
+ Metodología a utilizar para el desarrollo del proyecto, herramientas de análisis, etc..
+\\ 
+Las Metodologías de Desarrollo Ágiles son un marco de trabajo conceptual de la ingeniería del software que propone realizar iteraciones de las distintas fases a lo largo del desarrollo. Cada metodología introduce sus propias definiciones, pero en conjunto reflejan siguientes fases: Planificación, Análisis de Requerimientos, Diseño, Codificación, Revisión y Documentación. Una iteración no agrega demasiada funcionalidad en relación al producto final, pero permite tener una demo de la misma al final de cada iteración, momento en el que se evalúa de nuevo las prioridades del proyecto. Así se consigue un producto que podrá probarse desde las primeras semanas al que ir añadiendo funcionalidades \cite{RCol09}. 
+\\
+
+La fortaleza del desarrollo ágil se centra en minimizar los riesgos desarrollando software en lapsos cortos y en su capacidad de respuesta al cambio, enfatizando el software funcional como objetivo y promoviendo las comunicaciones eficientes. \cite{KenB01}
+\\
+
+En nuestro caso concreto se ha decidido utilizar como metodología ágil el Proceso Unificado Esencial (Essential Unified Process - EssUP), creado por Invar Jacobson \cite{IJacobson09}. EssUp plantea un conjunto de nueve prácticas ligeras y compatibles, que pueden adoptarse de forma individual o combinadas según las necesidades de un proyecto en cuestión. Estas prácticas son: Definición de Casos de Uso, Definición de Iteración, Definición de Arquitectura, Definición de Componente, Definición de Modelo, Definición de Producto, Definición de Proceso, Definición de Equipo y Definición del Proceso Unificado.
+
+%\begin{itemize}
+%\item Definición de Casos de Uso
+%\item Definición de Iteración
+%\item Definición de Arquitectura
+%\item Definición de Componente
+%\item Definición de Modelo
+%\item Definición de Producto
+%\item Definición de Proceso
+%\item Definición de Equipo
+%\item Definición del Proceso Unificado
+%\end{itemize}
+
+Para el desarrollo de la aplicación se hará uso de los apartados necesarios en cada fase del proyecto. Invar Jacobson también ofrece software enfocado al seguimiento de estas tareas de forma gratuita. Estas herramientas son:
+
+\begin{itemize}
+\item EssWork: Herramienta para el desarrollo de software orientado a la práctica que combina tareas para un trabajo flexible, con coherencia y efectivo. 
+\item Essential Modeler: Herramienta visual que permite crear diagramas de casos de uso UML y modelos de clases.
+\end{itemize}
+
+Finalmente, para el caso del Diseño de la Base de Datos cabe destacar que se usará el modelo de Diagramas de Entidad-Interrelación, que se continuará con un proceso de transformación mediante Diseño Relacional para obtener finalmente la Base de Datos.
+
+\chapter{Recursos necesarios}
+ Se detallan los recursos hardware, software u otros necesarios para el desarrollo del proyecto, incluyendo desde las aplicaciones necesarias así como librerías a utilizar y requerimientos hardware.
+\\
+\subsection{Software}
+
+\begin{itemize}
+
+\item Aplicaciones:
+\begin{itemize}
+\item TexMaker: Editor de LaTex.
+\item EssWork: Editor de modelos de Casos de Uso.
+\item Essential Modeler: Para el seguimiento y orientación de la metodología EssUp.
+\item Dia: Para modelado de diagramas UML y Entidad-Interrelación.
+\item Visual Studio 2008 Express Edition: Entorno de desarrollo.
+\item Blender: Programa de edición 3D.
+\item Gimp: Programa de edición 2D.
+\item HeidiSQL: Front-end de MySQL.
+\end{itemize}
+
+\item Librerías:
+\begin{itemize}
+\item De Visión por Computador: OpenCV.
+\item Motor gráfico: Se estudiarán UDK, CryEngine 3 ESDK, Crystal Space, OpenSceneGraph, Ogre, Irrlicht y Panda3D.
+\item Interfaz gráfica de usuario: se estudiarán Qt y wxWidgets.
+\item Para captura de audio y reproducción 3D se estudiará las capacidades del motor gráfico o de juego a usar, así como Fmod, OpenAL, SDL Mixer, Clunk, Irrklang y SFML.
+\item Para composición de audio: Se estudiarán Chuck y Marsyas.
+\item De sistema: Boost y SFML.
+\item BBDD: MySQL, PostGreSQL.
+\item De documentación: Doxygen.
+\end{itemize}
+
+\item Recursos:
+\begin{itemize}
+\item Imágenes: GCTextures.
+\item Sonidos: wiki.laptop.org,go,Soundsamples; Jamendo.
+\end{itemize}
+
+\end{itemize}
+
+\subsection{Hardware}
+\begin{itemize}
+
+\item Primera aproximación:
+\begin{itemize}
+\item Entorno controlado: fondo estático, buena iluminación, sin ruido ambiente.
+\item 1 PC con: 1 Monitor/Proyector, 1 cámara, micrófono y altavoces sonido envolvente.
+\end{itemize}
+
+\item Segunda aproximación:
+\begin{itemize}
+\item Entorno controlado: fondo estático, buena iluminación, sin ruido ambiente, mobiliario.
+\item 1 PC con: 1 Monitor/Proyector, 2 cámaras, micrófono y altavoces sonido envolvente.
+\end{itemize}
+
+\item-Tercera aproximación:
+\begin{itemize}
+\item Entorno controlado: fondo estático, buena iluminación, sin ruido ambiente, mobiliario.
+\item 1 PC con: 2 Monitores/Proyectores, 2 cámaras, micrófono y altavoces sonido envolvente.
+\end{itemize}
+
+\item Cuarta aproximación:
+\begin{itemize}
+\item Entorno controlado: fondo estático, buena iluminación, sin ruido ambiente, mobiliario.
+\item Varios PCs con: 2 Monitores/Proyectores, 2 cámaras, micrófono y altavoces sonido envolvente.
+\end{itemize}
+
+\end{itemize}
+
+
+\chapter{Plan de trabajo y temporización}
+Desarrollo del plan de trabajo desglosado en etapas, con una estimación en cada etapa del tiempo de ejecución
+\begin{itemize}
+\item Etapa 1: Acercamiento
+\item Etapa 2: Primera Demo
+\item Etapa 3: Funcionalidades Añadidas
+\item Etapa 3+i: Funcionalidades Añadidas
+\item Etapa n: Revisión Final
+\item Etapa n+1: Publicidad
+\end{itemize}
+
+\begin{figure} [h]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/planificacion.png}
+\end{center}
+\caption{ \label{Temporizacion} Plan de trabajo y temporización}
+\end{figure}
+
+A continuación vendrán las secciones donde se desarrollan cada una de las etapas del proyecto
+
+
+\chapter{Etapa 1: Acercamiento}
+
+En esta fase se llevará a cabo la primera aproximación a la solución que se va adoptar. Para ello se hará un estudio global de las capacidades de las que se desea dotar a la aplicación, que pretende ser completo aunque no en profundidad. También se hará una búsqueda y estudio de las herramientas disponibles que puedan ofrecer las funcionalidades necesarias para la construcción del proyecto.
+
+En las siguientes fases/iteraciones se abordarán y trabajará en profundidad un subconjunto de cada apartado con el objetivo de conseguir demos intermedias que sean funcionales.
+
+\section{Análisis}
+
+\subsection{Documentación y herramientas}
+  Existe un conjunto de librerías bastante amplio que puede ser de utilidad en el desarrollo del proyecto. A continuación se hace una revisión de las mismas con el fin de elegir las que mejor se adapten a las necesidades del proyecto. Finalmente se elegirán las más adecuadas.
+\\
+
+(RECORDAR AÑADIR LA FEATURE-LIST DE LOS DISTINTOS MOTORES - copy paste en forma de tablas bonitas)
+
+\subsubsection {UDK: Unreal Development Kit}
+  A noviembre de 2009, el motor gráfico Unreal3, desarrollado por Epic Games, es considerado uno de los más potentes y de mayor calidad junto con el motor CryEngine de Crytek. A mediados del mismo mes Epic Games decide liberar UDK, su kit de desarrollo para proyectos sin ánimo de lucro, además de ofrecer licencias más asequibles para proyectos comerciales. Inicialmente el coste de una licencia para Unreal3 oscilaba alrededor los \$700.000.  Esta nueva situación hace posible tomarlo en consideración para el desarrollo de la aplicación que tratamos, por lo que se procede a su estudio. Es interesante comentar que Epic Games ya trabaja en la cuarta de versión de su motor, Unreal4, que planea estar disponible a partir de 2012~-2018.
+\\
+
+Algunas de las compañías que han usado Unreal 3 son: Atari, Activision, Capcom, Disney, Konami, Koei, 2K Games, Midway, THQ, Ubisoft, Sega, Sony, Electronic Arts, Square Enix y 3D Realms. Entre los ejemplos más destacados se encuentran las series BioShock o Gears of War, entre otros juegos como Medal of Honor: Airbone y Unreal Tournament 3.
+\\
+
+Sin duda, los resultados que pueden verse en las imágenes corresponden a proyectos de grandes compañías que disponen de una importante cantidad de recursos. Como muestra visual más razonable se encuentra uno de los juegos de ejemplo que puede encontrarse en la página oficial del UDK, Whizzle.
+\\
+
+Al ser un kit de desarrollo completo su lista de capacidades es muy extensa. En la siguiente tabla se muestra un resumen de su lista de capacidades de render:
+\\
+
+Finalmente, se exponen algunas de las características clave para la toma de decisión:
+\\
+\begin{itemize}
+\item UDK es un kit de desarrollo software que ofrece un entorno completo para el desarrollo de videojuegos o aplicaciones similares. 
+\item Está implementado con C++.
+\item Aunque el motor Unreal3 es multiplataforma, UDK sólo está disponible para los Sistemas Operativos Windows por ahora.
+\item El desarrollo de una aplicación en UDK puede realizarse en gran medida de forma visual a través de las opciones de la interfaz del entorno o escribiendo código en el lenguaje propio UnrealScript, similar a C++.
+\item El código escrito en UnrealScript se ejecuta sobre una máquina virtual propia.
+\item La máquina virtual de UnrealScript simula ejecución multihilos. Destacan que permiten la gestión de grandes cantidades de hilos, cantidad que hecho de otra forma, con el sistema de hilos nativo de Windows, podría provocar problemas.
+\item La ejecución de código UnrealScript es mucho más lento que C++. Detallan que el código en C++ es 20x más rápido.
+\item No se tiene acceso al código fuente del motor.
+\item La interacción con otro tipo de código en tiempo de ejecución debe hacerse a través de ficheros (.ini) que pueda leer UnrealScript, modificando o implementando controladores de periféricos, o a través de conexiones TCP/UDP. Este punto dificulta en gran medida la interacción con otras librerías necesarias para el desarrollo del proyecto.
+\item Es gratis para uso no comercial. En proyectos comerciales es necesario abonar una licencia y un porcentaje de las ventas en concepto de royalties que puede llegar al 25\% para ingresos superiores a 5000 euros.
+\end{itemize}
+Las capacidades del motor gráfico son sobresalientes. Sin embargo, el esquema de desarrollo con UDK no se ajusta adecuadamente al del  resto de la aplicación.
+
+\subsubsection{CryENGINE 3 Educational SDK}
+
+Como era de esperar, poco después de la salida del Unreal Development Kit por parte de Epic Games, otro de los grandes motores gráficos comerciales lanzó su propia alternativa. Se trata en este caso del motor CryENGINE 3, de Crytek, con su propio kit de desarrollo con licencia gratuita. Sin embargo, hay que destacar que los términos de la misma son mucho menos flexibles que la de Epic Games y enfocado sólo hacia un sector. El SDK sólo está disponible para instituciones académicas por parte de jefes de curso, exclusivamente para proyectos de naturaleza interna y con fines no comerciales. Se excluye específicamente el caso de estudiantes individuales o proyectos de grupo. Además, los términos de la licencia en sí no son públicos y sólo son accesibles para personal académico previa solicitud. 
+\\
+
+Por ahora el único juego que parece usar este motor es Crysis 2, actualmente en desarrollo por Crytek. 
+\\
+
+Aunque una alternativa más limitada, en términos de licencia de uso, y en contradicción con algunos puntos de la naturaleza del proyecto, como es el uso de software gratuito y en la medida de lo posible libre, podría ser una alternativa a tener en cuenta y se procede a su análisis. 
+\\
+
+En la siguiente tabla se muestra un resumen de su lista de capacidades de render:
+\\
+
+Finalmente, se exponen algunas de las características clave para la toma de decisión:
+
+\begin{itemize}
+\item Licencia de uso muy restrictiva. Sólo para proyectos académicos no comerciales y no puede ser solicitada por estudiantes individualmente. Continuidad del proyecto también limitada.
+\end{itemize}
+
+\subsubsection{Crystal Space}
+Crystal Space es un entorno de desarrollo comúnmente usado con motor de juego. Está escrito en C++ usando un modelo Orientado a Objetos y soporta las principales plataformas. El SDK se distribuye bajo licencia LGPL, por lo que puede utilizarse de forma gratuita para cualquier tipo de desarrollo. Durante mucho tiempo se le ha considerado como uno de los motores libres más completos y populares, ya que no sólo es un motor de render sino un motor de juego, que incluye distintos módulos que facilitan el desarrollo.
+\\
+
+Algunos ejemplos de uso son PlaneShift, El Hierro Virtual (ULPGC) y el reciente Yo Frankie! (Apricot Open Game Project).
+
+\begin{itemize}
+\item Relación estrecha con Blender, entorno de diseño 3D y de desarrollo de videojuegos con el que se dispone de cierta experiencia.
+\item Complejidad alta y relativamente abandonado, pasando largos períodos de tiempo entre revisiones.
+\item Nueva versión del SDK publicada el 25 de Enero de 2010, que incluye algunas mejoras y pocas funcionalidades añadidas. Entre ellas destaca el uso de un plugin basado en OpenAL para ofrecer sonido 3D.
+\item Resultados visualmente pobres y de bajo rendimiento incluso en proyectos desarrollados por equipos con experiencia.
+\end{itemize}
+
+(completar)
+
+\subsubsection{Ogre, Object-Oriented Graphics Rendering Engine}
+Ogre es considerado uno de los motores gráficos open-source multiplataforma más populares y de más éxito. Está escrito en C++ y está dirigido al mismo lenguaje, aunque existen wrappers para Python, Java y .NET. 
+\\
+
+A diferencia de otros, no está planteado como un motor de juego, sólo como motor gráfico. Aunque se le puede añadir con facilidad otras librerías. La filosofía de Ogre es que el desarrollador pueda añadir Ogre como un módulo más en su aplicación, así como los módulos que necesite, en lugar de tener que adaptar la aplicación para que encaje correctamente con una solución que pretenda abarcar más de lo que se necesita y provocando incomodidades e incompatibilidades.
+\\
+
+\begin{itemize}
+\item Altamente modular, se le pueden añadir librerías y plugins con facilidad. 
+\item Esto mismo hace que las capacidades sean más limitadas que las de los motores y SDKs.
+\item Dispone de un equipo de desarrollo dinámico y de una comunidad muy activa.
+\item Nueva versión publicada el 31 de Diciembre de 2009, con una lista amplia de mejoras.
+\item Utiliza la licencia del MIT-X11, por lo que Ogre es gratuito, libre y puede usarse para cualquier tipo de desarrollo.
+\end{itemize}
+(completar)
+
+\subsubsection{OSG: OpenSceneGraph}
+OSG se presenta como una librería multiplataforma para el desarrollo de aplicaciones que requieran de visualización 3D con alto rendimiento, como visualización científica, realidad virtual o comúnmente juegos. 
+\\
+
+Es una librería ampliamente usada, con cierta tendencia hacia la visualización científica y geográfica, con una lista amplia de capacidades. Algunos ejemplos de uso son TerrainView, Pok3D, Nasa'a Blue Marble y Capaware!/Geviemer (ULPGC)
+
+\begin{itemize}
+\item Altamente modular y potente, con multitud de extensiones. 
+\item Dispone de un equipo de desarrollo dinámico, con revisiones frecuentes y de una comunidad activa.
+\item Se dispone de cierta experiencia con el entorno.
+\item El diseño de la API puede ser confuso y en cierta medida deficiente en términos de facilidad de uso.
+\item Documentación pobre.
+\item Utiliza licencia LGPL, por lo que es gratuita, libre y puede usarse para cualquier tipo de desarrollo.
+\end{itemize}
+(completar)
+
+\subsubsection{Irrlicht: Lightning Fast Realtime 3D Engine}
+Motor gráfico 3D multiplataforma de código abierto y de alto rendimiento. Está escrito en C++, pero también esta disponible para lenguajes .NET, así como otros lenguajes como Java, Perl, Ruby, Python o Lua, mediante bindings. 
+
+\begin{itemize}
+\item Altamente modular, potente y con multitud de extensiones. 
+\item Dispone de un equipo de desarrollo dinámico, con revisiones frecuentes y de una comunidad activa.
+\item Utiliza la licencia zlib/libpng, por lo que es gratuito, libre y puede usarse para cualquier tipo de desarrollo.
+\item Mediante IrrEDIT se peude construir escenarios con facilidad que peuden usarse dentro de Irrlycht.
+\item Sin embargo, otras librerías como IrrKlang, para sonido, se distribuyen bajo licencias más restrictivas.
+\item Se define a la altura de los motores comerciales pero tiene ciertas carencias.
+\end{itemize}
+(completar)
+
+\subsubsection{Panda3D: Free 3D Game Engine}
+Originalmente Panda3D, acrónimo de Platform Agnostic Networked Display Architecture, fue creado por Disney como parte de una de sus atracciones y posteriormente liberado, en 2002, con la intención de facilitar el trabajo con universidades y projectos de investigación en Realidad Virtual. 
+\\
+
+Acogido por el Carnegie Mellon Entertainment Technology Center, fue mejorado y preparado para su uso público. Panda3D se define como un motor de juego y un entorno de de trabajo para render 3D y desarrollo de juegos, libre, gratuito y multiplataforma, que puede usarse para cualquier tipo de desarrollo. Incluye motor gráfico, audio, gestión de entrada/salida y detección de colisiones entre otras capacidades.
+
+\begin{itemize}
+\item Dispone de un equipo de desarrollo dinámico, con revisiones frecuentes y de una comunidad activa. Aunque mayormente para Python.
+\item Sin embargo, existe un menor dinamismo y soporte para C++ que para Python.
+\item Tiene un diseño orientado a mejoras futuras e incluye funcionalidades avanzadas cercanas a los motores comerciales que aún no incluyen otros motores libres.
+\item Diseño de la API atractivo y sencillo de usar.
+\item Énfasis en la documentación de la librería, en distintas modalidades: manuales, referencias, y plantillas conceptuales, que facilitan en gran medida la comprensión y el uso de la librería. 
+\item Se añade a la documentación tradicional diversos video tutoriales creados tanto por la comunidad, así como clases impartidas sobre Panda3D por David Rose, del Instituto de Realidad Virtual de Walt Disney.
+\item Ampliamente usada por alumnos del Carnegie Mellon y en proyectos de equipos pequeños con resultados visuales atractivos y con buen rendimiento. 
+\item Se distribuye bajo una licencia basada en BSD que permite su uso libre y gratuito para todo tipo de proyectos.
+\end{itemize}
+(completar)
+
+\subsubsection{Doxygen: Source code documentation generator tool}
+Generador de documentación multiplataforma para C++, entre otros lenguajes. Permite generar documentación online para su visualización en un navegador web (HTML), así como LaTex, MS-Word, PostCript, PDF con hipervínculos entre otros. Además puede usarse para extraer la estructura de código de fuentes no documentados, y generar grafos de dependencias, diagramas de clases y otros esquemas.
+\\
+
+Doxygen se distribuye bajo licencia GPL. De cualquier forma, los documentos producidos mediante Doxigen son trabajo derivado de los datos usados en su producción, por lo que no se ven afectados por la licencia.
+\\
+
+No se estudian más casos por considerarse la mejor(¿única?) opción y tener cierta experiencia con ella, lo que es una ventaja determinante.
+\\
+
+\subsubsection{Boost C++ Libraries }
+Boost es un conjunto de librerías de código abierto multiplataforma con la intención de extender las capacidades del lenguaje de programación C++. Varios fundadores de Boost forman parte del Comité ISO de Estándares de C++, por lo que algunas de estas librerias terminan por introducirse en la siguiente versión estándar de C++. Utiliza una licencia propia, la Boost Software License, que permite su uso en cualquier tipo de proyectos, comerciales o no. 
+\\
+
+Algunas de las librerías de mayor uso son las que facilitan las operaciones con el sistema, I/O y gestión de hilos, entre muchas otras.
+
+
+\subsubsection{Qt: Cross-platform Application and UI Framework}
+
+Librería multiplataforma de Trolltech para desarrollar interfaces gráficas de usuario, así como para desarrollar aplicaciones de consola y servidores. Utiliza como lenguaje C++, aunque también está disponible para otros lenguajes a través de binding (Python, C\#, Ruby, Java, Ada y Php, entre otros).
+\\
+
+Qt es ampliamente usado y considerado como una de las opciones multiplataforma más completa y estable. Algunos ejemplos de uso son principalmente KDE, a partir del cual logró un considerable éxito y expansión, además de otras aplicaciones como Google Earth o Skype.
+\\
+
+Tras polémicas en sus inicios por publicitarse como código libre sin serlo, actualmente la biblioteca es gratuita y libre tomando en consideración las condiciones de las opciones LGPL 2.1 y GPL 3.0 para el proyecto. También existe otra opción de pago destinada para software comercial que no quiera cumplir con las condiciones anteriores. 
+
+
+\subsubsection{wxWidgets: Cross-platform GUI Library}
+Se trata de una librería para C++ para el desarrollo de interfaces gráficas de usuario. Es una de las pocas opciones realmente multiplataforma, gratuita y open source disponibles. Tiene la capacidad para ofrecer interfaces de aspecto nativo dependiendo de la máquina sobre la que se ejecuta el código. 
+\\
+
+wxWidgets, aunque con sus desventajas y limitaciones, es una libería ampliamente usada que ha creado comunidad. Algunos de sus usarios más conocidos son: AOL(AOL Comunicator), California Institute of Technology (Gambit), Carnegie Mellon University (Audacity),   Grisoft Inc. (AVG Antivirus), NASA (NASGRO), National Human Genome Research Institute - USA
+(ComboScreen), TomTom (TomTom HOME), Xerox (VIPP) o la propia Universidad de Las Palmas de Gran Canaria (Capaware!) entre otros.
+\\
+
+Se exponen algunas de las características clave para la toma de decisión sobre su uso:
+\begin{itemize}
+\item Librería multiplataforma gratuita y open source para desarrollar interfaces gráficas de usuario para aplicaciones de escritorio.
+\item No todas las opciones que ofrece la librería funciona en las distintas plataformas, por lo que hay que tener especial cuidado si que quiere que el proyecto sea, en potencia, multiplataforma. Esto limita las opciones de la librería que pueden usarse y la calidad visual del resultado.
+\item Existe documentación, foros y una comunidad bastante amplia y activa.
+\item Hay que tener en cuenta que durante el funcionamiento de la aplicación no existe una interfaz gráfica destinada al usuario en términos tradicionales. Es decir, no existen ventanas, botones, menús ni indicadores destinados a que el usuario las maneje. Por lo tanto no es un apartado crítico del proyecto. Sin embargo, se desea una interfaz gráfica que permita preparar la instalación en su situación final, además de gestionar ventanas y para mostrar las opciones de configuración de la aplicación. Las capacidades de wxWidgets resultan suficientes para estas necesidades.
+\item Se dispone de amplia experiencia previa con la librería en otros proyectos.
+\end{itemize}
+
+Se decide optar por esta librería por cubrir las necesidades básicas del proyecto, por ser gratuita y libre, y por tener una extensa experiencia con la misma en otros proyectos, lo que es determinante para considerarla la mejor opción.
+
+\subsubsection{OpenCV: Open Source Computer Vision}
+OpenCV es una librería multiplataforma de funciones de visión por computador en tiempo real. Está desarrollada inicialmente por Intel, siendo gratuita tanto para uso comercial como investigación bajo licencia BSD. Surgió en 1999 como una iniciativa de Intel para mejorar aplicaciones intensivas en CPU, formando parte de una serie de proyectos que incluían ray tracing en tiempo real y pantallas de representación 3D. Actualmente acaba de salir la versión 2.0 que incluye amplias mejoras a la interfaz con C++, mejor prototipado, nuevas funciones y mejoras de rendimiento, especialmente en sistemas multicore. 
+\\
+
+Algunas de sus aplicaciones son HCI (Human-Computer Interaction), Identificación, Segmentación y Reconocimiento de objetos, Reconocimiento de Caras, Reconocimiento de Gestos, Motion tracking, Ego Motion, Motion Understanding, SFM(Structure from Motion), Calibración estéreo y multi-cámara, Percepción de Profundidad y Robótica móvil.
+\\
+
+La librería es utilizada en el proyecto principalmente para las tareas de reconocimiento de objetos, caras, gestos y movimiento, lo que formaría parte del Módulo de Reconocimiento. Además, también es utilizada para el proceso de imágenes con fines estéticos, adoptando los resultados de los algoritmos de reconocimiento como modificadores de las imágenes en si, formando parte del Módulo de Producción.
+
+\subsubsection{Fmod: Music \& Sound Effects System}
+Librería de audio propietaria y multiplataforma de Firelight Technologies que soporta un amplio abanico de formatos de audio. También tiene capacidad para reproducir sonido 3D en sistemas de sonido envolventes.
+\\
+
+La biblioteca es ampliamente utilizada en juegos y varios motores gráficos incluyen soporte para la misma. Algunos ejemplos son: BioShock, Call of Duty 4, Crysis, Far Cry, la saga Guitar Hero, Heavenly Sword, Hellgate: London, Metroid Prime 3, Second Life o World of Warcraft, entre otros.
+\\
+
+Fmod está disponible siguiendo distintos esquemas. Sin embargo, no es de código abierto y sólo es gratuito para desarrollo de aplicaciones no comerciales.
+
+\subsubsection{OpenAL: Cross-platform 3D Audio API}
+API de audio multiplataforma desarrollada por Creative Labs destinada la reproducción de audio posicional y multicanal en 3D. Se ideó para su uso extenso en videojuegos siguiendo las mismas convenciones que OpenGL, consiguiendo convertirse en un estándar aceptado. 
+\\
+
+La biblioteca es ampliamente usada en juegos y varios motores incluyen soporte para la misma. Algunos ejemplos relativamente recientes son: Doom3, Quake4, Unreal2, Unreal Tournament 3 o Hitman2. 
+\\
+
+Sin embargo, en los últimos años el mantenimiento de la misma se ha descuidado y aparecen errores, especialmente en sistemas de 64 bits. Son comunes las nuevas variaciones de OpenAL que le dan continuidad, como OpenAL Soft, OpenAL++ o distintas librerías a modo de wrapper que usan OpenAL por debajo, como SFML.
+\\
+
+De cualquier forma, OpenAL parece ser la única opción multiplataforma gratuita y libre para cualquier tipo de desarrollo que provea de posicionamiento 3D de audio en sistemas de sonido envolventes.
+
+\subsubsection{SDL\_Mixer: Simple DirectMedia Layer Mixer}
+Partiendo de la SDL, librería multiplataforma que permite el acceso de bajo nivel a dispositivos de audio, periféricos y hardware 3D, SDL\_Mixer se centra en el primer apartado facilitando la mezcla de sonido multicanal, así como la carga de samples y de música de distintos formatos.
+\\
+
+Sin embargo, aunque permite el acceso a bajo nivel, no aporta mayores funcionalidades por sí misma.
+Bla bla bla...
+\\
+(completar)
+
+\subsubsection{Clunk: Open Source 3D-Sound library}
+Biblioteca de creación reciente de código abierto para C++ que pretende dar soporte para la generación de sonido 3D, binaural, en tiempo real. Propone una API bastante manejable y sencilla de usar, con un modelo orientado a la gestión de objetos. Sin embargo aún se encuentra en fase de testeo antes de lanzar su primera release. 
+\\
+
+Sin embargo, está preparado para generar sonido binaural, el cual tiene su mejor efecto en auriculares y no tanto en altavoces. Por otro lado del modelo de escucha sólo tiene en consideración posición, velocidad y dirección de orientación, sin información de verticalidad; por lo que no es posible definir realmente su estado en un entorno 3D, sólo en un plano.
+
+\subsubsection{Irrklang: High level 3D audio engine/API}
+API de alto nivel para sonido 2D/3D multiplataforma enfocado hacia C++ y lenguajes.NET. Da soporte para un amplio abanico de formatos de sonido y provee de una API muy sencilla de usar. Se puede encontrar bajo distintas licencias pero sólo es gratuito para desarrollos no comerciales.
+\\
+
+Al igual que OpenAL y FMOD éste sí permite definir completamente las propiedades necesarias para orientar en 3D tanto los sonidos como la escucha. Sin embargo, la limitaciones de licencia son menos interesantes que las de una opción más abierta.
+\\
+(completar)
+
+\subsubsection{SFML: Simple and Fast Multimedia Library}
+SFML se ofrece como una API open-source multimedia que provee mecanismos para la gestión del sistema, de gráficos, interfaz gráfica de usuario, sonido, periféricos y de red. La librería es multiplataforma y se encuentra disponible para varios lenguajes como C, C++,.NET, Python o Ruby, entre otros. 
+\\
+
+Sigue un diseño Orientado a Objetos y define un interfaz fácil de usar y de integrar en otros proyectos. Se compone de diferentes paquetes que pueden ser usados en conjunto o individualmente. Es de especial interés el paquete de sonido, que funciona a modo de wrapper de OpenAL, arreglando algunos de los bugs que tiene y simplificando su uso. 
+\\
+
+Se distribuye bajo licencia zlib/png, de la Open Source Initiative, por lo que es gratuita y abierta para todo tipo de proyectos.
+\\
+
+Tiene varios defectos. Por un lado, en el paquete de sonido la documentación es errónea, y puede llevar a confusiones importantes. Además la definición de la API, aunque más simple, limita la funcionalidad real de OpenAL hasta el punto de que no puede orientarse correctamente la escucha en 3D, por lo que sólo puede usarse en 2D o 3D en el plano horizontal. Sin embargo, pequeñas modificaciones en la libería permitirían recuperar esa funcionalidad sin problemas.
+
+\subsubsection{Chuck: Strongly-timed, Concurrent, and On-the-fly Audio Programming Language}
+
+Chuck es un lenguaje de programación para el análisis, síntesis, composición y producción de audio. La librería es multiplataforma y presenta un modelo de programación concurrente basado en tiempo, altamente preciso (strongly-timed) y con la habilidad de añadir y moficar código en tiempo de ejecución. Chuck soporta dispositivos MIDI, OSC, HID y audio multicanal.
+\\
+
+(completar, scripts, etc y estudiar más a fondo junto con Tapestrea, en comparación con Marsyas)
+
+\subsubsection{Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals}
+Librería y framework para C++ para el procesado de audio con especial énfasis en aplicaciones de extracción de información en música, creada principalmente por George Tzanetakis y desarrollada de forma abierta. Está enfocado hacia el prototipado rápido y la experimentación en el análisis y síntesis de audio, procurando un alto rendimiento. 
+
+Bla bla bla...
+
+(completar... y estudiar más a fondo en comparación con Chuck)
+
+
+\subsection {Análisis de Requisitos de Usuario}
+La instalación se presenta como un espacio en el que el usuario puede entrar y moverse. Dentro de ese espacio se encontrará con una o varias pantallas, cámaras, micrófonos  y altavoces. A través de las cámaras y de los micrófonos se capturará información para su análisis y para la producción de efectos, y mediante las pantallas y los altavoces se mostrará un entorno. Es mediante la actitud e interacción del usuario con el espacio como el entorno virtual es generado. A su vez, este entorno será capaz de actuar y evolucionar por su cuenta dentro de un esquema de comportamiento, también definido mediante la interacción del usuario durante la sesión. Capacidades añadidas permitirían a un usuario entrar en el entorno de otro usuario. Aunque este apartado se dejará como trabajo futuro en función de la evolución del proyecto.
+\\
+
+Teniendo en cuenta estos aspectos, se detallan los siguientes requisitos:
+
+\begin{itemize}
+\item Captura de imagen del usuario.
+\item Captura de sonido del usuario.
+\item Reconocimiento de su posición en el espacio, localización de cabeza/cuerpo, posturas o gestos.
+\item Reconocimiento de voz (sonidos, palabras) (en función de la evolución del proyecto)
+\item Crear entorno propio (crear, borrar, cargar escenarios).
+\item generación de esquema de comportamiento.
+\item Generación de efectos visuales.
+\item Generación de efectos de audio y composición musical.
+\item Generación de elementos 3D.
+\item Generación de elementos 2D.
+\item Generación de vida artificial.
+\item Interacción.
+\begin{itemize}
+\item Con la escena:
+\begin{itemize}
+\item Vista: Perspectiva Visual (asociación cámara/cabeza).
+\item Oído: sonido estéreo ó 3D envolvente.
+\item Provocar sonidos: ruidos, palmas, habla.
+\item Movimiento dentro de la escena:
+\begin{itemize}
+\item No estar.
+\item Estar.
+\item Quedarse quieto.
+\item Moverse. 
+\item Contacto del usuario con los elementos de la escena (velocidad: estático, roce, golpe, gesto...)
+\item Elementos: Crear, destruir, mover, provocar interacción/respuesta.
+\item Definición de Esquema de Comportamiento/Psique: propia y de la escena, estudio del comportamiento e interacción que sentará las bases del estado del entorno (tipo de escena, iluminación, sonidos, efectos, tipos de elementos creados, comportamientos de los mismos).
+\end{itemize}
+\end{itemize}
+\item Con otros usuarios: (en función de la evolución del proyecto)
+\begin{itemize}
+\item Entrar en escenarios de otros usuarios (limitación de interacción según permisos: ver/tocar/crear/destruir/psique-empatía(poder modificar esquema de comportamiento del otro usuario o que se modifique el suyo)).
+\item Ver y comunicarse con otro usuario: avatar visual, comunicación por audio.
+\end{itemize}
+\end{itemize}
+\item  Alta capacidad de personalización del entorno resultante y unicidad del entorno.
+\end{itemize}
+
+\newpage
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/casosdeuso.png}
+\end{center}
+\caption{ \label{F_CasosdeUso} Modelo de Casos de Uso.}
+\end{figure}
+
+\subsection {Análisis de Requisitos de Software}
+
+Además de conseguir como resultado una Instalación que muestre las capacidades tecnológicas en el entorno del Arte, así como la experimentación en nuestras interfaces y formas de interacción del usuario, este proyecto pretende ofrecer un entorno de trabajo para el futuro desarrollo de nuevas aplicaciones de este tipo. De esta forma, la aplicación se enfoca como un proyecto open-source, un marco de trabajo compuesto de diferentes módulos independientes, de forma que la implementación subyacente sea modificable sin afectar al resto de los módulos. Para ello se debe definir un completo esquema de interfaces.
+\\
+
+Teniendo en cuenta estas características, se detallan los requisitos software del proyecto:
+\begin{itemize}
+\item Uso de software libre y multiplataforma.
+\item Uso de recursos gratuitos.
+\item El framework producido será software libre.
+\item Diseño del framework orientado a multiplataforma, para facilitar su futura portabilidad.
+\item Diseño de interfaces de forma que los módulos sean fácilmente sustituibles.
+\item Sistema local/online persistente (según evolución del proyecto).
+\end{itemize}
+
+
+\section{Diseño}
+
+\subsection{Estructuración de conceptos}
+\begin{center}
+(REVISAR Y DEFINIR BIEN)
+\end{center}
+
+\subsubsection{Aplicación}
+-Aplicación:
+  -Programa de que se ejecuta en un ordenador.
+  -Carga un escenario para un usuario.
+  -Puede entrar en escenarios cargados por otros usuarios en otras aplicaciones conectados al mismo sistema.
+
+\subsubsection{Usuario}
+-Usuario:
+  -El usuario se presenta en la instalación y es reconocido por su cara (ID) y se crea un entorno/escenario.
+  -El usuario puede querer crear un escenario nuevo o ver uno anterior (default: decidir cargar último/crear).
+  -El usuario puede interactuar con un escenario propio o de otro usuario (preferencia, permisos) (default: todo, ver, tocar), and lógico bit a bit.
+  -El usuario puede verse a sí mismo (avatar), a otros usuarios (avatar) y a otros escenarios en red (símbolos de escenarios).
+  -Los cambios y la interacción del usuario define un patrón de comportamiento (psique, opciones: egocéntrico, tábula rasa).
+\\
+
+-Permisos: 
+  -Conjunto de opciones que define la interacción entre un usuario(desea) y un escenario(permite).
+  -Operación lógica (umpersand) definiría qué puede hacer un usuario en un escenario.
+  -Posibles permisos: Ver/Tocar/Coger/Copiar/Crear/Destruir/Influenciar/LibreAlbedrío
+
+\subsubsection{Entorno}
+-Escenario/Entorno:
+  -Se presenta ante / es creado por / un usuario.
+  -Representa elementos vivos o inertes, definidos mediante objetos 3D, 2D, sonidos y efectos.
+  -Responde ante la interacción del usuario y cambia según sus acciones.
+  -También cambia por su cuenta.
+  -Permite al usuario propietario interactuar cómo desee, la interacción de otros usuarios puede estar limitada.
+  -Los cambios y la interacción del escenario define un patrón de comportamiento que establece las bases del mismo (psique).
+  -Se rige por la psique pero tiene un determinado factor de aleatoriedad.
+  -Componentes: Espacio, entidades.
+\\
+
+-Espacio: 
+  -Terrenos (discutir estático/dinámico, interactivo o no).
+  -Sonido ambiental: autogenerado, gramática para generación de composiciones.
+
+-Entidades:
+  -Usuarios: avatares.
+  -Objetos no interactivos/inertes (estudiar interacción por físicas).
+  -Objetos interactivos: vivos/inertes.
+  -Sonido de las entidades: acciones (gramática), etc. (autogenerado: gramática).
+  -Sonidos de los usuarios: acciones (autogenerado: gramática), captura por micrófono, comunicaciones chat, etc.
+
+-Objetos interactivos:
+  -Colección de elementos 3D, 2D, sonidos y efectos.
+  -Composición: algoritmo genético que define la creación de un objeto, tanto física (3D, 2D, sonidos, efectos) como de comportamiento.
+  -Capacidades de evolución: reproducción, mutación y asimilación.
+  -Vivos: Agentes, revisar modelo BDI (Creencias, Deseos, Intenciones), y de Agentes Híbridos (Nivel Reactivo, Conocimiento, Social).
+  -No-muertos: Agentes interactivos totalmente reactivos, sin deseos ni intenciones.
+\\
+
+\subsubsection{Resumen}
+\textsl{Llegados a este punto se observan las siguientes necesidades:}
+
+\begin{itemize}
+\item Aplicación que implemente y englobe las funcionalidades.
+\item Interfaz gráfica de usuario genérica para la gestión de ventanas y configuración de opciones de aplicación.
+\item Modificación de elementos y datos, carga y guardado de los mismos.
+\item Base de Datos.
+\item Percepción del entorno mediante técnicas de Visión por Computador y Captura de audio.
+\item Generación de elementos con los que componer un entorno (elementos 3D, 2D, audio).
+\item Análisis y definición del patrón de interacción del usuario y de la evolución del entorno (psique).
+\end{itemize}
+
+\subsection{Diseño de la Aplicación}
+
+A partir de esta descripción se pueden diferenciar y extraer los diferentes módulos de los que es necesario que se componga la aplicación. Hay que tener en cuenta además que se desea conseguir una alta modularidad e independencia entre las distintas secciones, que permita extraer e intercambiar módulos con facilidad, p.e para usen distintas librerías o no usen librerías externas en absoluto. Por ello, se sigue un modelo de interfaces, en la que se define el núcleo de la aplicación y las relaciones entre los módulos. Sobre ella, se implementará cada módulo y finalmente se construirá la aplicación final.
+
+\begin{itemize}
+\item Core: Conjunto de interfaces de la aplicación.
+\begin{itemize}
+\item IAplication: Define la interfaz de la aplicación completa. Es además una composición de los distintos módulos de la misma.
+\item IGUI: Interfaz gráfica de la aplicación de ventanas, para las opciones básicas de visualización y configuración.
+\item IPersistence: Persistencia de la aplicación, encapsula los cambios que se efectúan sobre los datos de la misma.
+\item IPercept: Engloba la interfaz de usuario mediante percepción (Visión por Computador, captura de audio).
+\item Iprod: Es el módulo referido a la Producción, generación de elementos 3D, 2D, composición de audio, etc.
+\item ICog: Para el ánalisis de la interacción del usuario y definición del concepto de Esquema de Comportamiento/Psique de Entorno y de Usuario.
+\end{itemize}
+\item VOX: Implementación de la aplicación.
+\item Monitor: Para la gestión y monitorización de los accesos a la Base de Datos.
+\item Base de Datos
+\end{itemize}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML} Diagrama de Clases UML.}
+\end{figure}
+
+
+\chapter{Etapa 2: Primera Demo}
+
+Para el desarrollo de la primera demo se pretende conseguir una aplicación ejecutable que integre el modelo de interfaz y la separación de módulos definida en la etapa anterior, centrándose en implementar las funcionalidades de un subconjunto de módulos básicos. 
+\\
+
+Los módulos a abordar son aquellos que aporten la tecnología necesaria para que ésta se ejecute y provea de las herramientas necesarias para posteriormente analizar y generar contenido. Estos es, para capturar y mostrar la información que se manejará en la aplicación. Los módulos son: IGUI, IPercept e IProd. 
+\\
+
+La intención es únicamente crear la estructura básica de la aplicación, así como establecer una relación básica de dependencias entre módulos, cargando en cada caso correctamente las librerías utilizadas. 
+\\
+
+En este punto no existen los conceptos de usuario ni de entorno. Tampoco se abordará la Persistencia ni, por tanto, la Base de Datos.
+
+\section{Análisis}
+
+\subsection{Análisis de Requisitos de Usuario}
+Como se ha comentado estudiaremos un subconjunto básico de los casos de uso para esta primera demo ejecutable. En ella se abordarán las funcionalidades básicas de gestión de aplicación y ventanas que permita su ejecución y mostrar información en distintas ventanas. Además se cargarán los módulos de percepción y de producción. Se mostrarán las imágenes capturadas por las cámaras y el audio grabado, así como un entorno 3D por defecto, con sonido posicional.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/casosdeuso_primerademo.png}
+\end{center}
+\caption{ \label{F_CasosdeUsoPrimeraDemo} Modelo de Casos de Uso.}
+\end{figure}
+
+\subsection{Selección de Herramientas}
+
+A partir del estudio de las herramientas disponibles se han seleccionado las más adecuadas, tanto por sus características como por compatibilidades técnicas en el conjunto del proyecto.
+
+\begin{itemize}
+\item GUI: wxWidgets
+\item Motor gráfico: Panda3D
+\item Gestión de Hilos: Boost
+\item Captura de Audio y Audio Posicional: SFML
+\item Captura de Video y Visión por Computador: OpenCV
+\end{itemize}
+
+\section{Diseño}
+
+\subsection{Diseño de la Aplicación}
+\subsubsection{Breve descripción de los módulos}
+\begin{itemize}
+\item core:
+\begin{itemize}
+\item ICog: Interfaz básica para la creación del módulo.
+\item IGui: Interfaz básica para la creación del módulo y registro de ventanas.
+\begin{itemize}
+\item IGuiWindow: Creación, Mostrar/Ocultar.
+\end{itemize}
+\item IPercept: Interfaz básica para la creación e inicialización del módulo.
+\item IPersistence: Interfaz básica para la creación del módulo.
+\item IProd: Interfaz básica para la creación, intervención e inicialización del módulo.
+\item Application: Interfaz básica para la creación de la aplicación.
+\end{itemize}
+\item igui:
+\begin{itemize}
+\item Crear ventana de aplicación.
+\item Operación básicas de ventana: mostrar, mover, cerrar, cambiar contenido.
+\item Menú de Aplicación: Archivo, Vista, Herramientas, Ayuda.
+\end{itemize}
+\item ipercept: 
+\begin{itemize}
+\item Capacidad para capturar imágenes de n-cámaras.
+\item Capturar imágenes de las n-cámaras.
+\item Mostrar imágenes capturadas.
+\item Capturar Audio.
+\end{itemize}
+\item iprod:
+\begin{itemize}
+\item Cargar una escena 3D por defecto.
+\item Introducir y reproducir audio posicional 3D.
+\item Capacidad para mostrar n-ventanas de render de la misma escena 3D, con vistas independientes.
+\end{itemize}
+\item vox: Carga y ejecución de los distintos módulos.
+\end{itemize}
+
+\subsubsection{Diseño General en UML}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_PrimeraDemo.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_PrimeraDemo} Diagrama de Clases UML. Resumen}
+\end{figure}
+
+En la figura \ref{F_DiagramadeClasesUML_PrimeraDemo} puede verse un esquema general en UML del proyecto completo. Es uns visión simplificada pero que refleja la arquitectura del sistema.
+\\
+
+Se distinguen dos grandes bloques: En azul se encuentra el paquete core, que se compone de las interfaces separadas en módulos; en naranja la implementación de los distintos módulos y de la aplicación en sí. Cabe destacar que se persigue intencionadamente una alta modularidad y que en última instancia parte de estos módulos se ejecutarán en hilos independientes, aprovechando la tendencia actual de procesadores de multi-núcleo.
+\\
+
+Debe tenerse en cuenta que los módulos implementados sólo podrán comunicarse entre ellos y con la aplicación a través de dicha interfaz. De esta forma se abstraen los detalles de la construcción de cada componente y se asegura su independencia, de forma que cualquier módulo pueda ser reemplazado o reimplementado de forma independiente sin que afecte al resto del proyecto. También permitiría la construcción de forma flexible de distintas aplicaciones, utlizando sólo los módulos necesarios o aprovechando módulos de otras ya creadas.
+
+\subsubsection{Diseño en UML - Núcleo de la Interfaz}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_PrimeraDemo_core.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_PrimeraDemo_core} Diagrama de Clases UML. Detalle - core}
+\end{figure}
+
+La interfaz provee de unas herramientas básicas para la creación de cada núcleo y la comunicación entre ellos. Desde la aplicación y entre los módulos, toda interacción se hará a través de esta interfaz, aislando cada completamente dcada componente e los detalles de implementación de los otros.
+\\
+
+Si bien en la fase actual no existe una gran funcionalidad, a medida que avance el proyecto se irán añadiendo nuevas capacidades que permitan, por ejemplo el paso de datos, la generación de contenido o la gestión de objetos.
+\\
+
+En este apartado, el trabajo se concentra en los módulos de interfaz gráfica de usuario, percepción y producción. Con ellos se podrá disponer de un entorno con las capacidades básicas para la captura de lso datos necesarios y la visualización de los contenidos a generar.
+
+\subsubsection{Diseño en UML - Módulo de GUI}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_PrimeraDemo_igui.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_PrimeraDemo_igui} Diagrama de Clases UML. Detalle - igui}
+\end{figure}
+
+Este módulo controla gestión de la interfaz gráfica de usuario de tipo ventana de la aplicación. 
+\\
+
+La interfaz principal se define en la clase MainFrame, desde la que se gestionaría la aplicación con los menús y paneles principales. Por otro lado, hay que tener en cuenta que la aplicación está destinada a mostrar multitud de ventanas independientes, que podrían mostarse en distintas pantallas o proyectores. Un modelo MDI de ventanas flotantes libres del entorno principal es el más adecuado.
+\\
+ 
+Hay que tener en cuenta que varias de las librerías a usar aportan mecanismos propios para la visualización de ventanas. Considerando también la simplicidad del uso de estos mecanismos y que las distintas ventanas visualizarían distintos tipos de datos, que pertencen a distintos módulos que se ejecutan en distintos hilos, se plantea por simplicidad definir en este módulo una clase IGUIWindow a modo de wrapper que englobe las funcionalidades que se requieren de los mismos, y que permita su gestión centralizada.
+\\
+
+\subsubsection{Diseño en UML - Módulo de Percepción}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_PrimeraDemo_ipercept.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_PrimeraDemo_ipercept} Diagrama de Clases UML. Detalle - ipercept}
+\end{figure}
+
+El módulo de percepción está destinado a la captura y análisis de los datos de entrada. Enel sistema que se plantea estos datos llegan a través de disntintas cámaras web y un micrófono. Por el momento, en esta primera demo sólo se procede a la captura de datos, dejando el análisis para fases posteriores. 
+\\
+
+Debido a la distinta naturaleza de entrada y procesado para video y audio, MainPercept lanza dos módulos que se ejecutan independientemente, cada uno en un hilo: PerceptAudio captura sonido y lo almacena en un buffer, y PerceptVideo captura imágenes. Este último está preparado para gestionar un número configurable de cámaras web y mostrar sus capturas en sus respectivas ventanas. 
+\\
+
+Hay que tener en cuenta que se crean las ventanas para visulizar las imágenes utilizando las herramientas de la propia librería. Esto se hace por simplicidad. Sin embargo, debe notarse que se utiliza el wrapper de ventanas IGuiWindow para encapsular las ventanas creadas con de esta forma y permitir su manipulación desde el módulo de interfaz gráfica de usuario.
+
+\subsubsection{Diseño en UML - Módulo de Producción}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_PrimeraDemo_iprod.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_PrimeraDemo_iprod} Diagrama de Clases UML. Detalle - iprod}
+\end{figure}
+
+MainProd es el módulo principal de Producción y también se ejecuta en un hilo independiente. Está destinado no sólo a la visualización del entorno sino a la generación de contenido, tanto gráficos como composición de audio. Sin embargo, en el alcance de esta fase el módulo sólo incorpora el primer apartado, la visualización y reproducción. 
+\\
+
+Aunque el módulo se ejecuta en un hilo independiente está preparado para que otros hilos intervengan mediante llamadas a unos métodos determinados. Además, de igual forma que lo hace el módulo de percepción, MainProd esta preparado para manejar un número configurable de ventanas, cuya intención es ser visualizadas en distintas pantallas o proyectores. Estas ventanas también son creadas mediante las capacidades propias de la librería y utilizan IGuiWindow como envoltorio para su manipulación centralizada.
+\\
+
+Por otro lado se definen en el espacio las fuentes de sonido y las propiedades del observador (listener) para disponder de sonido posicional en tres dimensiones. 
+
+\section{Implementación}
+Se ha escogido como entorno de desarrollo Visual Studio 2008 Express Edition. Esto es debido a que se trata del entorno de desarrollo con que el se tiene mayor experiencia, así como por la comodidad de las herramientas de las que dispone. Se ha escogido la versión Express por ser gratuita y permitir el desarrollo de cualquier tipo de proyectos, tanto comerciales como no comerciales.
+\\
+
+El proyecto consiste en una solución o colección de proyectos de VS. Estos proyectos son:
+\begin{itemize}
+\item core: Núcleo de la interfaz.
+\item icog: Proyecto para el Módulo Cognitivo.
+\item igui: Proyecto para el Módulo de GUI.
+\item ipercept: Proyecto para el Módulo de Percepción.
+\item ipersistence: Proyecto para el Módulo de Persistencia.
+\item iprod: Proyecto para el Módulo de Producción.
+\item vox: Aplicación.
+\end{itemize}
+
+El núcleo de la interfaz 'core' se implementa como una librería dinámica y es una dependencia necesaria para todos los proyectos. Por simplicidad los proyectos icog, igui, ipercept, ipersistence e iprod, que correspondería cada uno con un módulo, son librerías estáticas de las que depende la aplicación ejecutable 'vox'.
+\\
+
+Hay que tener en cuenta que el IDE elegido no es multiplataforma, por lo que sólo puede ser utilizado bajo el sistema operativo Windows. Sin embargo, todas las librerías utilizadas sí lo son, y el código es C++, por lo que se debería poder crear nuevas soluciones para otros entornos sin grandes cambios. Se propone como alternativa para su futura portabilidad el IDE open source Eclipse o la configuración de una distribución preparada con CMAKE, de forma que se puedan generar proyectos para otros entornos. Sin embargo, esto quedará como trabajo futuro.
+\\
+
+Finalmente, comentar que se decide seguir una estructura de ficheros que se corresponda directamente con la jerarquía de los proyectos. Además se generarán los resultados en un directorio común llamado $\backslash$bin y las librerías externas a usar se almacenarán dentro del subdirectorio correspondiente dentro de la carpeta $\backslash$extern. El código de los módulos implementados puede encontrarse en $\backslash$src, y el de la aplicación el $\backslash$app.
+\\
+
+Llegados a este punto se procede a revisar la implementación de cada apartado:
+
+\subsubsection{Núcleo de la Interfaz}
+$\backslash$src$\backslash$core
+\\
+
+Contiene las cabeceras que definen clases virtuales puras, de las cuales heredarán las clases de los módulos que se implementen. Esto es así para asegurar la abstracción e independencia entre los detalles de implementación de cada módulo.
+\\
+
+%Como se trata de una librería dinámica hay que tener en cuenta la necesidad del uso de una macro de exportación. 
+A continuación puede verse un ejemplo de su uso con la interfaz IPercept:
+
+\begin{lstlisting}[language=C++]
+#include <string>
+#include <core/Export.h>
+
+namespace core{
+class IPercept 
+{ 
+ public:
+	virtual ~IPercept(){}
+	virtual void Delete()=0;
+	virtual void Init()=0;
+};}
+
+#endif
+\end{lstlisting}
+
+Este ejemplo es válido para el resto de las interfaces, que incluyen en cada caso los métodos virtuales necesarios. Estos métodos implementados se corresponden directamente con los ilustrados en la figura \ref{F_DiagramadeClasesUML_PrimeraDemo_core}, página \pageref{F_DiagramadeClasesUML_PrimeraDemo_core}. 
+
+%La macro de exportación utilizada es \_COREEXPORT\_ y se muestra en el siguiente cuadro:
+%\begin{lstlisting}[language=C++]
+%#ifndef _COREEXPORT_
+%#define _COREEXPORT_
+%
+%#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW32__) || defined( __BCPLUSPLUS__)  || defined( __MWERKS__)
+%    #  if defined( CORE_EXPORTS )
+%    #    define COREEXPORT __declspec(dllexport)
+%    #  else
+%    #    define COREEXPORT __declspec(dllimport)
+%    #  endif
+%#else
+%    #  define COREEXPORT
+%#endif
+%
+%#ifdef _DEBUG
+%	#define _CRTDBG_MAP_ALLOC
+%	#define _CRTDBG_MAP_ALLOC_NEW
+%	#include <stdlib.h>
+%	#include <crtdbg.h>
+%#endif
+%#endif
+%\end{lstlisting}
+
+
+\subsubsection{Módulo de GUI}
+$\backslash$src$\backslash$igui
+\\
+
+La clase principal del Módulo de GUI y que implementa la interfaz IGUI se llama MainGui. Esta clase es la que se encarga de toda la gestión de la interfaz de ventanas del proyecto y la librería escogida para su implementación es wxWidgets. 
+\\
+
+Las instrucciones para descargar y compilar wxWidgets pueden encontrarse en la web oficial \cite{wx09}. Los paquetes descargados vienen preparados para VS2008 y compilan sin necesidad de ningún ajuste. Sólo hay que incluir las cabeceras y las librerías necesarias, que pueden verse en la sección \ref{detallesImp:ModuloGUI}, página \pageref{detallesImp:ModuloGUI}. 
+\\
+
+Hay que tener en cuenta que una de las particularidades de wxWidgets es que necesita tomar control de la aplicación principal, mediante la macro IMPLEMENT\_APP. Este detalle puede verse en en profundidad en la sección \ref{sec:AplicacionPrincipal}, página \pageref{sec:AplicacionPrincipal}. De todas formas, eso no afecta a la construcción y gestión de la interfaz, que se realizará completamente en este módulo.
+\\
+ 
+Por otro lado, hay que tener en cuenta que distintos módulos tienen la capacidad de crear ventanas para mostrar información y que se desea usar esos mecanismos. Para ello se utiliza la interfaz IGuiWindow para encapsular la creación y la gestión, y se define MainGui como estática para poder acceder a la misma instancia desde cualquier módulo que lo necesite. Para asegurar que el acceso a la instancia sea seguro se utiliza un cerrojo como mecanismo de sincronización, implementado con boost.
+
+\begin{itemize}
+\item MainGui: Crea y mantiene los elementos de la interfaz. Se compone de un marco principal de aplicación llamado MainFrame y diversos paneles. Así mismo, también mantiene una lista de las ventanas independientes que se hayan registrado. Se crea la macro IMPLEMENT\_MIIAPP para encapsular la macro de wxWidgets IMPLEMENT\_APP. Un resumen de la clase puede verse en el siguiente cuadro:
+\begin{lstlisting}[language=C++]
+#define IMPLEMENT_MIIAPP(name) IMPLEMENT_APP(name)
+namespace core {namespace igui{
+class MainFrame;
+class MainGui : public core::IGui
+{public:
+ 	virtual ~MainGui();
+ 	virtual void Delete();
+ 	virtual void Update();
+
+ 	void RegisterWindow(IGuiWindow *window);
+ 	void AddWindowToFullscreenList(IGuiWindow *window);
+ 	void ShowAll(bool value);
+ 	void SetAllWindowsFullScreen(bool value);
+ 	static MainGui* GetInstance(const std::string &title = "");
+ private:		
+ 	MainGui(const std::string &title = "");
+ 	static MainGui* instance; 
+ 	static MainFrame *main_frame;
+ 	static std::map<IGuiWindow*, int> registered_windows;
+ 	static std::map<IGuiWindow*, int> fullscreenable_windows;
+}; 
+}}
+
+MainGui* MainGui::GetInstance(const std::string &title)
+{	boost::mutex::scoped_lock lock(m_mutex);
+	if (instance == NULL) 
+		instance = new MainGui(title);
+	return instance; }
+\end{lstlisting}
+\item MainFrame: Crea el marco principal de la aplicación. Contiene el menú y los paneles principales. En esta fase los únicos paneles que existen por el momento son el de Inicio y el de Ayuda. Se ha implementado un mecanismo para la sustitución de contenidos de ventanas, de forma que la ventana principal de la aplicación asumirá el contenido de los paneles que se usen en cada momento de forma dinámica.
+\begin{lstlisting}[language=C++]
+namespace core { namespace igui	{
+class MainGui;
+class MainFrame : public wxFrame
+{ public:
+	MainFrame(...);
+	virtual ~MainFrame();
+	void Delete();
+ private:
+	wxMenu *file_menu, *view_menu, *tools_menu, *help_menu;
+	wxMenuItem *item_file_close, *item_view_fullscreen, *item_view_start, *item_tools_configure, *item_help_about;
+	wxWindow *dummy_panel;
+	GUIHelp  *help_panel;
+	GUIStart *start_panel;
+	DECLARE_EVENT_TABLE()
+	void InitShortCuts();
+	void OnClose(wxCommandEvent& WXUNUSED(event));
+	void OnViewStart(wxCommandEvent& WXUNUSED(event));
+	void OnHelpAbout(wxCommandEvent& WXUNUSED(event));
+	void DismissPanels();
+};	}}
+#endif
+\end{lstlisting}
+\item GUIStart: Panel principal de la aplicación que contendrá un acceso rápido a las funciones principales de la aplicación: Login, Inicio y Configuración.
+\begin{lstlisting}[language=C++]
+namespace core { namespace igui { 
+class GUIStart : public wxPanel 
+{ public:
+	GUIStart(...);
+	virtual ~GUIStart();
+	void Delete();
+	void OnPaint(wxPaintEvent &evt);
+	void paintNow();	        
+	void render(wxDC& dc);
+ private:
+	wxBitmap background_image;
+	DECLARE_EVENT_TABLE()		
+	wxButton *login_button, *start_button, *configure_button;
+};}}
+#endif
+\end{lstlisting}
+El aspecto más relevante de esta clase son los botones  y la necesidad de capturar el evento de render EVT\_PAINT para tener un acceso directo a cómo se dibuja el contenido de la misma. Esto es necesario para, por ejemplo, dibujar una imagen del fondo o texto sobre imágenes.
+
+\begin{lstlisting}[language=C++]
+BEGIN_EVENT_TABLE(GUIStart, wxPanel)
+	EVT_PAINT (GUIStart::OnPaint)
+END_EVENT_TABLE()
+
+GUIStart::GUIStart(...) 
+: wxPanel(parent, id, pos, size, style, name)
+{	background_image = wxBitmap(...);
+	login_button = new wxButton(...);
+	start_button = new wxButton(...);
+	configure_button = new wxButton(...);
+}
+...
+void GUIStart::OnPaint(wxPaintEvent & evt)
+{   wxPaintDC dc(this);
+    render(dc); 
+}
+void GUIStart::render(wxDC& dc)
+{   dc.DrawBitmap(background_image, 0, -20, false ); 
+}
+\end{lstlisting}
+
+\item GUIHelp: Panel de información de la aplicación donde puede verse la versión y donde añadirá un enlace a la web del proyecto. Los detalles de implementación son muy similares al panel GUIStart.
+\end{itemize}
+
+Para ver más detalles sobre la configuración de la librería, dependencias necesarias y la implementación del módulo se puede consultar la sección \ref{detallesImp:ModuloGUI}, en la página \pageref{detallesImp:ModuloGUI}.
+
+\subsubsection{Módulo de Percepción}
+\subsubsection{Módulo de Producción}
+\subsubsection{Aplicación Principal}\label{sec:AplicacionPrincipal}
+
+\section{Validación y Publicidad}
+
+\chapter{Etapa 3: Funcionalidades Añadidas}
+\section{Análisis}
+\section{Diseño}
+\section{Implementación}
+\section{Validación y Publicidad}
+
+\chapter{Etapa 3+i: Funcionalidades Añadidas}
+\section{Análisis}
+\section{Diseño}
+\section{Implementación}
+\section{Validación y Publicidad}
+
+\chapter{Etapa n: Revisión Final}
+\section{Implementación}
+\section{Validación y Publicidad}
+
+\chapter{Etapa n+1: Publicidad}
+\section{Análisis}
+\section{Diseño}
+\section{Implementación}
+\section{Validación y Publicidad}
+
+\chapter{Etapa n+2: Implantación Final}
+\section{Análisis}
+\section{Diseño}
+\section{Implementación}
+\section{Validación y Publicidad}
+
+\chapter{Resultados y conclusiones}
+ Desarrollo de los resultados y conclusiones del proyecto. Se debe intentar resaltar el interés del proyecto
+ y la calidad del trabajo realizado. Ha llegado el momento de "vender" nuestro trabajo. Se deben incluir aspectos como:
+
+\begin{itemize}
+\item Calidad, dificultad y amplitud del trabajo desarrollado que justifique el tiempo de dedicación al proyecto.
+\item Aspectos integradores de las disciplinas de la titulación de Ingeniero en Informática.
+\item Impacto social. Utilidad del proyecto en el ámbito social
+\item Facilidad de utilización de los resultados del proyecto por terceras personas.
+\item Publicidad de los resultados del proyecto a través de páginas web, etc.. Cuando de los resultados del proyecto 
+ se derive un prototipo o programa de utilización se debe poner a disposición del público en general una versión 
+ de demostración de dicho prototipo.
+\item Cualquier otro mérito.
+\end{itemize}
+
+\chapter{Trabajo Futuro}
+ Continuidad del trabajo realizado a través de una implementación, o utilidad real del proyecto,
+ o a través de otros proyectos fin de carrera.
+
+
+% EMPIEZAN LOS APENDICES DEL PROYECTO
+\appendix
+
+\chapter{Manuales de usuario}
+
+ En el caso de que el desarrollo (y/o naturaleza del proyecto haya dado lugar a la creación de manuales
+ de usuario, habrá que ponerlo aquí).
+
+\chapter[Detalles Implementación]{Detalles técnicos sobre la implementación del proyecto}
+
+En este apéndice se detallan los aspectos técnicos relacionados con la implementación del proyecto de forma más concreta. 
+\\
+
+\section{Incompatibilidades}\label{detallesImp:Incompatibilidades}
+Uno de los aspectos a tener en cuenta es que al usar una cantidad considerable de librerías externas aparecen con frecuencia incompatibilidades que deben ser resueltas. Algunas de estas incompatibilidades pueden afectar sólo a los proyectos de los que dependa un módulo concreto o a la totalidad del proyecto.
+\\
+\subsection{winsock}
+Uno de los problemas más comunes fue la incompatibilidad entre librerías relacionado con librerías del sistema operativo, como fue el caso con winsock. Varias de las librerías usan módulos relacionados incompatibles, por ejemplo Panda3D utiliza winsock, mientras OpenCV usa ws2def, ambas son incompatibles entre sí. Para resolver estos problemas se añaden al inicio de la cabecera de la aplicación las siguientes líneas:
+\begin{lstlisting}[language=C++]
+#ifdef _WINDOWS
+#include <winsock2.h>
+#endif
+\end{lstlisting}
+Estos problemas están ligados a las librerías del sistema operativo que utilizan las librerías externas y la inclusión sólo es necesaria para el sistema operativo Windows y se realizaría la inclusión si la macro está definida.
+\\
+\subsection{CLR}
+Otra de las incompatibilidades más comunes fue la necesidad de desactivar el CLR, Common language runtime support. Debe ser puesto a  No Common language runtime support.
+
+\subsection{NDEBUG}
+Panda3D presenta graves problemas si se utiliza la macro \_NDEBUG en Release, por lo que debe quitarse de todo el proyecto.
+
+\section{Módulo de GUI, wxWidgets}\label{detallesImp:ModuloGUI}
+Para preparar el módulo ha sido necesario configurar el proyecto igui de la siguiente forma:
+\begin{itemize}
+\item Additional Include Directories:
+\begin{lstlisting}[language=C++]
+.
+..\..\src
+..\..\extern\include
+..\..\extern\include\wxwidgets
+..\..\extern\include\wxwidgets\msvc
+..\..\extern\boost
+\end{lstlisting}
+\item Additional Library Directories:
+\begin{lstlisting}[language=C++]
+..\..\bin
+..\..\extern\lib
+..\..\extern\boost\lib
+\"\$(OutDir)\"
+\end{lstlisting}
+\item Preprocessor Definitions (Debug): WIN32; \_DEBUG; \_WINDOWS; \_USRDLL; \_MSVC; \_IGUIEXPORT\_; \_\_WXMSW\_\_; \_\_WXDEBUG\_\_; \_UNICODE; NOPCH
+\item Preprocessor Definitions (Release): WIN32; \_WINDOWS; \_USRDLL; \_MSVC;\_IGUIEXPORT\_; \_\_WXMSW\_\_; \_UNICODE; NOPCH
+\item Additional Dependencies (Debug): 
+wxmsw29ud\_core.lib wxbase29ud.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib wxregexud.lib wxexpatd.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib
+winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib wininet.lib 
+\item Additional Dependencies (Release): wxmsw29u\_core.lib wxbase29u.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregexu.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib rpcrt4.lib advapi32.lib wsock32.lib wininet.lib
+\end{itemize}
+
+Además por asuntos de compatibilidad es necesario asegurar las siguientes opciones:
+\begin{itemize}
+\item No usar la macro \_NDEBUG en release.
+\item Configuration Type: Static Library (.lib).
+\item Use of ATL: Not Using ATL.
+\item Common Language Runtime Support: No Common Language Runtime Support.
+\item Runtime Library: Multi-threaded [Debug] DLL ($\backslash$MTD $\backslash$MTDd).
+\end{itemize}
+
+Detalles de las clases implementadas:
+
+\begin{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item MainGui
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lstlisting}[language=C++]
+#define IMPLEMENT_MIIAPP(name) IMPLEMENT_APP(name)
+namespace core {namespace igui{
+class MainFrame;
+class MainGui : public core::IGui
+{public:
+ 	virtual ~MainGui();
+ 	virtual void Delete();
+ 	virtual void Update();
+
+ 	void RegisterWindow(IGuiWindow *window);
+ 	void AddWindowToFullscreenList(IGuiWindow *window);
+ 	void ShowAll(bool value);
+ 	void SetAllWindowsFullScreen(bool value);
+ 	static MainGui* GetInstance(const std::wstring &title = L"");
+ private:		
+ 	MainGui(const std::wstring &title = L"");
+ 	static MainGui* instance; 
+ 	static MainFrame *main_frame;
+ 	static std::map<IGuiWindow*, int> registered_windows;
+ 	static std::map<IGuiWindow*, int> fullscreenable_windows;
+}; 
+}}
+
+MainGui* MainGui::GetInstance(const std::string &title)
+{	boost::mutex::scoped_lock lock(m_mutex);
+	if (instance == NULL) 
+		instance = new MainGui(title);
+	return instance; }
+\end{lstlisting}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item MainFrame
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lstlisting}[language=C++]
+namespace core { namespace igui	{
+class MainGui;
+class MainFrame : public wxFrame
+{ public:
+	MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos=wxDefaultPosition, const wxSize &size=wxDefaultSize, long style=wxDEFAULT_FRAME_STYLE, const wxString &name=wxFrameNameStr);
+	virtual ~MainFrame();
+	void Delete();
+ private:
+	wxMenu *file_menu, *view_menu, *tools_menu, *help_menu;
+	wxMenuItem *item_file_close, *item_view_fullscreen, *item_view_start, *item_tools_configure, *item_help_about;
+	wxWindow *dummy_panel;
+	GUIHelp  *help_panel;
+	GUIStart *start_panel;
+	DECLARE_EVENT_TABLE()
+	void InitShortCuts();
+	void OnClose(wxCommandEvent& WXUNUSED(event));
+	void OnViewStart(wxCommandEvent& WXUNUSED(event));
+	void OnHelpAbout(wxCommandEvent& WXUNUSED(event));
+	void DismissPanels();
+};	}}
+#endif
+\end{lstlisting}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item GUIStart
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lstlisting}[language=C++]
+namespace core { namespace igui { 
+class GUIStart : public wxPanel 
+{ public:
+	GUIStart(wxWindow *parent, wxWindowID id,  const wxPoint &pos=wxDefaultPosition, const wxSize &size=wxDefaultSize, long style=wxTAB_TRAVERSAL, const wxString &name = "panel");
+	virtual ~GUIStart();
+	void Delete();
+	void OnPaint(wxPaintEvent &evt);
+	void paintNow();	        
+	void render(wxDC& dc);
+ private:
+	wxBitmap background_image;
+	DECLARE_EVENT_TABLE()		
+	wxButton *login_button, *start_button, *configure_button;
+};}}
+#endif
+\end{lstlisting}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item GUIHelp
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lstlisting}[language=C++]
+BEGIN_EVENT_TABLE(GUIHelp, wxPanel)
+	EVT_PAINT (GUIHelp::OnPaint)
+END_EVENT_TABLE()
+
+GUIHelp::GUIHelp(wxWindow *parent, wxWindowID id, const wxPoint &pos, const wxSize &size, long style, const wxString &name) 
+: wxPanel(parent, id, pos, size, style, name)
+{ background_image = wxBitmap("c:/etc/help.png", wxBITMAP_TYPE_ANY); }
+
+GUIHelp::~GUIHelp()
+{}
+
+void GUIHelp::Delete()
+{ wxPanel::Destroy(); }
+
+void GUIHelp::OnPaint(wxPaintEvent & evt)
+{ wxPaintDC dc(this);
+  render(dc); }
+
+void GUIHelp::render(wxDC& dc)
+{ dc.DrawBitmap(background_image, 0, -20, false );
+  dc.DrawRotatedText("ProjectVOX", 250, 30, 0);
+  dc.DrawRotatedText("Code Name ::TheElectricGOAT::", 250, 50, 0);
+  dc.DrawRotatedText("Version 0.1", 250, 70, 0); }
+\end{lstlisting}
+\end{itemize}
+ 
+\section{OpenCV, Open Source Computer Vision}
+2. Due to many technical problems the installation package does
+   not include pre-compiled OpenCV libraries for Visual Studio users.
+
+   Instead, it includes libraries built with MinGW 4.3.3 TDM-SJLJ.
+
+   They are good enough to run the C/C++ and Python samples and tests,
+   but for developing your OpenCV-based applications using
+   Visual Studio, Borland IDE etc., or even a different version of MinGW,
+   you need to build the libraries with your compiler using CMake,
+   as explained here:
+      http://opencv.willowgarage.com/wiki/InstallGuide.
+   
+   Here is the procedure at glance:
+   --------------------------------
+   1. Download CMake from http://www.cmake.org/cmake/resources/software.html
+      and install it.
+
+   2. Run CMake GUI tool and configure OpenCV there:
+      2.1. select C:/OpenCV2.0 (or the installation directory you chose)
+           as the source directory;
+      2.2. choose some other directory name for the generated project files, e.g. C:/OpenCV2
+      2.3. press Configure button, select your preferrable build environment
+      2.4. adjust any options at your choice
+      2.5. press Configure again, then press Generate.
+   3a. In the case of Visual Studio or any other IDE, open the generated
+      solution/workspace/project ..., e.g. C:/OpenCV2.0/vs2008/OpenCV.sln,
+      build it in Release and Debug configurations.
+   3b. In the case of command-line Makefiles, enter the destination directory
+       and type "make" (or "nmake" etc.) 
+      
+   4. Add the output directories to the system path, e.g.:
+      C:/OpenCV2.0/vs2008/bin/Debug;C:/OpenCV2.0/vs2008/bin/Release:\%PATH\%
+      It is safe to add both directories, since the Debug
+      OpenCV DLLs have the "d" suffix, which the Release DLLs do not have.
+      
+   5. Optionally, add C:/OpenCV2.0/include/opencv to the list of
+      include directories in your IDE settings,
+      and the output library directories
+      (e.g. C:/OpenCV2.0/vs2008/lib/(Debug,Release))
+      to the list of library paths.
+
+   It is important to build both release and debug configurations, and link
+   you code with the proper libraries in each configuration,
+   otherwise various compile-time or run-time errors are possible.
+
+
+ADEMAS VS 2008 EE no tiene soporte para OPENMP, así que es necesario desactivarlo en CMAKE, tambien PYTHON SUPPORT
+
+Dependencias cv200d.lib cxcore200d.lib highgui200d.lib
+
+
+
+\chapter[Redacción de Proyectos]{Comentarios Generales sobre la redacción de los proyectos}
+
+
+Por donde se empieza? Habitualmente se empieza a redactar en orden inverso al que se lee el documento, primero 
+se puede empezar a rellenar la bibliografía utilizada que se irá completando según avance el proyecto. A continuación, 
+a partir de un esqueleto inicial del proyecto, que puede estar redactado, manuscrito, o simplemente en la cabeza del estudiante, 
+se empieza a redactar las partes más concretas del proyecto, que tengamos más claras, y que sean lo más independiente posible 
+de la redacción de otras partes del proyecto. Por ejemplo, se puede empezar por anexos donde se resuma las características 
+de una herramienta que utilizamos, etc.., a continuación empezamos a redactar de manera individual los detalles de cada 
+una de las etapas en las que se constituye el proyecto, no tienen que redactarse ordenadas según aparecen en el texto, 
+sobre la elección sobre cual empezar, siempre primará que sea una parte que tengamos bien clara, y que hayamos delimitado 
+su contenido para que sea independiente de la redacción de las otras etapas. Como verán, según vayan avanzando en la 
+redacción, cada vez verán las cosas más claras, y de forma natural verán la forma de ir redactando las otras partes del 
+proyecto, hasta llegar a las secciones de introducción y conclusiones y resultados que son las más delicadas de desarrollar, 
+pues son las más importantes y las que previsiblemente se van a leer en mayor detalle las personas que lean el proyecto. 
+Una deficiente redacción de la introducción (que es donde se atrae al lector sobre la importancia de lo que se va a hacer) 
+o una mala presentación de las conclusiones y resultados (que es donde se transmite el mensaje de todo lo bueno que hay 
+en proyecto) pone en entredicho la calidad global del proyecto. Una buena estrategia consiste en según se van redactando 
+las diferentes secciones del proyecto, ir haciendo un borrador de las secciones de introducción y conclusiones y resultados, 
+poniendo las ideas sueltas, y en principio desordenadas, que nos vayan surgiendo  y que puedan ser de utilidad en la redacción 
+de estas secciones. Redactar bien tiene su dificultad y no todos los días tenemos la inspiración adecuada, para esos días 
+negros, que no nos viene nada a la cabeza, lo mejor es dedicarse a cosas más mecánicas que no requieren tanta concentración, 
+como puede ser completar la bibliografía, ir haciendo un manual de usuario o un anexo técnico, etc..
+
+Cuando empezamos a redactar, siempre es necesario tener en cuenta algunos criterios básicos como son:
+
+1. Escribir de cada cosa su esencia. Que es lo que es realmente relevante en la sección que estoy redactando y esforzarme 
+en que ello quede claro
+
+2. Ponerse en el lugar del potencial lector. El orden y la forma en la redactamos no es sólo para que nosotros tengamos 
+claro lo que hacemos, es sobre todo para que una tercera persona que lea el texto lo pueda tener, si cabe, más claro 
+que nosotros. Para ello hay que respetar un orden lógico en la forma en que presentamos las cosas y no presuponer que 
+el lector conoce los entresijos de lo que estamos haciendo, hay que evitar dar saltos en el vacío, por ejemplo dando 
+por supuesto conocimientos que el lector no tiene o alterando el orden natural en que deben aparecer las cosas.
+
+Algunas ideas sueltas sacadas del libro "Como elaborar y presentar un trabajo escrito" cuyo autor es el profesor Santos Pérez:
+
+El proyecto fin de carrera es un trabajo personal en el que el estudiante debe demostrar que domina el tema, sabe organizarlo, 
+estructurarlo y elaborar en profundidad, y presentarlo en la forma normalizada de un trabajo técnico o científico. Es la 
+ocasión que tiene el estudiante de demostrar que sabe analizar un problema, sabe seleccionar la metodología y técnicas 
+apropiadas para reunir los datos, y alcanzar conclusiones razonables. Un proyecto de esta naturaleza permite la evaluación 
+de la capacidad del estudiante para aplicar su conocimiento a un tema concreto.
+
+El proyecto fin de carrera debe ser
+\begin{itemize}
+\item Proyecto Personal: debe ser un producto de la reflexión, investigación y esfuerzo del estudiante. Si se hace con 
+ reflexión, con investigación y esfuerzo personal, el rendimiento que obtiene el estudiante es muy productivo y beneficioso para él y de una duración permanente.
+\item  Es un trabajo documentado: es decir, serio, científico, hay que sustentar las afirmaciones con datos comprobables 
+ y lógicamente fundados.
+\item  Planificado: La elaboración de un proyecto fin de carrera es un proceso complicado. Un trabajo de esta naturaleza 
+ requiere una planificación cuidadosa del tiempo: tiempo para investigar y documentarse, tiempo para reflexionar, 
+ tiempo para corregir posibles desviaciones y finalmente tiempo para redactarlo y presentarlo de forma adecuada.
+\end{itemize}
+
+El esquema final de un proyecto fin de carrera debe llenar las siguientes características:
+
+\begin{itemize}
+\item Claridad: la claridad se consigue sobre todo con una nítida división y distribución del esquema. Y a su vez esta 
+ claridad deriva también de la compresión en profundidad del material recogido.
+\item Convergencia hacia el objetivo: El secreto de la claridad está en saber ordenar las partes del trabajo hacia el 
+ objetivo buscado; es decir, en lograr que cada punto del esquema nos vaya encaminando con naturalidad hacia la meta 
+ enunciada en el título del trabajo.
+\item Coherencia: las distintas partes, puntos o párrafos deben estar trabados entre sí, concatenados, de forma que se 
+ vayan preparando y completandose recíprocamente para conseguir el efectode que cada punto sea consecuencia del otro, 
+ formando un todo orgánico y no una mera yuxtaposición de partes; por el contrario que se vaya mostrando la conexión 
+ y la coherencia lógica de los distintos aspectos tratados
+\item Conformidad con el objetivo: La estructura del esquema final debe resaltar lo más importante y debe dejar en la 
+ penumbra los accesorios.
+\item Elegancia: en la distribución del esquema, debe guardarse una cierta simetría y proporción. La elegancia no debe 
+ subordinarse a la claridad y a la verdad; pero hay una elegancia no sólo formal, sino de concepción y elegancia 
+ que contribuye significativamente a conseguir la armonía y transparencia en la transmisión del contenido principal 
+ del tema. Conviene resaltar esta elegancia sobre todo ahora que nos encontramos en un mundo de zafiedad y donde se 
+ hace gala del caos mental como norma de actuación.
+\item El descanso inteligente: Una vez que se ha acabado la primera redacción del proyecto se sugiere tomarse unos 
+ días de descanso suficientes para que la cabeza descanse del tema. Con este descanso se adquiere perspectiva, 
+ y aumenta la objetividad y sentido crítico del autor.
+\end{itemize}
+
+
+% Aqui va la Bibliografía utilizada por el proyecto.
+
+\begin{thebibliography}{1}
+
+\bibitem{La86} Leslie Lamport {\em LaTex : A document Preparation System}. Addison"=Wesley, 1986.
+
+\bibitem{Ro93} Christian Rolland {\em LaTex guide pratique}. Addison"=Wesley, 1993.
+
+\bibitem{Castrillon05} M. Castrillón Santana, C. Guerra Artal and M. Hernández Tejera {\em Real"=time Detection of Faces in Video.} Face Processing in Video 2005, Victoria, Canada.
+
+
+\bibitem{Chellappa95} R. Chellappa et al. {\em Human and machine recognition of faces: A survey.} Proceedings IEEE, vol. 83(5), 705~-740, 1995.
+
+\bibitem{Cielniak03} G. Cielniak, M. Miladinovic, D. Hammarin, L. Göransson, A. Lilienthal and T. Duckett {\em Appearance-based Tracking of Persons with an Omnidirectional Vision Sensor} Proceedings of the Fourth IEEE Workshop on Omnidirectional Vision (Omnivis 2003)", Madison, Wisconsin", 2003
+
+\bibitem{Deniz04} O. Déniz, A. Falcón, J. Méndez, M. Castrillón {\em Useful Computer Vision Techniques for Human-Robot Interaction.} International Conference on Image Analysis and Recognition, September 2004, Porto, Portugal.
+
+\bibitem{Hjelmas01a} E. Hjelmas y B. K. Low {\em Face Detection: A Survey.} Computer Vision and Image Understanding, vol. 83(3), 2001.
+
+\bibitem{Iges99} José Iges {\em El espacio. El tiempo en la mirada del sonido.} Catálogo de exposición. Kulturanea. España, 1999.
+
+\bibitem{Krueger85} Myron W. Krueger, Thomas Gionfriddo y Katrin Hinrichsen {\em VIDEOPLACE: An Artificial Reality} Proceedings of the SIGCHI conference on Human factors in computing systems, 35~-40, 1985.
+
+\bibitem{Levin04} Golan Levin y Zachary Lieberman {\em In-Situ Speech Visualization in Real-Time Interactive Installation and Performance.} The 3rd International Symposium on Non-Photorealistic Animation and Rendering (NPAR) June 7~-9 2004, Annecy, France
+
+\bibitem{Samal92} A. Samal and P. A. Iyengar {\em Automatic Recognition and Analysis of Human Faces and Facial Expressions: A Survey.} Pattern Recognition, vol. 25(1), 1992.
+
+\bibitem{Spalter99} Anne Morgan Spalter {\em The Computer in The Visual Arts.} Addison-Wesley Professional. 1st edition, 1999.
+
+\bibitem{Viola01cvpr} P. Viola and M. J. Jones {\em Rapid Object Detection using a Boosted Cascade of Simple Features.} In Computer Vision and Pattern Recognition, 2001a.
+
+\bibitem{Yang02} M. H. Yang et al. {\em Detecting Faces in Images: A Survey.} Transactions on Pattern Analysis and Machine Intelligence, vol. 24(1), 34~-58, 2002.
+
+\bibitem{OpenCV09} Willow Garage: S. Hassan, S. Cousins, B. Gerkey et al. {\em OpenCV, Open Source Computer Vision} Official Page and Documentation: http://opencv.willowgarage.com/documentation/index.html 2009.
+
+\bibitem{Chuck09} G. Wang, P. Cook et al. {\em Chuck, Strongly-timed, Concurrent, and On-the-fly Audio Programming Language} http://chuck.cs.princeton.edu/ 2009.
+
+\bibitem{DME09} Devmasters.net {\em 3D Engines Data Base} http://www.devmaster.net/engines/ 2009
+
+\bibitem{UDK09} Epic Games {\em Unreal Development Kit} http://www.udk.com/ 2009
+
+\bibitem{UDKS09} Epic Games {\em Unreal Script Language Reference, Example Program Structure}  http://udn.epicgames.com/Three/UnrealScriptReference.html/ 2009
+
+\bibitem{UDKFL09} Epic Games {\em Unreal Engine 3: Rendering Feature List}  http://www.unrealtechnology.com/features.php?ref=rendering 2009
+
+\bibitem{CryE309} CryTek {\em CryENGINE 3 Educational SDK License} http://mycryengine.com/index.php?conid=42 2009
+
+\bibitem{CryE3FL09} CryTek {\em CryENGINE 3 - Specifications}  http://www.crytek.com/technology/cryengine-3/specifications/ 2009
+
+\bibitem{CryMod09} Crytek {\em CryTek Official Modding Portal} Educational community area for the CryENGINE 3 Software Development Kit: http://www.crymod.com/ 2009
+
+\bibitem{wx09} wxWidgets {\em wxWidgets, Cross~platform GUI library} http://www.wxwidgets.org/ 2009
+
+\bibitem{wxFL09} wxWidgets {\em wxWidgets Features} http://www.wxwidgets.org/about/feature2.htm 2009
+
+\bibitem{KenB01} K. Beck, J. Sutherland et al. {\em Manifesto for Agile Software Development} http://www.agilemanifesto.org 2001
+
+\bibitem{RCol09} R. Colusso {\em Desarrollo ágil de software} http://knol.google.com/k/desarrollo-ágil-de-software 2009
+
+\bibitem{IJacobson09} I. Jacobson {Introducing the Essential Unified Process} 2009
+
+\end{thebibliography}
+
+
+% Termina el documento
+\end{document}

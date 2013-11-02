@@ -1,0 +1,384 @@
+@CHARSET "UTF-8";
+
+html {
+	position: relative;
+}
+
+body {
+	margin: 0px;
+	background-color: #e5e5e5;
+	background-image: url(../images/bg_body.gif);
+	background-repeat: repeat-x;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 0.625em;
+}
+
+input, select, textarea {
+	font-size: 1.1em;
+}
+
+#outerWrapper {
+	margin: auto;
+	width: 880px;
+}
+
+#backgroundWrapper {
+	width: 880px;
+	float: left;
+	background-image: url(../images/bg_main.gif);
+	background-repeat: repeat-y;
+}
+
+/* borders */
+
+#leftWrapper {
+	width: 22px;
+	float: left;
+}
+
+#rightWrapper {
+	width: 22px;
+	float: left;
+}
+
+/* header */
+
+#headerLeft {
+	width: 22px;
+	height: 48px;
+	float: left;
+	background-image: url(../images/border_left_top.gif);
+}
+
+#header {
+	width: 836px;
+	height: 78px;
+	float: left;
+	background-image: url(../images/header_new.jpg);
+	border-bottom: 1px solid #bfbdbd;
+}
+
+#headerTop {
+	margin-top: 15px;
+	height: 26px;
+}
+
+
+#leftHeaderMenu {
+	float: left;
+	margin-top: 8px;
+	width: 35%;
+	color: #737373;
+}
+
+#leftHeaderMenu img {
+	float: left;
+}
+
+#leftHeaderMenu a {
+	text-transform: lowercase;
+	color: #737373;
+	text-decoration: none;
+	margin: 0 2px 2px 2px;
+	font-size: 0.95em;
+	font-weight:bold;
+}
+
+#newsletterForm {
+	float: right;
+	width: 65%;
+	text-align: right;
+	color: #737373;
+}
+
+.tt_address_form {
+	display: inline;
+	float: right;
+	width: 331px;
+}
+
+.tt_address_form fieldset {
+	border: 0;
+	padding: 0px;
+}
+
+.tt_address_form fieldset input {
+	font-size: 1.1em;
+	color: #5b5b5b;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	float: left;
+	border: medium none;
+}
+
+.tt_address_form fieldset input#nlName {
+	width: 136px;
+	height: 15px;
+	background-image: url(../images/bg_input.gif);
+	background-attachment: scroll;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	margin-right: 2px;
+	padding: 2px 7px 2px 8px;
+}
+
+.tt_address_form fieldset input.nlName {
+	width: 136px;
+	height: 15px;
+	background-image: url(../images/bg_input.gif);
+	background-attachment: scroll;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	margin-right: 2px;
+	padding: 2px 7px 2px 8px;
+}
+
+.tt_address_form fieldset input#nlEmail {
+	width: 136px;
+	height: 15px;
+	padding: 2px 7px 2px 8px;
+	background-image: url(../images/bg_input.gif);
+	background-attachment: scroll;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+}
+
+.tt_address_form fieldset input.nlEmail {
+	width: 136px;
+	height: 15px;
+	padding: 2px 7px 2px 8px;
+	background-image: url(../images/bg_input.gif);
+	background-attachment: scroll;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+}
+
+input.subscription {
+	width: 136px;
+	height: 15px;
+	background-image: url(../images/bg_input.gif);
+	background-attachment: scroll;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	margin-right: 2px;
+	padding: 2px 7px 2px 8px;
+	font-size: 1.1em;
+	color: #5b5b5b;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	float: left;
+	border: medium none;
+}
+
+select.subscription {
+	width: 151px;
+	height: 19px;
+	background-image: url(../images/bg_input.gif);
+	background-attachment: scroll;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	font-size: 1.1em;
+	color: #5b5b5b;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	float: left;
+	border: medium none;
+	border: 1px solid gray;;
+}
+
+div.subscription_left {
+	width:50%;
+	float:left;
+	margin-top:15px;
+}
+.description	{
+	float:left;
+	width:120px;
+}
+.description	{
+	float:left;
+	width:120px;
+}
+div.subscription_right {
+	width:50%;
+	margin-top:15px;
+	float:left;
+}
+
+#mainMenu {
+	margin: 10px auto;
+	width: 100%;
+	text-align: center;
+	font-size: 0.9em;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-transform: lowercase;
+}
+
+#mainMenu a {
+	color: #262626;
+	text-decoration: none;
+	padding: 0 2px 0 2px;
+}
+
+#headerRight {
+	width: 22px;
+	height: 48px;
+	float: left;
+	background-image: url(../images/border_right_top.gif);
+}
+
+#leftBorder {
+	width: 22px;
+	float: left;
+}
+
+#rightBorder {
+	width: 22px;
+	float: left;
+}
+
+#contentWrapper {
+	width: 836px;
+	float: left;
+}
+
+#flashContent {
+	width: 836px;
+	height: 288px;
+	float: left;
+	border-top: 1px solid #434343;
+}
+
+/* breadcrumb menu */
+
+#breadcrumb {
+	margin: 0;
+	width: 823px;
+	padding-left: 13px;
+	padding-top: 2px;
+	height: 20px;
+	float: left;
+	background-image: url(../images/bg_breadcrumb.jpg);
+	background-repeat: no-repeat;
+	color: #000000;
+	font-size: 0.9em;
+	vertical-align: middle;
+}
+
+#breadcrumb a {
+	text-decoration: none;
+	margin: 3px;
+	color: #000000;
+	display: block;
+	float: left;
+}
+
+.breadCrumbHome {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+.breadCrumbSeparator {
+	display: block;
+	float: left;
+	margin-top: 3px;
+}
+
+/* content area */
+
+#content {
+	width: 836px;
+	margin: 0;
+	float: left;
+}
+
+#bottomWrapper {
+	width: 880px;
+	float: left;
+	height: 5px !important;
+	overflow:hidden !important;
+}
+
+#leftBorderPiece {
+	width: 22px;
+	height: 5px;
+	float: left;
+}
+
+#contentBottom {
+	padding: 0px;
+	margin: 0px;
+	width: 836px;
+	height: 5px;
+	float: left;
+	background-image: url(../images/content_bottom.gif);
+}
+
+#rightBorderPiece {
+	width: 22px;
+	height: 5px;
+	float: left;
+}
+
+/* footer */
+
+#footerWrapper {
+	width: 880px;
+	float: left;
+}
+
+#footerLeft {
+	width: 22px;
+	height: 3px;
+	float: left;
+	background-image: url(../images/border_left_bottom.gif);
+}
+
+#footer {
+	width: 836px;
+	height: 3px;
+	float: left;
+	background-image: url(../images/bg_footer.gif);
+	text-align: center;
+	vertical-align: middle;
+}
+
+
+.tx-cryteklogos-pi1-logoBox {
+	margin: auto;
+	height: 1px;
+}
+
+.tx-cryteklogos-pi1-logo {
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+#footerRight {
+	width: 22px;
+	height: 3px;
+	float: left;
+	background-image: url(../images/border_right_bottom.gif);
+}
+
+#footerBottom {
+	padding: 0px;
+	margin: 0px;
+	width: 880px;
+	height: 9px;
+	float: left;
+	background-image: url(../images/footer_bottom.gif);
+}
+
+#footerLinks {
+	width: 880px;
+	float: left;
+	text-align: center;
+	font-size: 0.9em;
+	color: #555;
+	margin-bottom: 10px;
+}
+
+#footerLinks a {
+	margin: 0 3px 0 3px;
+	text-decoration: none;
+	color: #555;
+	text-transform: lowercase;
+}

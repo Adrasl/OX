@@ -1,0 +1,191 @@
+
+<!-- saved from url=(0030)http://chuck.cs.princeton.edu/ -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<TITLE>ChucK =&gt; Strongly-timed, On-the-fly Audio Programming Language</TITLE>
+<META name="keywords" content="ChucK, strongly-timed, concurrent, on-the-fly programming, live coding, programming language, sound synthesis, real-time">
+<META name="description" content="A strongly-timed, concurrent, and on-the-fly audio programming language">
+</HEAD><BODY bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#0000ff">
+<FONT face="verdana" size="2">
+
+<BR>
+<CENTER>
+<TABLE border="0" width="610">
+<TBODY><TR><TD>
+<FONT face="verdana" size="2">
+</FONT><CENTER><FONT face="verdana" size="2">
+<FONT size="4">
+<FONT color="#333333">ChucK : Strongly-timed, Concurrent, and On-the-fly
+<BR> Audio Programming Language</FONT>
+</FONT>
+<BR><BR>
+
+  <TABLE bgcolor="#d9d9d9" border="0" cellpadding="1" cellspacing="0"><TBODY><TR><TD>
+  <TABLE width="100%" bgcolor="#fdfdfd" border="0" cellpadding="2" cellspacing="2">
+  <TBODY><TR>
+  <TD rowspan="4"><!--img width="58" src="doc/images/chuck_logo.jpg"-->&nbsp;</TD>
+  <TD align="right" valign="top"><CENTER><FONT face="verdana" size="2">
+  authors: </FONT></CENTER></TD><TD><FONT face="verdana" size="2">
+  [<A href="http://chuck.cs.princeton.edu/doc/authors.html">chuck team</A>]</FONT>
+  </TD></TR>
+  <TR><TD align="right">
+  <FONT face="verdana" size="2">
+  date:</FONT></TD><TD><FONT face="verdana" size="2">2002 - present
+  </FONT></TD></TR>
+  <TR>
+  <TD align="right"><FONT face="verdana" size="2">
+  version:</FONT></TD><TD><FONT face="verdana" size="2">
+  <A href="http://chuck.cs.princeton.edu/release/">1.2.1.3</A> (dracula)
+  
+  </FONT></TD>
+  </TR>
+  <TR>
+  <TD>
+  <TD colspan="1" align="left" valign="top">
+  <FONT face="verdana" size="1">
+  (<A href="http://chuck.cs.princeton.edu/release/VERSIONS">what's new?</A>)
+  </FONT>
+  </TD>
+  </TR>
+  </TBODY></TABLE></TD></TR>
+  </TBODY></TABLE>
+
+<FONT size="1"><BR></FONT>
+<TABLE border="0" cellspacing="1" cellpadding="1">
+<TBODY><TR><TD>
+<IMG border="0" src="./ChucK =  Strongly-timed, On-the-fly Audio Programming Language_files/chuck_logo3.jpg" alt="ChucK" title="ChucK">
+<A href="http://chuck.cs.princeton.edu/uana/"><IMG border="0" src="./ChucK =  Strongly-timed, On-the-fly Audio Programming Language_files/upchuck_logo3.jpg" alt="UpChucK operator" title="UpChucK"></A>
+</TD></TR>
+</TBODY></TABLE>
+
+<FONT color="#999999"><B>Welcome to ChucK!</B></FONT>
+<BR>
+
+<P align="justify"> <FONT color="#999999"><B>what is it?</B></FONT> : 
+ChucK is a new (and developing) audio programming language for real-time 
+synthesis, composition, performance, and now, <A href="http://chuck.cs.princeton.edu/uana/">analysis</A> 
+- fully supported on MacOS X, Windows, and Linux. ChucK presents a new 
+<FONT color="#666666">time-based, concurrent programming model</FONT> 
+that's highly precise and expressive (we call this <FONT color="#666666">strongly-timed</FONT>), as well as dynamic control rates, 
+and the ability to add and modify code <FONT color="#666666">on-the-fly</FONT>.  In addition, ChucK supports MIDI, OSC, 
+HID device, and multi-channel audio. It's fun and easy to learn, and 
+offers composers, researchers, and performers a powerful programming tool 
+for building and experimenting with complex audio synthesis/analysis 
+programs, and real-time interactive control. <!-- <font 
+color="#999999"><b>Happy ChucKing!</b></font>--> </P>
+
+<TABLE border="0" cellspacing="0" cellpadding="0">
+<TBODY><TR><TD><IMG border="0" width="20" src="./ChucK =  Strongly-timed, On-the-fly Audio Programming Language_files/chuck_logo.jpg">&nbsp;&nbsp;
+</TD><TD><FONT face="verdana" size="3"><B><A href="http://chuck.cs.princeton.edu/release/">download ChucK</A></B></FONT></TD></TR></TBODY></TABLE>
+<TABLE border="0" cellspacing="0" cellpadding="0">
+<TBODY><TR><TD><IMG border="0" width="20" src="./ChucK =  Strongly-timed, On-the-fly Audio Programming Language_files/chuck_logo.jpg">&nbsp;&nbsp;
+</TD><TD><FONT face="verdana" size="3">
+<A href="http://chuck.cs.princeton.edu/doc/">documentation</A> <FONT size="2">| 
+<A href="http://chuck.cs.princeton.edu/doc/language/">language spec.</A> | <A href="http://chuck.cs.princeton.edu/doc/program/ugen.html">unit generators</A> |
+<A href="http://chuck.cs.princeton.edu/doc/program/uana.html">unit analyzers</A>
+</FONT>
+</FONT></TD></TR></TBODY></TABLE>
+<TABLE border="0" cellspacing="0" cellpadding="0">
+<TBODY><TR><TD><IMG border="0" width="20" src="./ChucK =  Strongly-timed, On-the-fly Audio Programming Language_files/chuck_logo.jpg">&nbsp;&nbsp;
+</TD><TD><FONT face="verdana" size="2"><FONT size="3">
+<A href="http://chuck.cs.princeton.edu/community/">chuck community</A></FONT> |
+<A href="http://electro-music.com/forum/forum-140.html" target="_blank">forum</A> | 
+<A href="http://chuck.cs.princeton.edu/wiki/" target="_blank">wiKi</A>
+</FONT></TD></TR></TBODY></TABLE>
+<TABLE border="0" cellspacing="0" cellpadding="0">
+<TBODY><TR><TD><IMG border="0" width="20" src="./ChucK =  Strongly-timed, On-the-fly Audio Programming Language_files/chuck_logo.jpg">&nbsp;&nbsp;
+</TD><TD><FONT face="verdana" size="2"><FONT size="2">
+coast to coast mirrors: </FONT> <A href="./ChucK =  Strongly-timed, On-the-fly Audio Programming Language_files/ChucK =  Strongly-timed, On-the-fly Audio Programming Language.htm">@Princeton</A> |
+<A href="http://chuck.stanford.edu/">@Stanford</A>
+</FONT></TD></TR></TBODY></TABLE>
+
+<BR>
+
+  <TABLE width="300" bgcolor="#d9d9d9" border="0" cellpadding="1" cellspacing="0"><TBODY><TR><TD>
+  <TABLE width="100%" bgcolor="#fdfdfd" border="0" cellpadding="6" cellspacing="6">
+<TBODY><TR><TD><FONT face="verdana" size="2">
+<CENTER>
+peruse Ge's
+<A href="http://ccrma.stanford.edu/~ge/thesis.html">PhD Thesis</A>
+<FONT color="#999933" size="1"><B>new!!</B></FONT>
+<BR>
+<FONT size="1">(and check out Perry's <A href="http://www.cs.princeton.edu/~prc/HackChuck.html">chuck 
+anthem</A>!)</FONT>
+<BR><BR>
+read the 
+<A href="http://soundlab.cs.princeton.edu/publications/uana_icmc2007.pdf">
+UAna paper</A> <FONT color="#999933" size="1"><B>new!!</B></FONT><BR>
+<FONT size="1">(presented at ICMC 2007 in Copenhagen,<BR>
+and check out them <A href="http://chuck.cs.princeton.edu/uana/">unit anlyzers</A>!!)</FONT>
+<BR><!--live coding--><BR>
+read the 
+<A href="http://soundlab.cs.princeton.edu/publications/chuck_icmc2003.pdf">
+original paper</A><BR>
+<FONT size="1">(<I>winner: 2003 ICMA Best Presentation Award</I>,
+<BR>
+presented at ICMC 2003 in Singapore,
+<BR> slides : <A href="http://chuck.cs.princeton.edu/chuck.talk.icmc.2003.ppt">ppt</A> | <A href="http://chuck.cs.princeton.edu/chuck.talk.icmc.2003.pdf">pdf</A> )</FONT>
+<BR><BR>
+ChucK powers <A href="http://plork.cs.princeton.edu/">PLOrk</A>
+and <A href="http://slork.stanford.edu/">SLOrk</A>
+<BR><!--live coding--><BR>
+<A href="http://on-the-fly.cs.princeton.edu/">on-the-fly programming</A>
+<BR>
+<FONT size="1">writing code at runtime using ChucK<BR>
+(follow-up NIME 2004
+<A href="http://soundlab.cs.princeton.edu/publications/on-the-fly_nime2004.pdf">paper</A>)</FONT>
+<BR>
+<BR><A href="http://audicle.cs.princeton.edu/">The Audicle</A> 
+| <A href="http://audicle.cs.princeton.edu/mini/">miniAudicle</A>
+<BR>
+<!--<font size="1">context-sensitive, on-the-fly<br />programming 
+environ/mentality-->
+<FONT size="1">
+(<I>winner: 2004 ICMA Best Presentation Award</I>,<BR>
+presented at ICMC 2004 in Miami)<BR></FONT>
+
+<BR>
+<A href="http://soundlab.cs.princeton.edu/publications/chuck_sigmm2004.pdf">ACM multimedia paper</A><BR>
+<FONT size="1">(<I>winner: 2004 ACM Multimedia Open Source Software 
+Competition</I>, presented at MM 2004)</FONT>
+
+<BR>
+<BR>
+lists + forums:<BR> <A href="https://lists.cs.princeton.edu/mailman/listinfo/chuck" target="_blank">chuck</A> | 
+<A href="https://lists.cs.princeton.edu/mailman/listinfo/chuck-users" target="_blank">chuck-users</A> 
+| <A href="http://chuck.cs.princeton.edu/community/">more</A>
+<BR>
+<FONT size="1">join the community!</FONT>
+
+</CENTER></FONT></TD>
+</TR>
+</TBODY></TABLE>
+</TD></TR>
+</TBODY></TABLE>
+
+
+</FONT>
+</CENTER></TD></TR>
+</TBODY></TABLE>
+
+<BR>
+
+<FONT size="1">
+<HR width="15%">
+<A href="http://soundlab.cs.princeton.edu/">soundlab</A> |
+<A href="http://ccrma.stanford.edu/">ccrma</A> |
+<A href="http://www.cs.princeton.edu/">cs</A> |
+<A href="http://www.music.princeton.edu/">music</A> |
+<A href="http://chuck.sf.net/">
+<IMG src="./ChucK =  Strongly-timed, On-the-fly Audio Programming Language_files/sflogo.php" border="1" alt="sourceforge.net logo" width="20"></A>
+<BR>
+<BR>
+</FONT>
+<SCRIPT src="./ChucK =  Strongly-timed, On-the-fly Audio Programming Language_files/urchin.js" type="text/javascript">
+</SCRIPT>
+<SCRIPT type="text/javascript">
+_uacct = "UA-3927297-1";
+urchinTracker();
+</SCRIPT>
+
+
+</CENTER></FONT></BODY></HTML>

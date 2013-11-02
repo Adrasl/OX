@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0029)http://www.udk.com/index.html -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   
+   <TITLE>UDK - Unreal Development Kit - Epic Games</TITLE>
+   <LINK href="./UDK - Unreal Development Kit - Epic Games_files/base.css" rel="stylesheet" type="text/css">
+   <!--[if lt IE 7]>
+         <link rel="stylesheet" type="text/css" href="elements/css/ie6.css" media="screen" />
+   <![endif]-->
+   <LINK rel="shortcut icon" href="http://www.udk.com/elements/img/favicon.ico">
+   <LINK rel="icon" href="http://www.udk.com/favicon.ico" type="image/x-icon">
+   <LINK rel="Shortcut Icon" href="http://www.udk.com/favicon.ico">
+   <SCRIPT type="text/javascript" src="./UDK - Unreal Development Kit - Epic Games_files/jquery.js"></SCRIPT>
+   <SCRIPT type="text/javascript" src="./UDK - Unreal Development Kit - Epic Games_files/site.js"></SCRIPT>
+   <SCRIPT type="text/javascript" src="./UDK - Unreal Development Kit - Epic Games_files/swfobject.js"></SCRIPT>
+	<SCRIPT type="text/javascript">
+		var flashvars = { embedMovieName: "index" };
+	   swfobject.embedSWF("elements/swf/player.swf", "player", "460", "258", "8.0.0", "expressInstall.swf", flashvars);
+   </SCRIPT><STYLE type="text/css" media="screen">#player {visibility:hidden}</STYLE>
+   <META name="description" content="">
+</HEAD><BODY>
+<DIV id="container">
+
+   <DIV id="nav">
+		<A href="./UDK - Unreal Development Kit - Epic Games_files/UDK - Unreal Development Kit - Epic Games.htm" id="logo_udk" class="selected"><IMG src="./UDK - Unreal Development Kit - Epic Games_files/logo-udk.gif" alt="Unreal Development Kit"></A>
+      <UL>
+         <LI><A href="http://www.udk.com/features.html">Features</A></LI>
+         <LI><A href="http://www.udk.com/showcase.html">Showcase</A></LI>
+         <LI><A href="http://udn.epicgames.com/Three/DevelopmentKitHome.html">Documentation</A></LI>
+        <LI><A href="http://www.udk.com/licensing.html">Licensing</A></LI>
+         <LI><A href="http://www.udk.com/news.html">News</A></LI>
+         <LI><A href="http://www.udk.com/forums">Community</A></LI>
+      </UL>
+		<A href="http://www.udk.com/download.html" id="download_udk"><IMG src="./UDK - Unreal Development Kit - Epic Games_files/btn-nav-download.gif" alt="Download UDK"></A>   </DIV>
+   
+   <DIV id="header_block">
+   	<DIV id="header_left">
+         <H1>The world’s best game engine ...<BR>
+			Now at your fingertips.</H1>
+         <P>Experience the power and potential of Unreal Engine 3. Create amazing games, lifelike scenes and fantastic worlds...<BR>
+				<STRONG>for free.</STRONG></P>
+         <HR class="header_hr">
+         <P><STRONG>Go ahead, make something Unreal.</STRONG></P>
+         <P><A href="http://www.udk.com/download.html"><IMG src="./UDK - Unreal Development Kit - Epic Games_files/btn-download-large-2.jpg" alt="Download Unreal Development Kit" name="home_download_btn" id="home_download_btn"></A></P>
+     </DIV>
+   	<DIV id="header_right">
+      	<OBJECT type="application/x-shockwave-flash" data="http://www.udk.com/elements/swf/player.swf" width="460" height="258" id="player" style="visibility: visible; "><PARAM name="flashvars" value="embedMovieName=index"></OBJECT>
+     </DIV>
+      <DIV class="clear"></DIV>
+   </DIV>
+   
+   <DIV id="content">
+      <DIV class="one_three_col_block right_padding">
+         <H2>What is it?</H2>
+         <IMG src="./UDK - Unreal Development Kit - Epic Games_files/icon-unreal.png" alt="" class="float_left">
+         <DIV>
+            UDK <EM>is</EM> Unreal Engine 3 – the complete professional development framework. All the tools you need to create great games, advanced visualizations and detailed 3D simulations. The best tools in the industry are in your hands.	
+         </DIV>
+      </DIV>
+      <DIV class="one_three_col_block right_padding">
+         <H2>Who's it for?</H2>
+         <IMG src="./UDK - Unreal Development Kit - Epic Games_files/icon-users.png" alt="" class="float_left">
+         <DIV>
+            Anyone. Everyone. You. Unreal Engine 3 has been used by game developers, researchers, television studios, machinima directors, artists and students. If you have an idea that needs to be brought to life in a game engine, UDK is for you.
+         </DIV>
+      </DIV>
+      <DIV class="one_three_col_block">
+         <H2>Why UDK?</H2>
+         <IMG src="./UDK - Unreal Development Kit - Epic Games_files/icon-crown.png" alt="" class="float_left">
+         <DIV>
+            Only UDK has the power, flexibility and track record of Unreal Engine 3. These tools have been proven with countless releases and dozens of awards. There is no better way to make awesome games than with UE3.
+         </DIV>
+      </DIV>
+      <DIV class="clear"></DIV>
+      <HR class="full_width_hr">
+      <H2>Showcase <SPAN class="small_text"><A href="http://www.udk.com/showcase.html">See more</A></SPAN></H2>
+   <DIV class="one_three_col_block right_padding">
+         <A href="http://www.udk.com/showcase-whizzle.html"><IMG src="./UDK - Unreal Development Kit - Epic Games_files/showcase-example1-whizzle.jpg" alt="Whizzle"></A>
+      <H3><A href="http://www.udk.com/showcase-whizzle.html">Whizzle</A></H3>
+         <P>Check out <EM>Whizzle</EM>, the first game built entirely with  Unreal Development Kit. We've even provided <A href="http://download.udk.com/WhizzleSourceFinal.zip">source code</A> so you can see how it was created!</P>
+     </DIV>
+   <DIV class="one_three_col_block right_padding">
+         <A href="http://www.udk.com/showcase-the-ball.html"><IMG src="./UDK - Unreal Development Kit - Epic Games_files/showcase-example2-the-ball.jpg" alt="The Ball"></A>
+      <H3><A href="http://www.udk.com/showcase-the-ball.html">The Ball</A></H3>
+         <P><EM>The Ball</EM>, originally developed as a mod for <EM>Unreal Tournament 3</EM>, is an episodic action puzzle game now available as a standalone application.</P>
+      </DIV>
+      <DIV class="one_three_col_block">
+         <A href="http://www.udk.com/showcase-prometheus.html"><IMG src="./UDK - Unreal Development Kit - Epic Games_files/showcase-example3-prometheus.jpg" alt="Prometheus"></A>
+        <H3><A href="http://www.udk.com/showcase-prometheus.html">Prometheus</A></H3>
+        <P>In <EM>Prometheus</EM>, players bend the laws of Einsteinian physics by completing  missions with past, present and future selves. </P>
+     </DIV>
+     <DIV class="clear"></DIV>
+   </DIV>
+   
+   <DIV id="footer">
+		<P>©  2009 <A href="http://www.epicgames.com/" target="_blank">Epic Games, Inc.</A> | <A href="http://www.udk.com/privacy.html">Privacy Notice</A></P>
+   	<P>Epic, Epic Games, Unreal, Unreal Development Kit, Unreal Engine, Unreal Technology and the Unreal<BR> Development Kit logo are trademarks or registered trademarks of Epic Games, Inc. in the United States of America and elsewhere.</P>
+   </DIV>
+
+</DIV>
+<!-- Start Google Analytics Script -->
+
+ <SCRIPT type="text/javascript"> var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www."); document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E")); </SCRIPT><SCRIPT src="./UDK - Unreal Development Kit - Epic Games_files/ga.js" type="text/javascript"></SCRIPT> <SCRIPT type="text/javascript"> try { var pageTracker = _gat._getTracker("UA-11251639-1"); pageTracker._trackPageview(); } catch(err) {}</SCRIPT>
+
+
+
+</BODY></HTML>

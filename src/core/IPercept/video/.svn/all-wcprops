@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/core/IPercept/video
+END
+IPresenceDetection.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/core/IPercept/video/IPresenceDetection.h
+END
+IMotionDetection.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/core/IPercept/video/IMotionDetection.h
+END
+IFaceDetection.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/core/IPercept/video/IFaceDetection.h
+END
+IFaceRecognition.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/ProjectOX/!svn/ver/38/trunk/projectVOX/src/core/IPercept/video/IFaceRecognition.h
+END
