@@ -131,6 +131,7 @@ namespace core
 //				static std::map<int, CvBGStatModel*> background_model;
 				static int background_trainning_frames;
 				static double las_time, capture_fps;
+				static double timestamp_Recording_latestframe;
 				static bool presence_detected;
 
 				static corePoint3D<double> BoundinBoxMin, BoundinBoxMax;

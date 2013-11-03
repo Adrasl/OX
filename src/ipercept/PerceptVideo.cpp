@@ -80,7 +80,8 @@ std::map<int, vector2I> PerceptVideo::cam_capture_size;
 //std::map< int, IplImage* > PerceptVideo::motion_img;
 ///int PerceptVideo::background_trainning_frames=0;
 double PerceptVideo::las_time=0;
-double PerceptVideo::capture_fps=0;
+double PerceptVideo::capture_fps=10;
+double PerceptVideo::timestamp_Recording_latestframe=0;
 corePoint3D<double> PerceptVideo::BoundinBoxMin, PerceptVideo::BoundinBoxMax;
 
 //typedef Matrix<float, 4, 4> Matrix44f;
@@ -529,14 +530,13 @@ void PerceptVideo::DoMainLoop()
 	//	//while(true)
 	//	//{debug = 5;}
 	//}
-	capture_fps = 1.0/0.015;
 	while(!stop_requested)
 	{
 		double timestamp = (double)clock()/CLOCKS_PER_SEC;
 		//std::cout << "Period: " << timestamp-las_time << "\n";
 		las_time = timestamp;
 		Iterate();
-		m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(15));
+		m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(10));
 	}
 }
 
@@ -596,8 +596,12 @@ void PerceptVideo::Capture()
 		capture_img[index] = cvQueryFrame(iter->second);
 
 		//Video recording
-		if(is_recording)
+		double timestamp_Recording_currentframe = (double)clock()/CLOCKS_PER_SEC;
+		if(is_recording && ((timestamp_Recording_currentframe - timestamp_Recording_latestframe) > (1.0/capture_fps)))
+		{
+			timestamp_Recording_latestframe = timestamp_Recording_currentframe;
 			cvWriteFrame(capture_videowriter[index], capture_img[index]);
+		}
 
 
 		//if(aux_img) cvReleaseImage(&aux_img);
@@ -2959,17 +2963,17 @@ bool PerceptVideo::RegisterPointIDIntoSearchResults(int id, void* arg)
 bool PerceptVideo::SetCameraRecording(const bool &value)
 {
 	double timestamp = (double)clock()/CLOCKS_PER_SEC;
+	timestamp_Recording_latestframe = timestamp;
 
 	for (unsigned int i=0; i<num_cams; i++)
 	{ 
-		if (is_recording)
+		if (is_recording && !value)
+		{   //Stop Recording and release the writers.
 			cvReleaseVideoWriter(&capture_videowriter[i+1]);
-
-		capture_videowriter[i+1] = NULL;
-
-		//Start Recording prepares the recording, the actual writing is made each time a frame is captured.
-		if (value) 
-		{
+			capture_videowriter[i+1] = NULL;
+		}
+		else if (value) 
+		{	//Start Recording prepares the recording, the actual writing is made each time a frame is captured.
 			double cam_w = cvGetCaptureProperty(capture_cam_array[i+1], CV_CAP_PROP_FRAME_WIDTH);
 			double cam_h = cvGetCaptureProperty(capture_cam_array[i+1], CV_CAP_PROP_FRAME_HEIGHT);
 			double fps = cvGetCaptureProperty(capture_cam_array[i+1], CV_CAP_PROP_FPS); 
@@ -2977,19 +2981,12 @@ bool PerceptVideo::SetCameraRecording(const bool &value)
 
 			//CV_FOURCC('M','P','G','4')
 			std::stringstream file_name;
-			file_name << "OX_capture_" << timestamp << "_cam" << i+1 << ".mpg";
+			file_name << "OX_capture_" << (int)timestamp << "_cam" << i+1 << ".mpg";
 			std::string str_file_name = file_name.str();
-			capture_videowriter[i+1] = cvCreateVideoWriter(str_file_name.c_str(), CV_FOURCC('M','P','G','4'), fps, cvSize((int)cam_w,(int)cam_h), 1);
+			capture_videowriter[i+1] = cvCreateVideoWriter(str_file_name.c_str(), CV_FOURCC('X','V','I','D'), fps, cvSize((int)cam_w,(int)cam_h), 1);
 			if (capture_videowriter[i+1] == NULL)
 				cout << "Could not create the video writer (missing mpg4 codec? http://www.fourcc.org/mpg4/): cvCreateVideoWriter for camera " << i+1 << "\n";
 		} 
-		//Stop Recording and release the writers.
-		else
-		{
-			cvReleaseVideoWriter(&capture_videowriter[i+1]);
-			capture_videowriter[i+1] = NULL;
-		}
-
 	}
 	is_recording = value;
 	return false;
