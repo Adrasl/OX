@@ -457,6 +457,17 @@ bool Application::TrainBackground()
 	return true;
 }
 
+bool Application::SetCameraRecording(const bool &value)
+{
+	if (app_mainpercept)
+		app_mainpercept->SetCameraRecording(value);
+	return true;
+}
+bool Application::SetUseRecording(const bool &value, const std::string &url)
+{
+	return false;
+}
+
 IUserDataModelController* Application::GetUserDataModelControllerInstance()
 {
 	return user_dataModel_controller;

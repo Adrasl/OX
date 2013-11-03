@@ -26,6 +26,10 @@ namespace core
 			virtual char * GetCopyOfCurrentFeature(const std::string &feature, int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb = false) = 0;
 			virtual int GetNumCameras() = 0;
 
+			/** \brief Record every camera into a video file in disk. */
+			virtual bool SetCameraRecording(const bool &value) = 0;	
+			/** \brief Use the video file url as it was the camera input. */
+			virtual bool SetUseRecording(const bool &value, const std::string &url) = 0;	
 			/** \brief Obtains whether a presence has been detected or not. */
 			virtual bool PresenceDetected() = 0;
 			/** \brief Obtains whether a face has been detected or not. */

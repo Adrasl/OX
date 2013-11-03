@@ -75,6 +75,9 @@ namespace core
 				void CalculateHomography();
 				void TrainBackground();
 
+				bool SetCameraRecording(const bool &value);	
+				bool SetUseRecording(const bool &value, const std::string &url);
+
 				void FillLoginUserGUI(const std::string username, const std::string userpasswd);
 				void FillNewUserGUI(const std::string username, const std::string userpasswd);
 

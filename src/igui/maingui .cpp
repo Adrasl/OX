@@ -249,6 +249,20 @@ void MainGui::TrainBackground()
 		app->TrainBackground();
 }
 
+bool MainGui::SetCameraRecording(const bool &value)
+{
+	if (app != NULL)
+		return app->SetCameraRecording(value);
+	return false;
+}
+
+bool MainGui::SetUseRecording(const bool &value, const std::string &url)
+{
+	if (app != NULL)
+		return app->SetUseRecording(value, url);
+	return false;
+}
+
 void MainGui::FillLoginUserGUI(const std::string username, const std::string userpasswd)
 {
 	if (main_frame)

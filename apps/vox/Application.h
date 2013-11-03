@@ -70,6 +70,9 @@ class Application : public wxApp, public core::IApplication
 		bool CalculateHomography();
 		bool TrainBackground();
 
+		bool SetCameraRecording(const bool &value);	
+		bool SetUseRecording(const bool &value, const std::string &url);
+
 
 
 

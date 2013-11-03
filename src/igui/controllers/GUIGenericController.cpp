@@ -175,3 +175,15 @@ void GUIGenericController::TrainBackground()
 		main_gui->TrainBackground();
 }
 
+bool GUIGenericController::SetCameraRecording(const bool &value)
+{
+	if (main_gui != NULL)
+		return main_gui->SetCameraRecording(value);
+	return false;
+}
+bool GUIGenericController::SetUseRecording(const bool &value, const std::string &url)
+{
+	if (main_gui != NULL)
+		return main_gui->SetUseRecording(value, url);
+	return false;
+}

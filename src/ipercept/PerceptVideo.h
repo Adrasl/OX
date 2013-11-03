@@ -49,6 +49,10 @@ namespace core
 				static void ShowForeground(const bool &value);				
 				static void ShowMotion(const bool &value);	
 
+				/** \brief Record every camera into a video file in disk. */
+				virtual bool SetCameraRecording(const bool &value);	
+				/** \brief Use the video file url as it was the camera input. */
+				virtual bool SetUseRecording(const bool &value, const std::string &url);	
 				/** \brief Obtains whether a presence has been detected or not. */
 				virtual bool PresenceDetected();
 				/** \brief Obtains whether a face has been detected or not. */
@@ -95,6 +99,7 @@ namespace core
 
 				static unsigned int num_cams;
 				static std::map< int, CvCapture* > capture_cam_array;
+				static std::map< int, CvVideoWriter* > capture_videowriter;
 				static std::map< std::string, CamWindow* > camWindow_array;
 				static std::map< std::string, CamWindow* > debugcamWindow_array;
 				static std::map<int, IplImage *>capture_img;
@@ -110,7 +115,7 @@ namespace core
 				static boost::shared_ptr<boost::thread> m_thread;
 				static boost::try_mutex m_mutex, bbox_mutex;
 				static boost::try_mutex homography_mutex;
-				static bool initialized, stop_requested;
+				static bool initialized, stop_requested, is_recording, is_using_videosource;
 
 				static std::vector<bool> flip_h, flip_v;
 				static std::vector<int> search_results;
@@ -125,7 +130,7 @@ namespace core
 //				static std::map<int, CvGaussBGStatModelParams*> background_params;
 //				static std::map<int, CvBGStatModel*> background_model;
 				static int background_trainning_frames;
-				static double las_time;
+				static double las_time, capture_fps;
 				static bool presence_detected;
 
 				static corePoint3D<double> BoundinBoxMin, BoundinBoxMax;

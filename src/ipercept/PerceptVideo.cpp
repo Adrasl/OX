@@ -39,6 +39,7 @@ bool MySearchCallback(int id, void* arg)
 
 unsigned int PerceptVideo::num_cams = 1;
 std::map< int, CvCapture* > PerceptVideo::capture_cam_array;
+std::map< int, CvVideoWriter* > PerceptVideo::capture_videowriter;
 std::map< std::string, CamWindow* > PerceptVideo::camWindow_array;
 std::map< std::string, CamWindow* > PerceptVideo::debugcamWindow_array;
 std::vector<bool> PerceptVideo::flip_h;
@@ -51,6 +52,8 @@ boost::try_mutex PerceptVideo::homography_mutex;
 boost::shared_ptr<boost::thread> PerceptVideo::m_thread;
 bool PerceptVideo::initialized = false;
 bool PerceptVideo::stop_requested = false;
+bool PerceptVideo::is_recording = false;
+bool PerceptVideo::is_using_videosource = false;
 IFaceRecognition *PerceptVideo::face_recognizer=NULL;
 IApplicationConfiguration *PerceptVideo::app_config = NULL;
 IUserDataModelController *PerceptVideo::user_dataModel_controller = NULL;
@@ -77,6 +80,7 @@ std::map<int, vector2I> PerceptVideo::cam_capture_size;
 //std::map< int, IplImage* > PerceptVideo::motion_img;
 ///int PerceptVideo::background_trainning_frames=0;
 double PerceptVideo::las_time=0;
+double PerceptVideo::capture_fps=0;
 corePoint3D<double> PerceptVideo::BoundinBoxMin, PerceptVideo::BoundinBoxMax;
 
 //typedef Matrix<float, 4, 4> Matrix44f;
@@ -153,6 +157,7 @@ PerceptVideo::PerceptVideo(IApplicationConfiguration *app_config_)
 					flip_v.push_back(app_config->GetCameraData(i+1).flip_v);
 			}
 			capture_cam_array[i+1] = cvCaptureFromCAM( i );
+			//cvSetCaptureProperty(capture_cam_array[i+1],CV_CAP_PROP_FPS,capture_fps);
 			
 			//Face detectors
 			#ifdef _USE_ENCARA2_
@@ -524,13 +529,14 @@ void PerceptVideo::DoMainLoop()
 	//	//while(true)
 	//	//{debug = 5;}
 	//}
+	capture_fps = 1.0/0.015;
 	while(!stop_requested)
 	{
 		double timestamp = (double)clock()/CLOCKS_PER_SEC;
 		//std::cout << "Period: " << timestamp-las_time << "\n";
 		las_time = timestamp;
 		Iterate();
-		m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(10));
+		m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(15));
 	}
 }
 
@@ -588,6 +594,12 @@ void PerceptVideo::Capture()
 		window_name << "Cam" << index << ":";
 		IplImage *aux_img = capture_img[index];
 		capture_img[index] = cvQueryFrame(iter->second);
+
+		//Video recording
+		if(is_recording)
+			cvWriteFrame(capture_videowriter[index], capture_img[index]);
+
+
 		//if(aux_img) cvReleaseImage(&aux_img);
 		//IplImage *result;
 
@@ -2943,3 +2955,47 @@ bool PerceptVideo::RegisterPointIDIntoSearchResults(int id, void* arg)
 	return true; // keep going
 }
 //---------
+
+bool PerceptVideo::SetCameraRecording(const bool &value)
+{
+	double timestamp = (double)clock()/CLOCKS_PER_SEC;
+
+	for (unsigned int i=0; i<num_cams; i++)
+	{ 
+		if (is_recording)
+			cvReleaseVideoWriter(&capture_videowriter[i+1]);
+
+		capture_videowriter[i+1] = NULL;
+
+		//Start Recording prepares the recording, the actual writing is made each time a frame is captured.
+		if (value) 
+		{
+			double cam_w = cvGetCaptureProperty(capture_cam_array[i+1], CV_CAP_PROP_FRAME_WIDTH);
+			double cam_h = cvGetCaptureProperty(capture_cam_array[i+1], CV_CAP_PROP_FRAME_HEIGHT);
+			double fps = cvGetCaptureProperty(capture_cam_array[i+1], CV_CAP_PROP_FPS); 
+			if (fps < 10) fps = capture_fps;
+
+			//CV_FOURCC('M','P','G','4')
+			std::stringstream file_name;
+			file_name << "OX_capture_" << timestamp << "_cam" << i+1 << ".mpg";
+			std::string str_file_name = file_name.str();
+			capture_videowriter[i+1] = cvCreateVideoWriter(str_file_name.c_str(), CV_FOURCC('M','P','G','4'), fps, cvSize((int)cam_w,(int)cam_h), 1);
+			if (capture_videowriter[i+1] == NULL)
+				cout << "Could not create the video writer (missing mpg4 codec? http://www.fourcc.org/mpg4/): cvCreateVideoWriter for camera " << i+1 << "\n";
+		} 
+		//Stop Recording and release the writers.
+		else
+		{
+			cvReleaseVideoWriter(&capture_videowriter[i+1]);
+			capture_videowriter[i+1] = NULL;
+		}
+
+	}
+	is_recording = value;
+	return false;
+}
+bool PerceptVideo::SetUseRecording(const bool &value, const std::string &url)
+{
+	is_using_videosource = value;
+	return false;
+}

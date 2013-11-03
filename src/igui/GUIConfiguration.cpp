@@ -589,12 +589,18 @@ void GUIConfiguration::OnCalibrateButton(wxCommandEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnStartRecordingButton(wxCommandEvent& WXUNUSED(event))
 {
-	if (!isRecording)
-	{	startRecording_cam_button->SetLabel("STOP Recording");
-	} else
-	{	startRecording_cam_button->SetLabel("Start Recording");
+	GUIGenericController *guiGc	= GUIGenericController::GetInstance();
+	if (guiGc)
+	{
+		if (!isRecording)
+		{	guiGc->SetCameraRecording(true);
+			startRecording_cam_button->SetLabel("STOP Recording");
+		} else
+		{	guiGc->SetCameraRecording(false);
+			startRecording_cam_button->SetLabel("Start Recording");
+		}
+		isRecording = !isRecording;
 	}
-	isRecording = !isRecording;
 }
 
 

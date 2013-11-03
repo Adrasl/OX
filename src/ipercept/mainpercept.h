@@ -33,6 +33,8 @@ namespace core
 				virtual void Calibrate(const bool &value);
 				virtual void CalculateHomography();
 				virtual void TrainBackground();
+				virtual bool SetCameraRecording(const bool &value);	
+				virtual bool SetUseRecording(const bool &value, const std::string &url);
 				
 				/** \brief Obtains whether a presence has been detected or not. */
 				virtual bool MainPercept::PresenceDetected();

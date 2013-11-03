@@ -39,6 +39,9 @@ namespace core
 			virtual bool CalculateHomography()=0;
 			virtual bool TrainBackground()=0;
 
+			virtual bool SetCameraRecording(const bool &value)=0;	
+			virtual bool SetUseRecording(const bool &value, const std::string &url)=0;
+
 			virtual IUserDataModelController* GetUserDataModelControllerInstance() = 0;
 
 

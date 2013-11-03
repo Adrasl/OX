@@ -179,6 +179,20 @@ void MainPercept::TrainBackground()
 		perceptVideo_module->TrainBackground();
 }
 
+bool MainPercept::SetCameraRecording(const bool &value)
+{
+	if (isReady && perceptVideo_module != NULL)
+		return perceptVideo_module->SetCameraRecording(value);
+	return false;
+}
+
+bool MainPercept::SetUseRecording(const bool &value, const std::string &url)
+{
+	if (isReady && perceptVideo_module != NULL)
+		return perceptVideo_module->SetUseRecording(value, url);
+	return false;
+}
+
 void MainPercept::GetHeadPosition(corePoint3D<double> &result)
 {
 	result.x = result.y = result.z = 0;
