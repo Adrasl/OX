@@ -587,6 +587,11 @@ void PerceptVideo::SendImages()
 
 void PerceptVideo::Capture()
 {
+	double timestamp_Recording_currentframe = (double)clock()/CLOCKS_PER_SEC;
+	double deltatime = timestamp_Recording_currentframe - timestamp_Recording_latestframe;
+	if(is_recording && ( deltatime > (1.0/capture_fps)))
+		timestamp_Recording_latestframe = timestamp_Recording_currentframe;
+
 	for (std::map<int, CvCapture *>::iterator iter = capture_cam_array.begin(); iter!=capture_cam_array.end(); iter++)
 	{	
 		int index = iter->first;
@@ -596,10 +601,8 @@ void PerceptVideo::Capture()
 		capture_img[index] = cvQueryFrame(iter->second);
 
 		//Video recording
-		double timestamp_Recording_currentframe = (double)clock()/CLOCKS_PER_SEC;
-		if(is_recording && ((timestamp_Recording_currentframe - timestamp_Recording_latestframe) > (1.0/capture_fps)))
+		if(is_recording && ( deltatime > (1.0/capture_fps)))
 		{
-			timestamp_Recording_latestframe = timestamp_Recording_currentframe;
 			cvWriteFrame(capture_videowriter[index], capture_img[index]);
 		}
 
