@@ -254,7 +254,7 @@ void GUIConfiguration::InitCamPanel()
 		num_cams_ctrl = new wxSpinCtrl(cam_panel, wxID_NUM_CAM, _(""), wxPoint(110, 5), wxSize(100,19), 0, 0, INT_MAX, 1);
 		calibrate_cam_button = new wxButton(cam_panel, wxID_CALIBRATE, _("Calibrate"), wxPoint(250, 5), wxSize(70, 19));
 		startRecording_cam_button = new wxButton(cam_panel, wxID_STARTRECORDING, _("Start Recording"), wxPoint(250, 30), wxSize(100, 19));
-		videoClipURL_TextControl = new wxTextCtrl(cam_panel, wxID_ANY, "C:/myVideoClipURL.avi", wxPoint(360,30), wxDefaultSize);
+		videoClipURL_TextControl = new wxTextCtrl(cam_panel, wxID_ANY, "sample_cam", wxPoint(360,30), wxDefaultSize);
 		calc_homography_cam_button = new wxButton(cam_panel, wxID_CALCHOMOGF, _("Calc. Homography"), wxPoint(330, 5), wxSize(70, 19));
 		train_background_button = new wxButton(cam_panel, wxID_TRAINFOREG, _("Train foreground"), wxPoint(400, 5), wxSize(70, 19));
 
@@ -825,7 +825,41 @@ void GUIConfiguration::OnCamRadioChanged(wxCommandEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnCamModeChanged(wxCommandEvent& WXUNUSED(event))
 {
+	SetEvtHandlerEnabled(false);
 
+	wxString video_url_basename = videoClipURL_TextControl->GetLabel();
+	//Abort if the file doesn't exist
+	//bool file_found = wxDir::GetFirst(videoClipURL_TextControl->GetLabel());
+	//wxString file_found = wxFindFirstFile(video_url.c_str());
+	if ( video_url_basename.empty() )
+	{
+		wxMessageDialog *dialog = new wxMessageDialog(this, "Please add a video source basename");
+		dialog->ShowModal();
+		cam_mode->SetSelection(0);
+		SetEvtHandlerEnabled(true);
+		return;
+	}
+	/*if ( file_found.empty() )
+	{
+		wxMessageDialog *dialog = new wxMessageDialog(this, "The file could not be found.");
+		dialog->ShowModal();
+		cam_mode->SetSelection(0);
+		SetEvtHandlerEnabled(true);
+		return;
+	}*/
+
+	//Apply the change
+	GUIGenericController *guiGc	= GUIGenericController::GetInstance();
+	int mode_index = cam_mode->GetSelection();
+	//int camera_index = cam_choice->GetSelection()+1;
+
+	std::string video_url_basename_str = video_url_basename;
+	if ( mode_index == 0)
+		guiGc->SetUseRecording(false, video_url_basename_str);
+	else if ( mode_index == 1 )
+		guiGc->SetUseRecording(true, video_url_basename_str);
+	
+	SetEvtHandlerEnabled(true);
 }
 
 void GUIConfiguration::OnLayoutRadioChanged(wxCommandEvent& WXUNUSED(event))
@@ -1144,6 +1178,7 @@ void GUIConfiguration::EnableDisplayControls(const bool &value)
 void GUIConfiguration::EnableCameraControls(const bool &value)
 {
 	cam_flip->Enable(value);
+	//cam_mode->Enable(value);
 
 	cam_flip_v->Enable(value);
 	cam_flip_h->Enable(value);

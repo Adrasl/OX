@@ -186,10 +186,10 @@ bool MainPercept::SetCameraRecording(const bool &value)
 	return false;
 }
 
-bool MainPercept::SetUseRecording(const bool &value, const std::string &url)
+bool MainPercept::SetUseRecording(const bool &value, const std::string &video_url_basename)
 {
 	if (isReady && perceptVideo_module != NULL)
-		return perceptVideo_module->SetUseRecording(value, url);
+		return perceptVideo_module->SetUseRecording(value, video_url_basename);
 	return false;
 }
 

@@ -71,7 +71,7 @@ class Application : public wxApp, public core::IApplication
 		bool TrainBackground();
 
 		bool SetCameraRecording(const bool &value);	
-		bool SetUseRecording(const bool &value, const std::string &url);
+		bool SetUseRecording(const bool &value, const std::string &video_url_basename);
 
 
 

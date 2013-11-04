@@ -34,7 +34,7 @@ namespace core
 				virtual void CalculateHomography();
 				virtual void TrainBackground();
 				virtual bool SetCameraRecording(const bool &value);	
-				virtual bool SetUseRecording(const bool &value, const std::string &url);
+				virtual bool SetUseRecording(const bool &value, const std::string &video_url_basename);
 				
 				/** \brief Obtains whether a presence has been detected or not. */
 				virtual bool MainPercept::PresenceDetected();

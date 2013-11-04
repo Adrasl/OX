@@ -460,11 +460,13 @@ bool Application::TrainBackground()
 bool Application::SetCameraRecording(const bool &value)
 {
 	if (app_mainpercept)
-		app_mainpercept->SetCameraRecording(value);
-	return true;
+		return app_mainpercept->SetCameraRecording(value);
+	return false;
 }
-bool Application::SetUseRecording(const bool &value, const std::string &url)
+bool Application::SetUseRecording(const bool &value, const std::string &video_url_basename)
 {
+	if (app_mainpercept)
+		return app_mainpercept->SetUseRecording(value, video_url_basename);
 	return false;
 }
 

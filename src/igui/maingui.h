@@ -76,7 +76,7 @@ namespace core
 				void TrainBackground();
 
 				bool SetCameraRecording(const bool &value);	
-				bool SetUseRecording(const bool &value, const std::string &url);
+				bool SetUseRecording(const bool &value, const std::string &video_url_basename);
 
 				void FillLoginUserGUI(const std::string username, const std::string userpasswd);
 				void FillNewUserGUI(const std::string username, const std::string userpasswd);

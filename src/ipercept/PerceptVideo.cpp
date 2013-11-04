@@ -39,6 +39,7 @@ bool MySearchCallback(int id, void* arg)
 
 unsigned int PerceptVideo::num_cams = 1;
 std::map< int, CvCapture* > PerceptVideo::capture_cam_array;
+std::map< int, CvCapture* > PerceptVideo::capture_videofiles_array;
 std::map< int, CvVideoWriter* > PerceptVideo::capture_videowriter;
 std::map< std::string, CamWindow* > PerceptVideo::camWindow_array;
 std::map< std::string, CamWindow* > PerceptVideo::debugcamWindow_array;
@@ -394,6 +395,14 @@ PerceptVideo::~PerceptVideo()
 	}
 	capture_cam_array.erase(capture_cam_array.begin(),capture_cam_array.begin());
 
+	for (std::map< int, CvCapture * >::iterator iter = capture_videofiles_array.begin(); iter!=capture_videofiles_array.end(); iter++)
+	{
+		std::stringstream window_name;
+		window_name << "Cam" << iter->first << ":";
+		cvReleaseCapture(&(iter->second));
+	}
+	capture_videofiles_array.erase(capture_videofiles_array.begin(),capture_videofiles_array.begin());
+
 	//Cam Windows
 	for (std::map< std::string, CamWindow* >::iterator iter = camWindow_array.begin(); iter!=camWindow_array.end(); iter++)
 		delete iter->second;
@@ -561,6 +570,8 @@ void PerceptVideo::Iterate()
 
 void PerceptVideo::SendImages()
 {
+	//boost::mutex::scoped_lock lock(m_mutex);
+
 	for (std::map<int, IplImage *>::iterator iter = capture_img.begin(); iter != capture_img.end(); iter++)
 	{
 		IplImage *image = iter->second;
@@ -589,7 +600,7 @@ void PerceptVideo::Capture()
 {
 	double timestamp_Recording_currentframe = (double)clock()/CLOCKS_PER_SEC;
 	double deltatime = timestamp_Recording_currentframe - timestamp_Recording_latestframe;
-	if(is_recording && ( deltatime > (1.0/capture_fps)))
+	if((is_recording || is_using_videosource) && ( deltatime > (1.0/capture_fps)))
 		timestamp_Recording_latestframe = timestamp_Recording_currentframe;
 
 	for (std::map<int, CvCapture *>::iterator iter = capture_cam_array.begin(); iter!=capture_cam_array.end(); iter++)
@@ -598,13 +609,25 @@ void PerceptVideo::Capture()
 		std::stringstream window_name;
 		window_name << "Cam" << index << ":";
 		IplImage *aux_img = capture_img[index];
-		capture_img[index] = cvQueryFrame(iter->second);
-
-		//Video recording
-		if(is_recording && ( deltatime > (1.0/capture_fps)))
-		{
-			cvWriteFrame(capture_videowriter[index], capture_img[index]);
-		}
+		
+		if (!is_recording && !is_using_videosource)
+			capture_img[index] = cvQueryFrame(iter->second);
+		else if ( deltatime > (1.0/capture_fps))
+		{	//Video recording
+			if(is_recording)
+			{
+				capture_img[index] = cvQueryFrame(iter->second);
+				cvWriteFrame(capture_videowriter[index], capture_img[index]);
+			} else if (is_using_videosource)
+			{
+				IplImage *new_videoframe = cvQueryFrame(capture_videofiles_array[iter->first]);
+				if (new_videoframe) 
+					capture_img[index] = new_videoframe;
+				else
+					return;
+			}
+		} else
+			return;
 
 
 		//if(aux_img) cvReleaseImage(&aux_img);
@@ -2965,6 +2988,8 @@ bool PerceptVideo::RegisterPointIDIntoSearchResults(int id, void* arg)
 
 bool PerceptVideo::SetCameraRecording(const bool &value)
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	double timestamp = (double)clock()/CLOCKS_PER_SEC;
 	timestamp_Recording_latestframe = timestamp;
 
@@ -2984,7 +3009,7 @@ bool PerceptVideo::SetCameraRecording(const bool &value)
 
 			//CV_FOURCC('M','P','G','4')
 			std::stringstream file_name;
-			file_name << "OX_capture_" << (int)timestamp << "_cam" << i+1 << ".mpg";
+			file_name << "sample_" << (int)timestamp << "_cam" << i+1 << ".avi";
 			std::string str_file_name = file_name.str();
 			capture_videowriter[i+1] = cvCreateVideoWriter(str_file_name.c_str(), CV_FOURCC('X','V','I','D'), fps, cvSize((int)cam_w,(int)cam_h), 1);
 			if (capture_videowriter[i+1] == NULL)
@@ -2994,8 +3019,34 @@ bool PerceptVideo::SetCameraRecording(const bool &value)
 	is_recording = value;
 	return false;
 }
-bool PerceptVideo::SetUseRecording(const bool &value, const std::string &url)
+bool PerceptVideo::SetUseRecording(const bool &value, const std::string &video_url_basename)
 {
-	is_using_videosource = value;
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	double timestamp = (double)clock()/CLOCKS_PER_SEC;
+	timestamp_Recording_latestframe = timestamp;
+
+	if (is_recording)
+		return false;
+
+	for (unsigned int i=1; i<=num_cams; i++)
+	{ 
+		is_using_videosource = value;
+
+		if (is_using_videosource)
+		{
+
+			std::stringstream file_name;
+			file_name << video_url_basename << i << ".avi";
+			std::string str_file_name = file_name.str();
+			capture_videofiles_array[i] = cvCaptureFromFile(str_file_name.c_str());
+			double fps = cvGetCaptureProperty(capture_videofiles_array[i], CV_CAP_PROP_FPS); 
+		}
+		else
+		{
+			cvReleaseCapture(&capture_videofiles_array[i]);
+		}
+	}
+
 	return false;
 }

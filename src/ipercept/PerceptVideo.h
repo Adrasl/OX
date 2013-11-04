@@ -52,7 +52,7 @@ namespace core
 				/** \brief Record every camera into a video file in disk. */
 				virtual bool SetCameraRecording(const bool &value);	
 				/** \brief Use the video file url as it was the camera input. */
-				virtual bool SetUseRecording(const bool &value, const std::string &url);	
+				virtual bool SetUseRecording(const bool &value, const std::string &video_url_basename);	
 				/** \brief Obtains whether a presence has been detected or not. */
 				virtual bool PresenceDetected();
 				/** \brief Obtains whether a face has been detected or not. */
@@ -99,6 +99,7 @@ namespace core
 
 				static unsigned int num_cams;
 				static std::map< int, CvCapture* > capture_cam_array;
+				static std::map< int, CvCapture* > capture_videofiles_array;
 				static std::map< int, CvVideoWriter* > capture_videowriter;
 				static std::map< std::string, CamWindow* > camWindow_array;
 				static std::map< std::string, CamWindow* > debugcamWindow_array;

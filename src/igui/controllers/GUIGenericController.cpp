@@ -181,9 +181,9 @@ bool GUIGenericController::SetCameraRecording(const bool &value)
 		return main_gui->SetCameraRecording(value);
 	return false;
 }
-bool GUIGenericController::SetUseRecording(const bool &value, const std::string &url)
+bool GUIGenericController::SetUseRecording(const bool &value, const std::string &video_url_basename)
 {
 	if (main_gui != NULL)
-		return main_gui->SetUseRecording(value, url);
+		return main_gui->SetUseRecording(value, video_url_basename);
 	return false;
 }

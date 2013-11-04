@@ -256,10 +256,10 @@ bool MainGui::SetCameraRecording(const bool &value)
 	return false;
 }
 
-bool MainGui::SetUseRecording(const bool &value, const std::string &url)
+bool MainGui::SetUseRecording(const bool &value, const std::string &video_url_basename)
 {
 	if (app != NULL)
-		return app->SetUseRecording(value, url);
+		return app->SetUseRecording(value, video_url_basename);
 	return false;
 }
 
