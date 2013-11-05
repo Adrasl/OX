@@ -354,6 +354,7 @@ void MeshFactory::SetMarchingCubesConfig(const unsigned int &datasetSize, const 
 	field_size = fieldSize;
 	voxelscope_distance = voxelscopeDistance;
 	metaball_weightfactor = metaballWeightfactor;
+	//fTargetValue = (fieldSize/datasetSize)*targetValue; //target value as voxel size proportion //retomar
 	fTargetValue = targetValue;
 
 	SetUpSpatialGridIndex();
@@ -943,8 +944,9 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<vector3F> > so
 				//vector3F v_vertex[dataset_size-1];
 				//vector3F v_color[dataset_size-1];
 				//vector3F v_edge_normal[dataset_size-1];
-				vector3F zero_vector;
+				vector3F zero_vector, centeredOriginOffset_vector;
 				zero_vector.x = zero_vector.y =zero_vector.z = 0;
+				centeredOriginOffset_vector.x = centeredOriginOffset_vector.y = centeredOriginOffset_vector.z = field_size/2;
 				std::vector<vector3F> v_vertex;
 				std::vector<vector3F> v_color;
 				std::vector<vector3F> v_edge_normal;
@@ -954,18 +956,18 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<vector3F> > so
 											//coordenada real del cubo 0->field_size
 				int nTriangles = (this->*vMarchCube)(jX*fStepSize, jY*fStepSize, jZ*fStepSize, fStepSize, v_vertex, v_color, v_edge_normal);
 				for ( int i = 0; i < nTriangles; i++)
-				{
-					vertex.add_data3f(v_vertex[i*3].x,v_vertex[i*3].y,v_vertex[i*3].z);
+				{	//retomar centrar malla en el origen
+					vertex.add_data3f(v_vertex[i*3].x-7.5,v_vertex[i*3].y+5,v_vertex[i*3].z-2.5);
 					normal.add_data3f(v_edge_normal[i*3].x,v_edge_normal[i*3].y,v_edge_normal[i*3].z);
 					color.add_data4f(v_color[i*3].x,v_color[i*3].y,v_color[i*3].z, 1.0);
 					texcoord.add_data2f(1, 0);
 
-					vertex.add_data3f(v_vertex[i*3+1].x,v_vertex[i*3+1].y,v_vertex[i*3+1].z);
+					vertex.add_data3f(v_vertex[i*3+1].x-7.5,v_vertex[i*3+1].y+5,v_vertex[i*3+1].z-2.5);
 					normal.add_data3f(v_edge_normal[i*3+1].x,v_edge_normal[i*3+1].y,v_edge_normal[i*3+1].z);
 					color.add_data4f(v_color[i*3+1].x,v_color[i*3+1].y,v_color[i*3+1].z, 1.0);
 					texcoord.add_data2f(1, 1);
 
-					vertex.add_data3f(v_vertex[i*3+2].x,v_vertex[i*3+2].y,v_vertex[i*3+2].z);
+					vertex.add_data3f(v_vertex[i*3+2].x-7.5,v_vertex[i*3+2].y+5,v_vertex[i*3+2].z-2.5);
 					normal.add_data3f(v_edge_normal[i*3+2].x,v_edge_normal[i*3+2].y,v_edge_normal[i*3+2].z);
 					color.add_data4f(v_color[i*3+2].x,v_color[i*3+2].y,v_color[i*3+2].z, 1.0);
 					texcoord.add_data2f(0, 1);

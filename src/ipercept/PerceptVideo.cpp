@@ -2223,7 +2223,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		double b3_timestamp = (double)clock()/CLOCKS_PER_SEC;
 		//clusterize points, assign weight, simplfy point cloud by neightbourhood size
 		int size_step = 1;
-		int n_steps = 50;
+		int n_steps = 50; //retomar
 		float third_delta = 1.0;
 		float step_factor = n_steps * size_step;
 		std::map< int, vector3F >::iterator iter_isp = image_space_points.begin();
@@ -2243,7 +2243,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 			new_point.z = iter_isp->second.z;
 
 			for (int i = n_steps; i >= 0; )
-			{	float search_delta = 1 + delta * i * size_step;
+			{	float search_delta = 1 + delta * i * size_step; //retomar
 				float search_delta_window = (float)search_delta/2;
 				bool candidate_step_found = false;
 
@@ -2253,7 +2253,8 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 
 				float n_deltas = search_delta/delta;
 				third_delta = (is3D) ? n_deltas : 1.0;
-				float success_criteria = 0.95;
+				float success_criteria = 0.95; // CRITERIO DE ÉXITO, Encontró una muestra válida de tamaño search_delta //retomar
+				//float success_criteria = 0.95; // CRITERIO DE ÉXITO, Encontró una muestra válida de tamaño search_delta //retomar
 				if ((overlapping_size > ( success_criteria * pow(n_deltas, ((is3D) ? 3 : 2)) ) ) &&// n_deltas * n_deltas * third_delta))
 					(overlapping_size > 1) ) // n_deltas * n_deltas * third_delta))
 				{

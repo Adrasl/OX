@@ -1,5 +1,6 @@
 // This code is public domain.
 //
+// See the Variation used in MeshFactory
 
 #include "stdio.h"
 #include "math.h"
@@ -42,7 +43,7 @@ static const float a2fEdgeDirection[12][3] =
         {0.0, 0.0, 1.0},{0.0, 0.0, 1.0},{ 0.0, 0.0, 1.0},{0.0,  0.0, 1.0}
 };
 
-int     iDataSetSize = 16;
+int     iDataSetSize = 50; //16x16x16 cubes // never used
 float	metafactor = 1.0;
 float   fStepSize = 1.0/iDataSetSize;
 float   fTargetValue = 48.0;
@@ -688,6 +689,7 @@ NodePath* CreateVoxelized(std::map< int, std::vector<vector3F> > source_weighted
 	//fSample = fSample3;
 	//fSample = DistanceToWeightedPoints;
 	fSample = DistanceToWeightedPointsInRange;
+	cout << "Create voxelized - iDataSetSize: " << iDataSetSize << "\n";
 
 	//RTree<int, float, 3, float> spatial_index;
 

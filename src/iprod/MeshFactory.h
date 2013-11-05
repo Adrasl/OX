@@ -15,7 +15,7 @@
 #include <GeomTriangles.h>
 
 //#define DATASET_SIZE 75 // Subdivisions // heavy impact on time
-#define DATASET_SIZE 75 // Subdivisions // heavy impact on time
+#define DATASET_SIZE 75 // Subdivisions // heavy impact on time 16x16x16
 #define FIELD_SIZE 10.0 // Mesh Space (0,0,0)-(FS,FS,FS)
 #define DELTA_RANGE 0.005 // scope for measuring distance
 #define WEIGHT_FACTOR 0.085 // weight factor

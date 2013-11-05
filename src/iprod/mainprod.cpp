@@ -124,7 +124,8 @@ MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[
 	//framework.open_framework( m_argc, m_argv );
 
 	mesh_factory = new MeshFactory();
-	mesh_factory->SetMarchingCubesConfig(75);
+	//mesh_factory->SetMarchingCubesConfig(75, 10, 0.005, 0.06, 360.0); //MarchingCubesConfig 16x16x16 original
+	mesh_factory->SetMarchingCubesConfig(75, 10, 0.005, 0.085, 48.0); //MarchingCubesConfig 16x16x16 original//retomar
 }
 
 MainProd::~MainProd()
@@ -1812,7 +1813,8 @@ void MainProd::SetUpUser(void *graphic_node)
 				source_points.push_back(new_point);
 			}
 			NodePath *testQuad = CreateVoxelized(source_points);
-			testQuad->reparent_to(*user_nodepath);
+			testQuad->reparent_to(*user_nodepath);//retomar
+			user_nodepath->node()->add_child(testQuad->node());//retomar
 			////user_nodepath = testQuad;
 		}
 		else //it is a filepath
