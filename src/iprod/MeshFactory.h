@@ -40,7 +40,7 @@ namespace core
 				void SetMarchingCubesConfig(const unsigned int &datasetSize = 16, const float &fieldSize = 10, 
 											const float &voxelscopeDistance = 0.005, const float &metaballWeightfactor = 0.085, const float &targetValue = 48.0);
 
-				NodePath* CreateVoxelized(std::map< int, std::vector<vector3F> > source_weighted_data);
+				NodePath* CreateVoxelized(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data);
 
 				static bool RegisterPointIDIntoSearchResults(int id);
 				static bool RegisterPointIDIntoGlobalSearchResults(int id);
@@ -71,13 +71,13 @@ namespace core
 				int     iDataSetSize;
 				float   fStepSize;
 				float   fTargetValue;
-				std::map< int, std::vector<vector3F> > source_weighted_points; // <weight, point>
+				std::map< int, std::vector<corePDU3D<double>> > source_weighted_points; // <weight, point>
 				RTree<int, float, 3, float> spatial_index, spatial_grid_index;
 				static std::vector<int> RTree_search_results;
 				static std::vector<int> global_rTree_search_results;
 				static std::vector<int> grid_rTree_search_results;
-				std::map< int, vector3F > source_weighted_points_indexed; // <id, point>
-				std::map< int, vector3F > gridpoints_indexed; // <id, point>
+				std::map< int, corePDU3D<double> > source_weighted_points_indexed; // <id, point>
+				std::map< int, corePDU3D<double> > gridpoints_indexed; // <id, point>
 				std::map< int, int > weight_index; // <id, weight>
 				float (MeshFactory::*fSample)(float fX, float fY, float fZ);// = DistanceToWeightedPointsInRange;
 				int (MeshFactory::*vMarchCube)(float fX, float fY, float fZ, float fScale, std::vector<vector3F> &vertex, std::vector<vector3F> &color, std::vector<vector3F> &edge_normal);// = vMarchCube1;

@@ -213,7 +213,7 @@ void MainPercept::GetFeaturePositions(const std::string &feature, std::vector<fl
 		perceptVideo_module->GetFeaturePositions(feature, result, row_step, scale);
 }
 
-void MainPercept::GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<vector3F> > &result, const float &scale)
+void MainPercept::GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<corePDU3D<double>> > &result, const float &scale)
 {
 	if (isReady && perceptVideo_module != NULL)
 		perceptVideo_module->GetFeatureWeightedPositions(feature, result, scale);

@@ -362,23 +362,30 @@ void PerceptVideo::ShowMotion(const bool &value)
 	{
 		for (unsigned int i=0; i<num_cams; i++)
 		{
-			std::stringstream fd_window_name;
+			std::stringstream fd_window_name, fd_window_name2;
 			fd_window_name << "Motion " << i+1 << ":";
+			fd_window_name2 << "Motion Optical Flow" << i+1 << ":";
 			debugcamWindow_array[fd_window_name.str()] = new CamWindow(fd_window_name.str());
+			debugcamWindow_array[fd_window_name2.str()] = new CamWindow(fd_window_name2.str());
 		}
 	}
 	else
 	{
 		for (unsigned int i=0; i<num_cams; i++)
 		{
-			std::stringstream fd_window_name;
+			std::stringstream fd_window_name, fd_window_name2;
 			fd_window_name << "Motion " << i+1 << ":";
+			fd_window_name2 << "Motion Optical Flow" << i+1 << ":";
+			
 			std::map< std::string, CamWindow* >::iterator iter = debugcamWindow_array.find(fd_window_name.str());
 			if(iter != debugcamWindow_array.end())
-			{
-				delete iter->second;
-				debugcamWindow_array.erase(iter);
-			}
+			{	delete iter->second;
+				debugcamWindow_array.erase(iter);	}
+
+			std::map< std::string, CamWindow* >::iterator iter2 = debugcamWindow_array.find(fd_window_name2.str());
+			if(iter2 != debugcamWindow_array.end())
+			{	delete iter2->second;
+				debugcamWindow_array.erase(iter2);	}
 		}
 	}
 	show_motion = value;
@@ -784,6 +791,31 @@ void PerceptVideo::ShowDebugWindows()
 			window_name << "Motion " << index << ":";
 			int size_x, size_y, n_channels, depth, width_step;
 			char *new_image = (*iter)->GetCopyOfCurrentImage(size_x, size_y, n_channels, depth, width_step);
+			if(new_image)
+			{
+				CvSize size;
+				size.width = size_x;
+				size.height = size_y;
+				IplImage *image = cvCreateImage(size, depth, n_channels);
+				image->imageData = new_image;
+
+				debugcamWindow_array[window_name.str()]->ShowImage(image);
+				if(image) 
+				{	cvReleaseImage(&image);
+					delete image;          }
+				free(new_image);
+			}
+
+			index++;
+		}
+		//Optical Flow
+		index = 1;
+		for (std::vector<IMotionDetection*>::iterator iter = motion_detectors.begin(); iter != motion_detectors.end(); iter++)
+		{
+			std::stringstream window_name;
+			window_name << "Motion Optical Flow" << index << ":";
+			int size_x, size_y, n_channels, depth, width_step;
+			char *new_image = (*iter)->GetCopyOfCurrentImageOpticalFlow(size_x, size_y, n_channels, depth, width_step);
 			if(new_image)
 			{
 				CvSize size;
@@ -1474,7 +1506,7 @@ void PerceptVideo::GetFeaturePositions(const std::string &feature, std::vector<f
 	return;
 }
 
-void PerceptVideo::GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<vector3F> > &result, const float &scale)
+void PerceptVideo::GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<corePDU3D<double>> > &result, const float &scale)
 {
 	//boost::mutex::scoped_lock lock(m_mutex);
 	
@@ -1483,6 +1515,7 @@ void PerceptVideo::GetFeatureWeightedPositions(const std::string &feature, std::
 
 	return;
 }
+
 
 std::vector<MotionElement> PerceptVideo::GetMotionElements()
 {
@@ -1973,7 +2006,7 @@ bool PerceptVideo::FaceDetected()
 //		presence_images.clear();
 //}
 
-void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector<vector3F> > &weighted_points, const float &scale)
+void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector<corePDU3D<double>> > &weighted_points, const float &scale)
 {
 		int index = 1;
 		IplImage *img_xz, *img_yz, *img_xy;
@@ -2049,8 +2082,8 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		double b2_timestamp = (double)clock()/CLOCKS_PER_SEC;
 		//set up 3D weighted-points ans space-index
 		RTree<int, float, 3, float> spatial_index; // <datatype, elementtype, dimensions, elementtype real>
-		std::map< int, vector3F > image_space_points;			// <id, point>
-		std::map< int, vector3F > relative_points;				// <id, point>
+		std::map< int, corePDU3D<double> > image_space_points;			// <id, point>
+		std::map< int, corePDU3D<double> > relative_points;				// <id, point>
 		std::vector<int> indexes;
 		float relative_factor = 1.0;
 		int point_id = 0;
@@ -2080,7 +2113,9 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 				for (int x = 0; x < size_x; x++) {
 					if ( ((((uchar*)(scaled_img+width_step*y))[x])  == 0xff) ) //WHITE
 					{	float x_candidate, y_candidate, z_candidate;
+						float x_vel_candidate, y_vel_candidate, z_vel_candidate;
 						x_candidate = y_candidate = z_candidate = 0.0;
+						x_vel_candidate = y_vel_candidate = z_vel_candidate = 0.0;
 						if (iter->first == "FRONT")
 						{	 x_candidate = (offset_x + x);
 							 z_candidate = (offset_y + -1*y);	}
@@ -2169,21 +2204,27 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 										{	 x_candidate = offset_x2 + -1*x2;
 											 y_candidate = offset_y2 + -1*y2;	}
 										
-										vector3F new_point, relative_point;
-										new_point.x = x_candidate;
-										new_point.y = y_candidate;
-										new_point.z = z_candidate;
-										relative_point.x = 5*(x_candidate+(relative_factor/2))/relative_factor;
-										relative_point.y = 5*(y_candidate+(relative_factor/2))/relative_factor;
-										relative_point.z = 5*(z_candidate+(relative_factor/2))/relative_factor;
+										corePDU3D<double> new_point, relative_point;
+										new_point.position.x = x_candidate;
+										new_point.position.y = y_candidate;
+										new_point.position.z = z_candidate;
+										relative_point.position.x = 5*(x_candidate+(relative_factor/2))/relative_factor;
+										relative_point.position.y = 5*(y_candidate+(relative_factor/2))/relative_factor;
+										relative_point.position.z = 5*(z_candidate+(relative_factor/2))/relative_factor;
+
+										corePDU3D<double> var_1;
+										corePDU3D<double> var_2;
+										var_1 = var_2;
+
+										int i = 666;
 
 										image_space_points[point_id] = new_point;
 										relative_points[point_id] = relative_point;
 										indexes.push_back(point_id);
 
 										float envelope = 0;//(float)delta/2;
-										Rect3F point_rect(new_point.x-envelope,new_point.y-envelope,new_point.z-envelope,
-														  new_point.x+envelope,new_point.y+envelope,new_point.z+envelope);
+										Rect3F point_rect(new_point.position.x-envelope,new_point.position.y-envelope,new_point.position.z-envelope,
+														  new_point.position.x+envelope,new_point.position.y+envelope,new_point.position.z+envelope);
 										spatial_index.Insert(point_rect.min, point_rect.max, point_id);
 
 										point_id++;
@@ -2193,21 +2234,21 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 						}
 						else
 						{
-							vector3F new_point, relative_point;
-							new_point.x = x_candidate;
-							new_point.y = y_candidate;
-							new_point.z = z_candidate;
-							relative_point.x = 5*(x_candidate+(relative_factor/2))/relative_factor;
-							relative_point.y = 5*(y_candidate+(relative_factor/2))/relative_factor;
-							relative_point.z = 5*(z_candidate+(relative_factor/2))/relative_factor;
+							corePDU3D<double> new_point, relative_point;
+							new_point.position.x = x_candidate;
+							new_point.position.y = y_candidate;
+							new_point.position.z = z_candidate;
+							relative_point.position.x = 5*(x_candidate+(relative_factor/2))/relative_factor;
+							relative_point.position.y = 5*(y_candidate+(relative_factor/2))/relative_factor;
+							relative_point.position.z = 5*(z_candidate+(relative_factor/2))/relative_factor;
 
 							image_space_points[point_id] = new_point;
 							relative_points[point_id] = relative_point;
 							indexes.push_back(point_id);
 
 							float envelope = 0;//(float)delta/2;
-							Rect3F point_rect(new_point.x-envelope,new_point.y-envelope,new_point.z-envelope,
-								              new_point.x+envelope,new_point.y+envelope,new_point.z+envelope);
+							Rect3F point_rect(new_point.position.x-envelope,new_point.position.y-envelope,new_point.position.z-envelope,
+								              new_point.position.x+envelope,new_point.position.y+envelope,new_point.position.z+envelope);
 							spatial_index.Insert(point_rect.min, point_rect.max, point_id);
 
 							point_id++;
@@ -2226,7 +2267,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		int n_steps = 50; //retomar
 		float third_delta = 1.0;
 		float step_factor = n_steps * size_step;
-		std::map< int, vector3F >::iterator iter_isp = image_space_points.begin();
+		std::map< int, corePDU3D<double> >::iterator iter_isp = image_space_points.begin();
 
 		while ( (iter_isp != image_space_points.end()) && !(image_space_points.empty()))
 		{	iter_isp = image_space_points.begin();
@@ -2237,17 +2278,17 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 			//int random_index = (n_index > 0) ? indexes[random] : -1;
 			//iter_isp = (n_index > 0) ? image_space_points.find(random_index) : image_space_points.begin();
 			int iter_isp_id = iter_isp->first;
-			vector3F new_point;
-		    new_point.x = iter_isp->second.x;
-			new_point.y = iter_isp->second.y;
-			new_point.z = iter_isp->second.z;
+			corePDU3D<double> new_point;
+			new_point.position.x = iter_isp->second.position.x;
+			new_point.position.y = iter_isp->second.position.y;
+			new_point.position.z = iter_isp->second.position.z;
 
 			for (int i = n_steps; i >= 0; )
 			{	float search_delta = 1 + delta * i * size_step; //retomar
 				float search_delta_window = (float)search_delta/2;
 				bool candidate_step_found = false;
 
-				Rect3F search_rect(new_point.x-search_delta_window,new_point.y-search_delta_window,new_point.z-search_delta_window, new_point.x+search_delta_window,new_point.y+search_delta_window,new_point.z+search_delta_window);
+				Rect3F search_rect(new_point.position.x-search_delta_window,new_point.position.y-search_delta_window,new_point.position.z-search_delta_window, new_point.position.x+search_delta_window,new_point.position.y+search_delta_window,new_point.position.z+search_delta_window);
 				search_results.clear();
 				int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults, NULL);
 
@@ -2258,17 +2299,17 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 				if ((overlapping_size > ( success_criteria * pow(n_deltas, ((is3D) ? 3 : 2)) ) ) &&// n_deltas * n_deltas * third_delta))
 					(overlapping_size > 1) ) // n_deltas * n_deltas * third_delta))
 				{
-					new_point.x = relative_points[iter_isp->first].x;
-					new_point.y = relative_points[iter_isp->first].y;
-					new_point.z = relative_points[iter_isp->first].z;
-					//new_point.x = image_space_points[iter_isp->first].x;
-					//new_point.y = image_space_points[iter_isp->first].y;
-					//new_point.z = image_space_points[iter_isp->first].z;
+					new_point.position.x = relative_points[iter_isp->first].position.x;
+					new_point.position.y = relative_points[iter_isp->first].position.y;
+					new_point.position.z = relative_points[iter_isp->first].position.z;
+					//new_point.position.x = image_space_points[iter_isp->first].x;
+					//new_point.position.y = image_space_points[iter_isp->first].y;
+					//new_point.position.z = image_space_points[iter_isp->first].z;
 
 					if (weighted_points.find(search_delta) != weighted_points.end())
 						weighted_points[search_delta].push_back(new_point);
 					else
-					{	std::vector<vector3F> new_vector;
+					{	std::vector<corePDU3D<double>> new_vector;
 						new_vector.push_back(new_point);
 						weighted_points[search_delta] = new_vector;
 					}

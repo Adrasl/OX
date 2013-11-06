@@ -32,7 +32,7 @@ namespace core
 			virtual void SetAvatar(std::vector<float> source_data, int row_step=3) = 0;
 			virtual void SetAvatar(void *graphic_node) = 0;
 			virtual void* CreateGraphicNode(std::vector<float> source_data, int row_step=3) = 0;
-			virtual void* CreateGraphicNode(std::map< int, std::vector<vector3F> > source_weighted_data) = 0;
+			virtual void* CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data) = 0;
 
 		private:
 

@@ -112,7 +112,7 @@ void NavigationController::Iterate()
 		int row_step = 3;
 		float scale = 0.2;
 		//std::vector<float> presence_volume;
-		std::map< int, std::vector<vector3F> > presence_volume;
+		std::map< int, std::vector<corePDU3D<double>> > presence_volume;
 
 		//BLOCK 1
 		//----------------------------

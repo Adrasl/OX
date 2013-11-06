@@ -393,10 +393,10 @@ void MeshFactory::SetUpSpatialGridIndex()
 
 		Rect3F point_rect(jXini,jYini,jZini,jXend,jYend,jZend);
 		spatial_grid_index.Insert(point_rect.min, point_rect.max, point_id);
-		vector3F grid_cell;
-		grid_cell.x = iX*fStepSizeinv;
-		grid_cell.y = iY*fStepSizeinv;
-		grid_cell.z = iZ*fStepSizeinv;
+		corePDU3D<double> grid_cell;
+		grid_cell.position.x = iX*fStepSizeinv;
+		grid_cell.position.y = iY*fStepSizeinv;
+		grid_cell.position.z = iZ*fStepSizeinv;
 		gridpoints_indexed[point_id] = grid_cell;
 		point_id++;
 	}
@@ -494,11 +494,11 @@ float MeshFactory::DistanceToWeightedPointsInRange(float fX, float fY, float fZ)
 	int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
 
 	for (int i = 0; i < RTree_search_results.size(); i++)
-	{	std::map< int, vector3F >::iterator iter = source_weighted_points_indexed.find(RTree_search_results[i]);
+	{	std::map< int, corePDU3D<double> >::iterator iter = source_weighted_points_indexed.find(RTree_search_results[i]);
 		if (iter  != source_weighted_points_indexed.end())
-		{	fDx = fX - (iter->second).x;
-			fDy = fY - (iter->second).y;
-			fDz = fZ - (iter->second).z;
+		{	fDx = fX - (iter->second).position.x;
+			fDy = fY - (iter->second).position.y;
+			fDz = fZ - (iter->second).position.z;
 			std::map<int, int>::iterator iter2 = weight_index.find(iter->first);
 			if ( iter2 != weight_index.end() ) 
 				fResult += (metaball_weightfactor * (float(iter2->second)))/(fDx*fDx + fDy*fDy + fDz*fDz);
@@ -830,7 +830,7 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<vector3F> > so
 }*/
 
 
-NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<vector3F> > source_weighted_data)
+NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
 {
 
 
@@ -863,11 +863,11 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<vector3F> > so
 	source_weighted_points_indexed.clear();
 
 	source_weighted_points = source_weighted_data;
-	for (std::map< int, std::vector<vector3F> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
-	{	for (std::vector<vector3F>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
+	for (std::map< int, std::vector<corePDU3D<double>> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
+	{	for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
 		{	float envelope = 0.1*(iter->first);
-			Rect3F point_rect((*iter2).x-envelope,(*iter2).y-envelope,(*iter2).z-envelope,
-			                  (*iter2).x+envelope,(*iter2).y+envelope,(*iter2).z+envelope);
+			Rect3F point_rect((*iter2).position.x-envelope,(*iter2).position.y-envelope,(*iter2).position.z-envelope,
+			                  (*iter2).position.x+envelope,(*iter2).position.y+envelope,(*iter2).position.z+envelope);
 			spatial_index.Insert(point_rect.min, point_rect.max, point_id);
 			source_weighted_points_indexed[point_id] = (*iter2);
 			weight_index[point_id] = iter->first;
@@ -904,13 +904,13 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<vector3F> > so
 
 	for (std::vector<int>::iterator s_iter = global_rTree_search_results.begin(); s_iter != global_rTree_search_results.end(); s_iter++)
 	{
-		std::map< int, vector3F >::iterator id_iter = source_weighted_points_indexed.find(*s_iter);
+		std::map< int, corePDU3D<double> >::iterator id_iter = source_weighted_points_indexed.find(*s_iter);
 		if (id_iter == source_weighted_points_indexed.end())
 			continue;
 
-		iX = id_iter->second.x;
-		iY = id_iter->second.y;
-		iZ = id_iter->second.z;
+		iX = id_iter->second.position.x;
+		iY = id_iter->second.position.y;
+		iZ = id_iter->second.position.z;
 		float weight_offset = 0;// weight_index[id_iter->first]/2;
 		//-----------------------------
 		//FIX!!!! IGNORES TOO MANY GRID CELLS, but this approach is dimension explosive

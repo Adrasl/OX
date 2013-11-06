@@ -49,12 +49,12 @@ float   fStepSize = 1.0/iDataSetSize;
 float   fTargetValue = 48.0;
 float   fTime = 0.0;
 vector3F  sSourcePoint[3];
-std::vector<vector3F> source_points;
-std::map< int, std::vector<vector3F> > source_weighted_points; // <weight, point>
+std::vector<corePDU3D<double>> source_points;
+std::map< int, std::vector<corePDU3D<double>> > source_weighted_points; // <weight, point>
 RTree<int, float, 3, float> spatial_index;
 std::vector<int> RTree_search_results;
 std::vector<int> global_rTree_search_results;
-std::map< int, vector3F > source_weighted_points_indexed; // <id, point>
+std::map< int, corePDU3D<double> > source_weighted_points_indexed; // <id, point>
 std::map< int, int > weight_index; // <id, weight>
 
 bool bSpin = true;
@@ -145,9 +145,9 @@ float DistanceToPoints(float fX, float fY, float fZ)
 
 		for (unsigned int i = 0; i < source_points.size(); i++)
 		{
-			fDx = fX - source_points[i].x;
-			fDy = fY - source_points[i].y;
-			fDz = fZ - source_points[i].z;
+			fDx = fX - source_points[i].position.x;
+			fDy = fY - source_points[i].position.y;
+			fDz = fZ - source_points[i].position.z;
 			fResult += metafactor/(fDx*fDx + fDy*fDy + fDz*fDz);
 		}
 
@@ -158,13 +158,13 @@ float DistanceToWeightedPoints(float fX, float fY, float fZ)
 {
     double fResult = 0.0;
     double fDx, fDy, fDz;
-	for (std::map< int, std::vector<vector3F> >::iterator iter = source_weighted_points.begin(); iter != source_weighted_points.end(); iter++)
+	for (std::map< int, std::vector<corePDU3D<double>> >::iterator iter = source_weighted_points.begin(); iter != source_weighted_points.end(); iter++)
 	{	float size = iter->first;
-		for (std::vector<vector3F>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
+		for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
 		{
-			fDx = fX - (*iter2).x;
-			fDy = fY - (*iter2).y;
-			fDz = fZ - (*iter2).z;
+			fDx = fX - (*iter2).position.x;
+			fDy = fY - (*iter2).position.y;
+			fDz = fZ - (*iter2).position.z;
 			fResult += (0.1 + (0.1*size))/(fDx*fDx + fDy*fDy + fDz*fDz);
 		}
 	}
@@ -183,11 +183,11 @@ float DistanceToWeightedPointsInRange(float fX, float fY, float fZ)
 	int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults, NULL);
 
 	for (unsigned int i = 0; i < RTree_search_results.size(); i++)
-	{	std::map< int, vector3F >::iterator iter = source_weighted_points_indexed.find(RTree_search_results[i]);
+	{	std::map< int, corePDU3D<double> >::iterator iter = source_weighted_points_indexed.find(RTree_search_results[i]);
 		if (iter  != source_weighted_points_indexed.end())
-		{	fDx = fX - (iter->second).x;
-			fDy = fY - (iter->second).y;
-			fDz = fZ - (iter->second).z;
+		{	fDx = fX - (iter->second).position.x;
+			fDy = fY - (iter->second).position.y;
+			fDz = fZ - (iter->second).position.z;
 			std::map<int, int>::iterator iter2 = weight_index.find(iter->first);
 			if ( iter2 != weight_index.end() ) 
 				fResult += (WEIGHT_FACTOR * (float(iter2->second)))/(fDx*fDx + fDy*fDy + fDz*fDz);
@@ -683,7 +683,7 @@ int TriangleConnectionTable[256][16] =
 
 //------------------------------------
 
-NodePath* CreateVoxelized(std::map< int, std::vector<vector3F> > source_weighted_data)
+NodePath* CreateVoxelized(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
 {
 	//fSample = fSample1;
 	//fSample = fSample3;
@@ -700,11 +700,11 @@ NodePath* CreateVoxelized(std::map< int, std::vector<vector3F> > source_weighted
 	source_weighted_points_indexed.clear();
 
 	source_weighted_points = source_weighted_data;
-	for (std::map< int, std::vector<vector3F> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
-	{	for (std::vector<vector3F>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
+	for (std::map< int, std::vector<corePDU3D<double>> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
+	{	for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
 		{	float envelope = 0.1*(iter->first);
-			Rect3F point_rect((*iter2).x-envelope,(*iter2).y-envelope,(*iter2).z-envelope,
-			                  (*iter2).x+envelope,(*iter2).y+envelope,(*iter2).z+envelope);
+			Rect3F point_rect((*iter2).position.x-envelope,(*iter2).position.y-envelope,(*iter2).position.z-envelope,
+			                  (*iter2).position.x+envelope,(*iter2).position.y+envelope,(*iter2).position.z+envelope);
 			spatial_index.Insert(point_rect.min, point_rect.max, point_id);
 			source_weighted_points_indexed[point_id] = (*iter2);
 			weight_index[point_id] = iter->first;
@@ -741,13 +741,13 @@ NodePath* CreateVoxelized(std::map< int, std::vector<vector3F> > source_weighted
 
 	for (std::vector<int>::iterator s_iter = global_rTree_search_results.begin(); s_iter != global_rTree_search_results.end(); s_iter++)
 	{
-		std::map< int, vector3F >::iterator id_iter = source_weighted_points_indexed.find(*s_iter);
+		std::map< int, corePDU3D<double> >::iterator id_iter = source_weighted_points_indexed.find(*s_iter);
 		if (id_iter == source_weighted_points_indexed.end())
 			continue;
 
-		iX = id_iter->second.x;
-		iY = id_iter->second.y;
-		iZ = id_iter->second.z;
+		iX = id_iter->second.position.x;
+		iY = id_iter->second.position.y;
+		iZ = id_iter->second.position.z;
 		float weight_offset = 0;// weight_index[id_iter->first]/2;
 		//-----------------------------
 		//FIX!!!! IGNORES TOO MANY GRID CELLS, but this approach is dimension explosive
@@ -831,7 +831,7 @@ NodePath* CreateVoxelized(std::map< int, std::vector<vector3F> > source_weighted
 	return quad;
 }
 
-NodePath* CreateVoxelized(std::vector<vector3F> &source_data)
+NodePath* CreateVoxelized(std::vector<corePDU3D<double>> &source_data)
 {
 	fSample = DistanceToPoints;
 	//source_points = source_data;

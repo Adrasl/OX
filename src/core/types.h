@@ -100,7 +100,7 @@ namespace core
 	{
 		info x;
 		info y;
-		corePoint2D& corePoint2D::operator=(corePoint2D& value) 
+		corePoint2D& corePoint2D::operator=(const corePoint2D& value) 
 		{	if(this != &value)
 			{	x = value.x;
 				y = value.y;		 
@@ -130,7 +130,8 @@ namespace core
 		corePoint3D<info> position;
 		corePoint3D<info> velocity;
 		corePoint3D<info> acceleration;
-		corePDU3D& corePDU3D::operator=(corePDU3D& value) 
+
+		corePDU3D& corePDU3D::operator=(const corePDU3D& value) 
 		{	if(this != &value)
 			{	position = value.position;
 				velocity = value.velocity;

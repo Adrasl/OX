@@ -5,6 +5,7 @@
 #include <core/Export.h>
 #include <core/IApplication.h>
 #include <core/IApplicationConfiguration.h>
+#include <core/types.h>
 
 namespace core
 {
@@ -35,7 +36,7 @@ namespace core
 			/** \brief Obtains the position of the given feature. */
 			virtual void GetFeaturePositions(const std::string &feature, std::vector<float> &result, int &row_step, const float &scale = 1) = 0;
 			/** \brief Obtains the position of the given feature. */
-			virtual void GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<vector3F> > &result, const float &scale) = 0;
+			virtual void GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<corePDU3D<double>> > &result, const float &scale) = 0;
 			/** \brief Obtains the Boundig Box of the detected space*/
 			virtual void GetSpaceBoundingBox(corePoint3D<double> &min, corePoint3D<double> &max, const bool &recalculate=true) = 0;
 			/** \brief Obtains the motion elements */

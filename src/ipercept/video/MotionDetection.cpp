@@ -47,6 +47,70 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
     double magnitude;
     CvScalar color;
 
+	//OPTICAL FLOW
+	//---------------------------
+	//Updating previous and current frames
+	if (previous_frame == NULL)
+	{	previous_frame = cvCreateImage(size,IPL_DEPTH_8U,1);
+		cvCvtColor(img,previous_frame,CV_RGB2GRAY);
+	} else
+	{	cvReleaseImage(&previous_frame);
+		previous_frame = current_frame;
+	}
+	current_frame = cvCreateImage(size,IPL_DEPTH_8U,1);
+	cvCvtColor(img,current_frame,CV_RGB2GRAY);		
+	
+	if (show_frame)
+		cvReleaseImage(&show_frame);
+	show_frame = cvCreateImage(size,IPL_DEPTH_8U,3);
+	//else
+	//{
+	//	cvReleaseImage(&show_frame);
+	//	show_frame = cvCreateImage(size,IPL_DEPTH_8U,3);
+	//}
+	//preparing output velocities (flow)
+	if (velx)
+		cvReleaseImage(&velx);
+	if (vely)
+		cvReleaseImage(&vely);
+	velx = cvCreateImage(size,IPL_DEPTH_32F,1);
+	vely = vely=cvCreateImage(size,IPL_DEPTH_32F,1);
+
+	//Calculating dense Optical Flow (Lucas Kanade)
+	block_size.height = block_size.width = 3;
+	if (previous_frame && current_frame)
+		cvCalcOpticalFlowLK(previous_frame, current_frame, block_size, velx, vely);
+
+	if (velx_Mat)
+		cvReleaseMat(&velx_Mat);
+	if (vely_Mat)
+		cvReleaseMat(&vely_Mat);
+	velx_Mat = cvCreateMat(size.height, size.width, CV_32FC1); 
+	vely_Mat = cvCreateMat(size.height, size.width, CV_32FC1);
+
+	cvConvert(velx, velx_Mat);
+	cvConvert(vely, vely_Mat);
+
+	//Preparing picture with lines showing optical flow
+	if(show_frame)
+	{	cvZero( show_frame );
+		for (int y=0; y<size.height; y+=50) {
+		for (int x=0; x<size.width; x+=50) {
+			int vel_x_here = (int)cvGetReal2D( velx, y, x);
+			int vel_y_here = (int)cvGetReal2D( vely, y, x);
+			cvLine( show_frame, cvPoint(x, y), cvPoint(x+vel_x_here, y+vel_y_here), cvScalarAll(255));
+		}}
+		/*
+		for (int y=0; y<size.height; y+=50) {
+		for (int x=0; x<size.width; x+=50) {
+			int vel_x_here = cvmGet(velx_Mat, x, y); 
+			int vel_y_here = cvmGet(velx_Mat, x, y);
+			cvLine( show_frame, cvPoint(x, y), cvPoint(x+vel_x_here, y+vel_y_here), cvScalarAll(255));
+		}} , velx_Mat(NULL), vely_Mat(NULL)*/ //retomar parece haber un problema al acceder con cvmGet, tema de hilos?
+	}
+
+	//MHI
+	//------------------------------------
     // allocate images at the beginning or
     // reallocate them if the frame size is changed
     if( !mhi || mhi->width != size.width || mhi->height != size.height ) {
@@ -171,7 +235,8 @@ std::vector<MotionElement> MotionDetection::GetMotionElements()
 
 MotionDetection::MotionDetection(IPerceptVideo* video_perception, const int camera_index)
 	: v_perception(video_perception), cam_index(camera_index), initialized(false), stop_requested(false), image(NULL), 
-	  N(4), buf(NULL), last(0), mhi(NULL), orient(NULL), mask(NULL), segmask(NULL), storage(NULL), motion(NULL), las_time(0), updated(false)
+	  N(4), buf(NULL), last(0), mhi(NULL), orient(NULL), mask(NULL), segmask(NULL), storage(NULL), motion(NULL), las_time(0), updated(false),
+	  previous_frame(NULL), current_frame(NULL), velx(NULL), vely(NULL), show_frame(NULL), velx_Mat(NULL), vely_Mat(NULL)
 {
 	faceRec_a.x = -1; faceRec_a.y = -1;
 	faceRec_b.x = -1; faceRec_b.y = -1;
@@ -182,6 +247,8 @@ MotionDetection::MotionDetection(IPerceptVideo* video_perception, const int came
 MotionDetection::~MotionDetection()
 {
 	cvReleaseImage(&image);
+	cvReleaseImage(&current_frame);
+	cvReleaseImage(&previous_frame);
 }
 
 void MotionDetection::Delete()
@@ -242,7 +309,6 @@ void MotionDetection::Process()
 	updated = false;}
 }
 
-
 void MotionDetection::Capture()
 {
 	char *old_image = (image) ? image->imageData : NULL;
@@ -272,13 +338,12 @@ void MotionDetection::Capture()
 			}
 		}
 
+		//MOTION FEATURES
 		//---------------------------
             if( !motion )
-            {
-                motion = cvCreateImage( cvSize(image->width,image->height), 8, 3 );
+            {   motion = cvCreateImage( cvSize(image->width,image->height), 8, 3 );
                 cvZero( motion );
-                motion->origin = image->origin;
-            }
+                motion->origin = image->origin;										}
 
             UpdateMHI( image, motion, 30 );
 		//-------------------------------
@@ -360,4 +425,46 @@ char * MotionDetection::GetCopyOfCurrentImage(int &size_x, int &size_y, int &n_c
 		return copy;
 	}
 	return NULL;
+}
+
+char * MotionDetection::GetCopyOfCurrentImageOpticalFlow(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb)
+{
+	boost::try_mutex::scoped_try_lock lock(m_mutex);
+	if ((lock)&&(show_frame))
+	{
+		char *source = show_frame->imageData;
+		char *copy;
+
+		size_x     = show_frame->width;
+		size_y     = show_frame->height;
+		n_channels = show_frame->nChannels;
+		depth      = show_frame->depth;
+		width_step = show_frame->widthStep;
+
+		copy = (char *)malloc(sizeof(char)*size_x*size_y*n_channels);
+
+		for (int y = 0; y < show_frame->height; y++) {
+			for (int x = 0; x < show_frame->width; x++) {
+					int first_channel = switch_rb ? 2 : 0;
+					int second_channel = switch_rb ? 1 : 1;
+					int third_channel  = switch_rb ? 0 : 2;
+					((uchar*)(copy + width_step*y))[x*3]   = ((uchar*)(source+width_step*y))[x*3+first_channel];
+					((uchar*)(copy + width_step*y))[x*3+1] = ((uchar*)(source+width_step*y))[x*3+second_channel];
+					((uchar*)(copy + width_step*y))[x*3+2] = ((uchar*)(source+width_step*y))[x*3+third_channel];
+			}
+		}
+		return copy;
+	}
+	return NULL;
+}
+corePoint3D<float> MotionDetection::GetMotionAtCoords(corePoint2D<int> coords)
+{
+	corePoint3D<float> result;
+	result.y = result.x = result.z = 0.0;
+	if (velx && vely)
+	{	//Faster than cvGetReal2D
+		result.x = cvmGet(velx_Mat, coords.x, coords.y); 
+		result.y = cvmGet(velx_Mat, coords.x, coords.y); 
+	}
+	return result;
 }

@@ -10,6 +10,7 @@
 #include <ipercept/video/PresenceDetection.h>
 #include <core/IApplicationConfiguration.h>
 #include <ipercept/CamWindow.h>
+#include <core/types.h>
 
 #include <string>
 #include <vector>
@@ -64,7 +65,7 @@ namespace core
 				/** \brief Obtains position array of the given feature. */
 				virtual void GetFeaturePositions(const std::string &feature, std::vector<float> &result, int &row_step, const float &scale = 1);
 				/** \brief Obtains weigthed position array of the given feature. weight represents the size of the point, used as key in result map */
-				virtual void GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<vector3F> > &result, const float &scale=1);
+				virtual void GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<corePDU3D<double>> > &result, const float &scale=1);
 				/** \brief Obtains motion elements. */
 				virtual std::vector<MotionElement> PerceptVideo::GetMotionElements();
 				/** \brief Obtains the Boundig Box of the detected space*/
@@ -92,7 +93,7 @@ namespace core
 				static void SendImages();
 				static void ObtainCenterOfMass(corePoint3D<double> &result);
 				static void ObtainPresenceVolume(std::vector<float> &result, int &row_step, const float &scale=1);
-				static void ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector<vector3F> > &weighted_points, const float &scale=1);
+				static void ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector<corePDU3D<double>> > &weighted_points, const float &scale=1);
 				static void TransformCoordinates(corePoint2D<int> &result, const int &cam_index);
 				static void UpdateFaceHistory();
 				static bool RegisterPointIDIntoSearchResults(int id, void* arg);

@@ -686,17 +686,17 @@ void MainProd::AddTestQuad()
 {
 	//----test quad
 	//NodePath *testQuad = CreateQuad();
-	std::vector<vector3F> source_data;
-	vector3F point1, point2, point3, point4, point5, point6, point7;
-	point1.x = point2.x = point3.x = point4.x = point5.x = point6.x = point7.x = 0.25;
-	point1.y = point2.y = point3.y = point4.y = point5.y = point6.y = point7.y = 0.25;
-	point1.z = point2.z = point3.z = point4.z = point5.z = point6.z = point7.z = 0.25;
-	point2.x+=0.01; point2.y+=0; point5.z+=0;
-	point3.x+=0.12; point3.y+=0.21; point5.z+=0;
-	point4.x+=0.13; point4.y+=0.22; point5.z+=0.31;
-	point5.x+=0.14; point5.y+=0.24; point5.z+=0.31;
-	point6.x+=0.15; point6.y+=0.25; point6.z+=0.31;
-	point7.x+=0.16; point7.y+=0.26; point7.z+=0.33;
+	std::vector<corePDU3D<double>> source_data;
+	corePDU3D<double> point1, point2, point3, point4, point5, point6, point7;
+	point1.position.x = point2.position.x = point3.position.x = point4.position.x = point5.position.x = point6.position.x = point7.position.x = 0.25;
+	point1.position.y = point2.position.y = point3.position.y = point4.position.y = point5.position.y = point6.position.y = point7.position.y = 0.25;
+	point1.position.z = point2.position.z = point3.position.z = point4.position.z = point5.position.z = point6.position.z = point7.position.z = 0.25;
+	point2.position.x+=0.01; point2.position.y+=0; point5.position.z+=0;
+	point3.position.x+=0.12; point3.position.y+=0.21; point5.position.z+=0;
+	point4.position.x+=0.13; point4.position.y+=0.22; point5.position.z+=0.31;
+	point5.position.x+=0.14; point5.position.y+=0.24; point5.position.z+=0.31;
+	point6.position.x+=0.15; point6.position.y+=0.25; point6.position.z+=0.31;
+	point7.position.x+=0.16; point7.position.y+=0.26; point7.position.z+=0.33;
 	source_data.push_back(point1);
 	source_data.push_back(point2);
 	source_data.push_back(point3);
@@ -1804,12 +1804,12 @@ void MainProd::SetUpUser(void *graphic_node)
 				pos = next_pos;
 			}
 			int n_points = (row_step > 0) ? (source_data.size() / row_step) : 0;
-			std::vector<vector3F> source_points;
+			std::vector<corePDU3D<double>> source_points;
 			for (int i = 0; i < n_points; i++)
-			{	vector3F new_point;
-				new_point.x = source_data[i*row_step+0];
-				new_point.y = (row_step > 1) ? source_data[i*row_step+1] : 0.0;
-				new_point.z = (row_step > 2) ? source_data[i*row_step+2] : 0.0;
+			{	corePDU3D<double> new_point;
+				new_point.position.x = source_data[i*row_step+0];
+				new_point.position.y = (row_step > 1) ? source_data[i*row_step+1] : 0.0;
+				new_point.position.z = (row_step > 2) ? source_data[i*row_step+2] : 0.0;
 				source_points.push_back(new_point);
 			}
 			NodePath *testQuad = CreateVoxelized(source_points);
@@ -1870,12 +1870,12 @@ void* MainProd::CreateGraphicNode(std::vector<float> source_data, int row_step)
 	if (source_data.size() > 0)
 	{
 		int n_points = (row_step > 0) ? (source_data.size() / row_step) : 0;
-		std::vector<vector3F> source_points;
+		std::vector<corePDU3D<double>> source_points;
 		for (int i = 0; i < n_points; i++)
-		{	vector3F new_point;
-			new_point.x = source_data[i*row_step+0];
-			new_point.y = (row_step > 1) ? source_data[i*row_step+1] : 0.0;
-			new_point.z = (row_step > 2) ? source_data[i*row_step+2] : 0.0;
+		{	corePDU3D<double> new_point;
+			new_point.position.x = source_data[i*row_step+0];
+			new_point.position.y = (row_step > 1) ? source_data[i*row_step+1] : 0.0;
+			new_point.position.z = (row_step > 2) ? source_data[i*row_step+2] : 0.0;
 			source_points.push_back(new_point);
 		}
 		NodePath *testQuad = CreateVoxelized(source_points);
@@ -1883,7 +1883,7 @@ void* MainProd::CreateGraphicNode(std::vector<float> source_data, int row_step)
 	}
 }
 
-void* MainProd::CreateGraphicNode(std::map< int, std::vector<vector3F> > source_weighted_data)
+void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
 {
 	//return NULL;
 	//NodePath *testQuad = CreateVoxelized(source_weighted_data);

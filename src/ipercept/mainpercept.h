@@ -10,6 +10,7 @@
 #include <core/IUserDataModelController.h>
 #include <ipercept/PerceptAudio.h>
 #include <ipercept/PerceptVideo.h>
+#include <core/types.h>
 
 #include <string>
 #include <vector>
@@ -47,7 +48,7 @@ namespace core
 				/** \brief Obtains the position of the given feature. */
 				virtual void GetFeaturePositions(const std::string &feature, std::vector<float> &result, int &row_step, const float &scale = 1);
 				/** \brief Obtains the position of the given feature. */
-				virtual void GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<vector3F> > &result, const float &scale);
+				virtual void GetFeatureWeightedPositions(const std::string &feature, std::map< int, std::vector<corePDU3D<double>> > &result, const float &scale);
 				/** \brief Obtains the motion elements. */
 				virtual std::vector<MotionElement> GetMotionElements();
 				/** \brief Obtains the Boundig Box of the detected space*/

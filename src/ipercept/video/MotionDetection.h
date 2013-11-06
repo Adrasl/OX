@@ -36,7 +36,9 @@ namespace core
 				int GetCamIndex() { return cam_index; } ;
 				virtual void SetCurrentImage(const int &size_x, const int &size_y, const int &n_channels, const int &depth, const int &width_step, char * data);
 				virtual char * GetCopyOfCurrentImage(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb = false);
+				virtual char * GetCopyOfCurrentImageOpticalFlow(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb = false);
 				virtual std::vector<MotionElement> GetMotionElements();
+				virtual corePoint3D<float> GetMotionAtCoords(corePoint2D<int> coords);
 				//virtual void GetFeatureROIArray(const std::string &feature, std::vector<Rect3F> &result);
 
 				//virtual void GetFaceCenterPos(corePoint2D<int> &pos);
@@ -69,10 +71,17 @@ namespace core
 				IplImage *orient; // orientation
 				IplImage *mask; // valid orientation mask
 				IplImage *segmask; // motion segmentation map
-				CvMemStorage* storage; // temporary storage
-				IplImage* motion;
+				CvMemStorage *storage; // temporary storage
+				IplImage *motion;
 				void UpdateMHI( IplImage* img, IplImage* dst, int diff_threshold );
 				double las_time;
+
+				//Opticalflow
+				CvSize block_size;
+				int of_use_previous; 
+				IplImage *previous_frame, *current_frame, *show_frame, *velx, *vely;
+				CvMat *velx_Mat, *vely_Mat;
+
 				//---------------
 
 				//CENCARA2_2Detector *ENCARAFaceDetector;
