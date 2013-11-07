@@ -2090,7 +2090,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		}
 		double b1_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 		double b1_dif_time = b1_timestamp2 - b1_timestamp;
-		cout << "CALCULATING Block 1 - scaled image, got axis: " << b1_dif_time << "\n";
+		//cout << "CALCULATING Block 1 - scaled image, got axis: " << b1_dif_time << "\n";
 
 
 		//BLOCK 2
@@ -2372,7 +2372,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		}
 		double b2_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 		double b2_dif_time = b2_timestamp2 - b2_timestamp;
-		cout << "CALCULATING Block 2 - obtain full cloud, indexed: " << b2_dif_time << "\n";
+		//cout << "CALCULATING Block 2 - obtain full cloud, indexed: " << b2_dif_time << "\n";
 
 
 		//BLOCK 3
@@ -2474,7 +2474,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		}
 		double b3_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 		double b3_dif_time = b3_timestamp2 - b3_timestamp;
-		cout << "CALCULATING Block 3 - simplifying cloud: " << b3_dif_time << "\n";
+		//cout << "CALCULATING Block 3 - simplifying cloud: " << b3_dif_time << "\n";
 
 		for (std::map< PlaneOrientation, IplImage * >::iterator iter = presence_images.begin(); iter != presence_images.end(); iter++)
 			cvReleaseImage(&(iter->second));

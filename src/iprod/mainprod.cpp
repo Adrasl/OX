@@ -135,12 +135,13 @@ MainProd::~MainProd()
 		delete iter->second;
 	prod3Dwindow_array.erase(prod3Dwindow_array.begin(), prod3Dwindow_array.end());
 
+	/*for (std::map< Prod3DEntity *, CollisionNode * >::iterator iter = entity_collider_array.begin(); iter != entity_collider_array.end(); iter++)
+		delete iter->second;
+
 	if(collision_handler_queue)
 		delete collision_handler_queue;
-	//if(collision_traverser)
-	//	delete collision_traverser;
-	//for (std::map< Prod3DEntity *, CollisionNode * >::iterator iter = entity_collider_array.begin(); iter != entity_collider_array.end(); iter++)
-	//	delete iter->second;
+	if(collision_traverser)
+		delete collision_traverser;*/
 }
 
 void MainProd::Delete()
@@ -170,7 +171,10 @@ void MainProd::DoMainLoop()
 		#ifndef _DEBUG
 		//Collisions
 		if (!collision_handler_queue)
+		{
 			collision_handler_queue = new CollisionHandlerQueue();
+			collision_handler_queue->clear_entries();
+		}
 		if (!collision_traverser)
 			collision_traverser = new CollisionTraverser();
 		#endif
@@ -221,7 +225,7 @@ void MainProd::DoMainLoop()
 		//vfs = VirtualFileSystem::get_global_ptr();
 
 		CreateDefaultWindows(num_windows);
-		if (collision_traverser)
+		if (collision_traverser && SHOW_COLLISION)
 			collision_traverser->show_collisions(pandawindows_array[1]->get_render());
 
 		//NOTES---------
@@ -297,7 +301,7 @@ void MainProd::Iterate()
 	if (lock && initialized)
 	{
 		#ifndef _DEBUG
-		//CheckCollisions(); //descomentame
+		CheckCollisions(); 
 		#endif
 		////-----
 		//if (insert_now)
@@ -405,10 +409,13 @@ void MainProd::DoInit()
 void MainProd::CheckCollisions()
 {
 	collision_traverser->traverse(pandawindows_array[1]->get_render());
-	for (int i = 0; i < collision_handler_queue->get_num_entries(); i++)
-	{
-		cout << "Entry collider: " << collision_handler_queue->get_entry(i) << "\n";
-	}
+	collision_handler_queue;
+
+	if (collision_handler_queue)
+		for (int i = 0; i < collision_handler_queue->get_num_entries(); i++)
+		{
+			cout << "Entry collider: " << collision_handler_queue->get_entry(i) << "\n";
+		} //decomentame
 
 	//add new colliders
 	bool clear_me = false;
@@ -898,22 +905,28 @@ void MainProd::CreateDefaultWindows(int num_windows)
 			win_props.set_size(800, 600);
 		prod3Dwindow_array[i] = new Prod3DWindow(&framework, win_props, true, true);
 		pandawindows_array[i] = prod3Dwindow_array[i]->GetWindowFrameWork();
-		pandawindows_array[i]->set_background_type(WindowFramework::BackgroundType::BT_gray);
+		pandawindows_array[i]->set_background_type(WindowFramework::BackgroundType::BT_white);
 		pandawindows_array[i]->set_lighting(true);
 		pandawindows_array[i]->set_perpixel(true);
-		windowcamera_array[i] = pandawindows_array[i]->get_camera_group();
 		pandawindows_array[i]->get_render().set_antialias(AntialiasAttrib::Mode::M_multisample,1);
+		windowcamera_array[i] = pandawindows_array[i]->get_camera_group();
+		//pandawindows_array[i]->setup_trackball();
+		//pandawindows_array[i]->set_wireframe(true);
+		//pandawindows_array[i]->set_texture(true);
+		//pandawindows_array[i]->set_two_sided(false);
+		//pandawindows_array[i]->set_one_sided_reverse(true);
 
-#ifndef _DEBUG
-		CollisionSphere *cam_collision_solid = new CollisionSphere(0,0,0,2);
-		std::stringstream wop;
-		wop << "CAM" << i;
-		CollisionNode *cam_collision_node = new CollisionNode(wop.str());
-		cam_collision_node->add_solid(cam_collision_solid);
-		NodePath col_node = windowcamera_array[i].attach_new_node(cam_collision_node);
-		col_node.show();
-		collision_traverser->add_collider(col_node, collision_handler_queue);
-#endif
+////////////////////////////////////#ifndef _DEBUG //descomentame
+////////////////////////////////////		CollisionSphere *cam_collision_solid = new CollisionSphere(0,0,0,2);
+////////////////////////////////////		std::stringstream wop;
+////////////////////////////////////		wop << "CAM" << i;
+////////////////////////////////////		CollisionNode *cam_collision_node = new CollisionNode(wop.str());
+////////////////////////////////////		cam_collision_node->add_solid(cam_collision_solid);
+////////////////////////////////////		NodePath col_node = windowcamera_array[i].attach_new_node(cam_collision_node);
+////////////////////////////////////		col_node.show();
+////////////////////////////////////		collision_traverser->add_collider(col_node, collision_handler_queue);
+////////////////////////////////////#endif
+
 		//objectNode_colliderNode_array[cam_collision_node] = windowcamera_array[i];
 		
 
@@ -1151,32 +1164,32 @@ void MainProd::LoadDefaultScene()
 		NodePath environment = pandawindows_array[1]->load_model(framework.get_models(),"environment");
 		environment.set_scale(0.25,0.25,0.25);
 		environment.set_pos(-8,42,0);
-		environment.reparent_to(pandawindows_array[1]->get_render());
-		//environment = pandawindows_array[1]->get_render().attach_new_node(environment.node());
+		//environment.reparent_to(pandawindows_array[1]->get_render());
+		////environment = pandawindows_array[1]->get_render().attach_new_node(environment.node());
 
 		NodePath pandaActor = pandawindows_array[1]->load_model(framework.get_models(), "panda-model");
 		pandaActor.set_scale(0.005);
 		LPoint3f pandapos = pandaActor.get_pos();
-		pandaActor.instance_to(pandawindows_array[1]->get_render());
+		//pandaActor.instance_to(pandawindows_array[1]->get_render());
 
 		//------------------------
 		NodePath pandaActor2 = pandawindows_array[1]->load_model(framework.get_models(), "car/yugo");
 		pandaActor2.set_scale(0.5);
 		pandaActor2.set_pos(10.0,0.0,0.0);
 		LPoint3f pandapos2 = pandaActor2.get_pos();
-		pandaActor2.instance_to(pandawindows_array[1]->get_render());
+		//pandaActor2.instance_to(pandawindows_array[1]->get_render());
 		//------------------------
 		NodePath pandaActor3 = pandawindows_array[1]->load_model(framework.get_models(), "bam");
 		pandaActor3.set_scale(0.1);
 		pandaActor3.set_pos(0.0,10.0,0.0);
 		LPoint3f pandapos3 = pandaActor3.get_pos();
-		pandaActor3.instance_to(pandawindows_array[1]->get_render());
+		//pandaActor3.instance_to(pandawindows_array[1]->get_render());
 		//------------------------
 		NodePath pandaActor4 = pandawindows_array[1]->load_model(framework.get_models(), "fofofo");
 		//pandaActor4.set_scale(0.002);
 		pandaActor4.set_pos(10.0,10.0,0.0);
 		LPoint3f pandapos4 = pandaActor4.get_pos();
-		pandaActor4.instance_to(pandawindows_array[1]->get_render());
+		//pandaActor4.instance_to(pandawindows_array[1]->get_render());
 		//pandaActor4 = pandawindows_array[1]->get_render().attach_new_node(pandaActor4.node());
 		//------------------------
 
@@ -1813,7 +1826,7 @@ void MainProd::SetUpUser(void *graphic_node)
 				source_points.push_back(new_point);
 			}
 			NodePath *testQuad = CreateVoxelized(source_points);
-			testQuad->reparent_to(*user_nodepath);//retomar
+			testQuad->reparent_to(*user_nodepath);//retomar añadir velocidad
 			user_nodepath->node()->add_child(testQuad->node());//retomar
 			////user_nodepath = testQuad;
 		}

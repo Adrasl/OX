@@ -200,7 +200,7 @@ void NavigationController::Iterate()
 		production->SetCamerasPosition(final_cam_pos);
 
 		// BLOCK 3: Creating the avatar
-		if (presence_volume.size() > 0)
+		if (false)//(presence_volume.size() > 0) //retomar reactivar
 		{
 			double timestamp = (double)clock()/CLOCKS_PER_SEC;
 			void *graphic_node = production->CreateGraphicNode(presence_volume); //

@@ -956,7 +956,7 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<doub
 											//coordenada real del cubo 0->field_size
 				int nTriangles = (this->*vMarchCube)(jX*fStepSize, jY*fStepSize, jZ*fStepSize, fStepSize, v_vertex, v_color, v_edge_normal);
 				for ( int i = 0; i < nTriangles; i++)
-				{	//retomar centrar malla en el origen
+				{	//retomar centrar malla en el origen de verdad de la buena
 					vertex.add_data3f(v_vertex[i*3].x-7.5,v_vertex[i*3].y+5,v_vertex[i*3].z-2.5);
 					normal.add_data3f(v_edge_normal[i*3].x,v_edge_normal[i*3].y,v_edge_normal[i*3].z);
 					color.add_data4f(v_color[i*3].x,v_color[i*3].y,v_color[i*3].z, 1.0);
