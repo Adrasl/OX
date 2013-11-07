@@ -37,6 +37,13 @@ bool MySearchCallback(int id, void* arg)
 }
 //---------
 
+static enum PlaneOrientation {	FRONT,
+								BACK,
+								LEFT,
+								RIGHT,
+								UP,
+								DOWN };
+
 unsigned int PerceptVideo::num_cams = 1;
 std::map< int, CvCapture* > PerceptVideo::capture_cam_array;
 std::map< int, CvCapture* > PerceptVideo::capture_videofiles_array;
@@ -1542,21 +1549,21 @@ std::vector<MotionElement> PerceptVideo::GetMotionElements()
 		bool xz, yz, xy, has_x, has_y, has_z;
 		xz = yz = xy = has_x = has_y = has_z = false;
 		core::CameraData cam_data = app_config->GetCameraData(i);
-		std::string plane_str = "";
+		PlaneOrientation plane_str;
 
 		/** \todo fix this. make general */
 		if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
-		{	xz = has_x = has_z = true; plane_str = "FRONT"; }
+		{	xz = has_x = has_z = true; plane_str = FRONT; }
 		else if ( (cam_data.x == 0) && (cam_data.y == -1) && (cam_data.z == 0) )
-		{	xz = has_x = has_z = true; plane_str = "BACK"; }
+		{	xz = has_x = has_z = true; plane_str = BACK; }
 		else if ( (cam_data.x == 1) && (cam_data.y == 0) && (cam_data.z == 0) )
-		{	yz = has_y = has_z = true; plane_str = "RIGHT";  }
+		{	yz = has_y = has_z = true; plane_str = RIGHT;  }
 		else if ( (cam_data.x == -1) && (cam_data.y == 0) && (cam_data.z == 0) )
-		{	yz = has_y = has_z = true; plane_str = "LEFT"; }
+		{	yz = has_y = has_z = true; plane_str = LEFT; }
 		else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == 1) )
-		{	xy = has_x = has_y = true; plane_str = "UP"; }
+		{	xy = has_x = has_y = true; plane_str = UP; }
 		else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == -1) )
-		{	xy = has_x = has_y = true; plane_str = "DOWN"; }
+		{	xy = has_x = has_y = true; plane_str = DOWN; }
 
 		float width, height, offset_x, offset_y;
 		width = height = 0;
@@ -1583,18 +1590,21 @@ std::vector<MotionElement> PerceptVideo::GetMotionElements()
 		MatrixTransform_CubeFRONT[0][3] = offset_x;
 		MatrixTransform_CubeFRONT[1][3] = offset_y;
 		
-		if (plane_str == "FRONT")
-            { MatrixTransform_AxisTransform = MatrixTransform_CubeFRONT; }
-		else if (plane_str == "BACK")
-            { MatrixTransform_AxisTransform = MatrixTransform_CubeBACK; }
-		else if (plane_str == "RIGHT")
-            { MatrixTransform_AxisTransform = MatrixTransform_CubeRIGHT; } 
-		else if (plane_str == "LEFT")
-            { MatrixTransform_AxisTransform = MatrixTransform_CubeLEFT; } 
-		else if (plane_str == "UP")
-            { MatrixTransform_AxisTransform = MatrixTransform_CubeTOP; }
-		else if (plane_str == "DOWN")
-            { MatrixTransform_AxisTransform = MatrixTransform_CubeBOTTOM; }
+		switch (plane_str)
+		{
+			case FRONT :
+            { MatrixTransform_AxisTransform = MatrixTransform_CubeFRONT; break; }
+			case BACK  :
+            { MatrixTransform_AxisTransform = MatrixTransform_CubeBACK;  break; }
+			case RIGHT :
+            { MatrixTransform_AxisTransform = MatrixTransform_CubeRIGHT; break; } 
+			case LEFT  :
+            { MatrixTransform_AxisTransform = MatrixTransform_CubeLEFT;  break; } 
+			case UP    :
+            { MatrixTransform_AxisTransform = MatrixTransform_CubeTOP;   break; }
+			case DOWN  :
+            { MatrixTransform_AxisTransform = MatrixTransform_CubeBOTTOM;break;  }
+		}
 
 		if (motion_detectors[i])
 			raw_motionelements = motion_detectors[i]->GetMotionElements();
@@ -2010,7 +2020,8 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 {
 		int index = 1;
 		IplImage *img_xz, *img_yz, *img_xy;
-		std::map< std::string, IplImage * > presence_images;
+		std::map< PlaneOrientation, IplImage * > presence_images;
+		std::map< PlaneOrientation, IMotionDetection * > mapped_motion_detectors;
 		img_xz = img_yz = img_xy = NULL;
 		float has_x, has_y, has_z;
 		has_x = has_y = has_z = false;
@@ -2018,12 +2029,13 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 
 		//BLOCK 1
 		//----------------------------
-		double b1_timestamp = (double)clock()/CLOCKS_PER_SEC;
-
 		//scale image, classify coordinate axis
-		for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); (iter != presence_detectors.end()) && !(has_x && has_y && has_z); iter++)
+		//For each Presencen Detector, obtains a scaled image
+		double b1_timestamp = (double)clock()/CLOCKS_PER_SEC;
+		//for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); (iter != presence_detectors.end()) && !(has_x && has_y && has_z); iter++)
+		for (int iter = 0; iter < presence_detectors.size() && !(has_x && has_y && has_z); iter++)
 		{
-			if (!((*iter)->PresenceDetected()))
+			if (!(presence_detectors[iter]->PresenceDetected()))
 			{	index++;
 				continue;	}
 
@@ -2031,24 +2043,24 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 			xz = yz = xy = false;
 			core::CameraData cam_data = app_config->GetCameraData(index);
 			float has_x, has_y, has_z;
-			std::string plane_str = "";
+			PlaneOrientation plane_str;
 
 			/** \todo fix this. make general */
 			if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
-			{	xz = has_x = has_z = true; plane_str = "FRONT"; }
+			{	xz = has_x = has_z = true; plane_str = FRONT; }
 			else if ( (cam_data.x == 0) && (cam_data.y == -1) && (cam_data.z == 0) )
-			{	xz = has_x = has_z = true; plane_str = "BACK"; }
+			{	xz = has_x = has_z = true; plane_str = BACK; }
 			else if ( (cam_data.x == 1) && (cam_data.y == 0) && (cam_data.z == 0) )
-			{	yz = has_y = has_z = true; plane_str = "RIGHT";  }
+			{	yz = has_y = has_z = true; plane_str = RIGHT;  }
 			else if ( (cam_data.x == -1) && (cam_data.y == 0) && (cam_data.z == 0) )
-			{	yz = has_y = has_z = true; plane_str = "LEFT"; }
+			{	yz = has_y = has_z = true; plane_str = LEFT; }
 			else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == 1) )
-			{	xy = has_x = has_y = true; plane_str = "UP"; }
+			{	xy = has_x = has_y = true; plane_str = UP; }
 			else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == -1) )
-			{	xy = has_x = has_y = true; plane_str = "DOWN"; }
+			{	xy = has_x = has_y = true; plane_str = DOWN; }
 
 			int size_x, size_y, n_channels, depth, width_step;
-			char *new_image = (*iter)->GetCopyOfCurrentImage(size_x, size_y, n_channels, depth, width_step);
+			char *new_image = presence_detectors[iter]->GetCopyOfCurrentImage(size_x, size_y, n_channels, depth, width_step);
 			if(new_image)
 			{
 				CvSize size, desired_size;
@@ -2066,6 +2078,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 				IplImage *scaled = cvCreateImage(desired_size, depth, n_channels);
 				cvResize(zimage, scaled, CV_INTER_AREA);
 				presence_images[plane_str] = scaled;
+				mapped_motion_detectors[plane_str] = motion_detectors[iter];
 
 				if(zimage) 
 				{	cvReleaseImage(&zimage);
@@ -2077,10 +2090,14 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		}
 		double b1_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 		double b1_dif_time = b1_timestamp2 - b1_timestamp;
-		cout << "CALCULATING Block 1 - scale, get axis: " << b1_dif_time << "\n";
+		cout << "CALCULATING Block 1 - scaled image, got axis: " << b1_dif_time << "\n";
 
+
+		//BLOCK 2
+		//----------------------------
+		//Coords transform and obtain full cloud 
+		//set up 3D weighted-points and space-index
 		double b2_timestamp = (double)clock()/CLOCKS_PER_SEC;
-		//set up 3D weighted-points ans space-index
 		RTree<int, float, 3, float> spatial_index; // <datatype, elementtype, dimensions, elementtype real>
 		std::map< int, corePDU3D<double> > image_space_points;			// <id, point>
 		std::map< int, corePDU3D<double> > relative_points;				// <id, point>
@@ -2091,8 +2108,8 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		bool is3D = false;
 		if (presence_images.size() > 0)
 		{
-			std::map< std::string, IplImage * >::iterator iter = presence_images.begin();
-			std::map< std::string, IplImage * >::iterator iter2 = presence_images.begin();
+			std::map< PlaneOrientation, IplImage * >::iterator iter = presence_images.begin();
+			std::map< PlaneOrientation, IplImage * >::iterator iter2 = presence_images.begin();
 			iter2++;
 			
 			char *scaled_img = iter->second->imageData;
@@ -2102,38 +2119,82 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 			width_step = iter->second->widthStep;
 			relative_factor = (size_x > size_y) ? size_x : size_y;
 
+			//center of image == center of space (cam calibration)
 			float offset_x, offset_y;
 			offset_x = offset_y = 0;
-			//center of image == center of space (cam calibration)
 			offset_x = (float)size_x/2;
 			offset_y = (float)size_y/2;
 
+			//2D image coords to 3D
 			if (scaled_img)
 			{	for (int y = 0; y < size_y; y++) {
 				for (int x = 0; x < size_x; x++) {
 					if ( ((((uchar*)(scaled_img+width_step*y))[x])  == 0xff) ) //WHITE
 					{	float x_candidate, y_candidate, z_candidate;
-						float x_vel_candidate, y_vel_candidate, z_vel_candidate;
+						corePoint3D<float> vel_candidate;
+						corePoint2D<int> image_coords;
 						x_candidate = y_candidate = z_candidate = 0.0;
-						x_vel_candidate = y_vel_candidate = z_vel_candidate = 0.0;
-						if (iter->first == "FRONT")
-						{	 x_candidate = (offset_x + x);
-							 z_candidate = (offset_y + -1*y);	}
-						else if (iter->first == "BACK")
-						{	 x_candidate = (offset_x + -1*x);
-							 z_candidate = (offset_y + -1*y);	}
-						else if (iter->first == "RIGHT")
-						{	 y_candidate = (offset_x + x);
-							 z_candidate = (offset_y + -1*y);	}
-						else if (iter->first == "LEFT")
-						{	 y_candidate = (offset_x + -1*x);
-							 z_candidate = (offset_y + -1*y);	}
-						else if (iter->first == "UP")
-						{	 x_candidate = (offset_x + -1*x);
-							 y_candidate = (offset_y + -1*y);	}
-						else if (iter->first == "DOWN")
-						{	 x_candidate = (offset_x + -1*x);
-							 y_candidate = (offset_y + -1*y);	}
+						vel_candidate.x = vel_candidate.y = vel_candidate.z = 0.0;
+						image_coords.x = (int)x/scale;
+						image_coords.y = (int)y/scale;
+						
+						switch (iter->first)
+						{
+							case FRONT :
+							{	 x_candidate = (offset_x + x);
+								 z_candidate = (offset_y + -1*y);
+								 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter->first);
+								 if (iter_motionDetector != mapped_motion_detectors.end())
+								 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+									 vel_candidate.x = motioncoords.x;
+									 vel_candidate.z = -1*motioncoords.y;
+								 } break;								}
+							case BACK :
+							{	 x_candidate = (offset_x + -1*x);
+								 z_candidate = (offset_y + -1*y);	
+								 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter->first);
+								 if (iter_motionDetector != mapped_motion_detectors.end())
+								 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+									 vel_candidate.x = -1*motioncoords.x;
+									 vel_candidate.z = -1*motioncoords.y;
+								 } break;								}
+							case RIGHT :
+							{	 y_candidate = (offset_x + x);
+								 z_candidate = (offset_y + -1*y);	
+								 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter->first);
+								 if (iter_motionDetector != mapped_motion_detectors.end())
+								 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+									 vel_candidate.y = motioncoords.x;
+									 vel_candidate.z = -1*motioncoords.y;
+								 } break;								}
+							case LEFT :
+							{	 y_candidate = (offset_x + -1*x);
+								 z_candidate = (offset_y + -1*y);	
+								 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter->first);
+								 if (iter_motionDetector != mapped_motion_detectors.end())
+								 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+									 vel_candidate.y = -1*motioncoords.x;
+									 vel_candidate.z = -1*motioncoords.y;
+								 } break;								}
+							case UP :
+							{	 x_candidate = (offset_x + -1*x);
+								 y_candidate = (offset_y + -1*y);	
+								 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter->first);
+								 if (iter_motionDetector != mapped_motion_detectors.end())
+								 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+									 vel_candidate.x = -1*motioncoords.x;
+									 vel_candidate.y = -1*motioncoords.y;
+								 } break;								}
+							case DOWN : 
+							{	 x_candidate = (offset_x + -1*x);
+								 y_candidate = (offset_y + -1*y);	
+								 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter->first);
+								 if (iter_motionDetector != mapped_motion_detectors.end())
+								 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+									 vel_candidate.x = -1*motioncoords.x;
+									 vel_candidate.y = -1*motioncoords.y;
+								 } break;								}
+						}
 
 						if (presence_images.size() > 1)
 						{	int size_x2, size_y2;
@@ -2154,63 +2215,109 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 							first_array_size = size_x2; 
 							second_array_size = size_y2;
 							//iter FRONT|BACK
-							if ((iter->first == "FRONT") || (iter->first == "BACK"))
-							{	if ((iter2->first == "LEFT") || (iter2->first == "RIGHT"))
+							if ((iter->first == FRONT) || (iter->first == BACK))
+							{	if ((iter2->first == LEFT) || (iter2->first == RIGHT))
 								{	first_array_size = size_x2; second_array_size = y+1; second_init = y;	}
-								else if ((iter2->first == "UP") || (iter2->first == "DOWN"))
+								else if ((iter2->first == UP) || (iter2->first == DOWN))
 								{	first_array_size = x+1; second_array_size= size_y2;	first_init = x;		}
 								else 
 									complementary = false; }
 							//iter RIGHT|LEFT
-							else if ((iter->first == "LEFT") || (iter->first == "RIGHT"))
-							{	if ((iter2->first == "FRONT") || (iter2->first == "BACK"))
+							else if ((iter->first == LEFT) || (iter->first == RIGHT))
+							{	if ((iter2->first == FRONT) || (iter2->first == BACK))
 								{	first_array_size = size_x2; second_array_size = y+1; second_init = y;	}
-								else if ((iter2->first == "UP") || (iter2->first == "DOWN"))
+								else if ((iter2->first == UP) || (iter2->first == DOWN))
 								{	first_array_size = size_x2; second_array_size = x+1; second_init = x;	}
 								else 
 									complementary = false; }
 							//iter UP|DOWN
-							else if ((iter->first == "UP") || (iter->first == "DOWN"))
-							{	if ((iter2->first == "FRONT") || (iter->first == "BACK"))
+							else if ((iter->first == UP) || (iter->first == DOWN))
+							{	if ((iter2->first == FRONT) || (iter->first == BACK))
 								{	first_array_size = x+1; second_array_size = size_y2; first_init = x;	}
-								else if ((iter2->first == "LEFT") || (iter->first == "RIGHT"))
+								else if ((iter2->first == LEFT) || (iter->first == RIGHT))
 								{	first_array_size = y+1; second_array_size = size_y2; first_init = y;	}
 								else 
 									complementary = false; }
 
-
+				
 							if (complementary && (scaled_img2 != NULL))
 							{	is3D = true;
 								for (int y2 = second_init; (y2 < second_array_size) && (y2 < size_y2); y2++) {
 								for (int x2 = first_init;  (x2 < first_array_size)  && (x2 < size_x2); x2++) {
 									if ( ((((uchar*)(scaled_img2+width_step*y2))[x2])  == 0xff) )
 									{
-										if (iter2->first == "FRONT")
-										{	 x_candidate = offset_x2 + x2;
-											 z_candidate = offset_y2 + -1*y2;	}
-										else if (iter2->first == "BACK")
-										{	 x_candidate = offset_x2 + -1*x2;
-											 z_candidate = offset_y2 + -1*y2;	}
-										else if (iter2->first == "RIGHT")
-										{	 y_candidate = offset_x2 + x2;
-											 z_candidate = offset_y2 + -1*y2;	}
-										else if (iter2->first == "LEFT")
-										{	 y_candidate = offset_x2 + -1*x2;
-											 z_candidate = offset_y2 + -1*y2;	}
-										else if (iter2->first == "UP")
-										{	 x_candidate = offset_x2 + -1*x2;
-											 y_candidate = offset_y2 + -1*y2;	}
-										else if (iter2->first == "DOWN")
-										{	 x_candidate = offset_x2 + -1*x2;
-											 y_candidate = offset_y2 + -1*y2;	}
+										switch (iter2->first)
+										{
+											case FRONT :
+											{	 x_candidate = (offset_x + x);
+												 z_candidate = (offset_y + -1*y);
+												 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter2->first);
+												 if (iter_motionDetector != mapped_motion_detectors.end())
+												 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+													 vel_candidate.x = motioncoords.x;
+													 vel_candidate.z = -1*motioncoords.y;
+												 } break;								}
+											case BACK :
+											{	 x_candidate = (offset_x + -1*x);
+												 z_candidate = (offset_y + -1*y);	
+												 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter2->first);
+												 if (iter_motionDetector != mapped_motion_detectors.end())
+												 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+													 vel_candidate.x = -1*motioncoords.x;
+													 vel_candidate.z = -1*motioncoords.y;
+												 } break;								}
+											case RIGHT :
+											{	 y_candidate = (offset_x + x);
+												 z_candidate = (offset_y + -1*y);	
+												 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter2->first);
+												 if (iter_motionDetector != mapped_motion_detectors.end())
+												 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+													 vel_candidate.y = motioncoords.x;
+													 vel_candidate.z = -1*motioncoords.y;
+												 } break;								}
+											case LEFT :
+											{	 y_candidate = (offset_x + -1*x);
+												 z_candidate = (offset_y + -1*y);	
+												 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter2->first);
+												 if (iter_motionDetector != mapped_motion_detectors.end())
+												 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+													 vel_candidate.y = -1*motioncoords.x;
+													 vel_candidate.z = -1*motioncoords.y;
+												 } break;								}
+											case UP :
+											{	 x_candidate = (offset_x + -1*x);
+												 y_candidate = (offset_y + -1*y);	
+												 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter2->first);
+												 if (iter_motionDetector != mapped_motion_detectors.end())
+												 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+													 vel_candidate.x = -1*motioncoords.x;
+													 vel_candidate.y = -1*motioncoords.y;
+												 } break;								}
+											case DOWN : 
+											{	 x_candidate = (offset_x + -1*x);
+												 y_candidate = (offset_y + -1*y);	
+												 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter2->first);
+												 if (iter_motionDetector != mapped_motion_detectors.end())
+												 {	 corePoint3D<float> motioncoords = iter_motionDetector->second->GetMotionAtCoords(image_coords); 
+													 vel_candidate.x = -1*motioncoords.x;
+													 vel_candidate.y = -1*motioncoords.y;
+												 } break;								}
+										}
 										
 										corePDU3D<double> new_point, relative_point;
 										new_point.position.x = x_candidate;
 										new_point.position.y = y_candidate;
 										new_point.position.z = z_candidate;
-										relative_point.position.x = 5*(x_candidate+(relative_factor/2))/relative_factor;
-										relative_point.position.y = 5*(y_candidate+(relative_factor/2))/relative_factor;
-										relative_point.position.z = 5*(z_candidate+(relative_factor/2))/relative_factor;
+										new_point.velocity.x = vel_candidate.x;
+										new_point.velocity.y = vel_candidate.y;
+										new_point.velocity.z = vel_candidate.z;
+										new_point.acceleration.x = new_point.acceleration.y = new_point.acceleration.z = 0.0;
+										relative_point = new_point;
+
+
+										relative_point.position.x = (1.0/scale)*(x_candidate+(relative_factor/2))/relative_factor;
+										relative_point.position.y = (1.0/scale)*(y_candidate+(relative_factor/2))/relative_factor;
+										relative_point.position.z = (1.0/scale)*(z_candidate+(relative_factor/2))/relative_factor;
 
 										corePDU3D<double> var_1;
 										corePDU3D<double> var_2;
@@ -2238,9 +2345,15 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 							new_point.position.x = x_candidate;
 							new_point.position.y = y_candidate;
 							new_point.position.z = z_candidate;
-							relative_point.position.x = 5*(x_candidate+(relative_factor/2))/relative_factor;
-							relative_point.position.y = 5*(y_candidate+(relative_factor/2))/relative_factor;
-							relative_point.position.z = 5*(z_candidate+(relative_factor/2))/relative_factor;
+							new_point.velocity.x = vel_candidate.x;
+							new_point.velocity.y = vel_candidate.y;
+							new_point.velocity.z = vel_candidate.z;
+							new_point.acceleration.x = new_point.acceleration.y = new_point.acceleration.z = 0.0;
+							relative_point = new_point;
+
+							relative_point.position.x = (1.0/scale)*(x_candidate+(relative_factor/2))/relative_factor;
+							relative_point.position.y = (1.0/scale)*(y_candidate+(relative_factor/2))/relative_factor;
+							relative_point.position.z = (1.0/scale)*(z_candidate+(relative_factor/2))/relative_factor;
 
 							image_space_points[point_id] = new_point;
 							relative_points[point_id] = relative_point;
@@ -2261,8 +2374,12 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		double b2_dif_time = b2_timestamp2 - b2_timestamp;
 		cout << "CALCULATING Block 2 - obtain full cloud, indexed: " << b2_dif_time << "\n";
 
-		double b3_timestamp = (double)clock()/CLOCKS_PER_SEC;
+
+		//BLOCK 3
+		//----------------------------
+		//Simplifying cloud and adding weighted point a velocity
 		//clusterize points, assign weight, simplfy point cloud by neightbourhood size
+		double b3_timestamp = (double)clock()/CLOCKS_PER_SEC;
 		int size_step = 1;
 		int n_steps = 50; //retomar
 		float third_delta = 1.0;
@@ -2279,9 +2396,10 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 			//iter_isp = (n_index > 0) ? image_space_points.find(random_index) : image_space_points.begin();
 			int iter_isp_id = iter_isp->first;
 			corePDU3D<double> new_point;
-			new_point.position.x = iter_isp->second.position.x;
-			new_point.position.y = iter_isp->second.position.y;
-			new_point.position.z = iter_isp->second.position.z;
+			new_point = iter_isp->second;
+			//new_point.position.x = iter_isp->second.position.x;
+			//new_point.position.y = iter_isp->second.position.y;
+			//new_point.position.z = iter_isp->second.position.z;
 
 			for (int i = n_steps; i >= 0; )
 			{	float search_delta = 1 + delta * i * size_step; //retomar
@@ -2299,12 +2417,13 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 				if ((overlapping_size > ( success_criteria * pow(n_deltas, ((is3D) ? 3 : 2)) ) ) &&// n_deltas * n_deltas * third_delta))
 					(overlapping_size > 1) ) // n_deltas * n_deltas * third_delta))
 				{
-					new_point.position.x = relative_points[iter_isp->first].position.x;
-					new_point.position.y = relative_points[iter_isp->first].position.y;
-					new_point.position.z = relative_points[iter_isp->first].position.z;
-					//new_point.position.x = image_space_points[iter_isp->first].x;
-					//new_point.position.y = image_space_points[iter_isp->first].y;
-					//new_point.position.z = image_space_points[iter_isp->first].z;
+					new_point = relative_points[iter_isp->first];
+					//new_point.position.x = relative_points[iter_isp->first].position.x;
+					//new_point.position.y = relative_points[iter_isp->first].position.y;
+					//new_point.position.z = relative_points[iter_isp->first].position.z;
+					////new_point.position.x = image_space_points[iter_isp->first].x;
+					////new_point.position.y = image_space_points[iter_isp->first].y;
+					////new_point.position.z = image_space_points[iter_isp->first].z;
 
 					if (weighted_points.find(search_delta) != weighted_points.end())
 						weighted_points[search_delta].push_back(new_point);
@@ -2357,7 +2476,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		double b3_dif_time = b3_timestamp2 - b3_timestamp;
 		cout << "CALCULATING Block 3 - simplifying cloud: " << b3_dif_time << "\n";
 
-		for (std::map< std::string, IplImage * >::iterator iter = presence_images.begin(); iter != presence_images.end(); iter++)
+		for (std::map< PlaneOrientation, IplImage * >::iterator iter = presence_images.begin(); iter != presence_images.end(); iter++)
 			cvReleaseImage(&(iter->second));
 		presence_images.clear();
 }

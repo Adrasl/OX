@@ -74,7 +74,7 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 	if (vely)
 		cvReleaseImage(&vely);
 	velx = cvCreateImage(size,IPL_DEPTH_32F,1);
-	vely = vely=cvCreateImage(size,IPL_DEPTH_32F,1);
+	vely = cvCreateImage(size,IPL_DEPTH_32F,1);
 
 	//Calculating dense Optical Flow (Lucas Kanade)
 	block_size.height = block_size.width = 3;
@@ -461,10 +461,12 @@ corePoint3D<float> MotionDetection::GetMotionAtCoords(corePoint2D<int> coords)
 {
 	corePoint3D<float> result;
 	result.y = result.x = result.z = 0.0;
-	if (velx && vely)
+	if (velx && vely && velx_Mat && velx_Mat)
 	{	//Faster than cvGetReal2D
-		result.x = cvmGet(velx_Mat, coords.x, coords.y); 
-		result.y = cvmGet(velx_Mat, coords.x, coords.y); 
+		//result.x = cvmGet(velx_Mat, coords.x, coords.y); 
+		//result.y = cvmGet(velx_Mat, coords.x, coords.y); 
+		result.x = (int)cvGetReal2D( velx, coords.y, coords.x);
+		result.y = (int)cvGetReal2D( vely, coords.y, coords.x);
 	}
 	return result;
 }
