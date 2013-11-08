@@ -200,10 +200,10 @@ void NavigationController::Iterate()
 		production->SetCamerasPosition(final_cam_pos);
 
 		// BLOCK 3: Creating the avatar
-		if (false)//(presence_volume.size() > 0) //retomar reactivar
+		if (presence_volume.size() > 0) //retomar reactivar
 		{
 			double timestamp = (double)clock()/CLOCKS_PER_SEC;
-			void *graphic_node = production->CreateGraphicNode(presence_volume); //
+			void *graphic_node = production->CreateGraphicNode(presence_volume); //retomar, que no solo cree el triangulo también los colliders
 			double timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 			double dif_time = timestamp2 - timestamp;
 			//cout << "CALCULATING MESH: " << dif_time << "\n";

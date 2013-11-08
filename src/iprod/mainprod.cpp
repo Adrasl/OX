@@ -18,7 +18,9 @@
 using namespace core;
 using namespace core::iprod;
 unsigned int MainProd::num_windows = 2;
+
 #define SHOW_COLLISION true
+#define USE_AVATAR_3D_MESH false
 
 
 
@@ -94,6 +96,7 @@ std::map<NodePath*, NodePath*> MainProd::objectNode_colliderNode_array;
 int MainProd::dummy_erase_me=0;
 
 std::map< Prod3DEntity *, CollisionNode * > MainProd::entity_collider_array;
+std::map< int, CollisionNode * > MainProd::avatar_collider_array;
 std::vector< Prod3DEntity * > MainProd::entity_collidable_array_to_register;
 CollisionNode *MainProd::dummy_collision_node=NULL;
 std::vector<NodePath*> MainProd::testnodepaths;
@@ -301,6 +304,7 @@ void MainProd::Iterate()
 	if (lock && initialized)
 	{
 		#ifndef _DEBUG
+		UpdateEntities();
 		CheckCollisions(); 
 		#endif
 		////-----
@@ -406,7 +410,10 @@ void MainProd::DoInit()
 	}
 }
 
-void MainProd::CheckCollisions()
+void MainProd::UpdateEntities() //retomar, llamar a Update de cada Entity
+{}
+
+void MainProd::CheckCollisions() //retomar, llamar a OnCollision de cada Entity
 {
 	collision_traverser->traverse(pandawindows_array[1]->get_render());
 	collision_handler_queue;
@@ -414,14 +421,14 @@ void MainProd::CheckCollisions()
 	if (collision_handler_queue)
 		for (int i = 0; i < collision_handler_queue->get_num_entries(); i++)
 		{
-			cout << "Entry collider: " << collision_handler_queue->get_entry(i) << "\n";
+			cout << "Entry collider: " << collision_handler_queue->get_entry(i) << "\n"; //getfrom getinto retomar
 		} //decomentame
 
 	//add new colliders
 	bool clear_me = false;
 	for (std::vector< Prod3DEntity * >::iterator iter = entity_collidable_array_to_register.begin(); iter != entity_collidable_array_to_register.end(); iter++)
 	{
-		if( collision_traverser && (((*iter)->GetData() == "teapot") || ((*iter)->GetData() == "panda-model")) )
+		if( collision_traverser && (((*iter)->GetData() == "teapot") ))// || ((*iter)->GetData() == "panda-model")) )
 		{
 			NodePath* np = (*iter)->GetNodePath();
 			//int bounds = np->get_bounds();
@@ -430,19 +437,26 @@ void MainProd::CheckCollisions()
 			float scale;
 			(*iter)->GetEntity()->GetScale(scale);
 			scale += 0.001f;
-			CollisionSphere *collision_solid = new CollisionSphere(0,0,radius/(scale*2),radius/scale);
+			LPoint3f centerOfEntity; centerOfEntity.zero();
+			CollisionSphere *collision_solid = new CollisionSphere(0,0,radius/(scale*2),2*radius/scale); 
+			CollisionBox *collisionbox_solid = new CollisionBox(centerOfEntity, 5/scale, 10/scale, 2/scale);
 			std::stringstream wop;
 			wop << "e" << dummy_erase_me ;
 			std::string nombre = wop.str();
 			dummy_erase_me++;
 			CollisionNode *collision_node = new CollisionNode(nombre);
-			collision_node->add_solid(collision_solid);
+			if ((*iter)->GetData() == "teapot")
+				collision_node->add_solid(collision_solid);
+			else
+				collision_node->add_solid(collisionbox_solid);
 			NodePath col_node = (*iter)->GetNodePath()->attach_new_node(collision_node);
 			/*col_node.set_render_mode(RenderModeAttrib::Mode::M_wireframe, 2);*/
-			col_node.show();
+			if (SHOW_COLLISION) col_node.show();
 			entity_collider_array[(*iter)] = collision_node;
 			if ((*iter)->GetData() == "teapot")
-				collision_traverser->add_collider(col_node, collision_handler_queue);
+				collision_traverser->add_collider(col_node, collision_handler_queue); //retomar
+			else
+			{}
 			clear_me = true;
 		}
 	}
@@ -916,7 +930,7 @@ void MainProd::CreateDefaultWindows(int num_windows)
 		//pandawindows_array[i]->set_two_sided(false);
 		//pandawindows_array[i]->set_one_sided_reverse(true);
 
-////////////////////////////////////#ifndef _DEBUG //descomentame
+////////////////////////////////////#ifndef _DEBUG //descomentame - no seguro, no útil
 ////////////////////////////////////		CollisionSphere *cam_collision_solid = new CollisionSphere(0,0,0,2);
 ////////////////////////////////////		std::stringstream wop;
 ////////////////////////////////////		wop << "CAM" << i;
@@ -1825,9 +1839,9 @@ void MainProd::SetUpUser(void *graphic_node)
 				new_point.position.z = (row_step > 2) ? source_data[i*row_step+2] : 0.0;
 				source_points.push_back(new_point);
 			}
-			NodePath *testQuad = CreateVoxelized(source_points);
-			testQuad->reparent_to(*user_nodepath);//retomar añadir velocidad
-			user_nodepath->node()->add_child(testQuad->node());//retomar
+			NodePath *testQuad = CreateVoxelized(source_points); 
+			testQuad->reparent_to(*user_nodepath);
+			user_nodepath->node()->add_child(testQuad->node());
 			////user_nodepath = testQuad;
 		}
 		else //it is a filepath
@@ -1898,10 +1912,50 @@ void* MainProd::CreateGraphicNode(std::vector<float> source_data, int row_step)
 
 void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
 {
-	//return NULL;
-	//NodePath *testQuad = CreateVoxelized(source_weighted_data);
 	NodePath *testQuad = NULL;
 	if (mesh_factory)
-		testQuad = mesh_factory->CreateVoxelized(source_weighted_data);;
+	{
+		if (USE_AVATAR_3D_MESH) 
+			//NodePath *testQuad = CreateVoxelized(source_weighted_data);
+			testQuad = mesh_factory->CreateVoxelized(source_weighted_data); //retomar: future work: add a mesh collider for the user 3d-mesh
+		else
+		{	//Ridiculous set of instructions in order to create an empty object
+			PT(GeomTriangles) tris;
+			tris = new GeomTriangles(Geom::UH_static);
+			tris->close_primitive();
+			CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3n3c4t2();
+			PT(GeomVertexData) vdata = new GeomVertexData("emptydata", format, GeomEnums::UH_static);
+			PT(Geom) squareGeom = new Geom(vdata) ;
+			squareGeom->add_primitive(tris) ;
+			PT(GeomNode) squareGN = new GeomNode("empty") ;
+			squareGN->add_geom(squareGeom) ;
+			testQuad = new NodePath( (PandaNode*)squareGN );
+			//----------------------------------------------
+
+			if (testQuad)
+			{	NodePath* np = testQuad;
+				int avatarcollierindex = 0;
+				for (std::map< int, std::vector<corePDU3D<double>> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
+				{	if ((iter->first) > 3) for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
+					{	float radius = 0.1*(iter->first);
+						CollisionTube *collision_solid = new CollisionTube((*iter2).position.x-7.5, (*iter2).position.y, (*iter2).position.z-2.5, (*iter2).position.x-7.5, (*iter2).position.y+10, (*iter2).position.z-2.5, radius);
+						std::stringstream wop;
+						wop << "avatarcollider" << avatarcollierindex++ ;
+						std::string nombre = wop.str();
+						CollisionNode *collision_node = new CollisionNode(nombre);
+						collision_node->add_solid(collision_solid);
+						NodePath col_node = testQuad->attach_new_node(collision_node);
+						if (SHOW_COLLISION) col_node.show();
+						avatar_collider_array[avatarcollierindex] = collision_node;
+					}// a simpler capsule based set of colliders
+				}
+			}
+		}
+	}
 	return (void *)testQuad;
 }
+
+void MainProd::RegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
+{}
+void MainProd::CreateAndRegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
+{}

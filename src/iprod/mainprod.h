@@ -20,6 +20,8 @@
 #include <collisionHandlerQueue.h>
 #include <collisionTraverser.h>
 #include <collisionSphere.h>
+#include <collisionTube.h>
+#include <collisionBox.h>
 #include <collisionNode.h>
 #include <boundingSphere.h>
 //#include <audioManager.h>
@@ -118,6 +120,8 @@ namespace core
 				virtual void SetAvatar(void *graphic_node);
 				virtual void* CreateGraphicNode(std::vector<float> source_data, int row_step=3);
 				virtual void* CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data);
+				virtual void RegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data); //retomar regiter entity
+				virtual void CreateAndRegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data); //retomar regiter entity
 
 				static NodePath* CreateQuad();
 				static void AddTestQuad();
@@ -137,6 +141,7 @@ namespace core
 				static double last_interval, last_time, last_loop_t;
 				static core::corePDU3D<double> last_pdu;
 				static void CheckCollisions();
+				static void UpdateEntities();
 				void ClearAvatarModel();
 				void SetUpUser(void *graphic_node = NULL);
 
@@ -189,6 +194,7 @@ namespace core
 				static CollisionTraverser *collision_traverser;
 				static std::map<NodePath*, NodePath*> objectNode_colliderNode_array;
 				static std::map< Prod3DEntity *, CollisionNode * > entity_collider_array;
+				static std::map< int, CollisionNode * > avatar_collider_array;
 				static std::vector< Prod3DEntity * > entity_collidable_array_to_register;
 				static CollisionNode *dummy_collision_node;
 

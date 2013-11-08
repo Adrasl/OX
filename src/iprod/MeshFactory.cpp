@@ -832,6 +832,7 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<vector3F> > so
 
 NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
 {
+	//retomar, crear tambien collisionbox
 
 
 	//----------------
@@ -862,6 +863,7 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<doub
 	source_weighted_points.clear();
 	source_weighted_points_indexed.clear();
 
+	int avatarcolliderindex = 0;
 	source_weighted_points = source_weighted_data;
 	for (std::map< int, std::vector<corePDU3D<double>> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
 	{	for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)

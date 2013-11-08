@@ -5,6 +5,7 @@
 #include <core/Export.h>
 #include <core/IApplication.h>
 #include <core/IApplicationConfiguration.h>
+#include <core/types.h>
 
 namespace core
 {
@@ -33,6 +34,8 @@ namespace core
 			virtual void SetAvatar(void *graphic_node) = 0;
 			virtual void* CreateGraphicNode(std::vector<float> source_data, int row_step=3) = 0;
 			virtual void* CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data) = 0;
+			virtual void RegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data) = 0; //retomar regiter entity
+			virtual void CreateAndRegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data) = 0; //retomar regiter entity
 
 		private:
 

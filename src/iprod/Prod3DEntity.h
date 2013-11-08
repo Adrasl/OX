@@ -4,6 +4,8 @@
 #include <winsock2.h>
 
 #include <core/IPersistence/IEntityPersistence.h>
+#include <core/types.h>
+
 #include <string>
 #include <vector>
 
@@ -34,6 +36,11 @@ namespace core
 				core::IEntityPersistence* GetEntity()	{ return entity;	}
 				void SetData(const std::string &value)	{ data = value;		}
 				void SetNodePath(NodePath *value);
+
+				void OnStart();
+				void OnUpdate();
+				void OnCollisionCall(Prod3DEntity *otherEntity); // retomar y crear IProd3DEntity
+				void OnUserCollisionCall(core::corePDU3D<double>);
 
 			private:
 
