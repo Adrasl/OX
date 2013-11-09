@@ -4,6 +4,7 @@
 #include <winsock2.h>
 
 #include <core/IPersistence/IEntityPersistence.h>
+#include <core/IProd/IEntity.h>
 #include <core/types.h>
 
 #include <string>
@@ -24,7 +25,7 @@ namespace core
 {
 	namespace iprod
 	{
-		class Prod3DEntity
+		class Prod3DEntity : public core::IEntity
 		{
 			public:
 
@@ -37,10 +38,11 @@ namespace core
 				void SetData(const std::string &value)	{ data = value;		}
 				void SetNodePath(NodePath *value);
 
-				void OnStart();
-				void OnUpdate();
-				void OnCollisionCall(Prod3DEntity *otherEntity); // retomar y crear IProd3DEntity
-				void OnUserCollisionCall(core::corePDU3D<double>);
+				virtual void Delete();
+				virtual void OnStart();
+				virtual void OnUpdate();
+				virtual void OnCollisionCall(IEntity *otherEntity); // retomar y crear IProd3DEntity
+				virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo);
 
 			private:
 

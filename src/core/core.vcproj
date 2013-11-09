@@ -185,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IProd\IEntity.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IPersistence\IEntityPersistence.h"
 				>
 			</File>

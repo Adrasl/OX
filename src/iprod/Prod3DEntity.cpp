@@ -16,6 +16,10 @@ Prod3DEntity::~Prod3DEntity()
 {
 }
 
+void Prod3DEntity::Delete()
+{
+}
+
 void Prod3DEntity::SetNodePath(NodePath *value)		
 { 
 	nodepath = value; 
@@ -36,13 +40,17 @@ void Prod3DEntity::OnStart()
 void Prod3DEntity::OnUpdate()
 {}
 
-void Prod3DEntity::OnCollisionCall(Prod3DEntity *otherEntity)
+void Prod3DEntity::OnCollisionCall(IEntity *otherEntity)
 {
+	this;
+	otherEntity;
+	Prod3DEntity *prod3dntity = (Prod3DEntity *)otherEntity;
 	//retomar, reimplementar por cada subentidad
 }
 
-void Prod3DEntity::OnUserCollisionCall(core::corePDU3D<double>)
+void Prod3DEntity::OnUserCollisionCall(core::corePDU3D<double> collisionInfo)
 {
+	this;
 	//retomar
 }
 

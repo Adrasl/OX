@@ -66,7 +66,8 @@ Prod3DEntity			 *MainProd::user_entity	  = NULL;
 NodePath				 *MainProd::user_nodepath = NULL;
 core::IEntityPersistence *MainProd::user_dummyPersistence = NULL;
 std::vector<Prod3DEntity *> MainProd::scene_entities;
-std::map<Prod3DEntity*, NodePath> MainProd::scene_nodepaths;
+std::map<Prod3DEntity*, NodePath> MainProd::scene_entities_nodepaths;
+std::map<NodePath, Prod3DEntity*>	MainProd::scene_nodepaths_entities;
 bool MainProd::use_master_display = true;
 Prod3DWindow*	 MainProd::master_prod3Dwindow=NULL;
 WindowFramework* MainProd::master_pandawindow=NULL;
@@ -96,7 +97,8 @@ std::map<NodePath*, NodePath*> MainProd::objectNode_colliderNode_array;
 int MainProd::dummy_erase_me=0;
 
 std::map< Prod3DEntity *, CollisionNode * > MainProd::entity_collider_array;
-std::map< int, CollisionNode * > MainProd::avatar_collider_array;
+std::map< const CollisionSolid *, core::corePDU3D<double> > MainProd::avatar_collider_array;
+std::map< const CollisionSolid *, Prod3DEntity* > MainProd::entities_collider_array;
 std::vector< Prod3DEntity * > MainProd::entity_collidable_array_to_register;
 CollisionNode *MainProd::dummy_collision_node=NULL;
 std::vector<NodePath*> MainProd::testnodepaths;
@@ -418,17 +420,39 @@ void MainProd::CheckCollisions() //retomar, llamar a OnCollision de cada Entity
 	collision_traverser->traverse(pandawindows_array[1]->get_render());
 	collision_handler_queue;
 
+	//Check collision entries
 	if (collision_handler_queue)
 		for (int i = 0; i < collision_handler_queue->get_num_entries(); i++)
 		{
-			cout << "Entry collider: " << collision_handler_queue->get_entry(i) << "\n"; //getfrom getinto retomar
-		} //decomentame
+			CollisionEntry *collision_entry = collision_handler_queue->get_entry(i);
+			if (collision_entry)
+			{
+				const CollisionSolid *into_object = collision_entry->get_into();
+				const CollisionSolid *from_object =collision_entry->get_from();
+				const CollisionSolid *into_collision_node = collision_entry->get_into();
+				if (into_object && from_object)
+				{
+					std::map< const CollisionSolid *, core::corePDU3D<double> >::iterator found = avatar_collider_array.find(into_collision_node); 
+					core::corePDU3D<double> avatar_collision_info;
+					if ( found != avatar_collider_array.end() ) 
+					{
+						avatar_collision_info = avatar_collider_array[into_collision_node];
+						entities_collider_array[from_object]->OnUserCollisionCall(avatar_collision_info);
+					}
+					else
+					{
+						entities_collider_array[from_object]->OnCollisionCall(entities_collider_array[into_object]);
+					}
+				}
+				//cout << "Entry collider: " << collision_handler_queue->get_entry(i) <<  "\n"; //getfrom getinto retomar
+			}
+		} 
 
-	//add new colliders
+	//Add new colliders
 	bool clear_me = false;
 	for (std::vector< Prod3DEntity * >::iterator iter = entity_collidable_array_to_register.begin(); iter != entity_collidable_array_to_register.end(); iter++)
 	{
-		if( collision_traverser && (((*iter)->GetData() == "teapot") ))// || ((*iter)->GetData() == "panda-model")) )
+		if( collision_traverser && (((*iter)->GetData() == "teapot")  || ((*iter)->GetData() == "panda-model")) )
 		{
 			NodePath* np = (*iter)->GetNodePath();
 			//int bounds = np->get_bounds();
@@ -445,18 +469,16 @@ void MainProd::CheckCollisions() //retomar, llamar a OnCollision de cada Entity
 			std::string nombre = wop.str();
 			dummy_erase_me++;
 			CollisionNode *collision_node = new CollisionNode(nombre);
-			if ((*iter)->GetData() == "teapot")
-				collision_node->add_solid(collision_solid);
-			else
-				collision_node->add_solid(collisionbox_solid);
+			collision_node->add_solid(collision_solid);
 			NodePath col_node = (*iter)->GetNodePath()->attach_new_node(collision_node);
 			/*col_node.set_render_mode(RenderModeAttrib::Mode::M_wireframe, 2);*/
 			if (SHOW_COLLISION) col_node.show();
 			entity_collider_array[(*iter)] = collision_node;
-			if ((*iter)->GetData() == "teapot")
+			entities_collider_array[collision_solid] = (*iter);
+			//if ((*iter)->GetData() == "teapot")
 				collision_traverser->add_collider(col_node, collision_handler_queue); //retomar
-			else
-			{}
+			//else
+			//{}
 			clear_me = true;
 		}
 	}
@@ -479,7 +501,10 @@ void MainProd::CloseWorld()
 		for (unsigned int i = 0; i < scene_entities.size(); i++)
 			delete scene_entities[i];
 		scene_entities.clear();
-		scene_nodepaths.clear();
+		scene_entities_nodepaths.clear();
+		scene_nodepaths_entities.clear();
+		entities_collider_array.clear();
+		avatar_collider_array.clear();
 		if (collision_traverser)
 			collision_traverser->clear_colliders();
 		if (collision_handler_queue)
@@ -493,26 +518,28 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 {
 	////std::string data = entity->GetData();
 	//std::string data = "environment";
-	//scene_nodepaths[entity] = pandawindows_array[1]->load_model(framework.get_models(),data.c_str());
+	//scene_entities_nodepaths[entity] = pandawindows_array[1]->load_model(framework.get_models(),data.c_str());
 	////entity->SetNodePath(new_nodepath);
 	////new_nodepath = entity->GetNodePath();
-	////scene_nodepaths[entity] = new_nodepath;
+	////scene_entities_nodepaths[entity] = new_nodepath;
 
-	//scene_nodepaths[entity].set_scale(0.25,0.25,0.25);
-	//scene_nodepaths[entity].set_pos(-8,42,0);
-	//scene_nodepaths[entity].reparent_to(pandawindows_array[1]->get_render());
+	//scene_entities_nodepaths[entity].set_scale(0.25,0.25,0.25);
+	//scene_entities_nodepaths[entity].set_pos(-8,42,0);
+	//scene_entities_nodepaths[entity].reparent_to(pandawindows_array[1]->get_render());
 
 	//std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
 	//iter++;
 	//while(iter != pandawindows_array.end())
 	//{
-	//	scene_nodepaths[entity].instance_to(iter->second->get_render());
+	//	scene_entities_nodepaths[entity].instance_to(iter->second->get_render());
 	//	iter++;
 	//}
 	
 	std::string data = entity->GetData();
-	scene_nodepaths[entity] = pandawindows_array[1]->load_model(framework.get_models(),data.c_str());
-	entity->SetNodePath(&(scene_nodepaths[entity]));
+	NodePath new_model = pandawindows_array[1]->load_model(framework.get_models(),data.c_str());
+	scene_entities_nodepaths[entity]    = new_model;
+	scene_nodepaths_entities[new_model] = entity;
+	entity->SetNodePath(&(scene_entities_nodepaths[entity]));
 	entity_collidable_array_to_register.push_back(entity);
 	//////////////////////CollisionSphere *collision_solid = new CollisionSphere(0,0,0,15);
 	//////////////////////std::stringstream wop;
@@ -526,22 +553,22 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 	//////////////////////entity_collider_array[entity] = collision_node;
 	////////////////////////////////////////////////////////////collision_traverser->add_collider(col_node, collision_handler_queue);
 
-	//scene_nodepaths[entity].set_scale(0.25,0.25,0.25);
-	//scene_nodepaths[entity].set_pos(-8,42,0);
-	scene_nodepaths[entity].reparent_to(pandawindows_array[1]->get_render());
+	//scene_entities_nodepaths[entity].set_scale(0.25,0.25,0.25);
+	//scene_entities_nodepaths[entity].set_pos(-8,42,0);
+	scene_entities_nodepaths[entity].reparent_to(pandawindows_array[1]->get_render());
 
 	std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
 	iter++;
 	while(iter != pandawindows_array.end())
 	{
-		scene_nodepaths[entity].instance_to(iter->second->get_render());
+		scene_entities_nodepaths[entity].instance_to(iter->second->get_render());
 		
 		//iter->second->setup_trackball();//comment
 		iter++;
 	}
 	if (use_master_display)
 	{
-		scene_nodepaths[entity].instance_to(master_pandawindow->get_render());
+		scene_entities_nodepaths[entity].instance_to(master_pandawindow->get_render());
 	}
 }
 
@@ -1873,22 +1900,22 @@ void MainProd::SetUpUser(void *graphic_node)
 	//static Prod3DEntity				*user_entity;
 	//static NodePath					 user_nodepath;
 	//std::string data = entity->GetData();
-	//scene_nodepaths[entity] = pandawindows_array[1]->load_model(framework.get_models(),data.c_str());
-	//entity->SetNodePath(&(scene_nodepaths[entity]));
+	//scene_entities_nodepaths[entity] = pandawindows_array[1]->load_model(framework.get_models(),data.c_str());
+	//entity->SetNodePath(&(scene_entities_nodepaths[entity]));
 	//entity_collidable_array_to_register.push_back(entity);
-	//scene_nodepaths[entity].reparent_to(pandawindows_array[1]->get_render());
+	//scene_entities_nodepaths[entity].reparent_to(pandawindows_array[1]->get_render());
 	//std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
 	//iter++;
 	//while(iter != pandawindows_array.end())
 	//{
-	//	scene_nodepaths[entity].instance_to(iter->second->get_render());
+	//	scene_entities_nodepaths[entity].instance_to(iter->second->get_render());
 	//	
 	//	//iter->second->setup_trackball();//comment
 	//	iter++;
 	//}
 	//if (use_master_display)
 	//{
-	//	scene_nodepaths[entity].instance_to(master_pandawindow->get_render());
+	//	scene_entities_nodepaths[entity].instance_to(master_pandawindow->get_render());
 	//}
 }
 
@@ -1938,7 +1965,7 @@ void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> 
 				for (std::map< int, std::vector<corePDU3D<double>> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
 				{	if ((iter->first) > 3) for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
 					{	float radius = 0.1*(iter->first);
-						CollisionTube *collision_solid = new CollisionTube((*iter2).position.x-7.5, (*iter2).position.y, (*iter2).position.z-2.5, (*iter2).position.x-7.5, (*iter2).position.y+10, (*iter2).position.z-2.5, radius);
+						CollisionTube *collision_solid = new CollisionTube((*iter2).position.x-7.5, (*iter2).position.y, (*iter2).position.z-2.5, (*iter2).position.x-7.5, (*iter2).position.y+15, (*iter2).position.z-2.5, radius);
 						std::stringstream wop;
 						wop << "avatarcollider" << avatarcollierindex++ ;
 						std::string nombre = wop.str();
@@ -1946,7 +1973,7 @@ void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> 
 						collision_node->add_solid(collision_solid);
 						NodePath col_node = testQuad->attach_new_node(collision_node);
 						if (SHOW_COLLISION) col_node.show();
-						avatar_collider_array[avatarcollierindex] = collision_node;
+						avatar_collider_array[collision_solid] = (*iter2);
 					}// a simpler capsule based set of colliders
 				}
 			}
