@@ -1693,7 +1693,7 @@ std::vector<MotionElement> PerceptVideo::GetMotionElements()
 //	return 0.0;
 //}
 
-bool PerceptVideo::PresenceDetected()
+bool PerceptVideo::PresenceDetected()//retomar memory leaks investigar, sólo acumula cuando detecta presencia
 {
 	//boost::mutex::scoped_lock lock(m_mutex);
 	bool result = false;
@@ -2035,7 +2035,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		//for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); (iter != presence_detectors.end()) && !(has_x && has_y && has_z); iter++)
 		for (int iter = 0; iter < presence_detectors.size() && !(has_x && has_y && has_z); iter++)
 		{
-			if (!(presence_detectors[iter]->PresenceDetected()))
+			if (!(presence_detectors[iter]->PresenceDetected())) //MEMORYLEAK SOSPECHOSO
 			{	index++;
 				continue;	}
 
@@ -2077,7 +2077,12 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 
 				IplImage *scaled = cvCreateImage(desired_size, depth, n_channels);
 				cvResize(zimage, scaled, CV_INTER_AREA);
-				presence_images[plane_str] = scaled;
+
+				std::map< PlaneOrientation, IplImage * >::iterator iter_pi = presence_images.find(plane_str);
+				if (iter_pi  != presence_images.end())
+					cvReleaseImage(&(iter_pi->second));
+
+				presence_images[plane_str] = scaled; 
 				mapped_motion_detectors[plane_str] = motion_detectors[iter];
 
 				if(zimage) 
@@ -2413,7 +2418,6 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 				float n_deltas = search_delta/delta;
 				third_delta = (is3D) ? n_deltas : 1.0;
 				float success_criteria = 0.95; // CRITERIO DE ÉXITO, Encontró una muestra válida de tamaño search_delta //retomar
-				//float success_criteria = 0.95; // CRITERIO DE ÉXITO, Encontró una muestra válida de tamaño search_delta //retomar
 				if ((overlapping_size > ( success_criteria * pow(n_deltas, ((is3D) ? 3 : 2)) ) ) &&// n_deltas * n_deltas * third_delta))
 					(overlapping_size > 1) ) // n_deltas * n_deltas * third_delta))
 				{
@@ -2479,6 +2483,8 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		for (std::map< PlaneOrientation, IplImage * >::iterator iter = presence_images.begin(); iter != presence_images.end(); iter++)
 			cvReleaseImage(&(iter->second));
 		presence_images.clear();
+
+		spatial_index.RemoveAll();
 }
 
 

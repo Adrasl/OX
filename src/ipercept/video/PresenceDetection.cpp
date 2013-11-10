@@ -13,7 +13,7 @@ using namespace cv;
 PresenceDetection::PresenceDetection(IPerceptVideo* video_perception, const int camera_index)
 : v_perception(video_perception), cam_index(camera_index), initialized(false), stop_requested(false),/* ENCARAFaceDetector(NULL),*/ 
   image(NULL), background_model(NULL), bg_trainning_model(NULL), background_image(NULL), foreground_img(NULL),  background_trainning_frames(0), updated(false), latest_bkg(NULL),
-  last_image(NULL), last_foreground_image(NULL), first_time(true)
+  last_image(NULL), last_foreground_image(NULL), first_time(true), foreground_moments(NULL)
 {
 	presenceRec_a.x = -1; presenceRec_a.y = -1;
 	presenceRec_b.x = -1; presenceRec_b.y = -1;
@@ -79,16 +79,22 @@ void PresenceDetection::DoInit()
 void PresenceDetection::DoMainLoop()
 {
 	initialized = true;
+	int is_trained = 0;
 
 	int train_lapse = 0;
 	while(!stop_requested)
 	{
 		Iterate();
-		if(train_lapse > 0)
+		if( train_lapse > 0 )
 			train_lapse--;
 		else
-		{	TrainBackground();
-			train_lapse = TRAIN_PERIOD;	}
+		{	
+			if (is_trained < 2) 
+			{	TrainBackground();
+				train_lapse = TRAIN_PERIOD;	
+				is_trained++;
+			}
+		}
 		m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(10));
 	}
 }
@@ -157,14 +163,15 @@ bool PresenceDetection::Apply()
 			cvReleaseImage(&notForeg);
 			//
 			cvUpdateBGStatModel( mix, bg_trainning_model, -1);
-			if(background_trainning_frames < NUM_BG_TRAINNINGFRAMES) background_trainning_frames++;
+			if(background_trainning_frames < NUM_BG_TRAINNINGFRAMES) 
+				background_trainning_frames++;
 			if(background_trainning_frames == NUM_BG_TRAINNINGFRAMES)
 			{
 				CvBGStatModel *aux_model;
 				aux_model = background_model;
 				background_model = bg_trainning_model;
 				bg_trainning_model = aux_model;
-				//if(background_model)  //PIERDE MEMORIA SI o SI
+				//if(background_model)  //PIERDE MEMORIA SI o SI //retomar
 				//{	background_model->release;
 				//	delete background_model;	}
 				//background_model = bg_trainning_model;
@@ -177,7 +184,7 @@ bool PresenceDetection::Apply()
 			else
 				cvReleaseImage(&mix);
 		}
-		cvUpdateBGStatModel( h, background_model, 0 );
+		cvUpdateBGStatModel( h, background_model, 0 );//retomar memory leak study
 
 		//CvArr *foregroung_array;
 		//cvConvertImage(background_model->foreground, foregroung_array);
@@ -194,20 +201,28 @@ bool PresenceDetection::Apply()
 		size.height = size_y;
 		eroded  = cvCreateImage(size, depth, n_channels);
 		cvErode(background_model->foreground, eroded, 0, 3);
-		cvMoments(eroded, &foreground_moments);
-		cvReleaseImage(&eroded);
+		CvMoments *old_moments = foreground_moments; //forgotten in memory
+		CvMoments *new_moments = new CvMoments();
+		cvMoments(eroded, new_moments); 
+		foreground_moments = new_moments;
 
-		double area = foreground_moments.m00;
-		if(area)
-		{	presenceCenterPos.x = foreground_moments.m10/area;
-			presenceCenterPos.y = foreground_moments.m01/area;		}
+		cvReleaseImage(&eroded);
+		delete old_moments;
+
+		double area = 0;
+		if (foreground_moments)
+		{	area = (*foreground_moments).m00;
+			if(area)
+			{	presenceCenterPos.x = (*foreground_moments).m10/area;
+				presenceCenterPos.y = (*foreground_moments).m01/area;		}
+		}
 		//---------------------
 		return true;
 	}
 	return false;
 }
 
-char * PresenceDetection::GetCopyOfCurrentImage(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb)
+char * PresenceDetection::GetCopyOfCurrentImage(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb) //retomar memory leak study
 {
 	boost::try_mutex::scoped_try_lock lock(m_mutex);
 	if ((lock)&&(background_model)&&(background_model->foreground))
@@ -255,11 +270,13 @@ void PresenceDetection::detect_and_draw()
 {
 }
 
-bool PresenceDetection::PresenceDetected()
+bool PresenceDetection::PresenceDetected() //retomar buscando sospechoso, el memory leak parece aparecer sólo cuando return true
 {
 	boost::try_mutex::scoped_lock lock(m_mutex);
-	return ((foreground_moments.m00 > PRESENCE_MIN_AREA) &&
-			(foreground_moments.m00 < PRESENCE_MAX_AREA));
+	if(foreground_moments)
+	return (((*foreground_moments).m00 > PRESENCE_MIN_AREA) &&
+			((*foreground_moments).m00 < PRESENCE_MAX_AREA));
+	return false;
 }
 void PresenceDetection::GetPresenceCenterOfMass(corePoint2D<int> &pos)
 {
@@ -281,9 +298,14 @@ void PresenceDetection::TrainBackground()
 	if (lock)
 	{
 		background_trainning_frames = 0;
+		
+		//CvBGStatModel *background_model = background_model;
 
 		if (!background_model && image)
 			background_model = cvCreateGaussianBGModel(image ,background_params);
+
+		//if(old_background_model)
+		//	cvReleaseBGStatModel( &old_background_model );
 	}
 }
 

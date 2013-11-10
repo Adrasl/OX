@@ -154,7 +154,7 @@ void Application::OnIdle(wxIdleEvent &event)
 	if(session_controller && app_mainpercept && app_maingui && use_recon)
 	{
 		bool session_closed = session_controller->IsSessionClosed();
-		bool presence_detected = app_mainpercept->PresenceDetected();
+		bool presence_detected = app_mainpercept->PresenceDetected(); //MEMORYLEAK SOSPECHOSO
 
 		if(autologin && !session_closed && !presence_detected)
 			app_maingui->LogOut();

@@ -832,10 +832,7 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<vector3F> > so
 
 NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
 {
-	//retomar, crear tambien collisionbox
-
-
-	//----------------
+//----------------
 //----------------------
 	RTree<int, float, 3, float> aux_spatial_grid_index;// = spatial_grid_index;
 	RTree<int, float, 3, float> aux_spatial_grid_index2;// = spatial_grid_index;

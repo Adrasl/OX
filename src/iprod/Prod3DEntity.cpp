@@ -47,7 +47,7 @@ void Prod3DEntity::OnCollisionCall(IEntity *otherEntity)
 	this;
 	otherEntity;
 	Prod3DEntity *prod3dntity = (Prod3DEntity *)otherEntity;
-	//retomar, reimplementar por cada subentidad
+	//retomar
 }
 
 void Prod3DEntity::OnUserCollisionCall(core::corePDU3D<double> collisionInfo)

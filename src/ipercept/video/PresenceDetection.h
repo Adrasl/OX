@@ -54,18 +54,21 @@ namespace core
 				boost::shared_ptr<boost::thread> m_thread;
 				boost::try_mutex m_mutex;
 				bool initialized, stop_requested;
+				int cam_index;
 
 				IPerceptVideo* v_perception;
-				IplImage  *image, *background_image, *foreground_img, *latest_bkg;
-				IplImage  *last_image, *last_foreground_image;
-				int cam_index;
+				IplImage  *image, *latest_bkg; 
+				IplImage  *background_image, *foreground_img;  //deprecated
+				IplImage  *last_image, *last_foreground_image; //deprecated
+
 
 				//CENCARA2_2Detector *ENCARAFaceDetector;
 				 corePoint2D<int> presenceCenterPos, presenceRec_a, presenceRec_b;
 
 				 CvGaussBGStatModelParams* background_params;
 				 CvBGStatModel *background_model, *bg_trainning_model;
-				 CvMoments foreground_moments;
+				 //CvMoments foreground_moments;
+				 CvMoments *foreground_moments;
 				 int background_trainning_frames;
 				 bool updated, first_time;
 		};

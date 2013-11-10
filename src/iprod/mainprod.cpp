@@ -126,7 +126,6 @@ MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[
 	//framework.open_framework( m_argc, m_argv );
 
 	mesh_factory = new MeshFactory();
-	//mesh_factory->SetMarchingCubesConfig(75, 10, 0.005, 0.06, 360.0); //MarchingCubesConfig 16x16x16 original
 	mesh_factory->SetMarchingCubesConfig(75, 10, 0.005, 0.085, 48.0); //MarchingCubesConfig 16x16x16 original//retomar
 }
 
@@ -497,6 +496,7 @@ void MainProd::CloseWorld()
 		scene_entities.clear();
 		scene_entities_nodepaths.clear();
 		scene_nodepaths_entities.clear();
+		entity_collidable_array_to_register.clear();
 		entities_collider_array.clear();
 		avatar_collider_array.clear();
 		testnodepaths.clear();

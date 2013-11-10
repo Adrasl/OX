@@ -73,7 +73,7 @@ void NavigationController::DoMainLoop()
 }
 
 void NavigationController::Iterate()
-{
+{//descomentar
 
 
 	////--------------------------- 2D OK, 3D NOK 
@@ -142,13 +142,13 @@ void NavigationController::Iterate()
 
 		//----------------------------
 		
-		//perception->GetFeaturePositions("PRESENCE VOLUME", presence_volume, row_step, scale);
-		//SLOW AS HELL
-		double timestamp = (double)clock()/CLOCKS_PER_SEC;
+		//////perception->GetFeaturePositions("PRESENCE VOLUME", presence_volume, row_step, scale);
+		//SLOW AS HELL // decomentar
+		//double timestamp = (double)clock()/CLOCKS_PER_SEC;
 		perception->GetFeatureWeightedPositions("PRESENCE VOLUME", presence_volume, scale);
-		std::vector<MotionElement> motion_elements = perception->GetMotionElements();
-		double timestamp2 = (double)clock()/CLOCKS_PER_SEC;
-		double dif_time = timestamp2 - timestamp;
+		//std::vector<MotionElement> motion_elements = perception->GetMotionElements();
+		//double timestamp2 = (double)clock()/CLOCKS_PER_SEC;
+		//double dif_time = timestamp2 - timestamp;
 		//cout << "CALCULATING CLOUD: " << dif_time << "\n";
 
 		//BLOCK 2: Positioning the camera
@@ -200,10 +200,10 @@ void NavigationController::Iterate()
 		production->SetCamerasPosition(final_cam_pos);
 
 		// BLOCK 3: Creating the avatar
-		if (presence_volume.size() > 0) //retomar reactivar
+		if (presence_volume.size() > 0) //retomar descomentar
 		{
 			double timestamp = (double)clock()/CLOCKS_PER_SEC;
-			void *graphic_node = production->CreateGraphicNode(presence_volume); //retomar, que no solo cree el triangulo también los colliders
+			void *graphic_node = production->CreateGraphicNode(presence_volume); 
 			double timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 			double dif_time = timestamp2 - timestamp;
 			//cout << "CALCULATING MESH: " << dif_time << "\n";
