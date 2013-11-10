@@ -90,17 +90,14 @@ core::corePoint3D<double> MainProd::pt0, MainProd::pt1, MainProd::pti, MainProd:
 double MainProd::last_interval=0;
 double MainProd::last_time, MainProd::last_loop_t = 0;
 core::corePDU3D<double> MainProd::last_pdu;
+int MainProd::dummy_erase_me=0;
 
 CollisionHandlerQueue *MainProd::collision_handler_queue=NULL;
 CollisionTraverser *MainProd::collision_traverser=NULL;
-std::map<NodePath*, NodePath*> MainProd::objectNode_colliderNode_array;
-int MainProd::dummy_erase_me=0;
-
 std::map< Prod3DEntity *, CollisionNode * > MainProd::entity_collider_array;
 std::map< const CollisionSolid *, core::corePDU3D<double> > MainProd::avatar_collider_array;
 std::map< const CollisionSolid *, Prod3DEntity* > MainProd::entities_collider_array;
 std::vector< Prod3DEntity * > MainProd::entity_collidable_array_to_register;
-CollisionNode *MainProd::dummy_collision_node=NULL;
 std::vector<NodePath*> MainProd::testnodepaths;
 bool MainProd::insert_now = false;
 
@@ -412,13 +409,15 @@ void MainProd::DoInit()
 	}
 }
 
-void MainProd::UpdateEntities() //retomar, llamar a Update de cada Entity
-{}
+void MainProd::UpdateEntities() 
+{
+	for (std::vector< Prod3DEntity * >::iterator iter = scene_entities.begin(); iter != scene_entities.end(); iter++)
+		if (*iter) (*iter)->OnUpdate();
+}
 
-void MainProd::CheckCollisions() //retomar, llamar a OnCollision de cada Entity
+void MainProd::CheckCollisions() 
 {
 	collision_traverser->traverse(pandawindows_array[1]->get_render());
-	collision_handler_queue;
 
 	//Check collision entries
 	if (collision_handler_queue)
@@ -431,18 +430,14 @@ void MainProd::CheckCollisions() //retomar, llamar a OnCollision de cada Entity
 				const CollisionSolid *from_object =collision_entry->get_from();
 				const CollisionSolid *into_collision_node = collision_entry->get_into();
 				if (into_object && from_object)
-				{
-					std::map< const CollisionSolid *, core::corePDU3D<double> >::iterator found = avatar_collider_array.find(into_collision_node); 
+				{	std::map< const CollisionSolid *, core::corePDU3D<double> >::iterator found = avatar_collider_array.find(into_collision_node); 
 					core::corePDU3D<double> avatar_collision_info;
 					if ( found != avatar_collider_array.end() ) 
-					{
-						avatar_collision_info = avatar_collider_array[into_collision_node];
+					{	avatar_collision_info = avatar_collider_array[into_collision_node];
 						entities_collider_array[from_object]->OnUserCollisionCall(avatar_collision_info);
 					}
 					else
-					{
 						entities_collider_array[from_object]->OnCollisionCall(entities_collider_array[into_object]);
-					}
 				}
 				//cout << "Entry collider: " << collision_handler_queue->get_entry(i) <<  "\n"; //getfrom getinto retomar
 			}
@@ -452,7 +447,7 @@ void MainProd::CheckCollisions() //retomar, llamar a OnCollision de cada Entity
 	bool clear_me = false;
 	for (std::vector< Prod3DEntity * >::iterator iter = entity_collidable_array_to_register.begin(); iter != entity_collidable_array_to_register.end(); iter++)
 	{
-		if( collision_traverser && (((*iter)->GetData() == "teapot")  || ((*iter)->GetData() == "panda-model")) )
+		if( collision_traverser && ( (*iter)->IsCollidable() || ((*iter)->GetData() == "teapot")  || ((*iter)->GetData() == "panda-model")) )
 		{
 			NodePath* np = (*iter)->GetNodePath();
 			//int bounds = np->get_bounds();
@@ -462,23 +457,19 @@ void MainProd::CheckCollisions() //retomar, llamar a OnCollision de cada Entity
 			(*iter)->GetEntity()->GetScale(scale);
 			scale += 0.001f;
 			LPoint3f centerOfEntity; centerOfEntity.zero();
-			CollisionSphere *collision_solid = new CollisionSphere(0,0,radius/(scale*2),2*radius/scale); 
-			CollisionBox *collisionbox_solid = new CollisionBox(centerOfEntity, 5/scale, 10/scale, 2/scale);
+			CollisionSphere *collision_solid = new CollisionSphere(0,0,radius/(scale*2),radius/scale); 
 			std::stringstream wop;
 			wop << "e" << dummy_erase_me ;
 			std::string nombre = wop.str();
 			dummy_erase_me++;
-			CollisionNode *collision_node = new CollisionNode(nombre);
+			CollisionNode *collision_node = new CollisionNode(nombre); //No debería generar memory leaks al vincularse a un NodePath
 			collision_node->add_solid(collision_solid);
 			NodePath col_node = (*iter)->GetNodePath()->attach_new_node(collision_node);
 			/*col_node.set_render_mode(RenderModeAttrib::Mode::M_wireframe, 2);*/
 			if (SHOW_COLLISION) col_node.show();
 			entity_collider_array[(*iter)] = collision_node;
 			entities_collider_array[collision_solid] = (*iter);
-			//if ((*iter)->GetData() == "teapot")
-				collision_traverser->add_collider(col_node, collision_handler_queue); //retomar
-			//else
-			//{}
+			collision_traverser->add_collider(col_node, collision_handler_queue);
 			clear_me = true;
 		}
 	}
@@ -491,24 +482,25 @@ void MainProd::CloseWorld()
 	ClearScene();
 	{	
 		boost::mutex::scoped_lock lock(m_mutex);
+		
+		if (user_entity)
+			delete user_entity;
+
 		current_user  = NULL;
 		current_world = NULL;
-		if (user_entity)
-		{	delete user_entity;
-			user_entity =NULL;
-			user_dummyPersistence = NULL;
-		}
+		user_entity	  = NULL;
+		user_dummyPersistence = NULL;
+
 		for (unsigned int i = 0; i < scene_entities.size(); i++)
 			delete scene_entities[i];
+
 		scene_entities.clear();
 		scene_entities_nodepaths.clear();
 		scene_nodepaths_entities.clear();
 		entities_collider_array.clear();
 		avatar_collider_array.clear();
-		if (collision_traverser)
-			collision_traverser->clear_colliders();
-		if (collision_handler_queue)
-			collision_handler_queue->clear_entries();
+		testnodepaths.clear();
+
 		//for (std::map< Prod3DEntity *, CollisionNode * >::iterator iter = entity_collider_array.begin(); iter != entity_collider_array.end(); iter++)
 		//	delete iter->second;
 	}
@@ -555,14 +547,13 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 
 	//scene_entities_nodepaths[entity].set_scale(0.25,0.25,0.25);
 	//scene_entities_nodepaths[entity].set_pos(-8,42,0);
-	scene_entities_nodepaths[entity].reparent_to(pandawindows_array[1]->get_render());
 
+	scene_entities_nodepaths[entity].reparent_to(pandawindows_array[1]->get_render());
 	std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
 	iter++;
 	while(iter != pandawindows_array.end())
 	{
 		scene_entities_nodepaths[entity].instance_to(iter->second->get_render());
-		
 		//iter->second->setup_trackball();//comment
 		iter++;
 	}
@@ -1036,8 +1027,21 @@ void MainProd::CreateDefaultWindows(int num_windows)
 
 void MainProd::ClearScene()
 {	boost::mutex::scoped_lock lock(m_mutex);
+	
 	initialized = false;
 	Sound.Stop();	
+
+	/*if (collision_traverser)
+	{	//collision_traverser->clear_colliders();
+		//delete collision_traverser;
+		//collision_traverser = NULL;
+	}
+	if (collision_handler_queue)
+	{
+		//collision_handler_queue->clear_entries();
+		//delete collision_handler_queue;
+		//collision_handler_queue = NULL;
+	}*/
 
 	//{
 	//	environment = NodePath(NULL);
@@ -1046,6 +1050,7 @@ void MainProd::ClearScene()
 	//	pandaActor3 = NodePath(NULL);
 	//	pandaActor4 = NodePath(NULL);
 	//}
+
 	if(use_master_display)
 	{
 		NodePathCollection npc = master_pandawindow->get_render().get_children();
@@ -1062,6 +1067,7 @@ void MainProd::ClearScene()
 			windowcamera_array[i].reparent_to(pandawindows_array[i]->get_render());
 		}
 	}
+
 	if (user_nodepath)
 		delete user_nodepath;
 	user_nodepath = new NodePath("zip_nada");
@@ -1713,7 +1719,7 @@ NodePath* MainProd::CreateQuad()
 //	Sound.Play();
 //}
 
-void MainProd::InsertEntityIntoScene(core::IEntityPersistence* ent)
+void MainProd::InsertEntityIntoScene(core::IEntityPersistence* ent) //Retomar, return *IEntity
 {
 	if (ent)
 	{	boost::mutex::scoped_lock lock(m_mutex);
@@ -1799,10 +1805,24 @@ void MainProd::SetUpUser(void *graphic_node)
 {
 	if (user_entity)
 		delete user_entity;
+	user_entity = NULL;
 	ClearAvatarModel();
 
 	if (user_nodepath == NULL)
-			user_nodepath = new NodePath("zip_nada");
+	{
+		user_nodepath = new NodePath("zip_nada");
+		user_nodepath->reparent_to(pandawindows_array[1]->get_render());
+
+		std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
+		iter++;
+		while(iter != pandawindows_array.end())
+		{	user_nodepath->instance_to(iter->second->get_render());	
+			iter++;				
+		}
+		if (use_master_display)
+			user_nodepath->instance_to(master_pandawindow->get_render());
+	}
+
 
 	user_dummyPersistence = app->GetAvatarEntity();
 	IEntityPersistence *u_ent = user_dummyPersistence;

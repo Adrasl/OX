@@ -43,12 +43,17 @@ namespace core
 				virtual void OnUpdate();
 				virtual void OnCollisionCall(IEntity *otherEntity); // retomar y crear IProd3DEntity
 				virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo);
+				virtual bool IsCollidable()						{ return collidable;}
+				virtual void SetCollidable(const bool &value)	{ collidable =value;}
+				virtual void PlaySound(const std::string &label, const bool &loop);
+				virtual void PlayAnimation(const std::string &label);
 
 			private:
 
 				std::string data;
 				core::IEntityPersistence* entity;
 				NodePath *nodepath;
+				bool collidable;
 
 		};
 	}

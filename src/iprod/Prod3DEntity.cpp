@@ -4,7 +4,7 @@
 
 using namespace core::iprod;
 
-Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepath(NULL)
+Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepath(NULL), collidable(false)
 {
 	if (entity != NULL )
 	{
@@ -38,7 +38,9 @@ void Prod3DEntity::SetNodePath(NodePath *value)
 void Prod3DEntity::OnStart()
 {}
 void Prod3DEntity::OnUpdate()
-{}
+{
+	this;
+}
 
 void Prod3DEntity::OnCollisionCall(IEntity *otherEntity)
 {
@@ -53,6 +55,13 @@ void Prod3DEntity::OnUserCollisionCall(core::corePDU3D<double> collisionInfo)
 	this;
 	//retomar
 }
+
+void Prod3DEntity::PlaySound(const string &label, const bool &loop)
+{
+}
+
+void Prod3DEntity::PlayAnimation(const string &label)
+{}
 
 /*_collider_Ptr->add_in_pattern( "into-%in" );
 global::_framework.get_event_handler().add_hook( "into-" + _collider_Ptr->get_name(), &TestFunction );

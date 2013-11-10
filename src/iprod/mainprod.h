@@ -128,15 +128,23 @@ namespace core
 			
 			private:
 
-				static core::IUserPersistence	*current_user;
-				static core::IWorldPersistence	*current_world;
-				static core::IEntityPersistence *user_dummyPersistence;
-				static Prod3DEntity				*user_entity;
-				static NodePath					*user_nodepath;
+				static core::IUserPersistence				*current_user;
+				static core::IWorldPersistence				*current_world;
+				static core::IEntityPersistence				*user_dummyPersistence;
+				static Prod3DEntity							*user_entity;
+				static NodePath								*user_nodepath;
 				static std::vector<Prod3DEntity *>			scene_entities;
 				static std::map<Prod3DEntity*, NodePath>	scene_entities_nodepaths;
 				static std::map<NodePath, Prod3DEntity*>	scene_nodepaths_entities;
 				static std::vector<NodePath*>				testnodepaths;
+				static CollisionHandlerQueue				*collision_handler_queue;
+				static CollisionTraverser					*collision_traverser;
+
+				static std::map< Prod3DEntity *, CollisionNode * >					entity_collider_array;
+				static std::map< const CollisionSolid *, core::corePDU3D<double> >	avatar_collider_array;
+				static std::map< const CollisionSolid *, Prod3DEntity* >			entities_collider_array;
+				static std::vector< Prod3DEntity * >								entity_collidable_array_to_register;
+				
 
 				static core::corePoint3D<double> pt0, pt1, pti, vel, vel0, vel1, acc;
 				static double last_interval, last_time, last_loop_t;
@@ -191,14 +199,6 @@ namespace core
 				static char **m_argv;
 				static NodePath cam_viewpoint;
 				static NodePath origin, up;
-				static CollisionHandlerQueue *collision_handler_queue;
-				static CollisionTraverser *collision_traverser;
-				static std::map<NodePath*, NodePath*> objectNode_colliderNode_array;
-				static std::map< Prod3DEntity *, CollisionNode * > entity_collider_array;
-				static std::map< const CollisionSolid *, core::corePDU3D<double> > avatar_collider_array;
-				static std::map< const CollisionSolid *, Prod3DEntity* > entities_collider_array;
-				static std::vector< Prod3DEntity * > entity_collidable_array_to_register;
-				static CollisionNode *dummy_collision_node;
 
 				static int dummy_erase_me;
 
