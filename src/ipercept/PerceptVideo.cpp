@@ -187,8 +187,11 @@ PerceptVideo::PerceptVideo(IApplicationConfiguration *app_config_)
 			distortion[i+1] = (CvMat*)cvLoad( distortion_filename.str().c_str() );
 			capture_img[i+1] = cvQueryFrame(capture_cam_array[i+1]);
 			vector2I cam_dim;
-			cam_dim.x = capture_img[i+1]->width;
-			cam_dim.y = capture_img[i+1]->height;
+			if (capture_img[i+1])
+			{
+				cam_dim.x = capture_img[i+1]->width;
+				cam_dim.y = capture_img[i+1]->height;
+			}
 			cam_capture_size[i+1] = cam_dim;
 			undistort_mapx[i+1] = cvCreateImage( cvGetSize( capture_img[i+1] ), IPL_DEPTH_32F, 1 );
 			undistort_mapy[i+1] = cvCreateImage( cvGetSize( capture_img[i+1] ), IPL_DEPTH_32F, 1 );
@@ -2905,18 +2908,18 @@ void PerceptVideo::UpdateFaceHistory()
 	//bool face_detected = FaceDetected();
 	char *img = NULL;
 	int size_x, size_y, n_channels, depth, width_step;
-	if(presence_detected)
+	if(presence_detected) 
 	{
-		//img = GetCopyOfCurrentFeature("FACE", size_x, size_y, n_channels, depth, width_step);
 		for (std::vector<IFaceDetection*>::iterator iter = face_detectors.begin(); !img && (iter != face_detectors.end()); iter++)
-		{	img = (*iter)->GetCopyOfAreaOfInterest(size_x, size_y, n_channels, depth, width_step);;
+		{	img = (*iter)->GetCopyOfAreaOfInterest(size_x, size_y, n_channels, depth, width_step);
 		}
+
 		core::Image new_face(img, size_x, size_y, n_channels, depth, width_step);
 		if (img)
 		{
 			int vec_size = face_history.size();
 			if(vec_size == 10)
-			{	free((*(face_history.begin())).image);
+			{	delete [] ((*(face_history.begin())).image);
 				face_history.erase(face_history.begin());
 			}
 			face_history.push_back(new_face);

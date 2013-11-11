@@ -16,11 +16,17 @@
 //PATH=%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\built\bin;..\..\extern\panda3d\built\python;..\..\extern\panda3d\built\python\DLLs;..\..\extern\sfml\extlibs\bin;
 //PATH=%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\built\bin;..\..\extern\panda3d\built\python;..\..\extern\panda3d\built\python\DLLs;..\..\extern\sfml\extlibs\bin;..\..\..\..\..\BBDD\PostgreSQL\bin;..\..\extern\debea\vc_release_static;
 
+//20131111
+//PATH=..\..\extern\opencv\bin;%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\lib;..\..\extern\panda3d\built\bin;..\..\extern\panda3d\built\python;..\..\extern\panda3d\built\python\libs;..\..\..\BBDD\PostgreSQL\bin;..\..\extern\debea\vc_release_static;..\..\extern\sfml\extlibs\bin;
+
 #ifdef WIN32
 #include <Aclapi.h>
 #endif
 
 #include <debugger.h> 
+//#define CRTDBG_MAP_ALLOC
+//#include <stdlib.h>
+//#include <crtdbg.h>
 
 #define MAINLOOP_EVT 12345
 #define BENEFIT_OF_THE_DOUBT 100
@@ -34,6 +40,8 @@ core::IApplication* Application::app = NULL;
 
 Application::Application(void) : app_maingui(NULL), app_mainpercept(NULL), app_mainprod(NULL), session_controller(NULL), configuration_controller(NULL), navigation_controller(NULL), user_dataModel_controller(NULL), app_mainpersistence(NULL), benefit_of_the_doubt(0), avatar_entity(NULL)
 {
+	//_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+
 	app = (IApplication*) this;
 	app_timer.SetOwner(this, MAINLOOP_EVT);
 
@@ -76,6 +84,8 @@ Application::~Application(void)
 		delete app_mainpersistence;		}
 
 	if ( app_config ) delete app_config;
+
+	//_CrtDumpMemoryLeaks();
 
 //	fclose(stdout);
 	//#ifdef _MSVC
@@ -154,7 +164,7 @@ void Application::OnIdle(wxIdleEvent &event)
 	if(session_controller && app_mainpercept && app_maingui && use_recon)
 	{
 		bool session_closed = session_controller->IsSessionClosed();
-		bool presence_detected = app_mainpercept->PresenceDetected(); //MEMORYLEAK SOSPECHOSO
+		bool presence_detected = app_mainpercept->PresenceDetected(); 
 
 		if(autologin && !session_closed && !presence_detected)
 			app_maingui->LogOut();
@@ -167,11 +177,14 @@ void Application::OnIdle(wxIdleEvent &event)
 			int size_x, size_y, n_channels, depth, width_step;
 			if(face_detected)
 				img = app_mainpercept->GetCopyOfCurrentFeature("FACE", size_x, size_y, n_channels, depth, width_step, true);
+
 			if (app_maingui != NULL)
 				app_maingui->ShowFaceAtGUI(img, size_x, size_y, n_channels, depth, width_step);
+
 			if(face_detected)
 			{	//Reconocer
 				int user_detected_id = app_mainpercept->RecognizeCurrentFace();
+
 				if (user_detected_id != -1) //known face
 				{
 					std::string name, passwd;
@@ -191,7 +204,7 @@ void Application::OnIdle(wxIdleEvent &event)
 						}
 					}
 					benefit_of_the_doubt = 0;
-				} else { //unknown face
+				} else { //unknown face //retomar puede que tenga algunas caras en local que no se guardaron en la BD
 					std::string name, passwd;
 					name = passwd = "anonymous";
 					app_maingui->FillNewUserGUI(name, passwd);
@@ -216,8 +229,6 @@ void Application::OnIdle(wxIdleEvent &event)
 					benefit_of_the_doubt++;
 				}
 			}
-			if (img) free(img);
-
 		}
 	}
 }

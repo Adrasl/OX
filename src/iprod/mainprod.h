@@ -45,6 +45,7 @@
 #include <core/IPersistence/IUserPersistence.h>
 #include <core/IPersistence/IWorldPersistence.h>
 #include <core/IPersistence/IEntityPersistence.h>
+#include <debugger.h>
 
 //#include <boost/archive/binary_oarchive.hpp>
 //#include <boost/archive/binary_iarchive.hpp>

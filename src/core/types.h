@@ -91,7 +91,7 @@ namespace core
 				depth_ = depth;
 				widthstep = width_step;
 			}
-			~Image(){};
+			~Image(){ };
 			char *image;
 			int width, height, nchannels, depth_, widthstep;
 	};

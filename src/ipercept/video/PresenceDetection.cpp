@@ -13,7 +13,7 @@ using namespace cv;
 PresenceDetection::PresenceDetection(IPerceptVideo* video_perception, const int camera_index)
 : v_perception(video_perception), cam_index(camera_index), initialized(false), stop_requested(false),/* ENCARAFaceDetector(NULL),*/ 
   image(NULL), background_model(NULL), bg_trainning_model(NULL), background_image(NULL), foreground_img(NULL),  background_trainning_frames(0), updated(false), latest_bkg(NULL),
-  last_image(NULL), last_foreground_image(NULL), first_time(true), foreground_moments(NULL)
+  last_image(NULL), last_foreground_image(NULL), first_time(true), foreground_moments(NULL), presence_area(0.0)
 {
 	presenceRec_a.x = -1; presenceRec_a.y = -1;
 	presenceRec_b.x = -1; presenceRec_b.y = -1;
@@ -209,12 +209,12 @@ bool PresenceDetection::Apply()
 		cvReleaseImage(&eroded);
 		delete old_moments;
 
-		double area = 0;
+		presence_area = 0.0;
 		if (foreground_moments)
-		{	area = (*foreground_moments).m00;
-			if(area)
-			{	presenceCenterPos.x = (*foreground_moments).m10/area;
-				presenceCenterPos.y = (*foreground_moments).m01/area;		}
+		{	presence_area = (*foreground_moments).m00;
+			if(presence_area > 0.0)
+			{	presenceCenterPos.x = (*foreground_moments).m10/presence_area;
+				presenceCenterPos.y = (*foreground_moments).m01/presence_area;		}
 		}
 		//---------------------
 		return true;
@@ -270,13 +270,11 @@ void PresenceDetection::detect_and_draw()
 {
 }
 
-bool PresenceDetection::PresenceDetected() //retomar buscando sospechoso, el memory leak parece aparecer sólo cuando return true
+bool PresenceDetection::PresenceDetected() 
 {
 	boost::try_mutex::scoped_lock lock(m_mutex);
-	if(foreground_moments)
-	return (((*foreground_moments).m00 > PRESENCE_MIN_AREA) &&
-			((*foreground_moments).m00 < PRESENCE_MAX_AREA));
-	return false;
+	return ( ( presence_area > PRESENCE_MIN_AREA ) 
+		  && ( presence_area < PRESENCE_MAX_AREA ) );
 }
 void PresenceDetection::GetPresenceCenterOfMass(corePoint2D<int> &pos)
 {

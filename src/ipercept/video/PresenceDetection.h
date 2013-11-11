@@ -69,6 +69,7 @@ namespace core
 				 CvBGStatModel *background_model, *bg_trainning_model;
 				 //CvMoments foreground_moments;
 				 CvMoments *foreground_moments;
+				 double presence_area;
 				 int background_trainning_frames;
 				 bool updated, first_time;
 		};

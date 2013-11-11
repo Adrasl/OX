@@ -24,7 +24,7 @@ BEGIN_EVENT_TABLE(GUIUser, wxPanel)
 END_EVENT_TABLE()
 
 GUIUser::GUIUser(IApplicationConfiguration *app_config_, wxWindow *parent, wxWindowID id, const wxPoint &pos, const wxSize &size, long style, const wxString &name) 
-: wxPanel(parent, id, pos, size, style, name), user_logged_in(false), app_config(app_config_), face_detected(false)
+: wxPanel(parent, id, pos, size, style, name), user_logged_in(false), app_config(app_config_), face_detected(false), oldface_data(NULL)
 {
 	std::string uiresource_dir = "";
 	if ( app_config != NULL )
@@ -160,15 +160,25 @@ void GUIUser::OnNewUserButton(wxCommandEvent& WXUNUSED(event))
 
 void GUIUser::SetFace(char* data, const int &size_x, const int &size_y, const int &n_channels, const int &depth, const int &width_step)
 {
+	if(oldface_data)
+	{	delete [] oldface_data;
+		oldface_data = NULL;	}
+
 	if (data)
-	{	wxImage new_image = wxImage( size_x, size_y, (unsigned char*)data, true );
+	{	
+		wxImage new_image = wxImage( size_x, size_y, (unsigned char*)data, true );
 		face_bitmap = wxBitmap( new_image.Scale(100, 100, wxIMAGE_QUALITY_HIGH) );
 		//face_bitmap = wxBitmap( new_image );
 		face_detected = true;
+		oldface_data = data;
+		Refresh();
+		Update();
 	} else 
-		face_detected = false;
-	Refresh();
-	Update();
+	{	face_detected = false;
+		Refresh();
+		Update();
+	}
+	
 
 }
 

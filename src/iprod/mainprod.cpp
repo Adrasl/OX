@@ -1748,7 +1748,11 @@ void MainProd::ClearAvatarModel()
 	//user_nodepath->detach_node();
 	//user_nodepath->remove_node();
 	//user_nodepath = NULL;
-
+	
+	//avatar_collider_array.clear();
+	//user_nodepath->remove_node();
+	//user_nodepath = NULL;
+	
 	NodePathCollection npc = user_nodepath->get_children();
 	npc.detach();
 
@@ -1793,7 +1797,7 @@ void MainProd::SetAvatar(std::vector<float> source_data, int row_step)
 }
 
 void MainProd::SetAvatar(void *graphic_node)
-{
+{ 
 	if (current_user)
 	{
 		boost::mutex::scoped_lock lock(m_mutex);
@@ -1806,7 +1810,10 @@ void MainProd::SetUpUser(void *graphic_node)
 	if (user_entity)
 		delete user_entity;
 	user_entity = NULL;
-	ClearAvatarModel();
+
+	//MEMORY LEAK SOSPECHOSO
+
+	ClearAvatarModel(); 
 
 	if (user_nodepath == NULL)
 	{
@@ -1899,7 +1906,7 @@ void MainProd::SetUpUser(void *graphic_node)
 		}
 	}
 	else
-		((NodePath*) graphic_node)->reparent_to(*user_nodepath);
+		((NodePath*) graphic_node)->reparent_to(*user_nodepath); //MEMORY LEAK SOSPECHOSO
 
 	user_entity->SetNodePath(user_nodepath);
 
@@ -1958,13 +1965,13 @@ void* MainProd::CreateGraphicNode(std::vector<float> source_data, int row_step)
 }
 
 void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
-{
-	NodePath *testQuad = NULL;
-	if (mesh_factory)
+{	
+	NodePath *resultNodePath = NULL;
+	if (mesh_factory && source_weighted_data.size())
 	{
 		if (USE_AVATAR_3D_MESH) 
-			//NodePath *testQuad = CreateVoxelized(source_weighted_data);
-			testQuad = mesh_factory->CreateVoxelized(source_weighted_data); //retomar: future work: add a mesh collider for the user 3d-mesh
+			//NodePath *resultNodePath = CreateVoxelized(source_weighted_data);
+			resultNodePath = mesh_factory->CreateVoxelized(source_weighted_data); //retomar: future work: add a mesh collider for the user 3d-mesh
 		else
 		{	//Ridiculous set of instructions in order to create an empty object
 			PT(GeomTriangles) tris;
@@ -1976,11 +1983,12 @@ void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> 
 			squareGeom->add_primitive(tris) ;
 			PT(GeomNode) squareGN = new GeomNode("empty") ;
 			squareGN->add_geom(squareGeom) ;
-			testQuad = new NodePath( (PandaNode*)squareGN );
+			resultNodePath = new NodePath( (PandaNode*)squareGN );
 			//----------------------------------------------
 
-			if (testQuad)
-			{	NodePath* np = testQuad;
+			if (resultNodePath)
+			{	NodePath* np = resultNodePath;
+				//avatar_collider_array.clear();
 				int avatarcollierindex = 0;
 				for (std::map< int, std::vector<corePDU3D<double>> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
 				{	if ((iter->first) > 3) for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
@@ -1991,7 +1999,7 @@ void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> 
 						std::string nombre = wop.str();
 						CollisionNode *collision_node = new CollisionNode(nombre);
 						collision_node->add_solid(collision_solid);
-						NodePath col_node = testQuad->attach_new_node(collision_node);
+						NodePath col_node = resultNodePath->attach_new_node(collision_node);
 						if (SHOW_COLLISION) col_node.show();
 						avatar_collider_array[collision_solid] = (*iter2);
 					}// a simpler capsule based set of colliders
@@ -1999,7 +2007,7 @@ void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> 
 			}
 		}
 	}
-	return (void *)testQuad;
+	return (void *)resultNodePath;
 }
 
 void MainProd::RegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)

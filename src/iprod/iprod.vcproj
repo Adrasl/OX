@@ -109,7 +109,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories=".;..\..\src;..\..\extern\include;..\..\extern\panda3d\built\include;..\..\extern\panda3d\built\python\include;..\..\extern\boost;..\..\extern\include\wxwidgets\msvc;..\..\extern\include\wxwidgets;..\..\extern\sfml\include;..\..\extern\utils"
+				AdditionalIncludeDirectories=".;..\..\src;..\..\extern\include;..\..\extern\panda3d\built\include;..\..\extern\panda3d\built\python\include;F:\etc\repos\OX\extern\boost\boost;..\..\extern\boost;..\..\extern\include\wxwidgets\msvc;..\..\extern\include\wxwidgets;..\..\extern\sfml\include;..\..\extern\utils"
 				PreprocessorDefinitions="WIN32; _MSVC;"
 				RuntimeLibrary="2"
 				WarningLevel="3"

@@ -49,9 +49,11 @@ int FaceRecognition::RecognizeFromImage(char* data, const int &size_x, const int
 	desired_size.height	= face_height;
 
 	IplImage *zimage = cvCreateImage(size, depth, n_channels);
+	char *default_data = zimage->imageData;
 	zimage->imageData = data;
-
 	IplImage *face_gray, *scaled, *equalized;
+	face_gray = scaled = equalized = NULL;
+
 	//Grayscale
 	if( n_channels == 3 )
 	{	face_gray = cvCreateImage( size, IPL_DEPTH_8U, 1 );
@@ -81,6 +83,13 @@ int FaceRecognition::RecognizeFromImage(char* data, const int &size_x, const int
 		candidate		= FindBestCandidate(projected_test_face, likeness);
 		candidate_index	= (candidate != -1) ? facepic_to_person_indexes->data.i[candidate] : -1;
 	}
+
+	zimage->imageData = default_data;
+	cvReleaseImage(&zimage);
+	cvReleaseImage(&face_gray);
+	cvReleaseImage(&scaled);
+	cvReleaseImage(&equalized);
+
 	return candidate_index;
 }
 

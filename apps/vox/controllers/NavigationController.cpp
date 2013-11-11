@@ -59,6 +59,7 @@ void NavigationController::DoInit()
 	{
 		assert(!m_thread);
 		m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&NavigationController::DoMainLoop, this ) ));
+		//SetThreadName(m_thread->get_id(), "NavigationController");
 	}
 }
 
@@ -151,6 +152,7 @@ void NavigationController::Iterate()
 		//double dif_time = timestamp2 - timestamp;
 		//cout << "CALCULATING CLOUD: " << dif_time << "\n";
 
+
 		//BLOCK 2: Positioning the camera
 		//----------------------------
 		//double b2_timestamp = (double)clock()/CLOCKS_PER_SEC;
@@ -200,14 +202,14 @@ void NavigationController::Iterate()
 		production->SetCamerasPosition(final_cam_pos);
 
 		// BLOCK 3: Creating the avatar
-		if (presence_volume.size() > 0) //retomar descomentar
+		if (presence_volume.size() > 0) 
 		{
 			double timestamp = (double)clock()/CLOCKS_PER_SEC;
 			void *graphic_node = production->CreateGraphicNode(presence_volume); 
 			double timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 			double dif_time = timestamp2 - timestamp;
 			//cout << "CALCULATING MESH: " << dif_time << "\n";
-			production->SetAvatar(graphic_node);
+			production->SetAvatar(graphic_node); // RETOMAR MEMORY LEAK SOSPECHOSO CONFIRMADO
 		}
 
 		//production->SetAvatar("teapot");
@@ -219,4 +221,5 @@ void NavigationController::Iterate()
 		double dif_time = timestamp - time_loop;
 		//cout << "NAVIGATOR LOOP: " << dif_time << "\n";
 		time_loop = timestamp;
+		
 }

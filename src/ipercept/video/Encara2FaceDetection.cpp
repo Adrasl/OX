@@ -45,6 +45,7 @@ void Encara2FaceDetection::DoInit()
 		assert(!m_thread);
 		m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Encara2FaceDetection::DoMainLoop, this ) ));
 		//m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::function0<void>(&Encara2FaceDetection::DoMainLoop)));
+		//SetThreadName(m_thread->get_id(), "Encara2FaceDetection");
 	}
 }
 
@@ -175,6 +176,8 @@ void Encara2FaceDetection::Capture()
 
 bool Encara2FaceDetection::Apply()
 {
+	//ENCARAFaceDetector->DetectorReset();
+	ENCARAFaceDetector->DetectorLostReset();
 	IplImage *h = image;
 	if (h)
 	{
@@ -254,7 +257,7 @@ char * Encara2FaceDetection::GetCopyOfAreaOfInterest(int &size_x, int &size_y, i
 		size_y     = scaled->height;
 		width_step = scaled->widthStep;
 
-		copy = (char *)malloc(sizeof(char)*size_x*size_y*n_channels);
+		copy = new char[size_x*size_y*n_channels];
 
 		for (int y = 0; y < size_y; y++) {
 			for (int x = 0; x < size_x; x++) {
@@ -266,6 +269,7 @@ char * Encara2FaceDetection::GetCopyOfAreaOfInterest(int &size_x, int &size_y, i
 					((uchar*)(copy + width_step*y))[x*3+2] = ((uchar*)(source+width_step*y))[x*3+third_channel];
 			}
 		}
+		cvReleaseImage(&scaled);
 		return copy;
 	}
 	return NULL;

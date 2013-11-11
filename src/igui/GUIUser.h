@@ -39,6 +39,7 @@ namespace core
 				wxTextCtrl *user_name, *user_passwd, *new_user_name, *new_user_passwd, *new_user_passwd2;				
 				wxButton *login_button, *register_button;
 				wxBitmap face_bitmap, *no_face_bitmap;
+				char *oldface_data;
 
 				DECLARE_EVENT_TABLE()
 
