@@ -41,7 +41,7 @@ namespace core
 				virtual void Delete();
 				virtual void OnStart();
 				virtual void OnUpdate();
-				virtual void OnCollisionCall(IEntity *otherEntity); // retomar y crear IProd3DEntity
+				virtual void OnCollisionCall(IEntity *otherEntity); 
 				virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo);
 				virtual bool IsCollidable()						{ return collidable;}
 				virtual void SetCollidable(const bool &value)	{ collidable =value;}

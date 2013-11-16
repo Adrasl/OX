@@ -210,6 +210,7 @@ void NavigationController::Iterate()
 			double dif_time = timestamp2 - timestamp;
 			//cout << "CALCULATING MESH: " << dif_time << "\n";
 			production->SetAvatar(graphic_node); // RETOMAR MEMORY LEAK SOSPECHOSO CONFIRMADO
+			
 		}
 
 		//production->SetAvatar("teapot");

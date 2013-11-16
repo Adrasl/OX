@@ -143,6 +143,7 @@ namespace core
 
 				static std::map< Prod3DEntity *, CollisionNode * >					entity_collider_array;
 				static std::map< const CollisionSolid *, core::corePDU3D<double> >	avatar_collider_array;
+				static NodePath														*avatar_current_graphicNodePath;
 				static std::map< const CollisionSolid *, Prod3DEntity* >			entities_collider_array;
 				static std::vector< Prod3DEntity * >								entity_collidable_array_to_register;
 				
@@ -152,7 +153,7 @@ namespace core
 				static core::corePDU3D<double> last_pdu;
 				static void CheckCollisions();
 				static void UpdateEntities();
-				void ClearAvatarModel();
+				static void ClearAvatarModel();
 				void SetUpUser(void *graphic_node = NULL);
 
 				//---destroy when ready---------------------

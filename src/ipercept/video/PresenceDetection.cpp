@@ -184,7 +184,7 @@ bool PresenceDetection::Apply()
 			else
 				cvReleaseImage(&mix);
 		}
-		cvUpdateBGStatModel( h, background_model, 0 );//retomar memory leak study
+		cvUpdateBGStatModel( h, background_model, 0 );
 
 		//CvArr *foregroung_array;
 		//cvConvertImage(background_model->foreground, foregroung_array);
@@ -222,7 +222,7 @@ bool PresenceDetection::Apply()
 	return false;
 }
 
-char * PresenceDetection::GetCopyOfCurrentImage(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb) //retomar memory leak study
+char * PresenceDetection::GetCopyOfCurrentImage(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb) 
 {
 	boost::try_mutex::scoped_try_lock lock(m_mutex);
 	if ((lock)&&(background_model)&&(background_model->foreground))

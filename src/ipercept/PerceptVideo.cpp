@@ -1696,7 +1696,7 @@ std::vector<MotionElement> PerceptVideo::GetMotionElements()
 //	return 0.0;
 //}
 
-bool PerceptVideo::PresenceDetected()//retomar memory leaks investigar, sólo acumula cuando detecta presencia
+bool PerceptVideo::PresenceDetected()
 {
 	//boost::mutex::scoped_lock lock(m_mutex);
 	bool result = false;

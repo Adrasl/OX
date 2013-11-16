@@ -96,6 +96,7 @@ CollisionHandlerQueue *MainProd::collision_handler_queue=NULL;
 CollisionTraverser *MainProd::collision_traverser=NULL;
 std::map< Prod3DEntity *, CollisionNode * > MainProd::entity_collider_array;
 std::map< const CollisionSolid *, core::corePDU3D<double> > MainProd::avatar_collider_array;
+NodePath *MainProd::avatar_current_graphicNodePath = NULL;
 std::map< const CollisionSolid *, Prod3DEntity* > MainProd::entities_collider_array;
 std::vector< Prod3DEntity * > MainProd::entity_collidable_array_to_register;
 std::vector<NodePath*> MainProd::testnodepaths;
@@ -1029,7 +1030,10 @@ void MainProd::ClearScene()
 {	boost::mutex::scoped_lock lock(m_mutex);
 	
 	initialized = false;
+	
 	Sound.Stop();	
+	
+	ClearAvatarModel();
 
 	/*if (collision_traverser)
 	{	//collision_traverser->clear_colliders();
@@ -1752,9 +1756,10 @@ void MainProd::ClearAvatarModel()
 	//avatar_collider_array.clear();
 	//user_nodepath->remove_node();
 	//user_nodepath = NULL;
-	
-	NodePathCollection npc = user_nodepath->get_children();
-	npc.detach();
+	if (user_nodepath)
+	{	NodePathCollection npc = user_nodepath->get_children();
+		npc.detach();
+	}
 
 	//if(use_master_display)
 	//{
@@ -1807,13 +1812,19 @@ void MainProd::SetAvatar(void *graphic_node)
 
 void MainProd::SetUpUser(void *graphic_node)
 {
-	if (user_entity)
-		delete user_entity;
-	user_entity = NULL;
+	//if (user_entity)
+	//	delete user_entity;
+	//user_entity = NULL;
 
-	//MEMORY LEAK SOSPECHOSO
-
-	ClearAvatarModel(); 
+	//Clear the avatar mesh and collider info
+	//---------------------------------------
+	//ClearAvatarModel(); 
+	collision_handler_queue->clear_entries();
+	//collision_traverser->clear_colliders(); //Could keep a reference to the into objects we are erasing but we should clear only the avatar objects
+	//avatar_collider_array.clear();
+	NodePathCollection npc = user_nodepath->get_children();
+	npc.detach();
+	//---------------------------------------
 
 	if (user_nodepath == NULL)
 	{
@@ -1829,7 +1840,6 @@ void MainProd::SetUpUser(void *graphic_node)
 		if (use_master_display)
 			user_nodepath->instance_to(master_pandawindow->get_render());
 	}
-
 
 	user_dummyPersistence = app->GetAvatarEntity();
 	IEntityPersistence *u_ent = user_dummyPersistence;
@@ -1849,15 +1859,16 @@ void MainProd::SetUpUser(void *graphic_node)
 	current_user->GetUp(x, y, z);
 	u_ent->SetUp(x, y, z);
 
-	Prod3DEntity *new_entity = new Prod3DEntity(u_ent);
-	user_entity = new_entity;
+	if (!user_entity)
+	{	Prod3DEntity *new_entity = new Prod3DEntity(u_ent);
+		user_entity = new_entity;
+	}
+	
 	std::vector<float> source_data;
 	int row_step = 0;
-
 	std::string data_set = user_entity->GetData();
 	std::string data = data_set;
 	size_t pos = data.find("::");
-	
 	
 	
 	if (graphic_node == NULL)
@@ -1906,9 +1917,24 @@ void MainProd::SetUpUser(void *graphic_node)
 		}
 	}
 	else
+	{	
+		if (avatar_current_graphicNodePath)
+			avatar_current_graphicNodePath->remove_node();
+		avatar_current_graphicNodePath = (NodePath*) graphic_node;
 		((NodePath*) graphic_node)->reparent_to(*user_nodepath); //MEMORY LEAK SOSPECHOSO
+	}
 
 	user_entity->SetNodePath(user_nodepath);
+
+	//NodePath *nodepath_graphicNode = (NodePath *)graphic_node;
+	//delete nodepath_graphicNode;
+	/*
+	//MEMORY LEAK SOSPECHOSO
+
+
+
+
+
 
 	//entity_collidable_array_to_register.push_back(user_entity);
 	//user_nodepath->reparent_to(pandawindows_array[1]->get_render());
@@ -1944,6 +1970,7 @@ void MainProd::SetUpUser(void *graphic_node)
 	//{
 	//	scene_entities_nodepaths[entity].instance_to(master_pandawindow->get_render());
 	//}
+	*/
 }
 
 void* MainProd::CreateGraphicNode(std::vector<float> source_data, int row_step)
@@ -1988,12 +2015,12 @@ void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> 
 
 			if (resultNodePath)
 			{	NodePath* np = resultNodePath;
-				//avatar_collider_array.clear();
+				avatar_collider_array.clear();
 				int avatarcollierindex = 0;
 				for (std::map< int, std::vector<corePDU3D<double>> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
 				{	if ((iter->first) > 3) for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
 					{	float radius = 0.1*(iter->first);
-						CollisionTube *collision_solid = new CollisionTube((*iter2).position.x-7.5, (*iter2).position.y, (*iter2).position.z-2.5, (*iter2).position.x-7.5, (*iter2).position.y+15, (*iter2).position.z-2.5, radius);
+						CollisionTube *collision_solid = new CollisionTube((*iter2).position.x-7.5, (*iter2).position.y, (*iter2).position.z-2.5, (*iter2).position.x-7.5, (*iter2).position.y+30, (*iter2).position.z-2.5, radius);
 						std::stringstream wop;
 						wop << "avatarcollider" << avatarcollierindex++ ;
 						std::string nombre = wop.str();
