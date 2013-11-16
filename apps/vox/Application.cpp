@@ -352,9 +352,11 @@ bool Application::RunWorld(const std::string &name)
 			core::IUserPersistence  *user  = session_controller->GetCurrentUser();
 			core::IWorldPersistence *world = session_controller->GetCurrentWorld();
 
-			app_mainpercept;	//SetUser
-			bool world_running = app_mainprod->RunWorld(user, world);
+			//edit entities depending on psique before creating 3dprodEntities
 
+			app_mainpercept;	//SetUser
+			bool world_running = app_mainprod->RunWorld(user, world); //retomar, now I lost the option to redefine 3dprodentity
+			//app_mainprod->
 			return true;
 		}
 		//return app_mainpersistence->RunWorld(name);

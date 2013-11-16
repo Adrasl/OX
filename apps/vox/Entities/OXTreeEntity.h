@@ -25,12 +25,12 @@ namespace core
 {
 	namespace iprod
 	{
-		class Prod3DEntity : public core::IEntity
+		class OXTreeEntity : public core::IEntity
 		{
 			public:
 
-				Prod3DEntity(core::IEntityPersistence* ent);
-				virtual ~Prod3DEntity();
+				OXTreeEntity(core::IEntityPersistence* ent);
+				virtual ~OXTreeEntity();
 
 				std::string GetData()					{ return data;		}
 				NodePath*	GetNodePath()				{ return nodepath;	}
@@ -39,8 +39,6 @@ namespace core
 				void SetNodePath(NodePath *value);
 
 				virtual void Delete();
-				virtual void Load();
-				virtual void Save();
 				virtual void OnStart();
 				virtual void OnUpdate();
 				virtual void OnCollisionCall(IEntity *otherEntity); 
@@ -51,6 +49,9 @@ namespace core
 				virtual void PlayAnimation(const std::string &label);
 
 			private:
+
+				float psique; // < 0.50 negative attitude, >0.50 positive Attitude
+				//map::<double, std::string> feedback_from_otherEntities; //<feedback, EntityLabel>, feedback < 0.50 bad, >0.50 good;
 
 				std::string data;
 				core::IEntityPersistence* entity;

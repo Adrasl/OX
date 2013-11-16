@@ -200,11 +200,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\controllers\ContentCreationController.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\controllers\NavigationController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Entities\OXBoidsEntity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Entities\OXStandAloneEntity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Entities\OXTreeEntity.cpp"
 				>
 			</File>
 			<File
@@ -234,7 +250,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\controllers\ContentCreationController.h"
+				>
+			</File>
+			<File
 				RelativePath=".\controllers\NavigationController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Entities\OXBoidsEntity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Entities\OXStandAloneEntity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Entities\OXTreeEntity.h"
 				>
 			</File>
 			<File

@@ -2,6 +2,7 @@
 #define _NAVIGATIONCONTROLLER_
 
 #include <Application.h>
+#include <controllers/ContentCreationController.h>
 //#include <core/IPersistence/IPersistence.h>
 //#include <core/IPersistence/IUserPersistence.h>
 //#include <core/IPersistence/IWorldPersistence.h>
@@ -56,6 +57,8 @@ class NavigationController
 		core::IUserDataModelController *userDataModel;
 		core::IPercept	*perception;
 		core::IProd		*production;
+
+		ContentCreationController *contentCreationController;
 
 		boost::shared_ptr<boost::thread> m_thread;
 		boost::try_mutex m_mutex;

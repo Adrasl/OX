@@ -5,7 +5,10 @@
 
 #include <core/IPersistence/IEntityPersistence.h>
 #include <core/IProd/IEntity.h>
+
 #include <core/types.h>
+#include <iprod/Prod3DEntity.h>
+#include <ipersistence/EntityPersistence.h>
 
 #include <string>
 #include <vector>
@@ -25,22 +28,22 @@ namespace core
 {
 	namespace iprod
 	{
-		class Prod3DEntity : public core::IEntity
+		class OXStandAloneEntity : public core::IEntity
 		{
 			public:
 
-				Prod3DEntity(core::IEntityPersistence* ent);
-				virtual ~Prod3DEntity();
+				OXStandAloneEntity(core::IEntityPersistence* ent);
+				virtual ~OXStandAloneEntity();
 
 				std::string GetData()					{ return data;		}
+				float GetTimeToLive()					{ return timeToLive;		}
 				NodePath*	GetNodePath()				{ return nodepath;	}
 				core::IEntityPersistence* GetEntity()	{ return entity;	}
 				void SetData(const std::string &value)	{ data = value;		}
+				void SetTimeToLive(const float &value)	{ timeToLive = value;		}
 				void SetNodePath(NodePath *value);
 
 				virtual void Delete();
-				virtual void Load();
-				virtual void Save();
 				virtual void OnStart();
 				virtual void OnUpdate();
 				virtual void OnCollisionCall(IEntity *otherEntity); 
@@ -56,6 +59,11 @@ namespace core
 				core::IEntityPersistence* entity;
 				NodePath *nodepath;
 				bool collidable;
+
+				float timeToLive;
+				float psique; // < 0.50 negative attitude, >0.50 positive Attitude
+				float energy;
+				//map::<double, std::string> feedback_from_otherEntities; //<feedback, EntityLabel>, feedback < 0.50 bad, >0.50 good;
 
 		};
 	}

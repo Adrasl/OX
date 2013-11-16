@@ -1723,6 +1723,18 @@ NodePath* MainProd::CreateQuad()
 //	Sound.Play();
 //}
 
+void MainProd::InsertEntityIntoScene(core::IEntity* ent)
+{
+	////if (ent)
+	////{	boost::mutex::scoped_lock lock(m_mutex);
+	////	current_world->AddEntity(*ent);
+	////	current_world->Save();
+	////	Prod3DEntity *new_entity = Prod3DEntity*) ent;
+	////	scene_entities.push_back(new_entity);
+	////	LoadEntityIntoScene(new_entity);
+	////}
+}
+
 void MainProd::InsertEntityIntoScene(core::IEntityPersistence* ent) //Retomar, return *IEntity
 {
 	if (ent)

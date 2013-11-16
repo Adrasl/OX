@@ -1,10 +1,10 @@
-#include <Prod3DEntity.h>
+#include <Entities/OXStandAloneEntity.h>
 
 #include <debugger.h> 
 
 using namespace core::iprod;
 
-Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepath(NULL), collidable(false)
+OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent) : entity(ent), nodepath(NULL), collidable(false)
 {
 	if (entity != NULL )
 	{
@@ -12,15 +12,15 @@ Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepat
 	}
 }
 
-Prod3DEntity::~Prod3DEntity()
+OXStandAloneEntity::~OXStandAloneEntity()
 {
 }
 
-void Prod3DEntity::Delete()
+void OXStandAloneEntity::Delete()
 {
 }
 
-void Prod3DEntity::SetNodePath(NodePath *value)		
+void OXStandAloneEntity::SetNodePath(NodePath *value)		
 { 
 	nodepath = value; 
 	if ( (entity != NULL) && (nodepath != NULL) )
@@ -35,50 +35,38 @@ void Prod3DEntity::SetNodePath(NodePath *value)
 	}
 }
 
-void Prod3DEntity::Load()
-{
-	if (entity)
-		entity->Load();
-}
-
-void Prod3DEntity::Save()
-{
-	if (entity)
-		entity->Save();
-}
-
-void Prod3DEntity::OnStart()
+void OXStandAloneEntity::OnStart()
 {}
-void Prod3DEntity::OnUpdate()
+void OXStandAloneEntity::OnUpdate()
 {
 	this;
 }
 
-void Prod3DEntity::OnCollisionCall(IEntity *otherEntity)
+void OXStandAloneEntity::OnCollisionCall(IEntity *otherEntity)
 {
 	this;
 	otherEntity;
-	Prod3DEntity *prod3dntity = (Prod3DEntity *)otherEntity;
+	OXStandAloneEntity *prod3dntity = (OXStandAloneEntity *)otherEntity;
 	//retomar
 }
 
-void Prod3DEntity::OnUserCollisionCall(core::corePDU3D<double> collisionInfo)
+void OXStandAloneEntity::OnUserCollisionCall(core::corePDU3D<double> collisionInfo)
 {
 	this;
 	//retomar
 }
 
-void Prod3DEntity::PlaySound(const string &label, const bool &loop)
+void OXStandAloneEntity::PlaySound(const string &label, const bool &loop)
 {
 }
 
-void Prod3DEntity::PlayAnimation(const string &label)
+void OXStandAloneEntity::PlayAnimation(const string &label)
 {}
 
 /*_collider_Ptr->add_in_pattern( "into-%in" );
 global::_framework.get_event_handler().add_hook( "into-" + _collider_Ptr->get_name(), &TestFunction );
 
-void Prod3DEntity::TestFunction( const Event * e )
+void OXStandAloneEntity::TestFunction( const Event * e )
  {
     TypedWritableReferenceCount * value = e->get_parameter(0).get_ptr();
     PT(CollisionEntry) entry = DCAST(CollisionEntry, value); 

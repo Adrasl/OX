@@ -17,9 +17,10 @@ double time_loop  = 0;
 
 NavigationController::NavigationController(core::IUserDataModelController *user_datamodel, core::IPercept *perception_module, core::IProd *production_module) 
 : userDataModel(user_datamodel), perception(perception_module), production(production_module), initialized(false), stop_requested(false),
-  presence_detected(false)
+  presence_detected(false), contentCreationController(NULL)
 //default_user(NULL), default_world(NULL), app_user(NULL), app_world(NULL), session_permissions(-1)
 {
+	contentCreationController = ContentCreationController::Instance();
 	pdu.acceleration.x = pdu.acceleration.y = pdu.acceleration.z = 0;
 	pdu.velocity.x = pdu.velocity.y = pdu.velocity.z = 0;
 	pdu.position.x = pdu.position.y = pdu.position.z = 0;
