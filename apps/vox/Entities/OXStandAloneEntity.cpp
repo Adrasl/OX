@@ -4,11 +4,17 @@
 
 using namespace core::iprod;
 
-OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent) : entity(ent), nodepath(NULL), collidable(false)
+OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent)  
 {
+	entity     = ent; 
+	nodepath   = NULL;
+	collidable = false;
+
 	if (entity != NULL )
 	{
+		entity->SetPsique(NatureOfEntity::STANDALONE);
 		data = entity->GetModelData();
+		entity->Save();
 	}
 }
 
@@ -20,32 +26,21 @@ void OXStandAloneEntity::Delete()
 {
 }
 
-void OXStandAloneEntity::SetNodePath(NodePath *value)		
-{ 
-	nodepath = value; 
-	if ( (entity != NULL) && (nodepath != NULL) )
-	{
-		float posx, posy, posz, rotx, roty, rotz, scale;
-		entity->GetPosition(posx, posy, posz);
-		entity->GetOrientation(rotx, roty, rotz);
-		entity->GetScale(scale);
-		nodepath->set_pos(posx,posy,posz);
-		nodepath->set_hpr(rotx, roty, rotz);
-		nodepath->set_scale(scale,scale,scale);
-	}
-}
-
 void OXStandAloneEntity::OnStart()
-{}
+{
+	this;
+	int testing = NatureOfEntity::STANDALONE;
+}
 void OXStandAloneEntity::OnUpdate()
 {
 	this;
+	int testing = NatureOfEntity::STANDALONE;
 }
 
 void OXStandAloneEntity::OnCollisionCall(IEntity *otherEntity)
 {
 	this;
-	otherEntity;
+	int testing = NatureOfEntity::STANDALONE;
 	OXStandAloneEntity *prod3dntity = (OXStandAloneEntity *)otherEntity;
 	//retomar
 }
@@ -53,25 +48,18 @@ void OXStandAloneEntity::OnCollisionCall(IEntity *otherEntity)
 void OXStandAloneEntity::OnUserCollisionCall(core::corePDU3D<double> collisionInfo)
 {
 	this;
+	int testing = NatureOfEntity::STANDALONE;
 	//retomar
 }
 
 void OXStandAloneEntity::PlaySound(const string &label, const bool &loop)
 {
+	this;
+	int testing = NatureOfEntity::STANDALONE;
 }
 
 void OXStandAloneEntity::PlayAnimation(const string &label)
-{}
-
-/*_collider_Ptr->add_in_pattern( "into-%in" );
-global::_framework.get_event_handler().add_hook( "into-" + _collider_Ptr->get_name(), &TestFunction );
-
-void OXStandAloneEntity::TestFunction( const Event * e )
- {
-    TypedWritableReferenceCount * value = e->get_parameter(0).get_ptr();
-    PT(CollisionEntry) entry = DCAST(CollisionEntry, value); 
-    nassertv(entry != NULL);
-    
-    cerr << "Collision from " << entry->get_from_node_path() 
-         << " into " << entry->get_into_node_path() << "\n";
- }*/
+{
+	this;
+	int testing = NatureOfEntity::STANDALONE;
+}

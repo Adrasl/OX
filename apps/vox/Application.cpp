@@ -355,6 +355,28 @@ bool Application::RunWorld(const std::string &name)
 			//edit entities depending on psique before creating 3dprodEntities
 
 			app_mainpercept;	//SetUser
+			if (user && world)
+			{	for (int i=0; i < world->GetNumEntities(); i++)
+				{	int ient_psique = 0;
+					IEntityPersistence *ient = world->GetEntity(i);
+					iprod::Prod3DEntity *new_entity = NULL;
+					if (ient) ient->GetPsique(ient_psique);
+
+					switch (ient_psique)
+					{	case NatureOfEntity::STANDALONE :
+					   {	new_entity = new iprod::OXStandAloneEntity(ient); break;	   }
+						case NatureOfEntity::BOID		:
+					   {	new_entity = new iprod::OXBoidsEntity(ient); break;	   }
+						case NatureOfEntity::TREE		:
+					   {	new_entity = new iprod::OXTreeEntity(ient); break;	   }
+						default							: 
+					   {	new_entity = new iprod::Prod3DEntity(ient); break;	   }
+					}
+
+					if (new_entity)
+						app_mainprod->LoadEntityFromCurrentWorld(new_entity);
+				}
+			}
 			bool world_running = app_mainprod->RunWorld(user, world); //retomar, now I lost the option to redefine 3dprodentity
 			//app_mainprod->
 			return true;
@@ -376,6 +398,30 @@ bool Application::RunDefaultWorld()
 		core::IWorldPersistence *world = session_controller->GetDefaultWorld();
 
 		app_mainpercept;	//SetUser
+
+		if (user && world)
+		{	for (int i=0; i < world->GetNumEntities(); i++)
+			{	int ient_psique = 0;
+				IEntityPersistence *ient = world->GetEntity(i);
+				iprod::Prod3DEntity *new_entity = NULL;
+				if (ient) ient->GetPsique(ient_psique);
+
+					switch (ient_psique)
+					{	case NatureOfEntity::STANDALONE :
+					   {	new_entity = new iprod::OXStandAloneEntity(ient); break;	   }
+						case NatureOfEntity::BOID		:
+					   {	new_entity = new iprod::OXBoidsEntity(ient); break;	   }
+						case NatureOfEntity::TREE		:
+					   {	new_entity = new iprod::OXTreeEntity(ient); break;	   }
+						default							: 
+					   {	new_entity = new iprod::Prod3DEntity(ient); break;	   }
+					}
+
+				if (new_entity)
+					app_mainprod->LoadEntityFromCurrentWorld(new_entity);
+			}
+		}
+
 		bool   world_running = app_mainprod->RunWorld(user, world);
 		return world_running;
 	}

@@ -18,14 +18,15 @@ namespace core
 
 			virtual void OnStart()=0;
 			virtual void OnUpdate()=0;
+			virtual void OnDestroy()=0;
 			virtual void OnCollisionCall(IEntity *otherEntity)=0; 
 			virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo)=0;
 
 			virtual bool IsCollidable()=0;
 			virtual void SetCollidable(const bool &value)=0;
 
-			virtual void PlaySound(const std::string &label, const bool &loop)=0;
-			virtual void PlayAnimation(const std::string &label)=0;
+			//virtual void PlaySound(const std::string &label, const bool &loop)=0;
+			//virtual void PlayAnimation(const std::string &label)=0;
 
 	};
 }

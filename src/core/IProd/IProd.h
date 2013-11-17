@@ -6,6 +6,7 @@
 #include <core/IApplication.h>
 #include <core/IApplicationConfiguration.h>
 #include <core/types.h>
+#include <core/IProd/IEntity.h>
 
 namespace core
 {
@@ -21,11 +22,15 @@ namespace core
 			virtual void DoStuff()=0;
 			virtual void OpenWindow()=0;
 			virtual void PostLogMessage(const std::string &message) = 0;
-			virtual bool RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *world) = 0; 
+			virtual bool RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *world) = 0;
+			virtual void LoadEntityFromCurrentWorld(core::IEntity * ent) = 0;
+			virtual void InsertEntityIntoCurrentWorld(core::IEntity * ent)=0;
+			virtual void RemoveEntityFromCurrentWorld(core::IEntity * ent)=0;
 			virtual void CloseWorld() = 0; 
 
 			virtual void SetCamerasPosition(const core::corePoint3D<double> &pos) = 0;
 			virtual void SetCamerasPDU(core::corePDU3D<double> pdu) = 0;
+
 
 			virtual void InsertEntityIntoScene(core::IEntityPersistence* ent) = 0;
 			virtual void InsertEntityIntoScene(core::IEntityPersistence* ent, std::vector<float> source_data, int row_step=3) = 0;

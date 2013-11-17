@@ -114,7 +114,9 @@ namespace core
 				virtual void SetCamerasPosition(const core::corePoint3D<double> &pos);
 				virtual void SetCamerasPDU(core::corePDU3D<double> pdu);
 
-				virtual void InsertEntityIntoScene(core::IEntity* ent);
+				virtual void InsertEntityIntoCurrentWorld(core::IEntity * ent);
+				virtual void RemoveEntityFromCurrentWorld(core::IEntity * ent);
+				virtual void LoadEntityFromCurrentWorld(core::IEntity * ent); //if an insertion is not needed because it has been already registered
 				virtual void InsertEntityIntoScene(core::IEntityPersistence* ent);
 				virtual void InsertEntityIntoScene(core::IEntityPersistence* ent, std::vector<float> source_data, int row_step=3);
 				virtual void SetAvatar(const std::string model);
@@ -164,6 +166,7 @@ namespace core
 			private:
 
 				static void LoadEntityIntoScene(Prod3DEntity * entity);
+
 
 
 				static bool insert_now;

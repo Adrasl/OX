@@ -29,6 +29,7 @@ namespace core
 		{
 			public:
 
+				Prod3DEntity();
 				Prod3DEntity(core::IEntityPersistence* ent);
 				virtual ~Prod3DEntity();
 
@@ -43,14 +44,15 @@ namespace core
 				virtual void Save();
 				virtual void OnStart();
 				virtual void OnUpdate();
+				virtual void OnDestroy();
 				virtual void OnCollisionCall(IEntity *otherEntity); 
 				virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo);
 				virtual bool IsCollidable()						{ return collidable;}
 				virtual void SetCollidable(const bool &value)	{ collidable =value;}
-				virtual void PlaySound(const std::string &label, const bool &loop);
-				virtual void PlayAnimation(const std::string &label);
+				//virtual void PlaySound(const std::string &label, const bool &loop);
+				//virtual void PlayAnimation(const std::string &label);
 
-			private:
+			protected:
 
 				std::string data;
 				core::IEntityPersistence* entity;

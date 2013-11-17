@@ -1,9 +1,20 @@
 #ifndef _CONTENTCREATIONCONTROLLER_
 #define _CONTENTCREATIONCONTROLLER_
 
+#include <Entities/OXStandAloneEntity.h>
+#include <Entities/OXBoidsEntity.h>
+#include <Entities/OXTreeEntity.h>
+
 #include <boost/thread.hpp>
 #include <core/types.h>
 #include <vector>
+
+enum NatureOfEntity {
+      STANDALONE	= 1,
+      BOID			= 2,
+      TREE			= 3
+   };
+
 
 class ContentCreationController
 {

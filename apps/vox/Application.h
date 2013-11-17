@@ -23,6 +23,7 @@
 
 #include <controllers/SessionController.h>
 #include <controllers/ConfigurationController.h>
+#include <controllers/ContentCreationController.h>
 #include <controllers/NavigationController.h>
 #include <controllers/UserDataModelController.h>
 

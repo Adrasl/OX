@@ -527,7 +527,7 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 	//	scene_entities_nodepaths[entity].instance_to(iter->second->get_render());
 	//	iter++;
 	//}
-	
+	scene_entities.push_back(entity);
 	std::string data = entity->GetData();
 	NodePath new_model = pandawindows_array[1]->load_model(framework.get_models(),data.c_str());
 	scene_entities_nodepaths[entity]    = new_model;
@@ -574,14 +574,14 @@ bool MainProd::RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *
 			current_user  = user;
 			current_world = world;	
 
-			//LoadEntityIntoScene(NULL);
-			for (int i=0; i < current_world->GetNumEntities(); i++)
-			{
-				IEntityPersistence *ient = current_world->GetEntity(i);
-				Prod3DEntity *new_entity = new Prod3DEntity(ient);
-				scene_entities.push_back(new_entity);
-				LoadEntityIntoScene(new_entity);
-			}
+			////////////LoadEntityIntoScene(NULL);
+			//////////for (int i=0; i < current_world->GetNumEntities(); i++)
+			//////////{
+			//////////	IEntityPersistence *ient = current_world->GetEntity(i);
+			//////////	Prod3DEntity *new_entity = new Prod3DEntity(ient);
+			//////////	//scene_entities.push_back(new_entity);
+			//////////	LoadEntityIntoScene(new_entity);
+			//////////}
 			SetUpUser();
 
 			Sound.Play();
@@ -1723,17 +1723,53 @@ NodePath* MainProd::CreateQuad()
 //	Sound.Play();
 //}
 
-void MainProd::InsertEntityIntoScene(core::IEntity* ent)
+void MainProd::InsertEntityIntoCurrentWorld(core::IEntity * ent)
 {
-	////if (ent)
-	////{	boost::mutex::scoped_lock lock(m_mutex);
-	////	current_world->AddEntity(*ent);
-	////	current_world->Save();
-	////	Prod3DEntity *new_entity = Prod3DEntity*) ent;
-	////	scene_entities.push_back(new_entity);
-	////	LoadEntityIntoScene(new_entity);
-	////}
+	boost::mutex::scoped_lock lock(m_mutex);
+	Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
+	if (prod3d_ent)
+	{	current_world->AddEntity(*(prod3d_ent->GetEntity()));
+		current_world->Save();
+		LoadEntityIntoScene(prod3d_ent);
+	}
 }
+void MainProd::RemoveEntityFromCurrentWorld(core::IEntity * ent)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
+	if (prod3d_ent)
+	{	//current_world->RemoveEntity(*(prod3d_ent->GetEntity()));
+		//current_world->Save();
+		//RemoveEntityFromScene(prod3d_ent); //retomar: detach, remove_nodes, etc
+	}
+}
+
+//if an insertion is not needed because it has already been inserted
+void MainProd::LoadEntityFromCurrentWorld(core::IEntity * ent)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
+	if (prod3d_ent)
+		LoadEntityIntoScene(prod3d_ent);
+}
+
+//void MainProd::LoadEntityIntoScene(core::IEntityPersistence* ent) //Retomar, return *IEntity
+//{
+//	boost::mutex::scoped_lock lock(m_mutex);
+//	IEntityPersistence *ent;
+//
+//	if (ent)
+//	{
+//		switch (ent->GetPsique(&ent_psique));
+//		{
+//			case 
+//		}
+//	}
+//	Prod3DEntity *new_entity = new Prod3DEntity(ient);
+//
+//	LoadEntityIntoScene(new_entity);
+//
+//}
 
 void MainProd::InsertEntityIntoScene(core::IEntityPersistence* ent) //Retomar, return *IEntity
 {
@@ -1742,7 +1778,7 @@ void MainProd::InsertEntityIntoScene(core::IEntityPersistence* ent) //Retomar, r
 		current_world->AddEntity(*ent);
 		current_world->Save();
 		Prod3DEntity *new_entity = new Prod3DEntity(ent);
-		scene_entities.push_back(new_entity);
+		//scene_entities.push_back(new_entity);
 		LoadEntityIntoScene(new_entity);
 	}
 }
@@ -1754,7 +1790,7 @@ void MainProd::InsertEntityIntoScene(core::IEntityPersistence* ent, std::vector<
 		current_world->AddEntity(*ent);
 		current_world->Save();
 		Prod3DEntity *new_entity = new Prod3DEntity(ent);
-		scene_entities.push_back(new_entity);
+		//scene_entities.push_back(new_entity);
 		LoadEntityIntoScene(new_entity);
 	}
 }
