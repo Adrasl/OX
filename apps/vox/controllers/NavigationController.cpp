@@ -223,5 +223,8 @@ void NavigationController::Iterate()
 		double dif_time = timestamp - time_loop;
 		//cout << "NAVIGATOR LOOP: " << dif_time << "\n";
 		time_loop = timestamp;
+
+		if (contentCreationController)
+			contentCreationController->Update();
 		
 }

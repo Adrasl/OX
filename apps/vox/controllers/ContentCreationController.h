@@ -1,6 +1,8 @@
 #ifndef _CONTENTCREATIONCONTROLLER_
 #define _CONTENTCREATIONCONTROLLER_
 
+#include <Application.h>
+
 #include <Entities/OXStandAloneEntity.h>
 #include <Entities/OXBoidsEntity.h>
 #include <Entities/OXTreeEntity.h>
@@ -15,14 +17,16 @@ enum NatureOfEntity {
       TREE			= 3
    };
 
+class Application;
 
 class ContentCreationController
 {
 	public:
 
 		static ContentCreationController *Instance();
+		void SetApp(IApplication *app_) {app = app_;}
 
-		static void Update() {};
+		void Update();
 
 		static void SetAudioInfo(){};
 		static void SetUserArea() {};
@@ -53,7 +57,9 @@ class ContentCreationController
 
 	private:
 
+		static IApplication *app;
 		static ContentCreationController *instance;
+		static double time_start;
 
 		boost::shared_ptr<boost::thread> m_thread;
 		boost::try_mutex m_mutex;
@@ -63,6 +69,7 @@ class ContentCreationController
 
 		void * ambient_soundsample;
 		void * background_color;
+
 
 		//void *current_ambient_channel_01;
 		//void *current_ambient_channel_02;

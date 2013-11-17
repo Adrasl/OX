@@ -13,6 +13,7 @@
 //#include <SpatialIndex.h>
 
 class Application;
+class ContentCreationController;
 
 //basura
 //class User : public core::IUserPersistence

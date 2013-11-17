@@ -126,6 +126,8 @@ bool Application::OnInit()
 	if(app_mainpersistence)
 		app_mainpersistence->SetApp((IApplication *)this);
 
+	ContentCreationController::Instance()->SetApp((IApplication *)this);
+
 	if( (app_mainprod) && (app_mainpercept))
 	{
 		user_dataModel_controller = new UserDataModelController();
