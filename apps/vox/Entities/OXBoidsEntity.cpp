@@ -6,9 +6,12 @@ using namespace core::iprod;
 
 OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent) 
 {
-	entity     = ent; 
-	nodepath   = NULL;
-	collidable = false;
+	entity		= ent; 
+	nodepath	= NULL;
+	collidable	= false;
+	timeToLive	= 5.0;
+	karma		= 0.5; //good --> evil
+	energy		= 0.0; //calm --> energyc
 
 	if (entity != NULL )
 	{

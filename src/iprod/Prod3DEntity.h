@@ -35,8 +35,10 @@ namespace core
 
 				std::string GetData()					{ return data;		}
 				NodePath*	GetNodePath()				{ return nodepath;	}
+				corePDU3D<double> GetPDU()				{ return pdu;		}
 				core::IEntityPersistence* GetEntity()	{ return entity;	}
 				void SetData(const std::string &value)	{ data = value;		}
+				void SetPDU(const corePDU3D<double> &value){ pdu = value;	}
 				void SetNodePath(NodePath *value);
 
 				virtual void Delete();
@@ -54,10 +56,11 @@ namespace core
 
 			protected:
 
-				std::string data;
-				core::IEntityPersistence* entity;
-				NodePath *nodepath;
-				bool collidable;
+				std::string					data; //3d model file
+				core::IEntityPersistence	*entity;
+				NodePath					*nodepath;
+				corePDU3D<double>			pdu; //pos, vel, acc
+				bool						collidable;
 
 		};
 	}
