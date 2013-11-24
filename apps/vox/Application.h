@@ -57,6 +57,8 @@ class Application : public wxApp, public core::IApplication
 		bool WorldExists(const std::string &name);
 		bool RunWorld(const std::string &name);
 		bool RunDefaultWorld();
+		void AddNewEntityIntoCurrentWorld(core::IEntity* new_entity);
+		void RemoveEntityFromCurrentWorld(core::IEntity* new_entity);
 		core::IUserPersistence* GetCurrentUser();
 		core::IWorldPersistence* GetCurrentWorld();
 		core::IUserPersistence* GetDefaultUser();

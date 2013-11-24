@@ -3,12 +3,15 @@
 
 #include <string>
 #include <vector>
+#include <core/IProd/IEntity.h>
 #include <core/IPersistence/IUserPersistence.h>
 #include <core/IPersistence/IWorldPersistence.h>
 #include <core/IUserDataModelController.h>
 
 namespace core
 {
+	//class IEntity;
+
 	class IApplication
 	{
 		public:
@@ -26,6 +29,8 @@ namespace core
 			virtual bool UserExists(const std::string &name) = 0;
 			virtual bool WorldExists(const std::string &name) = 0;
 			virtual bool RunWorld(const std::string &name) = 0;
+			virtual void AddNewEntityIntoCurrentWorld(core::IEntity* new_entity) = 0;
+			virtual void RemoveEntityFromCurrentWorld(core::IEntity* new_entity) = 0;
 			virtual core::IUserPersistence* GetCurrentUser() = 0;
 			virtual core::IWorldPersistence* GetCurrentWorld()= 0;
 			virtual core::IUserPersistence* GetDefaultUser() = 0;

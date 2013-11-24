@@ -3,12 +3,14 @@
 
 #include <string>
 #include <core/Export.h>
-#include <core/IApplication.h>
-#include <core/IApplicationConfiguration.h>
+//#include <core/IApplication.h>
+//#include <core/IApplicationConfiguration.h>
 #include <core/types.h>
 
 namespace core
 {
+	//class IApplication;
+
 	class _COREEXPORT_ IEntity
 	{
 		public:

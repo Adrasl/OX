@@ -166,11 +166,11 @@ namespace core
 			private:
 
 				static void LoadEntityIntoScene(Prod3DEntity * entity);
+				static void RemoveEntityFromScene(Prod3DEntity * entity);
 
 
 
 				static bool insert_now;
-
 
 				IApplication* app;
 				MeshFactory *mesh_factory;

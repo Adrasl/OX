@@ -19,6 +19,8 @@
 #include <GeomVertexWriter.h>
 #include <GeomTriangles.h>
 
+#include <boost/thread.hpp>
+
 //#include <pandaFramework.h>
 
 namespace core
@@ -33,14 +35,17 @@ namespace core
 				Prod3DEntity(core::IEntityPersistence* ent);
 				virtual ~Prod3DEntity();
 
-				std::string GetData()					{ return data;		}
-				NodePath*	GetNodePath()				{ return nodepath;	}
-				corePDU3D<double> GetPDU()				{ return pdu;		}
-				core::IEntityPersistence* GetEntity()	{ return entity;	}
-				void SetData(const std::string &value)	{ data = value;		}
+				std::string GetData()					{ boost::mutex::scoped_lock lock(m_mutex); return data;		}
+				NodePath*	GetNodePath()				{ boost::mutex::scoped_lock lock(m_mutex); return nodepath;	}
+				corePDU3D<double> GetPDU()				{ boost::mutex::scoped_lock lock(m_mutex); return pdu;		}
+				core::IEntityPersistence* GetEntity()	{ boost::mutex::scoped_lock lock(m_mutex); return entity;	}
+				void SetData(const std::string &value)	{ boost::mutex::scoped_lock lock(m_mutex); data = value;	}
+				
+				virtual bool IsCollidable()						{ boost::mutex::scoped_lock lock(m_mutex); return collidable;}
+				virtual void SetCollidable(const bool &value)	{ boost::mutex::scoped_lock lock(m_mutex); collidable =value;}
+
 				void SetPDU(const core::corePDU3D<double> &value);
 				void SetNodePath(NodePath *value);
-
 				void SetPosition(const float &x, const float &y, const float &z);
 				void SetOrientation(const float &x, const float &y, const float &z);
 				void SetUp(const float &x, const float &y, const float &z);
@@ -60,12 +65,12 @@ namespace core
 				virtual void OnDestroy();
 				virtual void OnCollisionCall(IEntity *otherEntity); 
 				virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo);
-				virtual bool IsCollidable()						{ return collidable;}
-				virtual void SetCollidable(const bool &value)	{ collidable =value;}
 				//virtual void PlaySound(const std::string &label, const bool &loop);
 				//virtual void PlayAnimation(const std::string &label);
 
 			protected:
+
+				boost::mutex m_mutex;
 
 				std::string					data; //3d model file
 				core::IEntityPersistence	*entity;

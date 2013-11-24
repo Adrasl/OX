@@ -35,6 +35,7 @@ namespace core
 				virtual void SetOwner(const std::string &user_owner)			{ owner = user_owner; Changed();					}
 				virtual void SetPermissions(const int &permissions_)			{ permissions = permissions_; Changed();	}
 				virtual void AddEntity(core::IEntityPersistence &entity);
+				virtual void RemoveEntity(core::IEntityPersistence &entity);
 				virtual std::string GetName()									{ return name;								}
 				virtual std::string GetOwner()									{ return owner;								}
 				virtual int			GetPermissions()							{ return permissions;						}

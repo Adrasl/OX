@@ -9,6 +9,8 @@ Prod3DEntity::Prod3DEntity() : entity(NULL), nodepath(NULL), collidable(false)
 
 Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepath(NULL), collidable(false)
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (entity != NULL )
 		data = entity->GetModelData();
 }
@@ -23,15 +25,18 @@ void Prod3DEntity::Delete()
 
 void Prod3DEntity::OnDestroy()
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (entity)
-	{
-		entity->Delete();
+	{	entity->Delete();
 		Delete();
 	}
 }
 
 void Prod3DEntity::SetNodePath(NodePath *value)		
 { 
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	nodepath = value; 
 	if ( (entity != NULL) && (nodepath != NULL) )
 	{
@@ -47,25 +52,30 @@ void Prod3DEntity::SetNodePath(NodePath *value)
 
 void Prod3DEntity::Load()
 {
+	boost::mutex::scoped_lock lock(m_mutex);
 	if (entity)
 		entity->Load();
 }
 
 void Prod3DEntity::Save()
 {
+	boost::mutex::scoped_lock lock(m_mutex);
 	if (entity)
 		entity->Save();
 }
 
 void Prod3DEntity::SetPDU(const core::corePDU3D<double> &value)
 { 
+	boost::mutex::scoped_lock lock(m_mutex);
 	pdu = value;	
 	if (entity)
 		entity->SetPosition(pdu.position.x, pdu.position.y, pdu.position.z);
 }
 
 void Prod3DEntity::SetPosition(const float &x, const float &y, const float &z)    
-{ 
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	pdu.position.x = x;
 	pdu.position.y = y;
 	pdu.position.y = y;
@@ -79,6 +89,8 @@ void Prod3DEntity::SetPosition(const float &x, const float &y, const float &z)
 
 void Prod3DEntity::SetOrientation(const float &x, const float &y, const float &z) 
 { 
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (nodepath)
 		nodepath->set_hpr(x, y, z); //yaw, pitch, roll;
 
@@ -88,12 +100,16 @@ void Prod3DEntity::SetOrientation(const float &x, const float &y, const float &z
 
 void Prod3DEntity::SetUp(const float &x, const float &y, const float &z)		    
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (entity)
 		entity->SetUp(x, y, z);
 }
 
 void Prod3DEntity::SetScale(const float &value)									
 { 
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (nodepath)
 		nodepath->set_scale(value); //yaw, pitch, roll;
 
@@ -103,49 +119,66 @@ void Prod3DEntity::SetScale(const float &value)
 
 void Prod3DEntity::SetPsique(const int &value)									
 { 
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (entity)
 		entity->SetPsique(value);
 }
 
 void Prod3DEntity::GetPosition(float &x, float &y, float &z)						
 { 
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (entity)
 		entity->GetPosition(x, y, z);
 }
 
 void Prod3DEntity::GetOrientation(float &x, float &y, float &z)					
 { 
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (entity)
 		entity->GetOrientation(x, y, z);
 }
 
 void Prod3DEntity::GetUp(float &x, float &y, float &z)
 { 
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (entity)
 		entity->GetUp(x, y, z);
 }
 
 void Prod3DEntity::GetScale(float &value)											
 { 
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (entity)
 		entity->GetScale(value);
 }
 void Prod3DEntity::GetPsique(int &value)											
 { 
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	if (entity)
 		entity->GetPsique(value);
 }
 
 void Prod3DEntity::OnStart()
-{}
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+}
 
 void Prod3DEntity::OnUpdate()
 {
+	boost::mutex::scoped_lock lock(m_mutex);
 	this;
 }
 
 void Prod3DEntity::OnCollisionCall(IEntity *otherEntity)
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	this;
 	otherEntity;
 	Prod3DEntity *prod3dntity = (Prod3DEntity *)otherEntity;
@@ -154,6 +187,7 @@ void Prod3DEntity::OnCollisionCall(IEntity *otherEntity)
 
 void Prod3DEntity::OnUserCollisionCall(core::corePDU3D<double> collisionInfo)
 {
+	boost::mutex::scoped_lock lock(m_mutex);
 	this;
 	//retomar
 }

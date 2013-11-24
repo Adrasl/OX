@@ -507,6 +507,31 @@ void MainProd::CloseWorld()
 	}
 }
 
+void MainProd::RemoveEntityFromScene(Prod3DEntity * entity)
+{	
+	if (entity)
+	{
+		NodePath *np = entity->GetNodePath();
+
+		std::map<Prod3DEntity*, NodePath>::iterator iter_enp =	scene_entities_nodepaths.find(entity);
+		if (iter_enp != scene_entities_nodepaths.end())
+			scene_entities_nodepaths.erase(iter_enp);
+
+		std::map<NodePath, Prod3DEntity*>::iterator iter_np = scene_nodepaths_entities.find(*np);
+		if (iter_np != scene_nodepaths_entities.end())
+			scene_nodepaths_entities.erase(iter_np);
+
+		std::vector<Prod3DEntity *>::iterator iter_e = std::find(scene_entities.begin(), scene_entities.end(), entity);
+		if (iter_e != scene_entities.end())
+			scene_entities.erase(iter_e);
+
+		if (np) np->remove_node();
+
+		entity->OnDestroy();
+		delete entity;
+	}
+}
+
 void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 {
 	////std::string data = entity->GetData();
@@ -865,16 +890,16 @@ void MainProd::DoDoStuff()
 			user_entity->SetPosition(pti.x/40, pti.y/40, pti.z/40);
 		}
 
-		//UPDATE ENTITIES // retomar
-		for (std::vector< Prod3DEntity * >::iterator iter = scene_entities.begin(); iter != scene_entities.end(); iter++)
-		{
-			if((*iter)->GetData() == "teapot")
-			{
-				NodePath *np = (*iter)->GetNodePath();
-				//np->set_pos(np->get_x()+0.01f, np->get_y(), np->get_z());
-				(*iter)->SetPosition(np->get_x()+0.01f, np->get_y(), np->get_z());
-			}
-		}
+		////UPDATE ENTITIES // retomar
+		//for (std::vector< Prod3DEntity * >::iterator iter = scene_entities.begin(); iter != scene_entities.end(); iter++)
+		//{
+		//	if((*iter)->GetData() == "teapot")
+		//	{
+		//		NodePath *np = (*iter)->GetNodePath();
+		//		//np->set_pos(np->get_x()+0.01f, np->get_y(), np->get_z());
+		//		(*iter)->SetPosition(np->get_x()+0.01f, np->get_y(), np->get_z());
+		//	}
+		//}
 
 		//int width  = pandawindows_array[1]->get_graphics_window()->get_x_size();
 		//int height = pandawindows_array[1]->get_graphics_window()->get_y_size();
@@ -1741,9 +1766,9 @@ void MainProd::RemoveEntityFromCurrentWorld(core::IEntity * ent)
 	boost::mutex::scoped_lock lock(m_mutex);
 	Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
 	if (prod3d_ent)
-	{	//current_world->RemoveEntity(*(prod3d_ent->GetEntity()));
-		//current_world->Save();
-		//RemoveEntityFromScene(prod3d_ent); //retomar: detach, remove_nodes, etc
+	{	current_world->RemoveEntity(*(prod3d_ent->GetEntity()));
+		current_world->Save();
+		RemoveEntityFromScene(prod3d_ent); //retomar: detach, remove_nodes, etc
 	}
 }
 

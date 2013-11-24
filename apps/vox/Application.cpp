@@ -430,6 +430,18 @@ bool Application::RunDefaultWorld()
 	return false;
 }
 
+void Application::AddNewEntityIntoCurrentWorld(core::IEntity* new_entity)
+{
+	if (app_mainprod)
+		app_mainprod->InsertEntityIntoCurrentWorld(new_entity);
+}
+
+void Application::RemoveEntityFromCurrentWorld(core::IEntity* new_entity)
+{
+	if (app_mainprod)
+		app_mainprod->RemoveEntityFromCurrentWorld(new_entity);
+}
+
 core::IUserPersistence* Application::GetCurrentUser()
 {
 	if (session_controller != NULL) 

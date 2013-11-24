@@ -135,6 +135,21 @@ void WorldPersistence::AddEntity(core::IEntityPersistence &entity)
 	Changed();	
 }
 
+void WorldPersistence::RemoveEntity(core::IEntityPersistence &entity)
+{	
+	entity.Save();
+	{	boost::mutex::scoped_lock lock(m_mutex);
+		std::list<core::ipersistence::EntityPersistence>::iterator iter = entities.begin();
+		unsigned int index = 0;
+		for ( ; ( ((core::ipersistence::EntityPersistence*)&(*iter))!=
+			      ((core::ipersistence::EntityPersistence*)&entity)) && (index < entities.size() ) ; index++)
+			iter++;
+		if (iter != entities.end())
+			entities.erase(iter); // retomar, no seguro si está borrando a quien debe borrar
+	}
+	Changed();	
+}
+
 core::IEntityPersistence* WorldPersistence::GetEntity(const int &i)		
 {	boost::mutex::scoped_lock lock(m_mutex);
 	core::IEntityPersistence* result = NULL;

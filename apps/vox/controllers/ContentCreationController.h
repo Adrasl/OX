@@ -28,10 +28,11 @@ class ContentCreationController
 		static ContentCreationController *Instance();
 		void SetApp(IApplication *app_) {app = app_;}
 
-		void Update();
+		static void Update();
 
 		static void Clear();
 		static void Reset();
+
 		static void SetAudioInfo(){};
 		static void SetUserArea() {};
 		static void SetUserFace() {};
@@ -65,8 +66,8 @@ class ContentCreationController
 		static ContentCreationController *instance;
 		static double time_start;
 
-		boost::shared_ptr<boost::thread> m_thread;
-		boost::try_mutex m_mutex;
+		//static boost::shared_ptr<boost::thread> m_thread;
+		static boost::try_mutex m_mutex;
 
 		float psique; //0-1 good-evil
 		float energy; //0-1 calm-energetic
