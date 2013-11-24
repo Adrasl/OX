@@ -111,7 +111,7 @@ namespace core
 				bool RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *world);
 				void CloseWorld();
 
-				virtual void SetCamerasPosition(const core::corePoint3D<double> &pos);
+				virtual void SetUserPosition(const core::corePoint3D<double> &pos);
 				virtual void SetCamerasPDU(core::corePDU3D<double> pdu);
 
 				virtual void InsertEntityIntoCurrentWorld(core::IEntity * ent);

@@ -15,9 +15,9 @@
 
 double time_loop  = 0;
 
-NavigationController::NavigationController(core::IUserDataModelController *user_datamodel, core::IPercept *perception_module, core::IProd *production_module) 
+NavigationController::NavigationController(core::IApplication *app_, core::IUserDataModelController *user_datamodel, core::IPercept *perception_module, core::IProd *production_module) 
 : userDataModel(user_datamodel), perception(perception_module), production(production_module), initialized(false), stop_requested(false),
-  presence_detected(false), contentCreationController(NULL)
+  presence_detected(false), contentCreationController(NULL), app(app_)
 //default_user(NULL), default_world(NULL), app_user(NULL), app_world(NULL), session_permissions(-1)
 {
 	contentCreationController = ContentCreationController::Instance();
@@ -109,8 +109,14 @@ void NavigationController::Iterate()
 	////---------------------------
 
 	boost::try_mutex::scoped_try_lock lock(m_mutex);
-	if ((lock) && (perception) && (production))
+
+
+
+	if ((lock) && (app) && (perception) && (production))
 	{
+		current_user  = app->GetCurrentUser();
+		current_world = app->GetCurrentWorld();
+
 		int row_step = 3;
 		float scale = 0.2;
 		//std::vector<float> presence_volume;
@@ -200,7 +206,7 @@ void NavigationController::Iterate()
 		final_cam_pos.y = presence_center_of_mass.y + space_offset.y + com_to_head.y;
 		final_cam_pos.z = presence_center_of_mass.z + space_offset.z + com_to_head.z;
 
-		production->SetCamerasPosition(final_cam_pos);
+		production->SetUserPosition(final_cam_pos);
 
 		// BLOCK 3: Creating the avatar
 		if (presence_volume.size() > 0) 

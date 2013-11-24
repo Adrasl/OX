@@ -38,8 +38,19 @@ namespace core
 				corePDU3D<double> GetPDU()				{ return pdu;		}
 				core::IEntityPersistence* GetEntity()	{ return entity;	}
 				void SetData(const std::string &value)	{ data = value;		}
-				void SetPDU(const corePDU3D<double> &value){ pdu = value;	}
+				void SetPDU(const core::corePDU3D<double> &value);
 				void SetNodePath(NodePath *value);
+
+				void SetPosition(const float &x, const float &y, const float &z);
+				void SetOrientation(const float &x, const float &y, const float &z);
+				void SetUp(const float &x, const float &y, const float &z);
+				void SetScale(const float &value);
+				void SetPsique(const int &value);
+				void GetPosition(float &x, float &y, float &z);
+				void GetOrientation(float &x, float &y, float &z);
+				void GetUp(float &x, float &y, float &z);
+				void GetScale(float &value);
+				void GetPsique(int &value);
 
 				virtual void Delete();
 				virtual void Load();
@@ -59,7 +70,7 @@ namespace core
 				std::string					data; //3d model file
 				core::IEntityPersistence	*entity;
 				NodePath					*nodepath;
-				corePDU3D<double>			pdu; //pos, vel, acc
+				core::corePDU3D<double>		pdu; //pos, vel, acc
 				bool						collidable;
 
 		};

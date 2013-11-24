@@ -31,7 +31,7 @@ class ContentCreationController;
 class NavigationController
 {
 	public:
-		NavigationController(core::IUserDataModelController *user_datamodel, core::IPercept *perception_module, core::IProd *production_module);
+		NavigationController(core::IApplication *app_, core::IUserDataModelController *user_datamodel, core::IPercept *perception_module, core::IProd *production_module);
 		~NavigationController();
 
 		//bool CreateUser(const std::string &name, const std::string &passwd);
@@ -55,6 +55,10 @@ class NavigationController
 
 	private:
 
+		core::IUserPersistence* current_user;
+		core::IWorldPersistence* current_world;
+
+		core::IApplication *app;
 		core::IUserDataModelController *userDataModel;
 		core::IPercept	*perception;
 		core::IProd		*production;

@@ -28,7 +28,7 @@ namespace core
 			virtual void RemoveEntityFromCurrentWorld(core::IEntity * ent)=0;
 			virtual void CloseWorld() = 0; 
 
-			virtual void SetCamerasPosition(const core::corePoint3D<double> &pos) = 0;
+			virtual void SetUserPosition(const core::corePoint3D<double> &pos) = 0;
 			virtual void SetCamerasPDU(core::corePDU3D<double> pdu) = 0;
 
 

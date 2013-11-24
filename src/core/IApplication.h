@@ -28,6 +28,8 @@ namespace core
 			virtual bool RunWorld(const std::string &name) = 0;
 			virtual core::IUserPersistence* GetCurrentUser() = 0;
 			virtual core::IWorldPersistence* GetCurrentWorld()= 0;
+			virtual core::IUserPersistence* GetDefaultUser() = 0;
+			virtual core::IWorldPersistence* GetDefaultWorld()= 0;
 			virtual core::IEntityPersistence* GetAvatarEntity() = 0;
 			virtual void GetWorldList(const std::string &user_name, std::vector<std::string> &names, std::vector<int> &permissions)=0;
 			//virtual bool RunWorld(const int &world_id) = 0;

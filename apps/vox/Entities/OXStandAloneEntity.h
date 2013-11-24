@@ -87,6 +87,7 @@ namespace core
 				double delta_time, lived_time;
 
 				std::map<NatureOfEntity, float> otherEntities_feedback; //good(0) --> evil(1) 
+				std::map<IEntity*, float> user_feedback;
 
 				//map::<double, std::string> feedback_from_otherEntities; //<feedback, EntityLabel>, feedback < 0.50 bad, >0.50 good;
 

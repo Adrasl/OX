@@ -131,7 +131,7 @@ bool Application::OnInit()
 	if( (app_mainprod) && (app_mainpercept))
 	{
 		user_dataModel_controller = new UserDataModelController();
-		navigation_controller = new NavigationController(user_dataModel_controller, app_mainpercept, app_mainprod);
+		navigation_controller = new NavigationController((IApplication *)this, user_dataModel_controller, app_mainpercept, app_mainprod);
 	}
 
 	//app_mainpersistence->ListProjects();
@@ -379,11 +379,10 @@ bool Application::RunWorld(const std::string &name)
 						app_mainprod->LoadEntityFromCurrentWorld(new_entity);
 				}
 			}
-			bool world_running = app_mainprod->RunWorld(user, world); //retomar, now I lost the option to redefine 3dprodentity
-			//app_mainprod->
+			bool world_running = app_mainprod->RunWorld(user, world);
+			ContentCreationController::Instance()->Reset();
 			return true;
 		}
-		//return app_mainpersistence->RunWorld(name);
 	}
 	return false;
 }
@@ -425,6 +424,7 @@ bool Application::RunDefaultWorld()
 		}
 
 		bool   world_running = app_mainprod->RunWorld(user, world);
+		ContentCreationController::Instance()->Reset();
 		return world_running;
 	}
 	return false;
@@ -442,6 +442,20 @@ core::IWorldPersistence* Application::GetCurrentWorld()
 		return session_controller->GetCurrentWorld();
 	return NULL;
 }
+
+core::IUserPersistence* Application::GetDefaultUser()
+{
+	if (session_controller != NULL) 
+		return session_controller->GetDefaultUser();
+	return NULL;
+}
+core::IWorldPersistence* Application::GetDefaultWorld()
+{
+	if (session_controller != NULL) 
+		return session_controller->GetDefaultWorld();
+	return NULL;
+}
+
 core::IEntityPersistence* Application::GetAvatarEntity()
 {
 	return avatar_entity;

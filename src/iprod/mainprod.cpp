@@ -692,7 +692,7 @@ bool MainProd::RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *
 	return false;
 }
 
-void MainProd::SetCamerasPosition(const core::corePoint3D<double> &pos)
+void MainProd::SetUserPosition(const core::corePoint3D<double> &pos)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 
@@ -857,18 +857,22 @@ void MainProd::DoDoStuff()
 		////pti.y = (pt1.y - pt0.y)*t + pt0.y;
 		////pti.z = (pt1.z - pt0.z)*t + pt0.z;
 
+		//UPDATE USER // retomar
 		for(std::map<int, NodePath>::iterator iter = windowcamera_array.begin(); iter != windowcamera_array.end(); iter++)
-		{	if (user_nodepath) 
-				user_nodepath->set_pos(pti.x/40, pti.y/40, pti.z/40);
+		{	//if (user_nodepath) 
+			//	user_nodepath->set_pos(pti.x/40, pti.y/40, pti.z/40);
 			iter->second.set_pos(pti.x/40, pti.y/40, pti.z/40);
+			user_entity->SetPosition(pti.x/40, pti.y/40, pti.z/40);
 		}
 
+		//UPDATE ENTITIES // retomar
 		for (std::vector< Prod3DEntity * >::iterator iter = scene_entities.begin(); iter != scene_entities.end(); iter++)
 		{
 			if((*iter)->GetData() == "teapot")
 			{
 				NodePath *np = (*iter)->GetNodePath();
-				np->set_pos(np->get_x()+0.01f, np->get_y(), np->get_z());
+				//np->set_pos(np->get_x()+0.01f, np->get_y(), np->get_z());
+				(*iter)->SetPosition(np->get_x()+0.01f, np->get_y(), np->get_z());
 			}
 		}
 
@@ -1027,12 +1031,11 @@ void MainProd::CreateDefaultWindows(int num_windows)
 }
 
 void MainProd::ClearScene()
-{	boost::mutex::scoped_lock lock(m_mutex);
+{	
+	boost::mutex::scoped_lock lock(m_mutex);
 	
 	initialized = false;
-	
 	Sound.Stop();	
-	
 	ClearAvatarModel();
 
 	/*if (collision_traverser)
@@ -1086,7 +1089,7 @@ void MainProd::ClearScene()
 	if (use_master_display)
 		user_nodepath->instance_to(master_pandawindow->get_render());
 
-
+	//ContentCreationController::Instance()->Reset();
 
 	//initialized = true;
 	//////////////////initialized = false;
@@ -1894,18 +1897,22 @@ void MainProd::SetUpUser(void *graphic_node)
 	int psi = 0;
 	float x, y, z;
 	x = y = z = 0.0;
-	u_ent->SetModelData(current_user->GetModel());
-	u_ent->SetName(current_user->GetName());
-	current_user->GetOrientation(x, y, z);
-	u_ent->SetOrientation(x, y, z);
-	current_user->GetPosition(x, y, z);
-	u_ent->SetPosition(x, y, z);
-	current_user->GetPsique(psi);
-	u_ent->SetPsique(psi);
-	current_user->GetScale(x);
-	u_ent->SetScale(x);
-	current_user->GetUp(x, y, z);
-	u_ent->SetUp(x, y, z);
+
+	if (current_user)
+	{
+		u_ent->SetModelData(current_user->GetModel());
+		u_ent->SetName(current_user->GetName());
+		current_user->GetOrientation(x, y, z);
+		u_ent->SetOrientation(x, y, z);
+		current_user->GetPosition(x, y, z);
+		u_ent->SetPosition(x, y, z);
+		current_user->GetPsique(psi);
+		u_ent->SetPsique(psi);
+		current_user->GetScale(x);
+		u_ent->SetScale(x);
+		current_user->GetUp(x, y, z);
+		u_ent->SetUp(x, y, z);
+	}
 
 	if (!user_entity)
 	{	Prod3DEntity *new_entity = new Prod3DEntity(u_ent);

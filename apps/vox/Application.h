@@ -59,6 +59,8 @@ class Application : public wxApp, public core::IApplication
 		bool RunDefaultWorld();
 		core::IUserPersistence* GetCurrentUser();
 		core::IWorldPersistence* GetCurrentWorld();
+		core::IUserPersistence* GetDefaultUser();
+		core::IWorldPersistence* GetDefaultWorld();
 		core::IEntityPersistence* GetAvatarEntity();
 		IUserDataModelController* GetUserDataModelControllerInstance();
 		void GetWorldList(const std::string &user_name, std::vector<std::string> &names, std::vector<int> &permissions);

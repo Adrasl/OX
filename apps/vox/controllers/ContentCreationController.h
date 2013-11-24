@@ -7,12 +7,14 @@
 #include <Entities/OXBoidsEntity.h>
 #include <Entities/OXTreeEntity.h>
 
+#include <RTreeTemplate/RTree.h>
 #include <boost/thread.hpp>
 #include <core/types.h>
 #include <vector>
 
 enum NatureOfEntity {
-      STANDALONE	= 1,
+      NONINTERACTIVE= 0,
+	  STANDALONE	= 1,
       BOID			= 2,
       TREE			= 3
    };
@@ -28,6 +30,8 @@ class ContentCreationController
 
 		void Update();
 
+		static void Clear();
+		static void Reset();
 		static void SetAudioInfo(){};
 		static void SetUserArea() {};
 		static void SetUserFace() {};
@@ -69,6 +73,18 @@ class ContentCreationController
 
 		void * ambient_soundsample;
 		void * background_color;
+
+		static std::map<int, core::IEntityPersistence*> RTree_Entities_by_entityIDs;
+		static std::map<NatureOfEntity, RTree<int, float, 3, float> *> RTree_Entities_SpatialIndexes;
+		static std::map<NatureOfEntity, std::vector<core::IEntityPersistence*>> RTree_Entities_by_Psique;
+		static IWorldPersistence* current_world;
+		static IUserPersistence*  current_user;
+		static int entity_id;
+
+		static RTree<int, float, 3, float> RTree_Default;
+		static RTree<int, float, 3, float> RTree_StandAlone;
+		static RTree<int, float, 3, float> RTree_BOIDs;
+		static RTree<int, float, 3, float> RTree_Tree;
 
 
 		//void *current_ambient_channel_01;

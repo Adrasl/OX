@@ -17,6 +17,9 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent)
 	latestupdate_timestamp	= (double)clock()/CLOCKS_PER_SEC;
 	otherEntities_feedback[NatureOfEntity::STANDALONE] = IA_Karma::GOOD;
 
+	user_feedback.clear();
+	otherEntities_feedback.clear(); 
+
 	if (entity != NULL )
 	{
 		entity->SetPsique(NatureOfEntity::STANDALONE);

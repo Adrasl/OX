@@ -10,9 +10,7 @@ Prod3DEntity::Prod3DEntity() : entity(NULL), nodepath(NULL), collidable(false)
 Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepath(NULL), collidable(false)
 {
 	if (entity != NULL )
-	{
 		data = entity->GetModelData();
-	}
 }
 
 Prod3DEntity::~Prod3DEntity()
@@ -59,8 +57,88 @@ void Prod3DEntity::Save()
 		entity->Save();
 }
 
+void Prod3DEntity::SetPDU(const core::corePDU3D<double> &value)
+{ 
+	pdu = value;	
+	if (entity)
+		entity->SetPosition(pdu.position.x, pdu.position.y, pdu.position.z);
+}
+
+void Prod3DEntity::SetPosition(const float &x, const float &y, const float &z)    
+{ 
+	pdu.position.x = x;
+	pdu.position.y = y;
+	pdu.position.y = y;
+
+	if (nodepath)
+		nodepath->set_pos(x, y, z);
+
+	if (entity)
+		entity->SetPosition(x, y, z);
+}
+
+void Prod3DEntity::SetOrientation(const float &x, const float &y, const float &z) 
+{ 
+	if (nodepath)
+		nodepath->set_hpr(x, y, z); //yaw, pitch, roll;
+
+	if (entity)
+		entity->SetOrientation(x, y, z);
+}
+
+void Prod3DEntity::SetUp(const float &x, const float &y, const float &z)		    
+{
+	if (entity)
+		entity->SetUp(x, y, z);
+}
+
+void Prod3DEntity::SetScale(const float &value)									
+{ 
+	if (nodepath)
+		nodepath->set_scale(value); //yaw, pitch, roll;
+
+	if (entity)
+		entity->SetScale(value);
+}
+
+void Prod3DEntity::SetPsique(const int &value)									
+{ 
+	if (entity)
+		entity->SetPsique(value);
+}
+
+void Prod3DEntity::GetPosition(float &x, float &y, float &z)						
+{ 
+	if (entity)
+		entity->GetPosition(x, y, z);
+}
+
+void Prod3DEntity::GetOrientation(float &x, float &y, float &z)					
+{ 
+	if (entity)
+		entity->GetOrientation(x, y, z);
+}
+
+void Prod3DEntity::GetUp(float &x, float &y, float &z)
+{ 
+	if (entity)
+		entity->GetUp(x, y, z);
+}
+
+void Prod3DEntity::GetScale(float &value)											
+{ 
+	if (entity)
+		entity->GetScale(value);
+}
+void Prod3DEntity::GetPsique(int &value)											
+{ 
+	if (entity)
+		entity->GetPsique(value);
+}
+
 void Prod3DEntity::OnStart()
 {}
+
 void Prod3DEntity::OnUpdate()
 {
 	this;
