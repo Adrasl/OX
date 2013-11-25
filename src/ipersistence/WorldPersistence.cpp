@@ -136,15 +136,19 @@ void WorldPersistence::AddEntity(core::IEntityPersistence &entity)
 }
 
 void WorldPersistence::RemoveEntity(core::IEntityPersistence &entity)
-{	
+{	//retomar petada
 	entity.Save();
 	{	boost::mutex::scoped_lock lock(m_mutex);
 		std::list<core::ipersistence::EntityPersistence>::iterator iter = entities.begin();
+		core::ipersistence::EntityPersistence* entity_to_delete = (core::ipersistence::EntityPersistence*)&entity;
 		unsigned int index = 0;
-		for ( ; ( ((core::ipersistence::EntityPersistence*)&(*iter))!=
-			      ((core::ipersistence::EntityPersistence*)&entity)) && (index < entities.size() ) ; index++)
-			iter++;
-		if (iter != entities.end())
+		bool found = false;
+		for ( ; ( entities.size() > 0 ) && (index < entities.size()) && !found ; index++)
+		{	core::ipersistence::EntityPersistence* iter_entity = (core::ipersistence::EntityPersistence*)&(*iter);
+			found = ( iter_entity->getId() == entity_to_delete->getId() );
+			if (!found) iter++;
+		}
+		if ( iter != entities.end() ) 
 			entities.erase(iter); // retomar, no seguro si está borrando a quien debe borrar
 	}
 	Changed();	

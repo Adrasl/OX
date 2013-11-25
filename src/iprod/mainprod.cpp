@@ -303,7 +303,7 @@ void MainProd::Iterate()
 	if (lock && initialized)
 	{
 		#ifndef _DEBUG
-		UpdateEntities();
+		UpdateEntities();  
 		CheckCollisions(); 
 		#endif
 		////-----
@@ -411,8 +411,21 @@ void MainProd::DoInit()
 
 void MainProd::UpdateEntities() 
 {
-	for (std::vector< Prod3DEntity * >::iterator iter = scene_entities.begin(); iter != scene_entities.end(); iter++)
-		if (*iter) (*iter)->OnUpdate();
+	for (std::vector< Prod3DEntity * >::iterator iter = scene_entities.begin(); iter != scene_entities.end(); iter++) //retomar, el remove da problemas, problemas
+	{	if (*iter)
+		{	if (!((*iter)->IsReadyToDie()))
+			{
+				(*iter)->OnUpdate();
+				//iter++;
+			}
+			//else
+			//{	IEntity *entity_to_remove = (IEntity*)(*iter);
+			//	scene_entities.erase(iter);
+			//	PrivateRemoveEntityFromCurrentWorld(entity_to_remove);
+			//	int i = 666;
+			//}
+		}
+	}
 }
 
 void MainProd::CheckCollisions() 
@@ -1764,6 +1777,12 @@ void MainProd::InsertEntityIntoCurrentWorld(core::IEntity * ent)
 void MainProd::RemoveEntityFromCurrentWorld(core::IEntity * ent)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
+	PrivateRemoveEntityFromCurrentWorld(ent);
+
+}
+
+void MainProd::PrivateRemoveEntityFromCurrentWorld(core::IEntity * ent)
+{
 	Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
 	if (prod3d_ent)
 	{	current_world->RemoveEntity(*(prod3d_ent->GetEntity()));

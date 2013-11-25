@@ -58,8 +58,8 @@ namespace core
 				OXStandAloneEntity(core::IEntityPersistence* ent);
 				virtual ~OXStandAloneEntity();
 
-				float GetTimeToLive()					{ boost::mutex::scoped_lock lock(OXE_mutex); return timeToLive;		}
-				void  SetTimeToLive(const float &value)	{ boost::mutex::scoped_lock lock(OXE_mutex); timeToLive = value;	}
+				float GetTimeToLive()					{ boost::mutex::scoped_lock lock(m_mutex); return timeToLive;		}
+				void  SetTimeToLive(const float &value)	{ boost::mutex::scoped_lock lock(m_mutex); timeToLive = value;	}
 
 				virtual void Delete();
 				virtual void Destroy();
@@ -80,8 +80,6 @@ namespace core
 			private:
 
 				void KillMyself();
-
-				boost::mutex OXE_mutex;
 
 				float timeToLive;
 				float psique; //type of entity

@@ -132,6 +132,8 @@ namespace core
 			
 			private:
 
+				static void PrivateRemoveEntityFromCurrentWorld(core::IEntity * ent);
+
 				static core::IUserPersistence				*current_user;
 				static core::IWorldPersistence				*current_world;
 				static core::IEntityPersistence				*user_dummyPersistence;

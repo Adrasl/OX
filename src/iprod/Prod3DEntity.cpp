@@ -7,7 +7,7 @@ using namespace core::iprod;
 Prod3DEntity::Prod3DEntity() : entity(NULL), nodepath(NULL), collidable(false)
 {}
 
-Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepath(NULL), collidable(false)
+Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepath(NULL), collidable(false), ready_to_die(false)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 
@@ -29,7 +29,6 @@ void Prod3DEntity::OnDestroy()
 
 	if (entity)
 	{	entity->Delete();
-		Delete();
 	}
 }
 

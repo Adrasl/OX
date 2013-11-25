@@ -29,7 +29,6 @@ class ContentCreationController
 		void SetApp(IApplication *app_) {app = app_;}
 
 		static void Update();
-
 		static void Clear();
 		static void Reset();
 
@@ -53,6 +52,8 @@ class ContentCreationController
 
 		static void GetAllEntities(){};
 		static void GetLabeledEntities(const std::string label){};
+
+		static void RemoveEntityFromCurrentWorld(core::IEntity *entity);
 	
 	protected:
 

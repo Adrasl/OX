@@ -36,6 +36,7 @@ namespace core
 			virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo)=0;
 
 			virtual bool IsCollidable()=0;
+			virtual bool IsReadyToDie()=0;
 			virtual void SetCollidable(const bool &value)=0;
 
 			//virtual void PlaySound(const std::string &label, const bool &loop)=0;

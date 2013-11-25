@@ -50,6 +50,7 @@ namespace core
 				std::string name, owner;
 				int permissions;
 				std::list<EntityPersistence> entities;
+				//std::map<int, EntityPersistence*> indexed_entities;
 
 			private:
 
