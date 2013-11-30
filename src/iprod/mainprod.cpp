@@ -304,8 +304,8 @@ void MainProd::Iterate()
 	if (lock && initialized)
 	{
 		#ifndef _DEBUG
+		CheckCollisions(); 
 		UpdateEntities();  
-		//CheckCollisions(); 
 		ProcessProd3DEntitiesToBeLoadedQueue();
 		#endif
 		////-----

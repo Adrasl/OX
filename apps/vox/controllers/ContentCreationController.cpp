@@ -109,7 +109,7 @@ void ContentCreationController::Update()
 		double timestamp = (double)clock()/CLOCKS_PER_SEC;
 		double dif_time = timestamp - time_start;
 
-		if (dif_time >= CCTIMELAPSE) //retomar, en ocasiones parecen faltar entidades (puede que en el momento de la petición el try-lock de producción decida saltárselo)
+		if ((dif_time >= CCTIMELAPSE) && (z_step < 5)) //retomar, en ocasiones parecen faltar entidades (puede que en el momento de la petición el try-lock de producción decida saltárselo)
 		{
 			//change theme of the world
 			//------------------------------------------------------
@@ -127,8 +127,8 @@ void ContentCreationController::Update()
 			core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
 			genesis->SetPsique(NatureOfEntity::STANDALONE);
 			genesis->SetModelData("teapot");
-			genesis->SetPosition(0,5,z_step);
-			genesis->SetScale(2.5);
+			genesis->SetPosition(0,10,z_step);
+			genesis->SetScale(1.5);
 			genesis->Save();
 
 			core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis);
