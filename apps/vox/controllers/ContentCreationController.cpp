@@ -5,6 +5,8 @@
 #define CCTIMELAPSE 5.0
 
 IApplication* ContentCreationController::app = NULL;
+IPercept* ContentCreationController::app_mainpercept=NULL;
+IProd* ContentCreationController::app_mainprod=NULL;
 IUserPersistence* ContentCreationController::current_user=NULL;
 IWorldPersistence* ContentCreationController::current_world=NULL;
 ContentCreationController *ContentCreationController::instance = NULL;
@@ -109,13 +111,34 @@ void ContentCreationController::Update()
 		double timestamp = (double)clock()/CLOCKS_PER_SEC;
 		double dif_time = timestamp - time_start;
 
-		if ((dif_time >= CCTIMELAPSE) && (z_step < 5)) //retomar, en ocasiones parecen faltar entidades (puede que en el momento de la petición el try-lock de producción decida saltárselo)
+		if ((dif_time >= 1) ) //retomar, en ocasiones parecen faltar entidades (puede que en el momento de la petición el try-lock de producción decida saltárselo)
 		{
 			//change theme of the world
 			//------------------------------------------------------
+			if (app_mainpercept)
+			{
+				core::corePoint3D<double> head_pos, presence_center_of_mass, 
+							  space_bounding_box_min, space_bounding_box_max, space_center, 
+							  main_lateraldominance, main_orientation, main_eccentricity;
+
+				bool presence_detected = app_mainpercept->PresenceDetected();
+
+				app_mainpercept->GetHeadPosition(head_pos);
+				app_mainpercept->GetFeaturePosition("CENTER OF MASS", presence_center_of_mass);
+				app_mainpercept->GetSpaceBoundingBox(space_bounding_box_min, space_bounding_box_max);
+				app_mainpercept->GetMainLateralDominance(main_lateraldominance);
+				app_mainpercept->GetMainOrientation(main_orientation);
+				app_mainpercept->GetMainEccentricity(main_eccentricity);
+				int i = 666;
+
+		
+			}
+
 			//------------------------------------------------------
+		}
 
-
+		if ((dif_time >= CCTIMELAPSE) && (z_step < 10)) //retomar, en ocasiones parecen faltar entidades (puede que en el momento de la petición el try-lock de producción decida saltárselo)
+		{
 			//create new entities and insert them into the world
 			//------------------------------------------------------
 			//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);

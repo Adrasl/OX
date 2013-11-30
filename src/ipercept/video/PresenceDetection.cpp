@@ -209,12 +209,38 @@ bool PresenceDetection::Apply()
 		cvReleaseImage(&eroded);
 		delete old_moments;
 
-		presence_area = 0.0;
 		if (foreground_moments)
-		{	presence_area = (*foreground_moments).m00;
+		{	
+			//Area
+			presence_area = 0.0;
+			presence_area = (*foreground_moments).m00;
+			
+			//Center
 			if(presence_area > 0.0)
 			{	presenceCenterPos.x = (*foreground_moments).m10/presence_area;
 				presenceCenterPos.y = (*foreground_moments).m01/presence_area;		}
+			
+			//Orientation
+			presence_orientation = 0.0;
+			double mu20_minus_mu02 = (*foreground_moments).mu20 - (*foreground_moments).mu02;
+			double mu11 =(*foreground_moments).mu11;
+			double base_presence_orientation = 0.5 * atan( 2 * mu11 /  mu20_minus_mu02 );
+			if (mu20_minus_mu02 == 0.0)
+			{	if (mu11 > 0) presence_orientation = M_PI * 0.25;
+				if (mu11 < 0) presence_orientation = M_PI * -0.25;			
+			} else if ( mu20_minus_mu02 > 0.0 )
+			{	if ((mu11 > 0) || (mu11 < 0)) presence_orientation = base_presence_orientation;
+			} else
+			{	if (mu11 > 0) presence_orientation = base_presence_orientation + (M_PI*0.5);
+				if (mu11 < 0) presence_orientation = base_presence_orientation - (M_PI*0.5);
+			}
+		
+			//Eccentricity: 0=round, 1=line
+			presence_eccentricity = 0.0;
+			double mA = pow((*foreground_moments).mu20 - (*foreground_moments).mu02, 2);
+			double mB = pow((*foreground_moments).mu11, 2) * 4.0;
+			double mC = pow((*foreground_moments).mu20 + (*foreground_moments).mu02, 2);
+			presence_eccentricity = (mA - mB) / mC ;
 		}
 		//---------------------
 		return true;

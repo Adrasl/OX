@@ -43,6 +43,12 @@ namespace core
 				virtual bool MainPercept::FaceDetected();
 				/** \brief Obtains the position of the head. */
 				virtual void GetHeadPosition(corePoint3D<double> &result);
+				/** \brief Obtains lateral dominance. */
+				virtual void GetMainLateralDominance(corePoint3D<double> &result);
+				/** \brief Obtains orientarion. */
+				virtual void GetMainOrientation(corePoint3D<double> &result);
+				/** \brief Obtains eccencitricity. */
+				virtual void GetMainEccentricity(corePoint3D<double> &zero_means_round);
 				/** \brief Obtains the position of the given feature. */
 				virtual void GetFeaturePosition(const std::string &feature, corePoint3D<double> &result);
 				/** \brief Obtains the position of the given feature. */

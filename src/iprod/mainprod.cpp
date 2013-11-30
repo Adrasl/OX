@@ -494,6 +494,12 @@ void MainProd::CheckCollisions()
 
 void MainProd::CloseWorld()
 {
+	for (unsigned int i = 0; i < scene_entities.size(); i++)
+		scene_entities[i]->Save();
+
+	if (current_world)
+		current_world->Save();
+
 	ClearScene();
 	{	
 		boost::mutex::scoped_lock lock(m_mutex);

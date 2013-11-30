@@ -64,7 +64,9 @@ void Prod3DEntity::Save()
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 	if (entity)
+	{
 		entity->Save();
+	}
 }
 
 void Prod3DEntity::SetPDU(const core::corePDU3D<double> &value)
@@ -87,7 +89,9 @@ void Prod3DEntity::SetPosition(const float &x, const float &y, const float &z)
 		nodepath->set_pos(x, y, z);
 
 	if (entity)
+	{
 		entity->SetPosition(x, y, z);
+	}
 }
 
 void Prod3DEntity::SetOrientation(const float &x, const float &y, const float &z) 
@@ -98,7 +102,9 @@ void Prod3DEntity::SetOrientation(const float &x, const float &y, const float &z
 		nodepath->set_hpr(x, y, z); //yaw, pitch, roll;
 
 	if (entity)
+	{
 		entity->SetOrientation(x, y, z);
+	}
 }
 
 void Prod3DEntity::SetUp(const float &x, const float &y, const float &z)		    
@@ -106,7 +112,9 @@ void Prod3DEntity::SetUp(const float &x, const float &y, const float &z)
 	boost::mutex::scoped_lock lock(m_mutex);
 
 	if (entity)
+	{
 		entity->SetUp(x, y, z);
+	}
 }
 
 void Prod3DEntity::SetScale(const float &value)									
@@ -117,7 +125,9 @@ void Prod3DEntity::SetScale(const float &value)
 		nodepath->set_scale(value); //yaw, pitch, roll;
 
 	if (entity)
+	{
 		entity->SetScale(value);
+	}
 }
 
 void Prod3DEntity::SetPsique(const int &value)									
@@ -125,7 +135,9 @@ void Prod3DEntity::SetPsique(const int &value)
 	boost::mutex::scoped_lock lock(m_mutex);
 
 	if (entity)
+	{
 		entity->SetPsique(value);
+	}
 }
 
 void Prod3DEntity::GetPosition(float &x, float &y, float &z)						

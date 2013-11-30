@@ -2736,6 +2736,189 @@ void PerceptVideo::ObtainCenterOfMass(corePoint3D<double> &result)
 		}
 }
 
+void PerceptVideo::GetMainLateralDominance(corePoint3D<double> &result)
+{
+	result.x = result.y = result.z = 0;
+
+	int index = 1;
+	if(app_config)
+		for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); iter != presence_detectors.end(); iter++)
+		{
+			float width, height;
+			width = height = 0;
+			std::map<int, vector2I>::iterator iter_cam_size = cam_capture_size.find(index);
+			if (iter_cam_size != cam_capture_size.end())
+			{
+				width  = iter_cam_size->second.x;
+				height = iter_cam_size->second.y;
+			}
+
+			double data = 0.0;
+			(*iter)->GetPresenceArea(data);
+
+			{	boost::mutex::scoped_lock lock(homography_mutex);
+
+				int counter_x, counter_y, counter_z;
+				counter_x = counter_y = counter_z = 0;
+				core::CameraData cam_data = app_config->GetCameraData(index);
+				
+				/** \todo fix this. make general */
+				//FRONT
+				if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
+				{	result.x +=  data*0.5; result.z += data*0.5;
+				    counter_x++; counter_z++;                  }
+				//BACK
+				else if ( (cam_data.x == 0) && (cam_data.y == -1) && (cam_data.z == 0) )
+				{	result.x +=  data*0.5; result.z += data*0.5; 
+				    counter_x++; counter_z++;                  }
+				//RIGHT
+				else if ( (cam_data.x == 1) && (cam_data.y == 0) && (cam_data.z == 0) )
+				{	result.y += data*0.5; result.z += data*0.5; 
+				    counter_y++; counter_z++;                  }
+				//LEFT
+				else if ( (cam_data.x == -1) && (cam_data.y == 0) && (cam_data.z == 0) )
+				{	result.y += data*0.5; result.z += data*0.5; 
+				    counter_y++; counter_z++;                  }
+				//UP
+				else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == 1) )
+				{	result.x +=  data*0.5; result.y += data*0.5; 
+				    counter_x++; counter_y++;                  }
+				//DOWN
+				else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == -1) )
+				{	result.x +=  data*0.5; result.y += data*0.5;	
+				    counter_x++; counter_y++;                  }
+
+				result.x /= (counter_x > 0.0) ? counter_x : 1.0;
+				result.y /= (counter_y > 0.0) ? counter_y : 1.0;
+				result.z /= (counter_z > 0.0) ? counter_z : 1.0;
+			}
+
+			index++;
+		}
+}
+
+void PerceptVideo::GetMainOrientation(corePoint3D<double> &result)
+{
+	result.x = result.y = result.z = 0;
+
+	int index = 1;
+	if(app_config)
+		for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); iter != presence_detectors.end(); iter++)
+		{
+			float width, height;
+			width = height = 0;
+			std::map<int, vector2I>::iterator iter_cam_size = cam_capture_size.find(index);
+			if (iter_cam_size != cam_capture_size.end())
+			{
+				width  = iter_cam_size->second.x;
+				height = iter_cam_size->second.y;
+			}
+
+			double data = 0.0;
+			(*iter)->GetPresenceOrientation(data);
+
+			{	boost::mutex::scoped_lock lock(homography_mutex);
+
+				int counter_x, counter_y, counter_z;
+				counter_x = counter_y = counter_z = 0;
+				core::CameraData cam_data = app_config->GetCameraData(index);
+
+				/** \todo fix this. make general */
+				//FRONT
+				if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
+				{	result.x +=  sin(data); result.z += cos(data);
+				    counter_x++; counter_z++;                  }
+				//BACK
+				else if ( (cam_data.x == 0) && (cam_data.y == -1) && (cam_data.z == 0) )
+				{	result.x +=  sin(data); result.z += cos(data); 
+				    counter_x++; counter_z++;                  }
+				//RIGHT
+				else if ( (cam_data.x == 1) && (cam_data.y == 0) && (cam_data.z == 0) )
+				{	result.y += sin(data); result.z += cos(data); 
+				    counter_y++; counter_z++;                  }
+				//LEFT
+				else if ( (cam_data.x == -1) && (cam_data.y == 0) && (cam_data.z == 0) )
+				{	result.y += sin(data); result.z += cos(data); 
+				    counter_y++; counter_z++;                  }
+				//UP
+				else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == 1) )
+				{	result.x +=  sin(data); result.y += cos(data); 
+				    counter_x++; counter_y++;                  }
+				//DOWN
+				else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == -1) )
+				{	result.x +=  sin(data); result.y += cos(data);	
+				    counter_x++; counter_y++;                  }
+
+				result.x /= (counter_x > 0.0) ? counter_x : 1.0;
+				result.y /= (counter_y > 0.0) ? counter_y : 1.0;
+				result.z /= (counter_z > 0.0) ? counter_z : 1.0;
+			}
+
+			index++;
+		}
+}
+
+void PerceptVideo::GetMainEccentricity(corePoint3D<double> &zero_means_round)
+{
+	zero_means_round.x = zero_means_round.y = zero_means_round.z = 0;
+
+	int index = 1;
+	if(app_config)
+		for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); iter != presence_detectors.end(); iter++)
+		{
+			float width, height;
+			width = height = 0;
+			std::map<int, vector2I>::iterator iter_cam_size = cam_capture_size.find(index);
+			if (iter_cam_size != cam_capture_size.end())
+			{
+				width  = iter_cam_size->second.x;
+				height = iter_cam_size->second.y;
+			}
+
+			double data = 0.0;
+			(*iter)->GetPresenceEccentricity(data);
+
+			{	boost::mutex::scoped_lock lock(homography_mutex);
+
+				int counter_x, counter_y, counter_z;
+				counter_x = counter_y = counter_z = 0;
+				core::CameraData cam_data = app_config->GetCameraData(index);
+				
+				/** \todo fix this. make general */
+				//FRONT
+				if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
+				{	zero_means_round.x +=  data; zero_means_round.z += data;
+				    counter_x++; counter_z++;                  }
+				//BACK
+				else if ( (cam_data.x == 0) && (cam_data.y == -1) && (cam_data.z == 0) )
+				{	zero_means_round.x +=  data; zero_means_round.z += data; 
+				    counter_x++; counter_z++;                  }
+				//RIGHT
+				else if ( (cam_data.x == 1) && (cam_data.y == 0) && (cam_data.z == 0) )
+				{	zero_means_round.y += data; zero_means_round.z += data; 
+				    counter_y++; counter_z++;                  }
+				//LEFT
+				else if ( (cam_data.x == -1) && (cam_data.y == 0) && (cam_data.z == 0) )
+				{	zero_means_round.y += data; zero_means_round.z += data; 
+				    counter_y++; counter_z++;                  }
+				//UP
+				else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == 1) )
+				{	zero_means_round.x +=  data; zero_means_round.y += data; 
+				    counter_x++; counter_y++;                  }
+				//DOWN
+				else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == -1) )
+				{	zero_means_round.x +=  data; zero_means_round.y += data;	
+				    counter_x++; counter_y++;                  }
+
+				zero_means_round.x /= (counter_x > 0.0) ? counter_x : 1.0;
+				zero_means_round.y /= (counter_y > 0.0) ? counter_y : 1.0;
+				zero_means_round.z /= (counter_z > 0.0) ? counter_z : 1.0;
+			}
+
+			index++;
+		}
+}
+
 void PerceptVideo::GetSpaceBoundingBox(corePoint3D<double> &min, corePoint3D<double> &max, const bool &recalculate)
 {
 	//boost::mutex::scoped_lock lock(m_mutex);

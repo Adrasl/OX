@@ -200,6 +200,27 @@ void MainPercept::GetHeadPosition(corePoint3D<double> &result)
 		perceptVideo_module->GetHeadPosition(result);
 }
 
+void MainPercept::GetMainLateralDominance(corePoint3D<double> &result)
+{
+	result.x = result.y = result.z = 0;
+	if (isReady && perceptVideo_module != NULL)
+		perceptVideo_module->GetMainLateralDominance(result);
+}
+
+void MainPercept::GetMainOrientation(corePoint3D<double> &result)
+{
+	result.x = result.y = result.z = 0;
+	if (isReady && perceptVideo_module != NULL)
+		perceptVideo_module->GetMainOrientation(result);
+}
+
+void MainPercept::GetMainEccentricity(corePoint3D<double> &result)
+{
+	result.x = result.y = result.z = 0;
+	if (isReady && perceptVideo_module != NULL)
+		perceptVideo_module->GetMainEccentricity(result);
+}
+
 void MainPercept::GetFeaturePosition(const std::string &feature, corePoint3D<double> &result)
 {
 	result.x = result.y = result.z = 0;

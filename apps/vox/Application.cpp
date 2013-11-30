@@ -122,8 +122,8 @@ bool Application::OnInit()
 		app_mainpercept->SetApp((IApplication *)this);
 	if(app_mainpersistence)
 		app_mainpersistence->SetApp((IApplication *)this);
-
-	ContentCreationController::Instance()->SetApp((IApplication *)this);
+	if(app_mainprod && app_mainpercept)
+		ContentCreationController::Instance()->SetApp((IApplication *)this, app_mainpercept, app_mainprod);
 
 	if( (app_mainprod) && (app_mainpercept))
 	{

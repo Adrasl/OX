@@ -36,6 +36,12 @@ namespace core
 			virtual bool FaceDetected() = 0;
 			/** \brief Obtains the position of the head. */
 			virtual void GetHeadPosition(corePoint3D<double> &result) = 0;
+			/** \brief Obtains lateral dominance. */
+			virtual void GetMainLateralDominance(corePoint3D<double> &result)=0;
+			/** \brief Obtains orientarion. */
+			virtual void GetMainOrientation(corePoint3D<double> &result)=0;
+			/** \brief Obtains eccencitricity. */
+			virtual void GetMainEccentricity(corePoint3D<double> &zero_means_round)=0;
 			/** \brief Obtains the position of the given feature. */
 			virtual void GetFeaturePosition(const std::string &feature, corePoint3D<double> &result) = 0;
 			/** \brief Obtains position array of the given feature. */

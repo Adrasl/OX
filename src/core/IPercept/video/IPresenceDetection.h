@@ -20,6 +20,9 @@ namespace core
 			
 			virtual void GetPresenceCenterOfMass(corePoint2D<int> &pos) = 0;
 			virtual void GetPresenceRec(corePoint2D<int> &corner_a, corePoint2D<int> &corner_b) = 0;
+			virtual void GetPresenceArea(double &area_inpixel_units) = 0;
+			virtual void GetPresenceOrientation(double &radians_counterclockwise) = 0;
+			virtual void GetPresenceEccentricity(double &cero_means_round) = 0;
 			virtual bool PresenceDetected() = 0;
 			virtual void TrainBackground() = 0;
 
