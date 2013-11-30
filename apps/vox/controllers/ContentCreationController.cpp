@@ -32,13 +32,27 @@ ContentCreationController *ContentCreationController::Instance ()
 
 	if (!instance)
 	{
-	instance = new ContentCreationController;
-	time_start = (double)clock()/CLOCKS_PER_SEC;
+		instance = new ContentCreationController;
+		time_start = (double)clock()/CLOCKS_PER_SEC;
 
-	RTree_Entities_SpatialIndexes[NatureOfEntity::NONINTERACTIVE]	= new RTree<int, float, 3, float>();
-	RTree_Entities_SpatialIndexes[NatureOfEntity::STANDALONE]		= new RTree<int, float, 3, float>();
-	RTree_Entities_SpatialIndexes[NatureOfEntity::BOID]				= new RTree<int, float, 3, float>();
-	RTree_Entities_SpatialIndexes[NatureOfEntity::TREE]				= new RTree<int, float, 3, float>();
+		RTree_Entities_SpatialIndexes[NatureOfEntity::NONINTERACTIVE]	= new RTree<int, float, 3, float>();
+		RTree_Entities_SpatialIndexes[NatureOfEntity::STANDALONE]		= new RTree<int, float, 3, float>();
+		RTree_Entities_SpatialIndexes[NatureOfEntity::BOID]				= new RTree<int, float, 3, float>();
+		RTree_Entities_SpatialIndexes[NatureOfEntity::TREE]				= new RTree<int, float, 3, float>();
+
+		//Start statistical acccumulators
+		accumulator_set<double, stats<tag::mean, tag::moment<2> > > acc;
+
+		// push in some data ...
+		acc(1.2);
+		acc(2.3);
+		acc(3.4);
+		acc(4.5);
+
+		// Display the results ...
+		std::cout << "Mean:   " << mean(acc) << std::endl;
+		std::cout << "Moment: " << moment<2>(acc) << std::endl;
+
 	}
 
 	return instance;

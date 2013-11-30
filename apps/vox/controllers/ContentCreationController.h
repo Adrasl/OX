@@ -1,17 +1,25 @@
 #ifndef _CONTENTCREATIONCONTROLLER_
 #define _CONTENTCREATIONCONTROLLER_
 
+#include <boost/parameter/aux_/parameter_requirements.hpp>
+#include <boost/accumulators/accumulators.hpp>
+#include <boost/accumulators/statistics/stats.hpp>
+#include <boost/accumulators/statistics/mean.hpp>
+#include <boost/accumulators/statistics/moment.hpp>
+#include <boost/thread.hpp>
+
 #include <Application.h>
 
 #include <Entities/OXStandAloneEntity.h>
 #include <Entities/OXBoidsEntity.h>
 #include <Entities/OXTreeEntity.h>
-
 #include <RTreeTemplate/RTree.h>
-#include <boost/thread.hpp>
+
 #include <core/types.h>
 #include <vector>
 #include <random>
+
+using namespace boost::accumulators;
 
 enum NatureOfEntity {
       NONINTERACTIVE= 0,
