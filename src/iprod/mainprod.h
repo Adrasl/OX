@@ -132,6 +132,8 @@ namespace core
 			
 			private:
 
+				static void AddProd3DEntityToLoadQueue(Prod3DEntity* entity);
+				static void ProcessProd3DEntitiesToBeLoadedQueue();
 				static void PrivateRemoveEntityFromCurrentWorld(core::IEntity * ent);
 
 				static core::IUserPersistence				*current_user;
@@ -140,8 +142,8 @@ namespace core
 				static Prod3DEntity							*user_entity;
 				static NodePath								*user_nodepath;
 				static std::vector<Prod3DEntity *>			scene_entities;
-				static std::map<Prod3DEntity*, NodePath>	scene_entities_nodepaths;
-				static std::map<NodePath, Prod3DEntity*>	scene_nodepaths_entities;
+				static std::map<Prod3DEntity*, NodePath*>	scene_entities_nodepaths;
+				static std::map<NodePath*, Prod3DEntity*>	scene_nodepaths_entities;
 				static std::vector<NodePath*>				testnodepaths;
 				static CollisionHandlerQueue				*collision_handler_queue;
 				static CollisionTraverser					*collision_traverser;
@@ -151,6 +153,7 @@ namespace core
 				static NodePath														*avatar_current_graphicNodePath;
 				static std::map< const CollisionSolid *, Prod3DEntity* >			entities_collider_array;
 				static std::vector< Prod3DEntity * >								entity_collidable_array_to_register;
+				static std::vector< Prod3DEntity * >								entity_array_to_be_loaded;
 				
 
 				static core::corePoint3D<double> pt0, pt1, pti, vel, vel0, vel1, acc;

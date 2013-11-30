@@ -11,6 +11,7 @@
 #include <boost/thread.hpp>
 #include <core/types.h>
 #include <vector>
+#include <random>
 
 enum NatureOfEntity {
       NONINTERACTIVE= 0,
@@ -66,6 +67,7 @@ class ContentCreationController
 		static IApplication *app;
 		static ContentCreationController *instance;
 		static double time_start;
+		static int z_step;
 
 		//static boost::shared_ptr<boost::thread> m_thread;
 		static boost::try_mutex m_mutex;
@@ -87,6 +89,10 @@ class ContentCreationController
 		static RTree<int, float, 3, float> RTree_StandAlone;
 		static RTree<int, float, 3, float> RTree_BOIDs;
 		static RTree<int, float, 3, float> RTree_Tree;
+
+
+		std::tr1::ranlux64_base_01 randomEngine;
+		//std::tr1::normal_distribution<double> randomDistribution(-20.0,20.0);
 
 
 		//void *current_ambient_channel_01;

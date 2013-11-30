@@ -12,11 +12,8 @@
 
 //DEBUG
 //PATH=%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\debug\bin;..\..\extern\panda3d\debug\python;..\..\extern\panda3d\debug\python\DLLs;..\..\extern\sfml\extlibs\bin;
-//RELEASE
-//PATH=%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\built\bin;..\..\extern\panda3d\built\python;..\..\extern\panda3d\built\python\DLLs;..\..\extern\sfml\extlibs\bin;
-//PATH=%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\built\bin;..\..\extern\panda3d\built\python;..\..\extern\panda3d\built\python\DLLs;..\..\extern\sfml\extlibs\bin;..\..\..\..\..\BBDD\PostgreSQL\bin;..\..\extern\debea\vc_release_static;
 
-//20131111
+//RELEASE
 //PATH=..\..\extern\opencv\bin;%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\lib;..\..\extern\panda3d\built\bin;..\..\extern\panda3d\built\python;..\..\extern\panda3d\built\python\libs;..\..\..\BBDD\PostgreSQL\bin;..\..\extern\debea\vc_release_static;..\..\extern\sfml\extlibs\bin;
 
 #ifdef WIN32

@@ -12,6 +12,7 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent)
 		entity		= ent; 
 		nodepath	= NULL;
 		collidable	= true;
+		ready_to_die= false;
 		timeToLive	= 25.0;
 		karma		= 0.5; //good(0) --> evil(1)
 		energy		= 0.0; //calm(0) --> exited(1)
@@ -37,17 +38,6 @@ OXStandAloneEntity::~OXStandAloneEntity()
 	boost::mutex::scoped_lock lock(m_mutex);
 }
 
-void OXStandAloneEntity::Delete()
-{
-	boost::mutex::scoped_lock lock(m_mutex);
-}
-
-void OXStandAloneEntity::Destroy()
-{
-	boost::mutex::scoped_lock lock(m_mutex);
-	//Delete from Escene, World and DB
-}
-
 void OXStandAloneEntity::OnStart()
 {
 	boost::mutex::scoped_lock lock(m_mutex);
@@ -68,13 +58,12 @@ void OXStandAloneEntity::OnUpdate()
 		delta_time					= current_timestamp - latestupdate_timestamp;
 
 		if (lived_time > timeToLive)
-		{	KillMyself();
-			return;					}
+			KillMyself();
 
 		latestupdate_timestamp = current_timestamp;
 	}
 
-	//Update entity // retomar, posible necesidad de mutex
+	//Update entity // retomar, posible necesidad de mutex, parece que algunas entidades no se mueven
 	float x, y, z;
 	this->GetPosition(x, y, z);
 	this->SetPosition(x+0.02f, y, z);
@@ -92,10 +81,19 @@ void OXStandAloneEntity::OnDeath()
 
 void OXStandAloneEntity::KillMyself()
 {	//I'm ready to die and ask my owner to destroy me and forget about me.
-	//Before the next frame Mainprod will destroy me.
-	//ready_to_die = true; //descomentar //retomar, provoca inconsistencia con CheckCollisions
+	//In the the next frame Mainprod will destroy me.
+	ready_to_die = true; //descomentar //retomar x, provoca inconsistencia con CheckCollisions
 
 //	ContentCreationController::Instance()->RemoveEntityFromCurrentWorld((core::IEntity*)this);
+}
+
+void OXStandAloneEntity::OnDestroy()
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	//if (entity)
+	//{	entity->Delete();
+	//}
 }
 
 void OXStandAloneEntity::ReceiveDamage()

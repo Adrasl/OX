@@ -61,11 +61,10 @@ namespace core
 				float GetTimeToLive()					{ boost::mutex::scoped_lock lock(m_mutex); return timeToLive;		}
 				void  SetTimeToLive(const float &value)	{ boost::mutex::scoped_lock lock(m_mutex); timeToLive = value;	}
 
-				virtual void Delete();
-				virtual void Destroy();
 				virtual void OnStart();
 				virtual void OnUpdate();
 				virtual void OnDeath();
+				virtual void OnDestroy();
 				virtual void OnCollisionCall(IEntity *otherEntity); 
 				virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo);
 				virtual void PlaySound(const std::string &label, const bool &loop);

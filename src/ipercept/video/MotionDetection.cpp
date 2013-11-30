@@ -106,7 +106,7 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 			int vel_x_here = cvmGet(velx_Mat, x, y); 
 			int vel_y_here = cvmGet(velx_Mat, x, y);
 			cvLine( show_frame, cvPoint(x, y), cvPoint(x+vel_x_here, y+vel_y_here), cvScalarAll(255));
-		}} , velx_Mat(NULL), vely_Mat(NULL)*/ //retomar parece haber un problema al acceder con cvmGet, tema de hilos?
+		}} , velx_Mat(NULL), vely_Mat(NULL)*/ //retomar parece haber un problema al acceder con cvmGet, alternativa más eficiente pero que falla, tema de hilos?
 	}
 
 	//MHI

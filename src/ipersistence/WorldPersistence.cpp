@@ -136,7 +136,7 @@ void WorldPersistence::AddEntity(core::IEntityPersistence &entity)
 }
 
 void WorldPersistence::RemoveEntity(core::IEntityPersistence &entity)
-{	//retomar petada
+{	
 	entity.Save();
 	{	boost::mutex::scoped_lock lock(m_mutex);
 		std::list<core::ipersistence::EntityPersistence>::iterator iter = entities.begin();
@@ -149,7 +149,7 @@ void WorldPersistence::RemoveEntity(core::IEntityPersistence &entity)
 			if (!found) iter++;
 		}
 		if ( iter != entities.end() ) 
-			entities.erase(iter); // retomar, no seguro si está borrando a quien debe borrar
+			entities.erase(iter); 
 	}
 	Changed();	
 }

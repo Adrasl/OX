@@ -11,6 +11,7 @@ ContentCreationController *ContentCreationController::instance = NULL;
 
 int ContentCreationController::entity_id=0;
 double ContentCreationController::time_start = 0;
+int ContentCreationController::z_step = 0;
 
 std::map<int, core::IEntityPersistence*> ContentCreationController::RTree_Entities_by_entityIDs;
 std::map<NatureOfEntity, RTree<int, float, 3, float> *> ContentCreationController::RTree_Entities_SpatialIndexes;
@@ -63,6 +64,7 @@ void ContentCreationController::Reset()
 {
 	Clear();
 
+
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
 		if(app)
@@ -107,9 +109,9 @@ void ContentCreationController::Update()
 		double timestamp = (double)clock()/CLOCKS_PER_SEC;
 		double dif_time = timestamp - time_start;
 
-		if (dif_time >= CCTIMELAPSE) //descomentar //retomar está fallando, puede que por maña carga o tema de hilos
+		if (dif_time >= CCTIMELAPSE) //retomar, en ocasiones parecen faltar entidades (puede que en el momento de la petición el try-lock de producción decida saltárselo)
 		{
-			//change theme of the world // retomar
+			//change theme of the world
 			//------------------------------------------------------
 			//------------------------------------------------------
 
@@ -118,12 +120,14 @@ void ContentCreationController::Update()
 			//------------------------------------------------------
 			//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
 			//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
+			entity_id++;
+			z_step++;
 			std::stringstream wop_newEntity;
-			wop_newEntity << "StandAloneEntity_" << entity_id++;
+			wop_newEntity << "StandAloneEntity_" << z_step;
 			core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
 			genesis->SetPsique(NatureOfEntity::STANDALONE);
 			genesis->SetModelData("teapot");
-			genesis->SetPosition(0,-20,0);
+			genesis->SetPosition(0,5,z_step);
 			genesis->SetScale(2.5);
 			genesis->Save();
 

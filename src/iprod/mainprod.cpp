@@ -66,8 +66,8 @@ Prod3DEntity			 *MainProd::user_entity	  = NULL;
 NodePath				 *MainProd::user_nodepath = NULL;
 core::IEntityPersistence *MainProd::user_dummyPersistence = NULL;
 std::vector<Prod3DEntity *> MainProd::scene_entities;
-std::map<Prod3DEntity*, NodePath> MainProd::scene_entities_nodepaths;
-std::map<NodePath, Prod3DEntity*>	MainProd::scene_nodepaths_entities;
+std::map<Prod3DEntity*, NodePath*> MainProd::scene_entities_nodepaths;
+std::map<NodePath*, Prod3DEntity*>	MainProd::scene_nodepaths_entities;
 bool MainProd::use_master_display = true;
 Prod3DWindow*	 MainProd::master_prod3Dwindow=NULL;
 WindowFramework* MainProd::master_pandawindow=NULL;
@@ -99,6 +99,7 @@ std::map< const CollisionSolid *, core::corePDU3D<double> > MainProd::avatar_col
 NodePath *MainProd::avatar_current_graphicNodePath = NULL;
 std::map< const CollisionSolid *, Prod3DEntity* > MainProd::entities_collider_array;
 std::vector< Prod3DEntity * > MainProd::entity_collidable_array_to_register;
+std::vector< Prod3DEntity * > MainProd::entity_array_to_be_loaded;
 std::vector<NodePath*> MainProd::testnodepaths;
 bool MainProd::insert_now = false;
 
@@ -304,7 +305,8 @@ void MainProd::Iterate()
 	{
 		#ifndef _DEBUG
 		UpdateEntities();  
-		CheckCollisions(); 
+		//CheckCollisions(); 
+		ProcessProd3DEntitiesToBeLoadedQueue();
 		#endif
 		////-----
 		//if (insert_now)
@@ -411,19 +413,19 @@ void MainProd::DoInit()
 
 void MainProd::UpdateEntities() 
 {
-	for (std::vector< Prod3DEntity * >::iterator iter = scene_entities.begin(); iter != scene_entities.end(); iter++) //retomar, el remove da problemas, problemas
+	for (std::vector< Prod3DEntity * >::iterator iter = scene_entities.begin(); iter != scene_entities.end(); ) //retomar x, el remove da problemas, problemas 
 	{	if (*iter)
-		{	if (!((*iter)->IsReadyToDie()))
+		{	if ((*iter)->IsReadyToDie())
 			{
-				(*iter)->OnUpdate();
-				//iter++;
+				IEntity *entity_to_remove = (IEntity*)(*iter);
+				PrivateRemoveEntityFromCurrentWorld(entity_to_remove);
+				int i = 666;
 			}
-			//else
-			//{	IEntity *entity_to_remove = (IEntity*)(*iter);
-			//	scene_entities.erase(iter);
-			//	PrivateRemoveEntityFromCurrentWorld(entity_to_remove);
-			//	int i = 666;
-			//}
+			else
+			{	
+				(*iter)->OnUpdate();
+				iter++;
+			}
 		}
 	}
 }
@@ -524,13 +526,13 @@ void MainProd::RemoveEntityFromScene(Prod3DEntity * entity)
 {	
 	if (entity)
 	{
-		NodePath *np = entity->GetNodePath();
+		NodePath *np = entity->GetNodePath(); 
 
-		std::map<Prod3DEntity*, NodePath>::iterator iter_enp =	scene_entities_nodepaths.find(entity);
+		std::map<Prod3DEntity*, NodePath*>::iterator iter_enp =	scene_entities_nodepaths.find(entity);
 		if (iter_enp != scene_entities_nodepaths.end())
 			scene_entities_nodepaths.erase(iter_enp);
 
-		std::map<NodePath, Prod3DEntity*>::iterator iter_np = scene_nodepaths_entities.find(*np);
+		std::map<NodePath*, Prod3DEntity*>::iterator iter_np = scene_nodepaths_entities.find(np);
 		if (iter_np != scene_nodepaths_entities.end())
 			scene_nodepaths_entities.erase(iter_np);
 
@@ -538,11 +540,32 @@ void MainProd::RemoveEntityFromScene(Prod3DEntity * entity)
 		if (iter_e != scene_entities.end())
 			scene_entities.erase(iter_e);
 
-		if (np) np->remove_node();
+		if (np) 
+		{
+			np->hide();
+			np->stash();
+			np->detach_node();
+			np->remove_node(); //retomar //this is the only one needed, and for some reason it is not removing the node from the graph
+		}
 
-		entity->OnDestroy();
-		delete entity;
+		//entity->OnDestroy();
+
+		delete entity; //retomar, memory leak
 	}
+}
+
+void MainProd::AddProd3DEntityToLoadQueue(Prod3DEntity* entity)
+{
+	if (entity)
+		entity_array_to_be_loaded.push_back(entity);
+}
+
+void MainProd::ProcessProd3DEntitiesToBeLoadedQueue()
+{
+	for (std::vector< Prod3DEntity * >::iterator iter = entity_array_to_be_loaded.begin(); iter != entity_array_to_be_loaded.end(); iter++)
+		LoadEntityIntoScene((*iter));
+
+	entity_array_to_be_loaded.clear();
 }
 
 void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
@@ -567,10 +590,10 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 	//}
 	scene_entities.push_back(entity);
 	std::string data = entity->GetData();
-	NodePath new_model = pandawindows_array[1]->load_model(framework.get_models(),data.c_str());
+	NodePath *new_model = new NodePath(pandawindows_array[1]->load_model(framework.get_models(),data.c_str()));
 	scene_entities_nodepaths[entity]    = new_model;
 	scene_nodepaths_entities[new_model] = entity;
-	entity->SetNodePath(&(scene_entities_nodepaths[entity]));
+	entity->SetNodePath(scene_entities_nodepaths[entity]);
 	entity_collidable_array_to_register.push_back(entity);
 	//////////////////////CollisionSphere *collision_solid = new CollisionSphere(0,0,0,15);
 	//////////////////////std::stringstream wop;
@@ -587,18 +610,18 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 	//scene_entities_nodepaths[entity].set_scale(0.25,0.25,0.25);
 	//scene_entities_nodepaths[entity].set_pos(-8,42,0);
 
-	scene_entities_nodepaths[entity].reparent_to(pandawindows_array[1]->get_render());
+	scene_entities_nodepaths[entity]->reparent_to(pandawindows_array[1]->get_render());
 	std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
 	iter++;
 	while(iter != pandawindows_array.end())
 	{
-		scene_entities_nodepaths[entity].instance_to(iter->second->get_render());
+		scene_entities_nodepaths[entity]->instance_to(iter->second->get_render());
 		//iter->second->setup_trackball();//comment
 		iter++;
 	}
 	if (use_master_display)
 	{
-		scene_entities_nodepaths[entity].instance_to(master_pandawindow->get_render());
+		scene_entities_nodepaths[entity]->instance_to(master_pandawindow->get_render());
 	}
 }
 
@@ -1771,7 +1794,8 @@ void MainProd::InsertEntityIntoCurrentWorld(core::IEntity * ent)
 	if (prod3d_ent)
 	{	current_world->AddEntity(*(prod3d_ent->GetEntity()));
 		current_world->Save();
-		LoadEntityIntoScene(prod3d_ent);
+		AddProd3DEntityToLoadQueue(prod3d_ent);
+		//LoadEntityIntoScene(prod3d_ent); //retomar //encolar para el graphic_thread cree el nodo
 	}
 }
 void MainProd::RemoveEntityFromCurrentWorld(core::IEntity * ent)
@@ -1787,7 +1811,7 @@ void MainProd::PrivateRemoveEntityFromCurrentWorld(core::IEntity * ent)
 	if (prod3d_ent)
 	{	current_world->RemoveEntity(*(prod3d_ent->GetEntity()));
 		current_world->Save();
-		RemoveEntityFromScene(prod3d_ent); //retomar: detach, remove_nodes, etc
+		RemoveEntityFromScene(prod3d_ent); //retomar x: detach, remove_nodes, etc 
 	}
 }
 
@@ -1800,7 +1824,7 @@ void MainProd::LoadEntityFromCurrentWorld(core::IEntity * ent)
 		LoadEntityIntoScene(prod3d_ent);
 }
 
-//void MainProd::LoadEntityIntoScene(core::IEntityPersistence* ent) //Retomar, return *IEntity
+//void MainProd::LoadEntityIntoScene(core::IEntityPersistence* ent) 
 //{
 //	boost::mutex::scoped_lock lock(m_mutex);
 //	IEntityPersistence *ent;

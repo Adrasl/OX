@@ -75,7 +75,7 @@ void NavigationController::DoMainLoop()
 }
 
 void NavigationController::Iterate()
-{//descomentar
+{
 
 
 	////--------------------------- 2D OK, 3D NOK 
@@ -216,7 +216,7 @@ void NavigationController::Iterate()
 			double timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 			double dif_time = timestamp2 - timestamp;
 			//cout << "CALCULATING MESH: " << dif_time << "\n";
-			production->SetAvatar(graphic_node); // RETOMAR MEMORY LEAK SOSPECHOSO CONFIRMADO
+			production->SetAvatar(graphic_node); 
 			
 		}
 

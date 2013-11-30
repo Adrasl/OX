@@ -21,15 +21,19 @@ Prod3DEntity::~Prod3DEntity()
 
 void Prod3DEntity::Delete()
 {
+	if(nodepath)
+		delete nodepath;
 }
 
 void Prod3DEntity::OnDestroy()
 {
-	boost::mutex::scoped_lock lock(m_mutex);
 
-	if (entity)
-	{	entity->Delete();
-	}
+}
+
+bool Prod3DEntity::IsReadyToDie()
+{ 
+	boost::mutex::scoped_lock lock(m_mutex); 
+	return ready_to_die;
 }
 
 void Prod3DEntity::SetNodePath(NodePath *value)		

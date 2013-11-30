@@ -42,7 +42,7 @@ namespace core
 				void SetData(const std::string &value)	{ boost::mutex::scoped_lock lock(m_mutex); data = value;	}
 				
 				virtual bool IsCollidable()						{ boost::mutex::scoped_lock lock(m_mutex); return collidable;}
-				virtual bool IsReadyToDie()						{ boost::mutex::scoped_lock lock(m_mutex); return ready_to_die;}
+				virtual bool IsReadyToDie();
 				virtual void SetCollidable(const bool &value)	{ boost::mutex::scoped_lock lock(m_mutex); collidable =value;}
 
 				void SetPDU(const core::corePDU3D<double> &value);
