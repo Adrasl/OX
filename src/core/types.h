@@ -141,6 +141,42 @@ namespace core
 		}
 	};
 
+	/** \brief state protocol data unit */
+	template <class infoSound, class infoSoundbuffer> struct coreSound
+	{
+		infoSound *sound_data;
+		infoSoundbuffer *sound_buffer;
+		corePoint3D<double> position;
+		float pitch;
+		float amplitude;
+
+		coreSound()
+		{	sound_data = sound_buffer = NULL;
+			position.x = position.y = position.z = 0.0;
+			pitch = 1.0f;
+			amplitude = 100.0f;
+		}
+
+		coreSound(corePoint3D<double> position_, infoSound* sound_data_, infoSoundbuffer *sound_buffer_, float pitch_ = 1.0, float amplitude_ = 100)
+		{
+			sound_data = sound_data_;
+			sound_buffer = sound_buffer_;
+			position = position_;
+			pitch = pitch_;
+			amplitude = amplitude_;
+		}
+
+		coreSound& coreSound::operator=(const coreSound& value) 
+		{	if(this != &value)
+			{	sound_data = value.sound_data;
+				position = value.position;
+				pitch = value.pitch;
+				amplitude = value.amplitude;
+			}
+			return *this;
+		}
+	};
+
 
 
 	class UserDataElement

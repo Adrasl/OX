@@ -268,6 +268,8 @@ void MainProd::DoMainLoop()
 		//Sound.SetRelativeToListener(true);
 		Sound.SetMinDistance(10.f);
 		Sound.SetAttenuation(0.75f);
+		Sound.SetPitch(1.0f);
+		Sound.SetVolume(100.f);
 		//Recorder.Start();
 		//------------------------------------------------------
 

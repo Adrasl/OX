@@ -12,7 +12,7 @@ using namespace cv;
 
 PresenceDetection::PresenceDetection(IPerceptVideo* video_perception, const int camera_index)
 : v_perception(video_perception), cam_index(camera_index), initialized(false), stop_requested(false),/* ENCARAFaceDetector(NULL),*/ 
-  image(NULL), background_model(NULL), bg_trainning_model(NULL), background_image(NULL), foreground_img(NULL),  background_trainning_frames(0), updated(false), latest_bkg(NULL),
+  image(NULL), background_model(NULL), bg_trainning_model(NULL), background_image(NULL), foreground_img(NULL),  background_trainning_frames(0), updated(false), latest_bkg(NULL), background_is_trained(0), background_train_lapse(0),
   last_image(NULL), last_foreground_image(NULL), first_time(true), foreground_moments(NULL), presence_area(0.0)
 {
 	presenceRec_a.x = -1; presenceRec_a.y = -1;
@@ -79,20 +79,21 @@ void PresenceDetection::DoInit()
 void PresenceDetection::DoMainLoop()
 {
 	initialized = true;
-	int is_trained = 0;
 
-	int train_lapse = 0;
+	background_is_trained = 0;
+	background_train_lapse = 0;
+
 	while(!stop_requested)
 	{
 		Iterate();
-		if( train_lapse > 0 )
-			train_lapse--;
+		if( background_train_lapse > 0 )
+			background_train_lapse--;
 		else
 		{	
-			if (is_trained < 2) 
-			{	TrainBackground();
-				train_lapse = TRAIN_PERIOD;	
-				is_trained++;
+			if (background_is_trained < 2) 
+			{	DoTrainBackground();
+				background_train_lapse = TRAIN_PERIOD;	
+				background_is_trained++;
 			}
 		}
 		m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(10));
@@ -316,20 +317,33 @@ void PresenceDetection::GetPresenceRec(corePoint2D<int> &corner_a, corePoint2D<i
 	corner_b.x = presenceRec_b.x;
 	corner_b.y = presenceRec_b.y;
 }
-void PresenceDetection::TrainBackground()
+
+void PresenceDetection::DoTrainBackground()
 {
 	boost::try_mutex::scoped_lock lock(m_mutex);
 	if (lock)
 	{
 		background_trainning_frames = 0;
-		
 		//CvBGStatModel *background_model = background_model;
 
 		if (!background_model && image)
 			background_model = cvCreateGaussianBGModel(image ,background_params);
-
 		//if(old_background_model)
 		//	cvReleaseBGStatModel( &old_background_model );
+	}
+}
+
+void PresenceDetection::TrainBackground()
+{
+	boost::try_mutex::scoped_lock lock(m_mutex);
+	if (lock)
+	{
+		background_is_trained = 0;
+		background_train_lapse = 0;
+		first_time = true;
+		cvReleaseBGStatModel(&background_model);
+		cvReleaseBGStatModel(&bg_trainning_model);
+		background_model = bg_trainning_model = NULL;
 	}
 }
 

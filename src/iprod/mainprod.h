@@ -236,6 +236,11 @@ namespace core
 				static WindowFramework*	master_pandawindow;
 				static NodePath master_camera;
 
+				//music stuff
+				std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_melody_samples;
+				std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_base_samples;
+				std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_decoration_samples;
+
 		};
 
 	}

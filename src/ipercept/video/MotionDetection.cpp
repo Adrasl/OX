@@ -168,7 +168,7 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
     // iterate through the motion components,
     // One more iteration (i == -1) corresponds to the whole image (global motion)
     //for( i = -1; i < seq->total; i++ ) {
-	for( i = 0; i < seq->total; i++ ) {
+	for( i = -1; i < seq->total; i++ ) {
 
         if( i < 0 ) { // case of the whole image
             comp_rect = cvRect( 0, 0, size.width, size.height );

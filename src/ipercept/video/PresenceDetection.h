@@ -52,6 +52,7 @@ namespace core
 				void Iterate();
 				void Capture();
 				virtual bool Apply(/* Image input, const float &scale, int &pos_x, int &pos_y*/);
+				virtual void DoTrainBackground();
 
 				void detect_and_draw();
 
@@ -76,7 +77,9 @@ namespace core
 				 double presence_area, 
 					    presence_orientation, 
 						presence_eccentricity;
-				 int background_trainning_frames;
+				 int background_trainning_frames, 
+					 background_is_trained,
+					 background_train_lapse;
 				 bool updated, first_time;
 		};
 	}

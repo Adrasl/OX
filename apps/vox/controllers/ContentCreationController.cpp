@@ -130,10 +130,11 @@ void ContentCreationController::Update()
 			//change theme of the world
 			//------------------------------------------------------
 			if (app_mainpercept)
-			{
+			{	//retomar, make static
 				core::corePoint3D<double> head_pos, presence_center_of_mass, 
 							  space_bounding_box_min, space_bounding_box_max, space_center, 
 							  main_lateraldominance, main_orientation, main_eccentricity;
+				std::vector<MotionElement> motion_elements;
 
 				bool presence_detected = app_mainpercept->PresenceDetected();
 
@@ -143,6 +144,7 @@ void ContentCreationController::Update()
 				app_mainpercept->GetMainLateralDominance(main_lateraldominance);
 				app_mainpercept->GetMainOrientation(main_orientation);
 				app_mainpercept->GetMainEccentricity(main_eccentricity);
+				motion_elements = app_mainpercept->GetMotionElements(); //The first one is about the whole image
 				int i = 666;
 
 		
