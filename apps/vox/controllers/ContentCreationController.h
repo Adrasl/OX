@@ -35,8 +35,8 @@ class ContentCreationController
 	public:
 
 		static ContentCreationController *Instance();
-		void SetApp(IApplication *app_, IPercept *app_mainpercept_=NULL, IProd *app_mainprod_=NULL) 
-		{app = app_; app_mainpercept=app_mainpercept_; app_mainprod=app_mainprod_;}
+		void SetApp(IApplication *app_, core::IApplicationConfiguration* iapp_config_=NULL, IPercept *app_mainpercept_=NULL, IProd *app_mainprod_=NULL) 
+		{app = app_; iapp_config = iapp_config_; app_mainpercept=app_mainpercept_; app_mainprod=app_mainprod_;}
 
 		static void Update();
 		static void Clear();
@@ -74,6 +74,7 @@ class ContentCreationController
 	private:
 
 		static IApplication *app;
+		static IApplicationConfiguration* iapp_config;
 		static IPercept		*app_mainpercept;
 		static IProd		*app_mainprod;
 

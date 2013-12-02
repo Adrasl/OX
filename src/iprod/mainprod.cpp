@@ -603,6 +603,8 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 	scene_entities.push_back(entity);
 	std::string data = entity->GetData();
 	NodePath *new_model = new NodePath(pandawindows_array[1]->load_model(framework.get_models(),data.c_str()));
+	pandawindows_array[1]->load_model(*new_model, "panda-walk4");
+	//pandawindows_array[1]->loop_animations(0);
 	scene_entities_nodepaths[entity]    = new_model;
 	scene_nodepaths_entities[new_model] = entity;
 	entity->SetNodePath(scene_entities_nodepaths[entity]);
@@ -635,6 +637,8 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 	{
 		scene_entities_nodepaths[entity]->instance_to(master_pandawindow->get_render());
 	}
+
+	pandawindows_array[1]->loop_animations(0);
 }
 
 bool MainProd::RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *world)
@@ -1324,8 +1328,8 @@ void MainProd::LoadDefaultScene()
 		//pandaActor4 = pandawindows_array[1]->get_render().attach_new_node(pandaActor4.node());
 		//------------------------
 
-		pandawindows_array[1]->load_model(pandaActor, "panda-walk4");
-		pandawindows_array[1]->loop_animations(0);
+		//pandawindows_array[1]->load_model(pandaActor, "panda-walk4");
+		//pandawindows_array[1]->loop_animations(0);
 
 
 		std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();

@@ -21,9 +21,9 @@ bool ConfigurationController::Load()
 	if ( app_config != NULL )
 	{
 		boost::filesystem::path b_ini_path = boost::filesystem::initial_path().string();
-		b_ini_path = b_ini_path / "/../../bin";
+		b_ini_path = b_ini_path / "//..//..//bin";
 		std::string ini_path = b_ini_path.normalize().string();
-		ini_path = ini_path + "/";
+		ini_path = ini_path + "//";
 		app_config->SetRootDirectory(ini_path);
 
 		std::stringstream wop_config;
@@ -158,12 +158,12 @@ bool ConfigurationController::Load()
 		}
 		else
 		{
-			app_config->SetDataDirectory(ini_path + "data/")  ;
-			app_config->SetModelDirectory(ini_path + "data/models/") ;
-			app_config->SetSoundDirectory(ini_path + "data/sound/") ;
-			app_config->SetImageDirectory(ini_path + "data/images/") ;
-			app_config->SetExternDirectory(ini_path + "../extern/") ;
-			app_config->SetUIResourceDirectory(ini_path + "data/resources/") ;
+			app_config->SetDataDirectory(ini_path + "data//")  ;
+			app_config->SetModelDirectory(ini_path + "data//models//") ;
+			app_config->SetSoundDirectory(ini_path + "data//sound//") ;
+			app_config->SetImageDirectory(ini_path + "data//images//") ;
+			app_config->SetExternDirectory(ini_path + "..//extern//") ;
+			app_config->SetUIResourceDirectory(ini_path + "data//resources//") ;
 			app_config->SetSDHost("localhost");
 			app_config->SetSDPort("5432");
 			app_config->SetSDName("voxDB");

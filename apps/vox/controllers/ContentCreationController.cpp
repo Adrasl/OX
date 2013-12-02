@@ -5,6 +5,7 @@
 #define CCTIMELAPSE 5.0
 
 IApplication* ContentCreationController::app = NULL;
+IApplicationConfiguration* ContentCreationController::iapp_config=NULL;
 IPercept* ContentCreationController::app_mainpercept=NULL;
 IProd* ContentCreationController::app_mainprod=NULL;
 IUserPersistence* ContentCreationController::current_user=NULL;
@@ -153,10 +154,15 @@ void ContentCreationController::Update()
 					std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();
 					if (background_sounds.size() == 0)
 					{
-						if (dif_time > 3)
-							background_sound = app_mainprod->AddBackgroundSound("f://etc//repos//OX//M0010.wav");
-						else
-							background_sound = app_mainprod->AddBackgroundSound("f://etc//repos//OX//motor.wav");
+						std::stringstream s_image;
+						if ( iapp_config )
+							s_image << iapp_config->GetSoundDirectory() << "M0010.wav";
+						background_sound = app_mainprod->AddBackgroundSound(s_image.str());
+						int i = 666;
+						//if (dif_time > 3)
+						//	background_sound = app_mainprod->AddBackgroundSound("f://etc//repos//OX//M0010.wav");
+						//else
+						//	background_sound = app_mainprod->AddBackgroundSound("f://etc//repos//OX//motor.wav");
 					}
 					
 				}
@@ -167,7 +173,7 @@ void ContentCreationController::Update()
 
 			if (app_mainprod)
 			{
-				app_mainprod->SetPitchBackgroundSound( background_sound,(float)dif_time*0.1);
+				//app_mainprod->SetPitchBackgroundSound( background_sound,(float)dif_time*0.1);
 			}
 
 			//------------------------------------------------------
@@ -179,16 +185,23 @@ void ContentCreationController::Update()
 			//------------------------------------------------------
 			//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
 			//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
+			std::stringstream model_url;
+			if ( iapp_config )
+				model_url << iapp_config->GetModelDirectory() << "cube_star.egg";			
+			
 			entity_id++;
 			z_step++;
 			std::stringstream wop_newEntity;
 			wop_newEntity << "StandAloneEntity_" << z_step;
 			core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
 			genesis->SetPsique(NatureOfEntity::STANDALONE);
-			genesis->SetModelData("teapot");
+			//genesis->SetModelData("cube_star");
+			genesis->SetModelData("panda-model");
+			//genesis->SetModelData("teapot");
+			//genesis->SetModelData("/F/etc/repos/OX/bin/data/models/cube_star.egg");
 			genesis->SetSoundDataCreate("f://etc//repos//OX//motor_old.wav");
 			genesis->SetPosition(0,10,z_step);
-			genesis->SetScale(1.5);
+			genesis->SetScale(0.005);
 			genesis->Save();
 
 			core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis, (float)z_step/5.0 );
