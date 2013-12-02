@@ -103,6 +103,10 @@ std::vector< Prod3DEntity * > MainProd::entity_array_to_be_loaded;
 std::vector<NodePath*> MainProd::testnodepaths;
 bool MainProd::insert_now = false;
 
+std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> > MainProd::music_melody_samples; 
+std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > MainProd::music_base_samples;
+std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > MainProd::music_decoration_samples;
+
 MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[]) : mesh_factory(NULL)
 {
 	m_argc = argc;
@@ -653,7 +657,7 @@ bool MainProd::RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *
 			//////////}
 			SetUpUser();
 
-			Sound.Play();
+			//Sound.Play(); //retomar
 
 			boost::filesystem::path data_path = boost::filesystem::initial_path();
 			data_path = data_path / "../../bin/data"; 
@@ -755,7 +759,7 @@ bool MainProd::RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *
 		// Load Scene
 		//LoadDefaultScene();
 		initialized = true;
-		Sound.Play();
+		//Sound.Play(); //retomar
 		return true;
 	}
 	return false;
@@ -1101,161 +1105,165 @@ void MainProd::CreateDefaultWindows(int num_windows)
 
 void MainProd::ClearScene()
 {	
-	boost::mutex::scoped_lock lock(m_mutex);
 	
-	initialized = false;
-	Sound.Stop();	
-	ClearAvatarModel();
-
-	/*if (collision_traverser)
-	{	//collision_traverser->clear_colliders();
-		//delete collision_traverser;
-		//collision_traverser = NULL;
-	}
-	if (collision_handler_queue)
 	{
-		//collision_handler_queue->clear_entries();
-		//delete collision_handler_queue;
-		//collision_handler_queue = NULL;
-	}*/
+		boost::mutex::scoped_lock lock(m_mutex);
+		
+		initialized = false;
+		Sound.Stop();	
+		InternalRemoveAllBackgroundSound();
+		ClearAvatarModel();
 
-	//{
-	//	environment = NodePath(NULL);
-	//	pandaActor = NodePath(NULL);
-	//	pandaActor2 = NodePath(NULL);
-	//	pandaActor3 = NodePath(NULL);
-	//	pandaActor4 = NodePath(NULL);
-	//}
-
-	if(use_master_display)
-	{
-		NodePathCollection npc = master_pandawindow->get_render().get_children();
-		npc.detach();
-		master_camera.reparent_to(master_pandawindow->get_render());
-	}
-
-	for (unsigned int i = 1; i <= pandawindows_array.size(); i++)
-	{
-		if (pandawindows_array[i])
-		{
-			NodePathCollection npc = pandawindows_array[i]->get_render().get_children();
-			npc.detach();
-			windowcamera_array[i].reparent_to(pandawindows_array[i]->get_render());
+		/*if (collision_traverser)
+		{	//collision_traverser->clear_colliders();
+			//delete collision_traverser;
+			//collision_traverser = NULL;
 		}
+		if (collision_handler_queue)
+		{
+			//collision_handler_queue->clear_entries();
+			//delete collision_handler_queue;
+			//collision_handler_queue = NULL;
+		}*/
+
+		//{
+		//	environment = NodePath(NULL);
+		//	pandaActor = NodePath(NULL);
+		//	pandaActor2 = NodePath(NULL);
+		//	pandaActor3 = NodePath(NULL);
+		//	pandaActor4 = NodePath(NULL);
+		//}
+
+		if(use_master_display)
+		{
+			NodePathCollection npc = master_pandawindow->get_render().get_children();
+			npc.detach();
+			master_camera.reparent_to(master_pandawindow->get_render());
+		}
+
+		for (unsigned int i = 1; i <= pandawindows_array.size(); i++)
+		{
+			if (pandawindows_array[i])
+			{
+				NodePathCollection npc = pandawindows_array[i]->get_render().get_children();
+				npc.detach();
+				windowcamera_array[i].reparent_to(pandawindows_array[i]->get_render());
+			}
+		}
+
+		if (user_nodepath)
+			delete user_nodepath;
+		user_nodepath = new NodePath("zip_nada");
+		user_nodepath->reparent_to(pandawindows_array[1]->get_render());
+
+		std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
+		iter++;
+		while(iter != pandawindows_array.end())
+		{	user_nodepath->instance_to(iter->second->get_render());	
+			iter++;				
+		}
+		if (use_master_display)
+			user_nodepath->instance_to(master_pandawindow->get_render());
+
+		//ContentCreationController::Instance()->Reset();
+
+		//initialized = true;
+		//////////////////initialized = false;
+		////////////////////BASURA COCHINA! solo funciona la ventana principal
+		//////////////////Thread *khvkjaehvgkjj = Thread::get_current_thread();
+		//////////////////graphic_thread;
+
+		//////////////////std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
+		//////////////////NodePathCollection npc = iter->second->get_render().get_children();
+		//////////////////int nnpc = npc.size();
+		//////////////////NodePath camcaca = iter->second->get_camera_group();
+		////////////////////npc.clear();
+		//////////////////npc.detach();
+		//////////////////camcaca.reparent_to(iter->second->get_render());
+		//////////////////int nnpc_ = npc.size();
+		//////////////////iter++;
+		//////////////////while(iter != pandawindows_array.end())
+		//////////////////{
+		//////////////////	NodePathCollection npc2 = iter->second->get_render().get_children();
+		//////////////////	int nnpc2 = npc2.size();
+		//////////////////	//for (int i = 0; i < npc2.size(); i++)
+		//////////////////	//{
+		//////////////////	//	NodePath cavca = npc2[i];
+		//////////////////	//	std::string MIERDANAME = cavca.get_name();
+		//////////////////	//	int peo;
+		//////////////////	//}
+		//////////////////	//npc2.clear();
+		//////////////////	NodePath camcacai = iter->second->get_camera_group();
+		//////////////////	npc2.detach();
+		//////////////////	camcacai.reparent_to(iter->second->get_render());
+		//////////////////	int nnpc2_ = npc2.size();
+		//////////////////	//.detach();
+		//////////////////	/////////////iter->second->get_render().get_children().detach();
+		//////////////////	iter++;
+		//////////////////} 
+		//environment.detach_node();
+		//pandaActor4.detach_node();
+		//environment.remove_node();
+		//pandaActor4.remove_node();
+
+		//////////////std::streambuf buffer;
+		//////////////std::ostream oop(&buffer);
+		//////////////environment.write_bam_stream(oop);
+		//////////////int peo;
+
+		//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
+		//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
+		//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
+		//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
+		//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
+		//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
+		//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
+		//boost::mutex::scoped_lock lock(m_mutex);
+		////std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
+		////while(iter != pandawindows_array.end())
+		////{
+		////	//iter->second->get_render().clear_model_nodes();
+		////	//iter->second->get_render().flatten_strong();
+		////	iter++;
+		////}
+		//environment.detach_node(graphic_thread);
+		//pandaActor.detach_node(graphic_thread);
+		//pandaActor2.detach_node(graphic_thread);
+		//pandaActor3.detach_node(graphic_thread);
+		//pandaActor4.detach_node(graphic_thread);
+
+		//environment.remove_node(graphic_thread);
+		//pandaActor.remove_node(graphic_thread);
+		//pandaActor2.remove_node(graphic_thread);
+		//pandaActor3.remove_node(graphic_thread);
+		//pandaActor4.remove_node(graphic_thread);
+
+		//std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
+		//while(iter != pandawindows_array.end())
+		//{
+		//	iter->second->get_render().get_children().detach();
+
+		//	iter++;
+		//} 
+
+		//for (int i = 0; i < pandawindows_array.size(); i++)
+		//{
+		//	pandawindows_array[i]->get_render().get_children().detach();
+		//	windowcamera_array[i].reparent_to(pandawindows_array[i]->get_render());
+		//}
+
+		//for (int i = 0; i < pandawindows_array.size(); i++)
+		//{
+		//	int n_children = pandawindows_array[i]->get_render().get_num_children();
+		//	for (int c = 0; c < n_children; c++)
+		//	{
+		//		NodePath np = pandawindows_array[i]->get_render().get_child(c);
+		//		if ( (np == environment) || (np == pandaActor) || (np == pandaActor2) || (np == pandaActor3) || (np == pandaActor4) )
+		//			np.detach_node();//.get_children().detach();
+		//	}
+		//	//windowcamera_array[i].reparent_to(pandawindows_array[i]->get_render());
+		//}
 	}
-
-	if (user_nodepath)
-		delete user_nodepath;
-	user_nodepath = new NodePath("zip_nada");
-	user_nodepath->reparent_to(pandawindows_array[1]->get_render());
-
-	std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
-	iter++;
-	while(iter != pandawindows_array.end())
-	{	user_nodepath->instance_to(iter->second->get_render());	
-		iter++;				
-	}
-	if (use_master_display)
-		user_nodepath->instance_to(master_pandawindow->get_render());
-
-	//ContentCreationController::Instance()->Reset();
-
-	//initialized = true;
-	//////////////////initialized = false;
-	////////////////////BASURA COCHINA! solo funciona la ventana principal
-	//////////////////Thread *khvkjaehvgkjj = Thread::get_current_thread();
-	//////////////////graphic_thread;
-
-	//////////////////std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
-	//////////////////NodePathCollection npc = iter->second->get_render().get_children();
-	//////////////////int nnpc = npc.size();
-	//////////////////NodePath camcaca = iter->second->get_camera_group();
-	////////////////////npc.clear();
-	//////////////////npc.detach();
-	//////////////////camcaca.reparent_to(iter->second->get_render());
-	//////////////////int nnpc_ = npc.size();
-	//////////////////iter++;
-	//////////////////while(iter != pandawindows_array.end())
-	//////////////////{
-	//////////////////	NodePathCollection npc2 = iter->second->get_render().get_children();
-	//////////////////	int nnpc2 = npc2.size();
-	//////////////////	//for (int i = 0; i < npc2.size(); i++)
-	//////////////////	//{
-	//////////////////	//	NodePath cavca = npc2[i];
-	//////////////////	//	std::string MIERDANAME = cavca.get_name();
-	//////////////////	//	int peo;
-	//////////////////	//}
-	//////////////////	//npc2.clear();
-	//////////////////	NodePath camcacai = iter->second->get_camera_group();
-	//////////////////	npc2.detach();
-	//////////////////	camcacai.reparent_to(iter->second->get_render());
-	//////////////////	int nnpc2_ = npc2.size();
-	//////////////////	//.detach();
-	//////////////////	/////////////iter->second->get_render().get_children().detach();
-	//////////////////	iter++;
-	//////////////////} 
-	//environment.detach_node();
-	//pandaActor4.detach_node();
-	//environment.remove_node();
-	//pandaActor4.remove_node();
-
-	//////////////std::streambuf buffer;
-	//////////////std::ostream oop(&buffer);
-	//////////////environment.write_bam_stream(oop);
-	//////////////int peo;
-
-	//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
-	//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
-	//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
-	//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
-	//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
-	//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
-	//BASURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!
-	//boost::mutex::scoped_lock lock(m_mutex);
-	////std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
-	////while(iter != pandawindows_array.end())
-	////{
-	////	//iter->second->get_render().clear_model_nodes();
-	////	//iter->second->get_render().flatten_strong();
-	////	iter++;
-	////}
-	//environment.detach_node(graphic_thread);
-	//pandaActor.detach_node(graphic_thread);
-	//pandaActor2.detach_node(graphic_thread);
-	//pandaActor3.detach_node(graphic_thread);
-	//pandaActor4.detach_node(graphic_thread);
-
-	//environment.remove_node(graphic_thread);
-	//pandaActor.remove_node(graphic_thread);
-	//pandaActor2.remove_node(graphic_thread);
-	//pandaActor3.remove_node(graphic_thread);
-	//pandaActor4.remove_node(graphic_thread);
-
-	//std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
-	//while(iter != pandawindows_array.end())
-	//{
-	//	iter->second->get_render().get_children().detach();
-
-	//	iter++;
-	//} 
-
-	//for (int i = 0; i < pandawindows_array.size(); i++)
-	//{
-	//	pandawindows_array[i]->get_render().get_children().detach();
-	//	windowcamera_array[i].reparent_to(pandawindows_array[i]->get_render());
-	//}
-
-	//for (int i = 0; i < pandawindows_array.size(); i++)
-	//{
-	//	int n_children = pandawindows_array[i]->get_render().get_num_children();
-	//	for (int c = 0; c < n_children; c++)
-	//	{
-	//		NodePath np = pandawindows_array[i]->get_render().get_child(c);
-	//		if ( (np == environment) || (np == pandaActor) || (np == pandaActor2) || (np == pandaActor3) || (np == pandaActor4) )
-	//			np.detach_node();//.get_children().detach();
-	//	}
-	//	//windowcamera_array[i].reparent_to(pandawindows_array[i]->get_render());
-	//}
 }
 
 void MainProd::LoadEmptyScene()
@@ -1337,7 +1345,7 @@ void MainProd::LoadDefaultScene()
 			iter++;
 		}
 		initialized = true;
-		Sound.Play();	
+		//Sound.Play();	 //retomar
 	}
 }
 
@@ -2172,3 +2180,106 @@ void MainProd::RegisterEntity(std::map< int, std::vector<corePDU3D<double>> > so
 {}
 void MainProd::CreateAndRegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
 {}
+
+
+std::vector<int>  MainProd::GetBackgroundSounds()
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	vector<int> result;
+
+	for (std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.begin(); iter != music_melody_samples.end(); iter++)
+		result.push_back(iter->first);
+
+	return result;
+}
+
+int  MainProd::AddBackgroundSound(const std::string &file_name, const double &time_lerp)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	if (file_name != "")
+	{
+		//Buffer
+		bool error_loadfromfile = false;
+		sf::SoundBuffer *new_buffer = new sf::SoundBuffer();
+		if ( (new_buffer) && (!new_buffer->LoadFromFile(file_name)))
+			error_loadfromfile = true;		
+		unsigned int chan = new_buffer->GetChannelsCount();
+
+		if (!error_loadfromfile)
+		{
+			core::corePoint3D<double> position;
+			position.x = 0; position.y = 0; position.z = 0;
+
+			//Sound
+			sf::Sound *new_sound = new sf::Sound();
+			new_sound->SetBuffer(*new_buffer);
+			new_sound->SetLoop(true);
+			new_sound->SetPosition(position.x, position.y, position.z);
+			new_sound->SetRelativeToListener(false);
+			new_sound->SetMinDistance(10.f);
+			new_sound->SetAttenuation(0.75f);
+			new_sound->SetPitch(1.0f);
+			new_sound->SetVolume(100.f);
+
+			//RESULT
+			core::coreSound<sf::Sound, sf::SoundBuffer> new_background_melody(position, new_sound, new_buffer,true, false, 1.0, 100, 10.0, 0.75);
+			music_melody_samples[(int)&new_background_melody] = new_background_melody;
+
+			new_sound->Play();
+
+			return (int)&new_background_melody;
+		} 
+	}
+	return -1;
+}
+
+void MainProd::SetPitchBackgroundSound(const int &id, const float &value, const double &time_lerp)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.find(id);
+	if ((music_melody_samples.size() > 0) && (iter != music_melody_samples.end()))
+	{
+		iter->second.pitch = value;
+		iter->second.sound_data->SetPitch(value);
+	}
+}
+void MainProd::SetAmplitudeBackgroundSound(const int &id, const float &value, const double &time_lerp)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.find(id);
+	if ((music_melody_samples.size() > 0) && (iter != music_melody_samples.end()))
+	{
+		iter->second.amplitude = value;
+		iter->second.sound_data->SetVolume(value);
+	}
+}
+void MainProd::RemoveBackgroundSound(const int &id, const double &time_lerp)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.find(id);
+	if ((music_melody_samples.size() > 0) && (iter != music_melody_samples.end()))	
+	{
+		if (iter->second.sound_data != NULL)
+			iter->second.sound_data->Stop();
+		delete (iter->second.sound_data); 
+		delete (iter->second.sound_buffer);
+		music_melody_samples.erase(iter);
+	}
+}
+void MainProd::RemoveAllBackgroundSound(const double &time_lerp)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	InternalRemoveAllBackgroundSound(time_lerp);
+}
+
+void MainProd::InternalRemoveAllBackgroundSound(const double &time_lerp)
+{
+	for (std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.begin(); music_melody_samples.size() > 0; )
+	{
+		if ( (iter != music_melody_samples.end()) && (iter->second.sound_data != NULL) )
+			iter->second.sound_data->Stop();
+		delete (iter->second.sound_data); 
+		delete (iter->second.sound_buffer);
+		music_melody_samples.erase(iter);
+	}
+}

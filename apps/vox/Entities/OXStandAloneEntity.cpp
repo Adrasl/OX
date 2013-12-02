@@ -4,7 +4,7 @@
 
 using namespace core::iprod;
 
-OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent)
+OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const float &pitch, const float &amplitude)
 {
 
 		boost::mutex::scoped_lock lock(m_mutex);
@@ -31,11 +31,38 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent)
 			entity->Save();
 		}
 
+		PrepareSounds();
+		SetPitch(pitch);
+		SetVolume(amplitude);
+
+		if (sound_create.sound_data)
+			sound_create.sound_data->Play();
+
 }
 
 OXStandAloneEntity::~OXStandAloneEntity()
 {
 	boost::mutex::scoped_lock lock(m_mutex);
+}
+
+void OXStandAloneEntity::SetPitch(const float &value)
+{
+	sound_create.pitch = value;
+	sound_destroy.pitch = value;
+	sound_idle.pitch = value;
+	sound_touch.pitch = value;
+
+	UpdateSoundInfo();
+}
+
+void OXStandAloneEntity::SetVolume(const float &value)
+{
+	sound_create.amplitude = value;
+	sound_destroy.amplitude = value;
+	sound_idle.amplitude = value;
+	sound_touch.amplitude = value;
+
+	UpdateSoundInfo();
 }
 
 void OXStandAloneEntity::OnStart()
@@ -61,6 +88,9 @@ void OXStandAloneEntity::OnUpdate()
 			KillMyself();
 
 		latestupdate_timestamp = current_timestamp;
+
+		if (sound_create.sound_data)
+			sound_create.pitch = start_timestamp;
 	}
 
 	//Update entity // retomar, posible necesidad de mutex, parece que algunas entidades no se mueven

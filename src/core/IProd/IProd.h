@@ -42,6 +42,13 @@ namespace core
 			virtual void RegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data) = 0; //retomar regiter entity
 			virtual void CreateAndRegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data) = 0; //retomar regiter entity
 
+			virtual std::vector<int> GetBackgroundSounds() = 0;
+			virtual int  AddBackgroundSound(const std::string &file_name, const double &time_lerp=0.0) = 0;
+			virtual void SetPitchBackgroundSound(const int &id, const float &value, const double &time_lerp=0.0) = 0;
+			virtual void SetAmplitudeBackgroundSound(const int &id, const float &value, const double &time_lerp=0.0) = 0;
+			virtual void RemoveBackgroundSound(const int &id, const double &time_lerp=0.0) = 0;
+			virtual void RemoveAllBackgroundSound(const double &time_lerp=0.0) = 0;
+
 		private:
 
 

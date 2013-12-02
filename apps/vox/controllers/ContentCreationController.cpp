@@ -14,6 +14,7 @@ ContentCreationController *ContentCreationController::instance = NULL;
 int ContentCreationController::entity_id=0;
 double ContentCreationController::time_start = 0;
 int ContentCreationController::z_step = 0;
+int ContentCreationController::background_sound = 0;
 
 std::map<int, core::IEntityPersistence*> ContentCreationController::RTree_Entities_by_entityIDs;
 std::map<NatureOfEntity, RTree<int, float, 3, float> *> ContentCreationController::RTree_Entities_SpatialIndexes;
@@ -147,7 +148,26 @@ void ContentCreationController::Update()
 				motion_elements = app_mainpercept->GetMotionElements(); //The first one is about the whole image
 				int i = 666;
 
-		
+				if (app_mainprod)
+				{
+					std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();
+					if (background_sounds.size() == 0)
+					{
+						if (dif_time > 3)
+							background_sound = app_mainprod->AddBackgroundSound("f://etc//repos//OX//M0010.wav");
+						else
+							background_sound = app_mainprod->AddBackgroundSound("f://etc//repos//OX//motor.wav");
+					}
+					
+				}
+			}
+			else
+			{
+			}
+
+			if (app_mainprod)
+			{
+				app_mainprod->SetPitchBackgroundSound( background_sound,(float)dif_time*0.1);
 			}
 
 			//------------------------------------------------------
@@ -166,11 +186,13 @@ void ContentCreationController::Update()
 			core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
 			genesis->SetPsique(NatureOfEntity::STANDALONE);
 			genesis->SetModelData("teapot");
+			genesis->SetSoundDataCreate("f://etc//repos//OX//motor_old.wav");
 			genesis->SetPosition(0,10,z_step);
 			genesis->SetScale(1.5);
 			genesis->Save();
 
-			core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis);
+			core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis, (float)z_step/5.0 );
+
 			if (app) app->AddNewEntityIntoCurrentWorld((core::IEntity*)new_entity);
 			//------------------------------------------------------
 

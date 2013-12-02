@@ -55,7 +55,6 @@ namespace core
 	namespace iprod
 	{
 
-
 		////--------------------------
 		////SERIALIZE ME
 		//class NodoSerio 
@@ -127,6 +126,13 @@ namespace core
 				virtual void RegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data); //retomar regiter entity
 				virtual void CreateAndRegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data); //retomar regiter entity
 
+				virtual std::vector<int> GetBackgroundSounds();
+				virtual int  AddBackgroundSound(const std::string &file_name, const double &time_lerp=0.0);
+				virtual void SetPitchBackgroundSound(const int &id, const float &value, const double &time_lerp=0.0);
+				virtual void SetAmplitudeBackgroundSound(const int &id, const float &value, const double &time_lerp=0.0);
+				virtual void RemoveBackgroundSound(const int &id, const double &time_lerp=0.0);
+				virtual void RemoveAllBackgroundSound(const double &time_lerp=0.0);
+
 				static NodePath* CreateQuad();
 				static void AddTestQuad();
 			
@@ -135,6 +141,7 @@ namespace core
 				static void AddProd3DEntityToLoadQueue(Prod3DEntity* entity);
 				static void ProcessProd3DEntitiesToBeLoadedQueue();
 				static void PrivateRemoveEntityFromCurrentWorld(core::IEntity * ent);
+				static void InternalRemoveAllBackgroundSound(const double &time_lerp=0.0);
 
 				static core::IUserPersistence				*current_user;
 				static core::IWorldPersistence				*current_world;
@@ -219,17 +226,18 @@ namespace core
 				//static		string filename;
 
 				//sfml
-				static sf::SoundBuffer sound_Buffer;
 				static double listener_position[];
 				static double listener_target[];
+				//static sf::SoundBufferRecorder Recorder;
+				//static sf::SoundBuffer recordingBuffer;				
+				static sf::SoundBuffer sound_Buffer;
 				static double sound_pos[];
 				static sf::Sound Sound;
-				static PT(Fog) m_fog;
 
+
+				static PT(Fog) m_fog;
 				static unsigned int num_windows;
 
-				//static sf::SoundBufferRecorder Recorder;
-				//static sf::SoundBuffer recordingBuffer;
 				static float m_peo, m_caca;
 				static bool use_master_display;
 				static Prod3DWindow*	master_prod3Dwindow;
@@ -237,9 +245,9 @@ namespace core
 				static NodePath master_camera;
 
 				//music stuff
-				std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_melody_samples;
-				std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_base_samples;
-				std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_decoration_samples;
+				static std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> > music_melody_samples; //background sound tracks
+				static std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_base_samples;
+				static std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_decoration_samples;
 
 		};
 

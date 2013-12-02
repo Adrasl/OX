@@ -20,7 +20,16 @@ namespace core
 
 			virtual void SetName(const std::string &name_) = 0;
 			virtual void SetModelData(const std::string &value)	= 0;
+			virtual void SetSoundDataCreate(const std::string &value) = 0;
+			virtual void SetSoundDataDestroy(const std::string &value) = 0;
+			virtual void SetSoundDataTouch(const std::string &value) = 0;
+			virtual void SetSoundDataIdle(const std::string &value)	= 0;
 			virtual std::string GetModelData() = 0;
+			virtual std::string GetSoundDataCreate() = 0;
+			virtual std::string GetSoundDataDestroy() = 0;
+			virtual std::string GetSoundDataTouch() = 0;
+			virtual std::string GetSoundDataIdle() = 0;
+
 			virtual std::string GetName() = 0;
 
 			virtual void SetPosition(const float &x, const float &y, const float &z) = 0;

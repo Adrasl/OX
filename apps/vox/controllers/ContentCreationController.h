@@ -87,6 +87,7 @@ class ContentCreationController
 		float psique; //0-1 good-evil
 		float energy; //0-1 calm-energetic
 
+		static int background_sound;
 		void * ambient_soundsample;
 		void * background_color;
 

@@ -149,29 +149,50 @@ namespace core
 		corePoint3D<double> position;
 		float pitch;
 		float amplitude;
+		float min_distance;
+		float attetuation;
+		bool loop;
+		bool relative_to_listener;
+
 
 		coreSound()
-		{	sound_data = sound_buffer = NULL;
+		{	sound_data = NULL;
+			sound_buffer = NULL;
 			position.x = position.y = position.z = 0.0;
 			pitch = 1.0f;
 			amplitude = 100.0f;
+			loop = false;
+			relative_to_listener = true;
+			min_distance = 10.0f;
+			attetuation = 0.75f;
 		}
 
-		coreSound(corePoint3D<double> position_, infoSound* sound_data_, infoSoundbuffer *sound_buffer_, float pitch_ = 1.0, float amplitude_ = 100)
+		coreSound(corePoint3D<double> position_, infoSound* sound_data_, infoSoundbuffer *sound_buffer_, 
+			      bool loop_ = false, bool relative_to_listener_ = true, 
+				  float pitch_ = 1.0, float amplitude_ = 100, float min_distance_ = 10.0f, float attetuation_ = 0.75f)
 		{
 			sound_data = sound_data_;
 			sound_buffer = sound_buffer_;
 			position = position_;
 			pitch = pitch_;
 			amplitude = amplitude_;
+			loop = loop_;
+			relative_to_listener = relative_to_listener_;
+			min_distance = min_distance_;
+			attetuation = attetuation_;
 		}
 
 		coreSound& coreSound::operator=(const coreSound& value) 
 		{	if(this != &value)
 			{	sound_data = value.sound_data;
+				sound_buffer = value.sound_buffer;
 				position = value.position;
 				pitch = value.pitch;
 				amplitude = value.amplitude;
+				loop = value.loop;
+				relative_to_listener = value.relative_to_listener;
+				min_distance = value.min_distance;
+				attetuation = value.attetuation;
 			}
 			return *this;
 		}

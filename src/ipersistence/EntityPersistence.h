@@ -31,8 +31,18 @@ namespace core
 
 				virtual void SetName(const std::string &name_)			{ name = name_; Changed();			}
 				virtual void SetModelData(const std::string &value)		{ modeldata = value; Changed();		}
+				virtual void SetSoundDataCreate(const std::string &value)		{ sounddata_create = value; Changed();		}
+				virtual void SetSoundDataDestroy(const std::string &value)		{ sounddata_destroy = value; Changed();		}
+				virtual void SetSoundDataTouch(const std::string &value)		{ sounddata_touch = value; Changed();		}
+				virtual void SetSoundDataIdle(const std::string &value)			{ sounddata_idle = value; Changed();		}
+
+
 				virtual std::string GetName()							{ return name;						}
 				virtual std::string GetModelData()						{ return modeldata;					}
+				virtual std::string GetSoundDataCreate()				{ return sounddata_create;			} 
+				virtual std::string GetSoundDataDestroy()				{ return sounddata_destroy;			}
+				virtual std::string GetSoundDataTouch()					{ return sounddata_touch;			}
+				virtual std::string GetSoundDataIdle()					{ return sounddata_idle;			}
 				static dba::SQL *GetSchema()							{ return &schema;					}
 
 				virtual void SetPosition(const float &x, const float &y, const float &z)    { position_x = x; position_y = y; position_z = z; }

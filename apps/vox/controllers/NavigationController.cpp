@@ -206,6 +206,10 @@ void NavigationController::Iterate()
 		final_cam_pos.y = presence_center_of_mass.y + space_offset.y + com_to_head.y;
 		final_cam_pos.z = presence_center_of_mass.z + space_offset.z + com_to_head.z;
 
+		final_cam_pos.x = presence_center_of_mass.x + 20*com_to_head.x;
+		final_cam_pos.y = presence_center_of_mass.y + 20*com_to_head.y;
+		final_cam_pos.z = presence_center_of_mass.z + 20*com_to_head.z;
+
 		production->SetUserPosition(final_cam_pos);
 
 		// BLOCK 3: Creating the avatar

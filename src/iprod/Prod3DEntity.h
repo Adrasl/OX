@@ -21,6 +21,8 @@
 
 #include <boost/thread.hpp>
 
+#include <SFML/Audio.hpp>
+
 //#include <pandaFramework.h>
 
 namespace core
@@ -71,11 +73,16 @@ namespace core
 
 			protected:
 
+				void PrepareSounds();
+				core::coreSound<sf::Sound, sf::SoundBuffer> PrepareSound(std::string file_name);
+				void UpdateSoundInfo();
+
 				boost::mutex m_mutex;
 
 				std::string					data; //3d model file
 				core::IEntityPersistence	*entity;
 				NodePath					*nodepath;
+				coreSound<sf::Sound, sf::SoundBuffer> sound_create, sound_destroy, sound_idle, sound_touch;
 				core::corePDU3D<double>		pdu; //pos, vel, acc
 				bool						collidable;
 				bool						ready_to_die;

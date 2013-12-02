@@ -55,7 +55,7 @@ namespace core
 		{
 			public:
 
-				OXStandAloneEntity(core::IEntityPersistence* ent);
+				OXStandAloneEntity(core::IEntityPersistence* ent, const float &pitch=1.0f, const float &amplitude=100.0f);
 				virtual ~OXStandAloneEntity();
 
 				float GetTimeToLive()					{ boost::mutex::scoped_lock lock(m_mutex); return timeToLive;		}
@@ -74,6 +74,9 @@ namespace core
 				virtual void ReceivePleasure();
 				virtual void BeEated();
 				virtual void Copulate();
+
+				virtual void SetPitch(const float &value);
+				virtual void SetVolume(const float &value);
 
 
 			private:
