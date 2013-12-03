@@ -187,7 +187,12 @@ void ContentCreationController::Update()
 			//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
 			std::stringstream model_url;
 			if ( iapp_config )
-				model_url << iapp_config->GetModelDirectory() << "cube_star.egg";			
+				model_url << iapp_config->GetModelDirectory() << "tricube_004";	
+				//model_url << iapp_config->GetModelDirectory() << "panda-model";	
+				//model_url << iapp_config->GetModelDirectory() << "cubeanimated004";	
+			std::string modelpath = model_url.str();
+			Filename pandafile = Filename::from_os_specific(modelpath);
+			std::cout << pandafile.get_fullpath() << "\n";
 			
 			entity_id++;
 			z_step++;
@@ -195,13 +200,14 @@ void ContentCreationController::Update()
 			wop_newEntity << "StandAloneEntity_" << z_step;
 			core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
 			genesis->SetPsique(NatureOfEntity::STANDALONE);
-			//genesis->SetModelData("cube_star");
-			genesis->SetModelData("panda-model");
+			genesis->SetModelData(pandafile);
+			//genesis->SetModelData("cube_star.egg");
+			//genesis->SetModelData("panda-model");
 			//genesis->SetModelData("teapot");
 			//genesis->SetModelData("/F/etc/repos/OX/bin/data/models/cube_star.egg");
 			genesis->SetSoundDataCreate("f://etc//repos//OX//motor_old.wav");
 			genesis->SetPosition(0,10,z_step);
-			genesis->SetScale(0.005);
+			genesis->SetScale(1);
 			genesis->Save();
 
 			core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis, (float)z_step/5.0 );

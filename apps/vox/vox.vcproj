@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
+				Optimization="3"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories=".;..\..\src;..\..\extern\include;..\..\extern\panda3d\built\include;..\..\extern\panda3d\built\python\include;..\..\extern\include\opencv;..\..\extern\include\wxwidgets;..\..\extern\include\wxwidgets\msvc;..\..\extern\boost;..\..\extern\sfml\include;..\..\extern\debea\include;..\..\extern\spatial_index\include;..\..\extern\utils;..\..\extern;&quot;$(ENCARA2)\include\others&quot;;&quot;$(ENCARA2)\include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_MSVC; "

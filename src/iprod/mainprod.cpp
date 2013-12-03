@@ -8,6 +8,9 @@
 #include <string>
 #include <antialiasAttrib.h>
 
+#include "auto_bind.h"
+#include "AnimControlCollection.h"
+
 #ifdef WIN32
 #include <Aclapi.h>
 #endif
@@ -478,7 +481,7 @@ void MainProd::CheckCollisions()
 			(*iter)->GetEntity()->GetScale(scale);
 			scale += 0.001f;
 			LPoint3f centerOfEntity; centerOfEntity.zero();
-			CollisionSphere *collision_solid = new CollisionSphere(0,0,radius/(scale*2),radius/scale); 
+			CollisionSphere *collision_solid = new CollisionSphere(0,0,0,0.5*radius/scale); 
 			std::stringstream wop;
 			wop << "e" << dummy_erase_me ;
 			std::string nombre = wop.str();
@@ -602,9 +605,31 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 	//}
 	scene_entities.push_back(entity);
 	std::string data = entity->GetData();
-	NodePath *new_model = new NodePath(pandawindows_array[1]->load_model(framework.get_models(),data.c_str()));
-	pandawindows_array[1]->load_model(*new_model, "panda-walk4");
-	//pandawindows_array[1]->loop_animations(0);
+	std::stringstream model_url;
+	std::stringstream animation_url;
+	model_url << data << ".egg";	
+	animation_url << data << "-animation.egg";	
+
+	std::string model_path = model_url.str();
+	std::string animation_path = animation_url.str();
+	Filename model_file = Filename::from_os_specific(model_path);
+	Filename animation_file = Filename::from_os_specific(animation_path);
+
+	NodePath *new_model = new NodePath(pandawindows_array[1]->load_model(framework.get_models(),model_file));
+	//AnimControlCollection *anim_collection = new AnimControlCollection();
+	NodePath anim_np = pandawindows_array[1]->load_model(*new_model, animation_file);
+	//AnimControlCollection anim_collection;
+	//if (anim_np.get_error_type() == NodePath::ET_ok)
+	//{
+	//	//PT(AnimControl) animcontrol;
+	//	//anim_collection->clear_anims();
+	//	auto_bind((*new_model).node(), anim_collection, PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
+	//	PT(AnimControl) newAnim = anim_collection.get_anim(0);
+	//	newAnim->play();
+	//	newAnim->loop(true);
+	//	//anim_collection.loop_all(true); //retomar MEMORY LEAK
+	//	//pandawindows_array[1]->loop_animations(0);
+	//}
 	scene_entities_nodepaths[entity]    = new_model;
 	scene_nodepaths_entities[new_model] = entity;
 	entity->SetNodePath(scene_entities_nodepaths[entity]);
@@ -638,7 +663,9 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 		scene_entities_nodepaths[entity]->instance_to(master_pandawindow->get_render());
 	}
 
-	pandawindows_array[1]->loop_animations(0);
+	//if (anim_np.get_error_type() == NodePath::ET_ok)
+	//	anim_collection.loop_all(true); //retomar MEMORY LEAK
+	pandawindows_array[1]->loop_animations(PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
 }
 
 bool MainProd::RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *world)
@@ -1811,12 +1838,13 @@ void MainProd::InsertEntityIntoCurrentWorld(core::IEntity * ent)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 	Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
-	if (prod3d_ent)
+	if (prod3d_ent && current_world)
 	{	current_world->AddEntity(*(prod3d_ent->GetEntity()));
 		current_world->Save();
 		AddProd3DEntityToLoadQueue(prod3d_ent);
 		//LoadEntityIntoScene(prod3d_ent); //retomar //encolar para el graphic_thread cree el nodo
-	}
+	} else
+		delete ent;
 }
 void MainProd::RemoveEntityFromCurrentWorld(core::IEntity * ent)
 {

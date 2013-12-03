@@ -97,6 +97,9 @@ void OXStandAloneEntity::OnUpdate()
 	float x, y, z;
 	this->GetPosition(x, y, z);
 	this->SetPosition(x+0.02f, y, z);
+	float h, p, r;
+	this->GetOrientation(h, p, r);
+	this->SetOrientation(h+0.2f, p+1.0f, r+2.0f);
 
 
 	//for (std::map<core::IGuiWindow*, int>::iterator i = registered_windows.begin(); i != registered_windows.end(); i++)
