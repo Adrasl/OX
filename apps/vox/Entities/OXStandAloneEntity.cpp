@@ -4,6 +4,8 @@
 
 using namespace core::iprod;
 
+#define USER_HIT_THRESHOLD_STRENGHT 20.f
+
 OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const float &pitch, const float &amplitude)
 {
 
@@ -158,8 +160,16 @@ void OXStandAloneEntity::OnCollisionCall(IEntity *otherEntity)
 void OXStandAloneEntity::OnUserCollisionCall(core::corePDU3D<double> collisionInfo)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
-	this;
-	int testing = NatureOfEntity::STANDALONE;
+
+	bool the_user_is_good;
+	float collision_strengh = pow(pow(collisionInfo.velocity.x, 2) + pow(collisionInfo.velocity.y, 2) + pow(collisionInfo.velocity.z, 2), 0.5);
+
+	the_user_is_good = collision_strengh < USER_HIT_THRESHOLD_STRENGHT;
+	ContentCreationController::Instance()->EntityHadAGoodUserFeedback(the_user_is_good);
+
+	if (!the_user_is_good)
+		KillMyself();
+
 	//retomar
 }
 

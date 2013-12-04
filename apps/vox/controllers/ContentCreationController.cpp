@@ -3,6 +3,11 @@
 #include <debugger.h> 
 
 #define CCTIMELAPSE 5.0
+#define CCCHANGEBACKGROUNDMUSIC 60.0
+#define CC_MAX_HEADPOS 90.0
+#define CC_MIN_HEADPOS -10.0
+#define CC_MAX_PITCH 2.0
+#define CC_MIN_PITCH 1.0
 
 IApplication* ContentCreationController::app = NULL;
 IApplicationConfiguration* ContentCreationController::iapp_config=NULL;
@@ -13,13 +18,21 @@ IWorldPersistence* ContentCreationController::current_world=NULL;
 ContentCreationController *ContentCreationController::instance = NULL;
 
 int ContentCreationController::entity_id=0;
-double ContentCreationController::time_start = 0;
+double ContentCreationController::start_timestamp = 0;
+double ContentCreationController::latest_timestamp = 0;
+double ContentCreationController::current_timestamp = 0;
+double ContentCreationController::music_timestamp = 0;
+double ContentCreationController::createdEntity_timesptamp = 0;
+
 int ContentCreationController::z_step = 0;
 int ContentCreationController::background_sound = 0;
+float ContentCreationController::psique=1.0f; //0-1-2 good-neutral-evil
+float ContentCreationController::energy=0.5f; //0-1 calm-energetic
 
 std::map<int, core::IEntityPersistence*> ContentCreationController::RTree_Entities_by_entityIDs;
 std::map<NatureOfEntity, RTree<int, float, 3, float> *> ContentCreationController::RTree_Entities_SpatialIndexes;
 std::map<NatureOfEntity, std::vector<core::IEntityPersistence*>> ContentCreationController::RTree_Entities_by_Psique;
+std::map<int, std::vector<std::string>> ContentCreationController::psique_melody;
 
 boost::try_mutex ContentCreationController::m_mutex;
 
@@ -27,6 +40,53 @@ boost::try_mutex ContentCreationController::m_mutex;
 ContentCreationController::ContentCreationController()
 {}
 
+void ContentCreationController::SetApp(IApplication *app_, core::IApplicationConfiguration* iapp_config_, IPercept *app_mainpercept_, IProd *app_mainprod_) 
+{
+	app = app_; 
+	iapp_config = iapp_config_; 
+
+	app_mainpercept=app_mainpercept_; 
+	app_mainprod=app_mainprod_;
+
+	srand (time(NULL));
+
+	if ( iapp_config )
+	{	
+		//Prepare melodies
+		std::stringstream sound_filename_base;
+		std::stringstream sound_filename_MG1, sound_filename_MG2, 
+			              sound_filename_MN1, sound_filename_MN2, //sound_filename_MN3,
+						  sound_filename_ME1, sound_filename_ME2;
+		
+		sound_filename_base << iapp_config->GetSoundDirectory();
+		sound_filename_MG1 << sound_filename_base.str() << "MG0008.wav";
+		sound_filename_MG2 << sound_filename_base.str() << "MG0010.wav";
+		sound_filename_MN1 << sound_filename_base.str() << "MN0001.wav";
+		sound_filename_MN2 << sound_filename_base.str() << "MN0003.wav";
+		//sound_filename_MN3 << sound_filename_base.str() << "MN0006.wav";
+		sound_filename_ME1 << sound_filename_base.str() << "ME0001.wav";
+		sound_filename_ME2 << sound_filename_base.str() << "ME0002.wav";
+
+		std::vector<std::string> good_melodies;
+		std::vector<std::string> neutral_melodies;
+		std::vector<std::string> evil_melodies;
+
+		good_melodies.push_back(sound_filename_MG1.str());
+		good_melodies.push_back(sound_filename_MG2.str());
+		neutral_melodies.push_back(sound_filename_MN1.str());
+		neutral_melodies.push_back(sound_filename_MN2.str());
+		//neutral_melodies.push_back(sound_filename_MN3.str());
+		evil_melodies.push_back(sound_filename_ME1.str());
+		evil_melodies.push_back(sound_filename_ME2.str());
+		
+		psique_melody[IA_Karma::GOOD]	= good_melodies;
+		psique_melody[IA_Karma::NEUTRAL]= neutral_melodies;
+		psique_melody[IA_Karma::EVIL]	= evil_melodies;
+	}
+
+
+
+}
 
 ContentCreationController *ContentCreationController::Instance ()
 {
@@ -35,12 +95,18 @@ ContentCreationController *ContentCreationController::Instance ()
 	if (!instance)
 	{
 		instance = new ContentCreationController;
-		time_start = (double)clock()/CLOCKS_PER_SEC;
+		start_timestamp = (double)clock()/CLOCKS_PER_SEC;
 
 		RTree_Entities_SpatialIndexes[NatureOfEntity::NONINTERACTIVE]	= new RTree<int, float, 3, float>();
 		RTree_Entities_SpatialIndexes[NatureOfEntity::STANDALONE]		= new RTree<int, float, 3, float>();
 		RTree_Entities_SpatialIndexes[NatureOfEntity::BOID]				= new RTree<int, float, 3, float>();
 		RTree_Entities_SpatialIndexes[NatureOfEntity::TREE]				= new RTree<int, float, 3, float>();
+
+		std::vector<std::string> good_melodies;
+		std::vector<std::string> neutral_melodies;
+		std::vector<std::string> evil_melodies;
+
+
 
 		//Start statistical acccumulators
 		accumulator_set<double, stats<tag::mean, tag::moment<2> > > acc;
@@ -86,13 +152,28 @@ void ContentCreationController::Reset()
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
 		if(app)
-		{	current_world = app->GetCurrentWorld();
+		{	IWorldPersistence* latest_world = current_world;
+			current_world = app->GetCurrentWorld();
 			current_user  = app->GetCurrentUser();
+
+			if (latest_world != current_world)
+			{
+				psique = (float)IA_Karma::NEUTRAL;
+				energy = (float)IA_Energy::EXITED/2.0f;
+			}
 
 			if (!current_world)
 				current_world = app->GetDefaultWorld();
 			if (!current_user)
 				current_user = app->GetDefaultUser();
+
+			if (current_user)
+			{	int aux_psique;
+				current_user->GetPsique(aux_psique);
+				psique= (float)aux_psique;
+				//retomar, reset if the user is different
+				// start_timestamp
+			}
 		}
 
 		if (current_world)
@@ -124,13 +205,16 @@ void ContentCreationController::Update()
 
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
-		double timestamp = (double)clock()/CLOCKS_PER_SEC;
-		double dif_time = timestamp - time_start;
+		latest_timestamp = current_timestamp;
+		current_timestamp = (double)clock()/CLOCKS_PER_SEC;
+		double time_since_start = current_timestamp - start_timestamp;
+		double time_since_latest = current_timestamp - latest_timestamp;
 
-		if ((dif_time >= 1) ) //retomar, en ocasiones parecen faltar entidades (puede que en el momento de la petición el try-lock de producción decida saltárselo)
+
+		//CHANGE THE WORLD
+		//------------------------------------------------------
+		if ((time_since_start >= 1) )
 		{
-			//change theme of the world
-			//------------------------------------------------------
 			if (app_mainpercept)
 			{	//retomar, make static
 				core::corePoint3D<double> head_pos, presence_center_of_mass, 
@@ -147,39 +231,63 @@ void ContentCreationController::Update()
 				app_mainpercept->GetMainOrientation(main_orientation);
 				app_mainpercept->GetMainEccentricity(main_eccentricity);
 				motion_elements = app_mainpercept->GetMotionElements(); //The first one is about the whole image
-				int i = 666;
 
 				if (app_mainprod)
-				{
-					std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();
-					if (background_sounds.size() == 0)
+				{	
+					switch ((int)psique)
 					{
-						std::stringstream s_image;
-						if ( iapp_config )
-							s_image << iapp_config->GetSoundDirectory() << "M0010.wav";
-						background_sound = app_mainprod->AddBackgroundSound(s_image.str());
-						int i = 666;
-						//if (dif_time > 3)
-						//	background_sound = app_mainprod->AddBackgroundSound("f://etc//repos//OX//M0010.wav");
-						//else
-						//	background_sound = app_mainprod->AddBackgroundSound("f://etc//repos//OX//motor.wav");
+						case IA_Karma::GOOD :
+						{	//Do good stuff
+							break;
+						}
+						case IA_Karma::NEUTRAL :
+						{	//Do neutral stuff
+							break;
+						}
+						case IA_Karma::EVIL :
+						{	//Do evil stuff
+							break;
+						}
+						default : {break;}
+					}					
+
+					std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();
+					if ( iapp_config && 
+						( (background_sounds.size() == 0) || ((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) ) )
+					{
+						int n_melodies = 0;
+						int random_index = 0;
+						std::string filename;
+						if ((int)psique < psique_melody.size())
+						{
+							app_mainprod->RemoveAllBackgroundSound(5.0f);
+							filename = *(psique_melody[(int)psique].begin()+(rand()%(psique_melody[(int)psique].size())));
+							background_sound = app_mainprod->AddBackgroundSound(filename, 5.0f);
+							music_timestamp = current_timestamp;
+						}
 					}
-					
+
+					if (false)//(app_mainpercept->FaceDetected())// (head_pos.x || head_pos.y || head_pos.z)
+					{
+						double relativetoheadpos_pitch = CC_MAX_PITCH * head_pos.z / (CC_MAX_HEADPOS - CC_MIN_HEADPOS);
+						if (relativetoheadpos_pitch < CC_MIN_PITCH)
+							relativetoheadpos_pitch = CC_MIN_PITCH;
+						if (relativetoheadpos_pitch > CC_MAX_PITCH)
+							relativetoheadpos_pitch = CC_MAX_PITCH;
+
+						app_mainprod->SetPitchBackgroundSound( background_sound,relativetoheadpos_pitch);
+						cout << "HEAD POS Z: " << head_pos.z << "\n";
+						cout << "MELODY PITCH: " << relativetoheadpos_pitch << "\n";
+					}
 				}
 			}
-			else
-			{
-			}
-
-			if (app_mainprod)
-			{
-				//app_mainprod->SetPitchBackgroundSound( background_sound,(float)dif_time*0.1);
-			}
-
-			//------------------------------------------------------
+			else //perception is not available
+			{}
 		}
 
-		if ((dif_time >= CCTIMELAPSE) && (z_step < 10)) //retomar, en ocasiones parecen faltar entidades (puede que en el momento de la petición el try-lock de producción decida saltárselo)
+		//CREATE ENTITIES
+		//------------------------------------------------------
+		if ((current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE) && (z_step < 10)) 
 		{
 			//create new entities and insert them into the world
 			//------------------------------------------------------
@@ -187,9 +295,7 @@ void ContentCreationController::Update()
 			//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
 			std::stringstream model_url;
 			if ( iapp_config )
-				model_url << iapp_config->GetModelDirectory() << "tricube_004";	
-				//model_url << iapp_config->GetModelDirectory() << "panda-model";	
-				//model_url << iapp_config->GetModelDirectory() << "cubeanimated004";	
+				model_url << iapp_config->GetModelDirectory() << "tricube_004";	 //"panda-model";	
 			std::string modelpath = model_url.str();
 			Filename pandafile = Filename::from_os_specific(modelpath);
 			std::cout << pandafile.get_fullpath() << "\n";
@@ -213,10 +319,11 @@ void ContentCreationController::Update()
 			core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis, (float)z_step/5.0 );
 
 			if (app) app->AddNewEntityIntoCurrentWorld((core::IEntity*)new_entity);
+			createdEntity_timesptamp = current_timestamp;
 			//------------------------------------------------------
 
-			//cout << "CONTENT CREATION LOOP: " << dif_time << "\n";
-			time_start = timestamp;
+			//cout << "CONTENT CREATION LOOP: " << time_since_start << "\n";
+			//time_start = timestamp;
 		}
 	}
 }
@@ -227,4 +334,19 @@ void ContentCreationController::RemoveEntityFromCurrentWorld(core::IEntity *enti
 	{
 		app->RemoveEntityFromCurrentWorld(entity);
 	}
+}
+
+void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
+{
+	//boost::mutex::scoped_lock lock(m_mutex);
+
+	//if (was_good)
+	//	psique = (psique*0.95f <= 0.0f) ? 0.0f : psique*0.95f;
+	//else
+	//	psique = (psique/0.95f >= 1.0f) ? 1.0f : psique/0.95f;
+
+	//if (current_user)
+	//{	current_user->SetPsique((int) psique);
+	//	//current_world->Save();
+	//}
 }

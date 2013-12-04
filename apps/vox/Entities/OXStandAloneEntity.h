@@ -46,6 +46,7 @@ namespace core
 								DEAD };
 
 		static enum IA_Karma {	GOOD,
+								NEUTRAL,
 								EVIL};
 
 		static enum IA_Energy{	CALM,

@@ -28,15 +28,22 @@ enum NatureOfEntity {
       TREE			= 3
    };
 
+
+
 class Application;
 
 class ContentCreationController
 {
+	static enum IA_Karma {	GOOD,
+							NEUTRAL,
+							EVIL};
+
+	static enum IA_Energy{	CALM,
+							EXITED};
 	public:
 
 		static ContentCreationController *Instance();
-		void SetApp(IApplication *app_, core::IApplicationConfiguration* iapp_config_=NULL, IPercept *app_mainpercept_=NULL, IProd *app_mainprod_=NULL) 
-		{app = app_; iapp_config = iapp_config_; app_mainpercept=app_mainpercept_; app_mainprod=app_mainprod_;}
+		void SetApp(IApplication *app_, core::IApplicationConfiguration* iapp_config_=NULL, IPercept *app_mainpercept_=NULL, IProd *app_mainprod_=NULL);
 
 		static void Update();
 		static void Clear();
@@ -62,6 +69,7 @@ class ContentCreationController
 
 		static void GetAllEntities(){};
 		static void GetLabeledEntities(const std::string label){};
+		static void EntityHadAGoodUserFeedback(const bool &was_good);
 
 		static void RemoveEntityFromCurrentWorld(core::IEntity *entity);
 	
@@ -79,14 +87,20 @@ class ContentCreationController
 		static IProd		*app_mainprod;
 
 		static ContentCreationController *instance;
-		static double time_start;
+		static double start_timestamp, 
+			          latest_timestamp, 
+					  current_timestamp,
+					  music_timestamp,
+					  createdEntity_timesptamp;
 		static int z_step;
 
 		//static boost::shared_ptr<boost::thread> m_thread;
 		static boost::try_mutex m_mutex;
 
-		float psique; //0-1 good-evil
-		float energy; //0-1 calm-energetic
+		static float psique; //0-1 good-evil
+		static float energy; //0-1 calm-energetic
+
+		static std::map<int, std::vector<std::string>> psique_melody;
 
 		static int background_sound;
 		void * ambient_soundsample;
