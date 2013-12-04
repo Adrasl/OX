@@ -22,7 +22,7 @@ using namespace core;
 using namespace core::iprod;
 unsigned int MainProd::num_windows = 2;
 
-#define SHOW_COLLISION true
+#define SHOW_COLLISION false
 #define USE_AVATAR_3D_MESH false
 
 
@@ -2191,7 +2191,9 @@ void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> 
 				for (std::map< int, std::vector<corePDU3D<double>> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
 				{	if ((iter->first) > 3) for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++) 
 					{	float radius = 0.1*(iter->first);
-						CollisionTube *collision_solid = new CollisionTube((*iter2).position.x-7.5, (*iter2).position.y, (*iter2).position.z-2.5, (*iter2).position.x-7.5, (*iter2).position.y+30, (*iter2).position.z-2.5, radius);
+						CollisionTube *collision_solid = new CollisionTube(	(*iter2).position.x-7.5, (*iter2).position.y, (*iter2).position.z-2.5, 
+																			(*iter2).position.x-7.5, (*iter2).position.y+20, (*iter2).position.z-2.5, 
+																			radius);
 						std::stringstream wop;
 						wop << "avatarcollider" << avatarcollierindex++ ;
 						std::string nombre = wop.str();

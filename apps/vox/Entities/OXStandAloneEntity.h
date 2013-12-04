@@ -58,6 +58,7 @@ namespace core
 
 				OXStandAloneEntity(core::IEntityPersistence* ent, const float &pitch=1.0f, const float &amplitude=100.0f);
 				virtual ~OXStandAloneEntity();
+				virtual void Delete();
 
 				float GetTimeToLive()					{ boost::mutex::scoped_lock lock(m_mutex); return timeToLive;		}
 				void  SetTimeToLive(const float &value)	{ boost::mutex::scoped_lock lock(m_mutex); timeToLive = value;	}

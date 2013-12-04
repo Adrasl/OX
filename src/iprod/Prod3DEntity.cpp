@@ -16,10 +16,9 @@ Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepat
 	{
 		data = entity->GetModelData();
 		
-		PrepareSounds();
-
-		if (sound_create.sound_data)
-			sound_create.sound_data->Play();
+		//PrepareSounds();
+		//if (sound_create.sound_data)
+		//	sound_create.sound_data->Play();
 	}
 }
 
@@ -33,7 +32,9 @@ void Prod3DEntity::Delete()
 		delete nodepath;
 
 	if (sound_create.sound_data!=NULL)
+	{	delete sound_create.sound_buffer;
 		delete sound_create.sound_data;
+	}
 	if (sound_create.sound_buffer!=NULL)
 		delete sound_create.sound_buffer;
 
@@ -101,6 +102,8 @@ core::coreSound<sf::Sound, sf::SoundBuffer> Prod3DEntity::PrepareSound(std::stri
 			//RESULT
 			return core::coreSound<sf::Sound, sf::SoundBuffer>(position, new_sound, new_buffer);
 		} 
+		else
+			cout << "ERROR Loading sound buffer.\n";
 	}//RESULT
 	return core::coreSound<sf::Sound, sf::SoundBuffer>();
 }

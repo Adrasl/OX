@@ -15,7 +15,7 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 		nodepath	= NULL;
 		collidable	= true;
 		ready_to_die= false;
-		timeToLive	= 5.0;
+		timeToLive	= 1.0;
 		karma		= 0.5; //good(0) --> evil(1)
 		energy		= 0.0; //calm(0) --> exited(1)
 		delta_time	= 0.0;
@@ -45,6 +45,35 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 OXStandAloneEntity::~OXStandAloneEntity()
 {
 	boost::mutex::scoped_lock lock(m_mutex);
+	Delete();
+}
+
+void OXStandAloneEntity::Delete()
+{
+	if(nodepath)
+		delete nodepath;
+
+	if (sound_create.sound_data!=NULL)
+	{	sound_create.sound_data->Stop();
+		delete sound_create.sound_data;
+	}
+	if (sound_create.sound_buffer!=NULL)
+		delete sound_create.sound_buffer;
+
+	if (sound_destroy.sound_data!=NULL)
+		delete sound_destroy.sound_data;
+	if (sound_destroy.sound_buffer!=NULL)
+		delete sound_destroy.sound_buffer;
+
+	if (sound_idle.sound_data!=NULL)
+		delete sound_idle.sound_data;
+	if (sound_idle.sound_buffer!=NULL)
+		delete sound_idle.sound_buffer;
+
+	if (sound_touch.sound_data!=NULL)
+		delete sound_touch.sound_data;
+	if (sound_touch.sound_buffer!=NULL)
+		delete sound_touch.sound_buffer;
 }
 
 void OXStandAloneEntity::SetPitch(const float &value)
@@ -98,7 +127,7 @@ void OXStandAloneEntity::OnUpdate()
 	//Update entity // retomar, posible necesidad de mutex, parece que algunas entidades no se mueven
 	float x, y, z;
 	this->GetPosition(x, y, z);
-	this->SetPosition(x+0.02f, y, z);
+	this->SetPosition(x, y-0.05f, z);
 	float h, p, r;
 	this->GetOrientation(h, p, r);
 	this->SetOrientation(h+0.2f, p+1.0f, r+2.0f);

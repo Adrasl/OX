@@ -2,7 +2,7 @@
 
 #include <debugger.h> 
 
-#define CCTIMELAPSE 0.75
+#define CCTIMELAPSE 0.1
 #define CCCHANGEBACKGROUNDMUSIC 60.0
 #define CC_MAX_HEADPOS 90.0
 #define CC_MIN_HEADPOS -10.0
@@ -298,8 +298,9 @@ void ContentCreationController::Update()
 		//------------------------------------------------------
 		if ((current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE)) 
 		{
-			if (z_step > 20)
-				z_step = 0;
+			//if (z_step > 20) //retomar descomentar
+			//	z_step = 0;
+
 			//create new entities and insert them into the world
 			//------------------------------------------------------
 			//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
@@ -333,15 +334,16 @@ void ContentCreationController::Update()
 			//candidatepdu.position.y = RandomFloat(presence_center_of_mass.y + 10.0, presence_center_of_mass.y + 20.0);
 			//candidatepdu.position.z = RandomFloat(presence_center_of_mass.z - 0.0, presence_center_of_mass.z + 1.0);
 			candidatepdu.position.x = RandomFloat(-5.0,  5.0);
-			candidatepdu.position.y = RandomFloat(20.0, 40.0);
+			candidatepdu.position.y = RandomFloat(5.0, 20.0);
 			candidatepdu.position.z = RandomFloat( 0.0,  2.0);
+			float scale = RandomFloat( 0.05,  1.0);
 
-			cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
+			//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
 			genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
-			genesis->SetScale(1.0);
+			genesis->SetScale(scale);
 			genesis->Save();
-
-			core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis, (float)z_step/5.0 );
+			cout << "N-ENTITIES : " << z_step << "\n";
+			core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
 
 			if (app) app->AddNewEntityIntoCurrentWorld((core::IEntity*)new_entity);
 			createdEntity_timesptamp = current_timestamp;
