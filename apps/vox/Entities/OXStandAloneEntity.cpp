@@ -15,7 +15,7 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 		nodepath	= NULL;
 		collidable	= true;
 		ready_to_die= false;
-		timeToLive	= 25.0;
+		timeToLive	= 5.0;
 		karma		= 0.5; //good(0) --> evil(1)
 		energy		= 0.0; //calm(0) --> exited(1)
 		delta_time	= 0.0;
@@ -165,7 +165,7 @@ void OXStandAloneEntity::OnUserCollisionCall(core::corePDU3D<double> collisionIn
 	float collision_strengh = pow(pow(collisionInfo.velocity.x, 2) + pow(collisionInfo.velocity.y, 2) + pow(collisionInfo.velocity.z, 2), 0.5);
 
 	the_user_is_good = collision_strengh < USER_HIT_THRESHOLD_STRENGHT;
-	ContentCreationController::Instance()->EntityHadAGoodUserFeedback(the_user_is_good);
+	//ContentCreationController::Instance()->EntityHadAGoodUserFeedback(the_user_is_good); //retomar  provoca bloqueo de mutex
 
 	if (!the_user_is_good)
 		KillMyself();

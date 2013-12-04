@@ -2,7 +2,7 @@
 
 #include <debugger.h> 
 
-#define CCTIMELAPSE 5.0
+#define CCTIMELAPSE 0.75
 #define CCCHANGEBACKGROUNDMUSIC 60.0
 #define CC_MAX_HEADPOS 90.0
 #define CC_MIN_HEADPOS -10.0
@@ -36,6 +36,11 @@ std::map<int, std::vector<std::string>> ContentCreationController::psique_melody
 
 boost::try_mutex ContentCreationController::m_mutex;
 
+
+float RandomFloat(const float &Min, const float &Max)
+{
+    return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
+}
 
 ContentCreationController::ContentCreationController()
 {}
@@ -90,10 +95,11 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 
 ContentCreationController *ContentCreationController::Instance ()
 {
-	boost::mutex::scoped_lock lock(m_mutex);
 
 	if (!instance)
 	{
+		boost::mutex::scoped_lock lock(m_mutex);
+
 		instance = new ContentCreationController;
 		start_timestamp = (double)clock()/CLOCKS_PER_SEC;
 
@@ -155,25 +161,23 @@ void ContentCreationController::Reset()
 		{	IWorldPersistence* latest_world = current_world;
 			current_world = app->GetCurrentWorld();
 			current_user  = app->GetCurrentUser();
+			if (!current_user)
+				current_user = app->GetDefaultUser();
 
 			if (latest_world != current_world)
 			{
 				psique = (float)IA_Karma::NEUTRAL;
 				energy = (float)IA_Energy::EXITED/2.0f;
+				if (current_user)
+				{	int aux_psique;
+					current_user->GetPsique(aux_psique);
+					psique= (float)aux_psique;
+				}
+				latest_world = current_world;
 			}
-
 			if (!current_world)
 				current_world = app->GetDefaultWorld();
-			if (!current_user)
-				current_user = app->GetDefaultUser();
 
-			if (current_user)
-			{	int aux_psique;
-				current_user->GetPsique(aux_psique);
-				psique= (float)aux_psique;
-				//retomar, reset if the user is different
-				// start_timestamp
-			}
 		}
 
 		if (current_world)
@@ -210,20 +214,25 @@ void ContentCreationController::Update()
 		double time_since_start = current_timestamp - start_timestamp;
 		double time_since_latest = current_timestamp - latest_timestamp;
 
+		//retomar, make static
+		core::corePoint3D<double> head_pos, presence_center_of_mass, 
+					  space_bounding_box_min, space_bounding_box_max, space_center, 
+					  main_lateraldominance, main_orientation, main_eccentricity;
+		std::vector<MotionElement> motion_elements;
+		bool presence_detected = false;
+
+		space_bounding_box_max.x = space_bounding_box_max.y = space_bounding_box_max.z = 0.0;
+		space_bounding_box_min.x = space_bounding_box_min.y = space_bounding_box_min.z = 0.0;
+		presence_center_of_mass.x = presence_center_of_mass.y = presence_center_of_mass.z = 0.0;
+
 
 		//CHANGE THE WORLD
 		//------------------------------------------------------
 		if ((time_since_start >= 1) )
 		{
 			if (app_mainpercept)
-			{	//retomar, make static
-				core::corePoint3D<double> head_pos, presence_center_of_mass, 
-							  space_bounding_box_min, space_bounding_box_max, space_center, 
-							  main_lateraldominance, main_orientation, main_eccentricity;
-				std::vector<MotionElement> motion_elements;
-
-				bool presence_detected = app_mainpercept->PresenceDetected();
-
+			{	
+				presence_detected = app_mainpercept->PresenceDetected();
 				app_mainpercept->GetHeadPosition(head_pos);
 				app_mainpercept->GetFeaturePosition("CENTER OF MASS", presence_center_of_mass);
 				app_mainpercept->GetSpaceBoundingBox(space_bounding_box_min, space_bounding_box_max);
@@ -287,8 +296,10 @@ void ContentCreationController::Update()
 
 		//CREATE ENTITIES
 		//------------------------------------------------------
-		if ((current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE) && (z_step < 10)) 
+		if ((current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE)) 
 		{
+			if (z_step > 20)
+				z_step = 0;
 			//create new entities and insert them into the world
 			//------------------------------------------------------
 			//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
@@ -311,9 +322,23 @@ void ContentCreationController::Update()
 			//genesis->SetModelData("panda-model");
 			//genesis->SetModelData("teapot");
 			//genesis->SetModelData("/F/etc/repos/OX/bin/data/models/cube_star.egg");
-			genesis->SetSoundDataCreate("f://etc//repos//OX//motor_old.wav");
-			genesis->SetPosition(0,10,z_step);
-			genesis->SetScale(1);
+			//genesis->SetSoundDataCreate("f://etc//repos//OX//motor_old.wav");
+			//genesis->SetPosition(0,10,z_step);
+			
+			genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0006.wav");
+			space_bounding_box_min;
+			space_bounding_box_max;
+			corePDU3D<double> candidatepdu;
+			//candidatepdu.position.x = RandomFloat(presence_center_of_mass.x - 1.0, presence_center_of_mass.x + 1.0);
+			//candidatepdu.position.y = RandomFloat(presence_center_of_mass.y + 10.0, presence_center_of_mass.y + 20.0);
+			//candidatepdu.position.z = RandomFloat(presence_center_of_mass.z - 0.0, presence_center_of_mass.z + 1.0);
+			candidatepdu.position.x = RandomFloat(-5.0,  5.0);
+			candidatepdu.position.y = RandomFloat(20.0, 40.0);
+			candidatepdu.position.z = RandomFloat( 0.0,  2.0);
+
+			cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
+			genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
+			genesis->SetScale(1.0);
 			genesis->Save();
 
 			core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis, (float)z_step/5.0 );
@@ -338,15 +363,17 @@ void ContentCreationController::RemoveEntityFromCurrentWorld(core::IEntity *enti
 
 void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
 {
-	//boost::mutex::scoped_lock lock(m_mutex);
+	boost::mutex::scoped_lock lock(m_mutex); // retomar posible bloqueo mutex
 
-	//if (was_good)
-	//	psique = (psique*0.95f <= 0.0f) ? 0.0f : psique*0.95f;
-	//else
-	//	psique = (psique/0.95f >= 1.0f) ? 1.0f : psique/0.95f;
+	cout << "USER HIT ENTITY, but was GOOD?: " << was_good << "\n";
 
-	//if (current_user)
-	//{	current_user->SetPsique((int) psique);
-	//	//current_world->Save();
-	//}
+	if (was_good)
+		psique = (psique-0.35f <= 0.0f) ? 0.0f : psique-0.35f;
+	else
+		psique = (psique+0.35f >= 1.0f) ? 1.0f : psique+0.35f;
+
+	if (current_user)
+	{	current_user->SetPsique((int) psique);
+		current_user->Save();
+	}
 }

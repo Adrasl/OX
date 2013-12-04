@@ -2189,7 +2189,7 @@ void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> 
 				avatar_collider_array.clear();
 				int avatarcollierindex = 0;
 				for (std::map< int, std::vector<corePDU3D<double>> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
-				{	if ((iter->first) > 3) for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
+				{	if ((iter->first) > 3) for (std::vector<corePDU3D<double>>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++) 
 					{	float radius = 0.1*(iter->first);
 						CollisionTube *collision_solid = new CollisionTube((*iter2).position.x-7.5, (*iter2).position.y, (*iter2).position.z-2.5, (*iter2).position.x-7.5, (*iter2).position.y+30, (*iter2).position.z-2.5, radius);
 						std::stringstream wop;
@@ -2198,6 +2198,7 @@ void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> 
 						CollisionNode *collision_node = new CollisionNode(nombre);
 						collision_node->add_solid(collision_solid);
 						NodePath col_node = resultNodePath->attach_new_node(collision_node);
+						//col_node.look_at(user_nodepath->get_pos());
 						if (SHOW_COLLISION) col_node.show();
 						avatar_collider_array[collision_solid] = (*iter2);
 					}// a simpler capsule based set of colliders
