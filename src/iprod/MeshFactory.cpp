@@ -403,7 +403,7 @@ void MeshFactory::SetUpSpatialGridIndex()
 
 		double timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 		double dif_time = timestamp2 - timestamp;
-		cout << "Setting up Spatial grid: " << dif_time << "sec\n";
+		//cout << "Setting up Spatial grid: " << dif_time << "sec\n";
 
 	//RTFileStream grid_stream; //stream not implemented
 	//spatial_grid_index.Save(grid_stream);

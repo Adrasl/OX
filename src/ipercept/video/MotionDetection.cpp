@@ -358,7 +358,7 @@ void MotionDetection::Capture()
 		if(new_image) free(new_image);
 
 		double timestamp = (double)clock()/CLOCKS_PER_SEC;
-		std::cout << "MOTION Period: " << timestamp-las_time << "\n";
+		//std::cout << "MOTION Period: " << timestamp-las_time << "\n";
 		las_time = timestamp;
 	}
 	else

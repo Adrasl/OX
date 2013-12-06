@@ -42,8 +42,8 @@ class ContentCreationController
 							EXITED};
 	public:
 
-		static ContentCreationController *Instance();
-		void SetApp(IApplication *app_, core::IApplicationConfiguration* iapp_config_=NULL, IPercept *app_mainpercept_=NULL, IProd *app_mainprod_=NULL);
+		static ContentCreationController* Instance();
+		static void SetApp(IApplication *app_, core::IApplicationConfiguration* iapp_config_=NULL, IPercept *app_mainpercept_=NULL, IProd *app_mainprod_=NULL);
 
 		static void Update();
 		static void Clear();
@@ -81,6 +81,9 @@ class ContentCreationController
 
 	private:
 
+		//static boost::shared_ptr<boost::thread> m_thread;
+		static boost::mutex m_mutex;
+
 		static IApplication *app;
 		static IApplicationConfiguration* iapp_config;
 		static IPercept		*app_mainpercept;
@@ -91,11 +94,10 @@ class ContentCreationController
 			          latest_timestamp, 
 					  current_timestamp,
 					  music_timestamp,
-					  createdEntity_timesptamp;
+					  createdEntity_timesptamp,
+					  recover_collisionevaluation_aftertime;
 		static int z_step;
 
-		//static boost::shared_ptr<boost::thread> m_thread;
-		static boost::try_mutex m_mutex;
 
 		static float psique; //0-1 good-evil
 		static float energy; //0-1 calm-energetic
@@ -104,7 +106,14 @@ class ContentCreationController
 
 		static int background_sound;
 		void * ambient_soundsample;
-		void * background_color;
+		//void * background_color;
+		static std::map<IA_Karma, corePoint3D<float>> background_color;
+		static std::map<IA_Karma, corePoint3D<float>> fog_color;
+		static std::map<IA_Karma, float> fog_intensity;
+		static corePoint3D<float> current_background_color;
+		static corePoint3D<float> current_fog_color;
+		static float			  current_fog_intensity;
+		static IA_Karma			  i_am_being;
 
 		static std::map<int, core::IEntityPersistence*> RTree_Entities_by_entityIDs;
 		static std::map<NatureOfEntity, RTree<int, float, 3, float> *> RTree_Entities_SpatialIndexes;

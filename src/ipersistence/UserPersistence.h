@@ -31,11 +31,11 @@ namespace core
 				virtual void SetName(const std::string &name_)			{ name = name_; Changed();					}
 				virtual void SetPassword(const std::string &password_)	{ password = password_; Changed();			}
 				virtual void SetPermissions(const int &permissions_)	{ permissions = permissions_; Changed();	}
-				virtual void SetPosition(const float &x, const float &y, const float &z)    { position_x = x; position_y = y; position_z = z; }
-				virtual void SetOrientation(const float &x, const float &y, const float &z) { orientation_x = x; orientation_y = y; orientation_z = z; }
-				virtual void SetUp(const float &x, const float &y, const float &z)		    { up_x = x; up_y = y; up_z = z; }
+				virtual void SetPosition(const float &x, const float &y, const float &z)    { position_x = x; position_y = y; position_z = z; Changed();	}
+				virtual void SetOrientation(const float &x, const float &y, const float &z) { orientation_x = x; orientation_y = y; orientation_z = z; Changed();	}
+				virtual void SetUp(const float &x, const float &y, const float &z)		    { up_x = x; up_y = y; up_z = z; Changed();	}
 				virtual void SetScale(const float &value)									{ scale = value; }
-				virtual void SetPsique(const int &value)									{ psique = value; }
+				virtual void SetPsique(const int &value)									{ psique = value; Changed();}
 				virtual void SetModel(const std::string &value)								{ model = value; Changed();	}
 				//virtual void AddWorld(const core::ipersistence::WorldPersistence &world) 
 				//														{ worlds.push_back(world);			}

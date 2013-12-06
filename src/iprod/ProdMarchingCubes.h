@@ -689,7 +689,7 @@ NodePath* CreateVoxelized(std::map< int, std::vector<corePDU3D<double>> > source
 	//fSample = fSample3;
 	//fSample = DistanceToWeightedPoints;
 	fSample = DistanceToWeightedPointsInRange;
-	cout << "Create voxelized - iDataSetSize: " << iDataSetSize << "\n";
+	//cout << "Create voxelized - iDataSetSize: " << iDataSetSize << "\n";
 
 	//RTree<int, float, 3, float> spatial_index;
 

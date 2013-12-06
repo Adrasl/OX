@@ -89,7 +89,8 @@ namespace core
 				float psique; //type of entity
 				float karma;  //good or evil
 				float energy; //calm or energyc
-				double start_timestamp, latestupdate_timestamp, current_timestamp;
+				bool  ignore_collisons;
+				double start_timestamp, latestupdate_timestamp, current_timestamp, killme_afterseconds, recovercollisions_afterseconds;
 				double delta_time, lived_time;
 
 				std::map<NatureOfEntity, float> otherEntities_feedback; //good(0) --> evil(1) 

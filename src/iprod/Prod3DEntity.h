@@ -51,11 +51,13 @@ namespace core
 				void SetNodePath(NodePath *value);
 				void SetPosition(const float &x, const float &y, const float &z);
 				void SetOrientation(const float &x, const float &y, const float &z);
+				void SetPositionOrientationScale(const float &x, const float &y, const float &z, const float &h, const float &p, const float &r, const float &scale);
 				void SetUp(const float &x, const float &y, const float &z);
 				void SetScale(const float &value);
 				void SetPsique(const int &value);
 				void GetPosition(float &x, float &y, float &z);
 				void GetOrientation(float &x, float &y, float &z);
+				void GetPositionOrientationScale(float &x, float &y, float &z, float &h, float &p, float &r, float &scale);
 				void GetUp(float &x, float &y, float &z);
 				void GetScale(float &value);
 				void GetPsique(int &value);

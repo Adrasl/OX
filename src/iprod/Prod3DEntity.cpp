@@ -271,6 +271,31 @@ void Prod3DEntity::SetScale(const float &value)
 	}
 }
 
+
+void Prod3DEntity::SetPositionOrientationScale(const float &x, const float &y, const float &z, const float &h, const float &p, const float &r, const float &scale)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	pdu.position.x = x;
+	pdu.position.y = y;
+	pdu.position.y = y;
+
+	if (nodepath)
+	{
+		nodepath->set_pos(x, y, z);
+		nodepath->set_hpr(h, p, r); //yaw, pitch, roll;
+		nodepath->set_scale(scale); //yaw, pitch, roll;
+		UpdateSoundInfo();
+	}
+
+	if (entity)
+	{
+		entity->SetPosition(x, y, z);
+		entity->SetOrientation(h, p, r);
+		entity->SetScale(scale);
+	}
+}
+
 void Prod3DEntity::SetPsique(const int &value)									
 { 
 	boost::mutex::scoped_lock lock(m_mutex);
@@ -295,6 +320,18 @@ void Prod3DEntity::GetOrientation(float &x, float &y, float &z)
 
 	if (entity)
 		entity->GetOrientation(x, y, z);
+}
+
+void Prod3DEntity::GetPositionOrientationScale(float &x, float &y, float &z, float &h, float &p, float &r, float &scale)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	if (entity)
+	{
+		entity->GetPosition(x, y, z);
+		entity->GetOrientation(h, p, r);
+		entity->GetScale(scale);
+	}
 }
 
 void Prod3DEntity::GetUp(float &x, float &y, float &z)

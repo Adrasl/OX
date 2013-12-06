@@ -49,6 +49,11 @@ namespace core
 			virtual void RemoveBackgroundSound(const int &id, const double &time_lerp=0.0) = 0;
 			virtual void RemoveAllBackgroundSound(const double &time_lerp=0.0) = 0;
 
+			virtual void SetBackgroundColor(const float &R, const float &G, const float &B) = 0;
+			virtual void SetFogColor(const float &R, const float &G, const float &B) = 0;
+			virtual void SetFogIntensity(const float &intensity) = 0;
+			virtual void SetBackgroundAndFog(const float &bg_R=0.5f, const float &bg_G=0.5f, const float &bg_B=0.5f, const float &f_R=0.5f, const float &f_G=0.5f, const float &f_B=0.5f, const float &intensity=0.5f, const float animation_time=.0f) =0;
+
 		private:
 
 

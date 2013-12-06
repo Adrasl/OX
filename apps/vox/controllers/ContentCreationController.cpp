@@ -2,12 +2,15 @@
 
 #include <debugger.h> 
 
-#define CCTIMELAPSE 0.1
-#define CCCHANGEBACKGROUNDMUSIC 60.0
-#define CC_MAX_HEADPOS 90.0
-#define CC_MIN_HEADPOS -10.0
-#define CC_MAX_PITCH 2.0
-#define CC_MIN_PITCH 1.0
+#define CCTIMELAPSE 0.5f
+#define CCCHANGEBACKGROUNDMUSIC 60.0f
+#define CC_MAX_HEADPOS 90.0f
+#define CC_MIN_HEADPOS -10.0f
+#define CC_MAX_PITCH 2.0f
+#define CC_MIN_PITCH 1.0f
+#define CC_GOOD_STEP 0.01f
+#define CC_EVIL_STEP 0.05f
+#define CC_RECOVERCOL_EVAL 1.0f;
 
 IApplication* ContentCreationController::app = NULL;
 IApplicationConfiguration* ContentCreationController::iapp_config=NULL;
@@ -17,12 +20,13 @@ IUserPersistence* ContentCreationController::current_user=NULL;
 IWorldPersistence* ContentCreationController::current_world=NULL;
 ContentCreationController *ContentCreationController::instance = NULL;
 
-int ContentCreationController::entity_id=0;
+int ContentCreationController::entity_id = 0;
 double ContentCreationController::start_timestamp = 0;
 double ContentCreationController::latest_timestamp = 0;
 double ContentCreationController::current_timestamp = 0;
 double ContentCreationController::music_timestamp = 0;
 double ContentCreationController::createdEntity_timesptamp = 0;
+double ContentCreationController::recover_collisionevaluation_aftertime = 0;
 
 int ContentCreationController::z_step = 0;
 int ContentCreationController::background_sound = 0;
@@ -34,8 +38,15 @@ std::map<NatureOfEntity, RTree<int, float, 3, float> *> ContentCreationControlle
 std::map<NatureOfEntity, std::vector<core::IEntityPersistence*>> ContentCreationController::RTree_Entities_by_Psique;
 std::map<int, std::vector<std::string>> ContentCreationController::psique_melody;
 
-boost::try_mutex ContentCreationController::m_mutex;
+boost::mutex ContentCreationController::m_mutex;
 
+std::map<ContentCreationController::IA_Karma, corePoint3D<float>>	ContentCreationController::background_color;
+std::map<ContentCreationController::IA_Karma, corePoint3D<float>>	ContentCreationController::fog_color;
+std::map<ContentCreationController::IA_Karma, float>				ContentCreationController::fog_intensity;
+corePoint3D<float> ContentCreationController::current_background_color;
+corePoint3D<float> ContentCreationController::current_fog_color;
+float			   ContentCreationController::current_fog_intensity = 0.0f;
+ContentCreationController::IA_Karma ContentCreationController::i_am_being = ContentCreationController::IA_Karma::NEUTRAL;
 
 float RandomFloat(const float &Min, const float &Max)
 {
@@ -43,7 +54,36 @@ float RandomFloat(const float &Min, const float &Max)
 }
 
 ContentCreationController::ContentCreationController()
-{}
+{
+	background_color[IA_Karma::GOOD].x = 0.15; 
+	background_color[IA_Karma::GOOD].y = 0.15; 
+	background_color[IA_Karma::GOOD].z = 1.0;
+	background_color[IA_Karma::NEUTRAL].x = 0.15; 
+	background_color[IA_Karma::NEUTRAL].y = 1.0; 
+	background_color[IA_Karma::NEUTRAL].z = 0.15;
+	background_color[IA_Karma::EVIL].x = 1.0; 
+	background_color[IA_Karma::EVIL].y = 0.15; 
+	background_color[IA_Karma::EVIL].z = 0.15;
+
+	fog_color[IA_Karma::GOOD].x = 0.15; 
+	fog_color[IA_Karma::GOOD].y = 0.15; 
+	fog_color[IA_Karma::GOOD].z = 1.0;
+	fog_color[IA_Karma::NEUTRAL].x = 0.15; 
+	fog_color[IA_Karma::NEUTRAL].y = 1.0; 
+	fog_color[IA_Karma::NEUTRAL].z = 0.15;
+	fog_color[IA_Karma::EVIL].x = 1.0; 
+	fog_color[IA_Karma::EVIL].y = 0.15; 
+	fog_color[IA_Karma::EVIL].z = 0.15;
+
+	fog_intensity[IA_Karma::GOOD] = 0.001;
+	fog_intensity[IA_Karma::NEUTRAL] = 0.1;
+	fog_intensity[IA_Karma::EVIL] = 1.0;
+
+	current_background_color.x = background_color[IA_Karma::NEUTRAL].x; current_background_color.y = background_color[IA_Karma::NEUTRAL].y; current_background_color.z = background_color[IA_Karma::NEUTRAL].z;
+	current_fog_color.x = fog_color[IA_Karma::NEUTRAL].x; current_fog_color.y = fog_color[IA_Karma::NEUTRAL].y; current_fog_color.z = fog_color[IA_Karma::NEUTRAL].z; 
+	current_fog_intensity = fog_intensity[IA_Karma::NEUTRAL];
+
+}
 
 void ContentCreationController::SetApp(IApplication *app_, core::IApplicationConfiguration* iapp_config_, IPercept *app_mainpercept_, IProd *app_mainprod_) 
 {
@@ -60,7 +100,7 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		//Prepare melodies
 		std::stringstream sound_filename_base;
 		std::stringstream sound_filename_MG1, sound_filename_MG2, 
-			              sound_filename_MN1, sound_filename_MN2, //sound_filename_MN3,
+			              sound_filename_MN1, sound_filename_MN2, 
 						  sound_filename_ME1, sound_filename_ME2;
 		
 		sound_filename_base << iapp_config->GetSoundDirectory();
@@ -68,7 +108,6 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		sound_filename_MG2 << sound_filename_base.str() << "MG0010.wav";
 		sound_filename_MN1 << sound_filename_base.str() << "MN0001.wav";
 		sound_filename_MN2 << sound_filename_base.str() << "MN0003.wav";
-		//sound_filename_MN3 << sound_filename_base.str() << "MN0006.wav";
 		sound_filename_ME1 << sound_filename_base.str() << "ME0001.wav";
 		sound_filename_ME2 << sound_filename_base.str() << "ME0002.wav";
 
@@ -80,7 +119,6 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		good_melodies.push_back(sound_filename_MG2.str());
 		neutral_melodies.push_back(sound_filename_MN1.str());
 		neutral_melodies.push_back(sound_filename_MN2.str());
-		//neutral_melodies.push_back(sound_filename_MN3.str());
 		evil_melodies.push_back(sound_filename_ME1.str());
 		evil_melodies.push_back(sound_filename_ME2.str());
 		
@@ -89,13 +127,15 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		psique_melody[IA_Karma::EVIL]	= evil_melodies;
 	}
 
-
-
+	//if (app_mainprod)
+	//	app_mainprod->SetBackgroundAndFog(current_background_color.x, current_background_color.y, current_background_color.z,
+	//							  current_fog_color.x, current_fog_color.y, current_fog_color.z,
+	//							  current_fog_intensity);
 }
+
 
 ContentCreationController *ContentCreationController::Instance ()
 {
-
 	if (!instance)
 	{
 		boost::mutex::scoped_lock lock(m_mutex);
@@ -111,8 +151,6 @@ ContentCreationController *ContentCreationController::Instance ()
 		std::vector<std::string> good_melodies;
 		std::vector<std::string> neutral_melodies;
 		std::vector<std::string> evil_melodies;
-
-
 
 		//Start statistical acccumulators
 		accumulator_set<double, stats<tag::mean, tag::moment<2> > > acc;
@@ -154,13 +192,18 @@ void ContentCreationController::Reset()
 {
 	Clear();
 
+	bool change_background = false;
 
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
 		if(app)
-		{	IWorldPersistence* latest_world = current_world;
+		{	
+			IWorldPersistence* latest_world = current_world;
 			current_world = app->GetCurrentWorld();
 			current_user  = app->GetCurrentUser();
+
+			if (!current_world)
+				current_world = app->GetDefaultWorld();
 			if (!current_user)
 				current_user = app->GetDefaultUser();
 
@@ -171,13 +214,20 @@ void ContentCreationController::Reset()
 				if (current_user)
 				{	int aux_psique;
 					current_user->GetPsique(aux_psique);
-					psique= (float)aux_psique;
+					psique = (float)aux_psique;
+					current_background_color.x = background_color[(IA_Karma)(int)floor(psique + 0.5)].x;
+					current_background_color.y = background_color[(IA_Karma)(int)floor(psique + 0.5)].y;
+					current_background_color.z = background_color[(IA_Karma)(int)floor(psique + 0.5)].z;
+					current_fog_color.x = fog_color[(IA_Karma)(int)floor(psique + 0.5)].x;
+					current_fog_color.y = fog_color[(IA_Karma)(int)floor(psique + 0.5)].y;
+					current_fog_color.z = fog_color[(IA_Karma)(int)floor(psique + 0.5)].z;
+					current_fog_intensity = fog_intensity[(IA_Karma)(int)floor(psique + 0.5)];
+					
+					change_background =true;
+					recover_collisionevaluation_aftertime = current_timestamp + CC_RECOVERCOL_EVAL;
 				}
 				latest_world = current_world;
 			}
-			if (!current_world)
-				current_world = app->GetDefaultWorld();
-
 		}
 
 		if (current_world)
@@ -201,156 +251,264 @@ void ContentCreationController::Reset()
 			}
 		}
 	}
+	if (app_mainprod && change_background)
+		app_mainprod->SetBackgroundAndFog(current_background_color.x, current_background_color.y, current_background_color.z,
+								  current_fog_color.x, current_fog_color.y, current_fog_color.z,
+								  current_fog_intensity);
 }
 
 void ContentCreationController::Update()
 {
-	Reset();
+	Reset(); 
+	
+	std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();
+	core::iprod::OXStandAloneEntity *new_entity = NULL;
+	bool animate_background = false;
 
 	{	boost::mutex::scoped_lock lock(m_mutex);
+
+		////Interpolate Background color and fog
+		////------------------------------------
+		current_timestamp = (double)clock()/CLOCKS_PER_SEC;
+		animate_background = recover_collisionevaluation_aftertime - current_timestamp > 0.0;
+		if (animate_background)
+		{
+			int psique_index = (int)psique;
+			int target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
+			float factor =  (psique - (float)psique_index) / ((float)target_psique_index - (float)psique_index);
+
+			current_background_color.x = background_color[(IA_Karma)psique_index].x + (factor*(background_color[(IA_Karma)target_psique_index].x - background_color[(IA_Karma)psique_index].x)) ;
+			current_background_color.y = background_color[(IA_Karma)psique_index].y + (factor*(background_color[(IA_Karma)target_psique_index].y - background_color[(IA_Karma)psique_index].y)) ;
+			current_background_color.z = background_color[(IA_Karma)psique_index].z + (factor*(background_color[(IA_Karma)target_psique_index].z - background_color[(IA_Karma)psique_index].z)) ;
+
+			current_fog_color.x = fog_color[(IA_Karma)psique_index].x + (factor*(fog_color[(IA_Karma)target_psique_index].x - fog_color[(IA_Karma)psique_index].x)) ;
+			current_fog_color.y = fog_color[(IA_Karma)psique_index].y + (factor*(fog_color[(IA_Karma)target_psique_index].y - fog_color[(IA_Karma)psique_index].y)) ;
+			current_fog_color.z = fog_color[(IA_Karma)psique_index].z + (factor*(fog_color[(IA_Karma)target_psique_index].z - fog_color[(IA_Karma)psique_index].z)) ;
+
+			current_fog_intensity = fog_intensity[(IA_Karma)psique_index] + (factor*(fog_intensity[(IA_Karma)target_psique_index] - fog_intensity[(IA_Karma)psique_index])) ;
+		}
+		//	//int psique_index = (int)psique;
+		//	//int target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
+		//	//float psique_factor = ((float)target_psique_index) - psique;
+		//	//float psique_factor = recover_collisionevaluation_aftertime - current_timestamp;
+
+		//	int psique_index = (int)psique;
+		//	int target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
+		//	float previous_psique = 0.0;
+		//	float current_animated_psique = 0.0f;
+		//	
+		//	if (i_am_being == IA_Karma::GOOD)
+		//	{
+		//		previous_psique = psique - (CC_GOOD_STEP);
+		//		psique_index = (int)previous_psique;
+		//		target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
+		//		current_animated_psique = psique; 
+		//		current_animated_psique -= CC_GOOD_STEP * (recover_collisionevaluation_aftertime - current_timestamp) / CC_RECOVERCOL_EVAL;
+		//	}
+		//	else if (i_am_being == IA_Karma::EVIL)
+		//	{
+		//		previous_psique = psique - (CC_EVIL_STEP);
+		//		psique_index = (int)previous_psique;
+		//		target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
+		//		current_animated_psique = psique; 
+		//		current_animated_psique -= CC_EVIL_STEP * (recover_collisionevaluation_aftertime - current_timestamp) / CC_RECOVERCOL_EVAL;
+		//	}
+
+		//	float psique_factor = ((float)target_psique_index) - current_animated_psique;
+
+		//	//int psique_index = (int)current_animated_psique;
+		//	//int target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
+		//	//float psique_factor = ((float)target_psique_index) - current_animated_psique;
+		//	cout << "PSIQUE: " << psique << "CURRENT PSIQUE: " << current_animated_psique << ", PSIQUE INDEX: " << psique_index << ", TARGET PSIQUE INDEX: " << target_psique_index << ", factor:" << psique_factor << "\n";
+
+		//	current_background_color.x = background_color[(IA_Karma)psique_index].x +((background_color[(IA_Karma)target_psique_index].x - background_color[(IA_Karma)psique_index].x)*(1.0-psique_factor));		
+		//	current_background_color.y = background_color[(IA_Karma)psique_index].y +((background_color[(IA_Karma)target_psique_index].y - background_color[(IA_Karma)psique_index].y)*(1.0-psique_factor));		
+		//	current_background_color.z = background_color[(IA_Karma)psique_index].z +((background_color[(IA_Karma)target_psique_index].z - background_color[(IA_Karma)psique_index].z)*(1.0-psique_factor));		
+
+		//	current_fog_color.x = fog_color[(IA_Karma)psique_index].x +((fog_color[(IA_Karma)target_psique_index].x - fog_color[(IA_Karma)psique_index].x)*(1.0-psique_factor));		
+		//	current_fog_color.y = fog_color[(IA_Karma)psique_index].y +((fog_color[(IA_Karma)target_psique_index].y - fog_color[(IA_Karma)psique_index].y)*(1.0-psique_factor));		
+		//	current_fog_color.z = fog_color[(IA_Karma)psique_index].z +((fog_color[(IA_Karma)target_psique_index].z - fog_color[(IA_Karma)psique_index].z)*(1.0-psique_factor));		
+
+		//	current_fog_intensity = fog_intensity[(IA_Karma)psique_index]+((fog_intensity[(IA_Karma)target_psique_index] - fog_intensity[(IA_Karma)psique_index])*(1.0-psique_factor)) ;
+		//}
+		////else
+		////	i_am_being = IA_Karma::NEUTRAL;
+		//------------------------------------
 
 		latest_timestamp = current_timestamp;
 		current_timestamp = (double)clock()/CLOCKS_PER_SEC;
 		double time_since_start = current_timestamp - start_timestamp;
 		double time_since_latest = current_timestamp - latest_timestamp;
 
-		//retomar, make static
-		core::corePoint3D<double> head_pos, presence_center_of_mass, 
-					  space_bounding_box_min, space_bounding_box_max, space_center, 
-					  main_lateraldominance, main_orientation, main_eccentricity;
-		std::vector<MotionElement> motion_elements;
-		bool presence_detected = false;
-
-		space_bounding_box_max.x = space_bounding_box_max.y = space_bounding_box_max.z = 0.0;
-		space_bounding_box_min.x = space_bounding_box_min.y = space_bounding_box_min.z = 0.0;
-		presence_center_of_mass.x = presence_center_of_mass.y = presence_center_of_mass.z = 0.0;
-
-
-		//CHANGE THE WORLD
-		//------------------------------------------------------
-		if ((time_since_start >= 1) )
+		if (current_user && current_world && (time_since_start >= 5.0))
 		{
-			if (app_mainpercept)
-			{	
-				presence_detected = app_mainpercept->PresenceDetected();
-				app_mainpercept->GetHeadPosition(head_pos);
-				app_mainpercept->GetFeaturePosition("CENTER OF MASS", presence_center_of_mass);
-				app_mainpercept->GetSpaceBoundingBox(space_bounding_box_min, space_bounding_box_max);
-				app_mainpercept->GetMainLateralDominance(main_lateraldominance);
-				app_mainpercept->GetMainOrientation(main_orientation);
-				app_mainpercept->GetMainEccentricity(main_eccentricity);
-				motion_elements = app_mainpercept->GetMotionElements(); //The first one is about the whole image
+			//retomar, make static
+			core::corePoint3D<double> head_pos, presence_center_of_mass, 
+						  space_bounding_box_min, space_bounding_box_max, space_center, 
+						  main_lateraldominance, main_orientation, main_eccentricity;
+			std::vector<MotionElement> motion_elements;
+			bool presence_detected = false;
 
-				if (app_mainprod)
+			space_bounding_box_max.x = space_bounding_box_max.y = space_bounding_box_max.z = 0.0;
+			space_bounding_box_min.x = space_bounding_box_min.y = space_bounding_box_min.z = 0.0;
+			presence_center_of_mass.x = presence_center_of_mass.y = presence_center_of_mass.z = 0.0;
+
+
+			//CHANGE THE WORLD
+			//------------------------------------------------------
+			if ((time_since_start >= 1) )
+			{
+				if (app_mainpercept)
 				{	
-					switch ((int)psique)
-					{
-						case IA_Karma::GOOD :
-						{	//Do good stuff
-							break;
-						}
-						case IA_Karma::NEUTRAL :
-						{	//Do neutral stuff
-							break;
-						}
-						case IA_Karma::EVIL :
-						{	//Do evil stuff
-							break;
-						}
-						default : {break;}
-					}					
+					presence_detected = app_mainpercept->PresenceDetected();
+					app_mainpercept->GetHeadPosition(head_pos);
+					app_mainpercept->GetFeaturePosition("CENTER OF MASS", presence_center_of_mass);
+					app_mainpercept->GetSpaceBoundingBox(space_bounding_box_min, space_bounding_box_max);
+					app_mainpercept->GetMainLateralDominance(main_lateraldominance);
+					app_mainpercept->GetMainOrientation(main_orientation);
+					app_mainpercept->GetMainEccentricity(main_eccentricity);
+					motion_elements = app_mainpercept->GetMotionElements(); //The first one is about the whole image
 
-					std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();
-					if ( iapp_config && 
-						( (background_sounds.size() == 0) || ((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) ) )
-					{
-						int n_melodies = 0;
-						int random_index = 0;
-						std::string filename;
-						if ((int)psique < psique_melody.size())
+					if (app_mainprod)
+					{	
+						switch ((int)psique)
 						{
-							app_mainprod->RemoveAllBackgroundSound(5.0f);
-							filename = *(psique_melody[(int)psique].begin()+(rand()%(psique_melody[(int)psique].size())));
-							background_sound = app_mainprod->AddBackgroundSound(filename, 5.0f);
-							music_timestamp = current_timestamp;
+							case IA_Karma::GOOD :
+							{	//Do good stuff
+								break;
+							}
+							case IA_Karma::NEUTRAL :
+							{	//Do neutral stuff
+								break;
+							}
+							case IA_Karma::EVIL :
+							{	//Do evil stuff
+								break;
+							}
+							default : {break;}
+						}					
+
+						if ( iapp_config && 
+							( (background_sounds.size() == 0) || ((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) ) )
+						{
+							int n_melodies = 0;
+							int random_index = 0;
+							std::string filename;
+							if ((int)psique < psique_melody.size())
+							{
+								app_mainprod->RemoveAllBackgroundSound(5.0f);
+								filename = *(psique_melody[(int)psique].begin()+(rand()%(psique_melody[(int)psique].size())));
+								background_sound = app_mainprod->AddBackgroundSound(filename, 5.0f);
+								music_timestamp = current_timestamp;
+							}
 						}
-					}
 
-					if (false)//(app_mainpercept->FaceDetected())// (head_pos.x || head_pos.y || head_pos.z)
-					{
-						double relativetoheadpos_pitch = CC_MAX_PITCH * head_pos.z / (CC_MAX_HEADPOS - CC_MIN_HEADPOS);
-						if (relativetoheadpos_pitch < CC_MIN_PITCH)
-							relativetoheadpos_pitch = CC_MIN_PITCH;
-						if (relativetoheadpos_pitch > CC_MAX_PITCH)
-							relativetoheadpos_pitch = CC_MAX_PITCH;
+						if (false)//(app_mainpercept->FaceDetected())// (head_pos.x || head_pos.y || head_pos.z)
+						{
+							double relativetoheadpos_pitch = CC_MAX_PITCH * head_pos.z / (CC_MAX_HEADPOS - CC_MIN_HEADPOS);
+							if (relativetoheadpos_pitch < CC_MIN_PITCH)
+								relativetoheadpos_pitch = CC_MIN_PITCH;
+							if (relativetoheadpos_pitch > CC_MAX_PITCH)
+								relativetoheadpos_pitch = CC_MAX_PITCH;
 
-						app_mainprod->SetPitchBackgroundSound( background_sound,relativetoheadpos_pitch);
-						cout << "HEAD POS Z: " << head_pos.z << "\n";
-						cout << "MELODY PITCH: " << relativetoheadpos_pitch << "\n";
+							app_mainprod->SetPitchBackgroundSound( background_sound,relativetoheadpos_pitch);
+							//cout << "HEAD POS Z: " << head_pos.z << "\n";
+							//cout << "MELODY PITCH: " << relativetoheadpos_pitch << "\n";
+						}
 					}
 				}
+				else //perception is not available
+				{}
 			}
-			else //perception is not available
-			{}
+
+			//CREATE ENTITIES
+			//------------------------------------------------------
+			if (current_world && (current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE)) 
+			{
+				//if (z_step > 20) //retomar descomentar
+				//	z_step = 0;
+
+				//create new entities and insert them into the world
+				//------------------------------------------------------
+				//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
+				//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
+				std::stringstream model_url;
+				if ( iapp_config )
+					model_url << iapp_config->GetModelDirectory() << "tricube_004";	 //"panda-model";	
+				std::string modelpath = model_url.str();
+				Filename pandafile = Filename::from_os_specific(modelpath);
+				//std::cout << pandafile.get_fullpath() << "\n";
+				
+				entity_id++;
+				z_step++;
+				std::stringstream wop_newEntity;
+				wop_newEntity << "StandAloneEntity_" << z_step;
+				core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
+				genesis->SetPsique(NatureOfEntity::STANDALONE);
+				genesis->SetModelData(pandafile);
+				//genesis->SetModelData("cube_star.egg");
+				//genesis->SetModelData("panda-model");
+				//genesis->SetModelData("teapot");
+				//genesis->SetModelData("/F/etc/repos/OX/bin/data/models/cube_star.egg");
+				//genesis->SetSoundDataCreate("f://etc//repos//OX//motor_old.wav");
+				//genesis->SetPosition(0,10,z_step);
+				
+				genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0006.wav");
+				genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
+				genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
+				space_bounding_box_min;
+				space_bounding_box_max;
+				corePDU3D<double> candidatepdu;
+				//candidatepdu.position.x = RandomFloat(presence_center_of_mass.x - 1.0, presence_center_of_mass.x + 1.0);
+				//candidatepdu.position.y = RandomFloat(presence_center_of_mass.y + 10.0, presence_center_of_mass.y + 20.0);
+				//candidatepdu.position.z = RandomFloat(presence_center_of_mass.z - 0.0, presence_center_of_mass.z + 1.0);
+				float user_pos_x, user_pos_y, user_pos_z;
+				user_pos_x = user_pos_y =user_pos_z = 0;
+				if (current_user)
+					current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
+				candidatepdu.position.x = RandomFloat(user_pos_x - 5.0, user_pos_x + 5.0);
+				candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 20.0);
+				candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
+				float scale = RandomFloat( 0.025,  0.75);
+
+				//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
+				genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
+				genesis->SetScale(scale);
+				genesis->Save();
+				//cout << "N-ENTITIES : " << z_step << "\n";
+				new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
+
+				createdEntity_timesptamp = current_timestamp;
+				//------------------------------------------------------
+
+				//cout << "CONTENT CREATION LOOP: " << time_since_start << "\n";
+				//time_start = timestamp;
+			}
 		}
+	}
+	if (app && new_entity && app_mainprod) 
+	{
+		app->AddNewEntityIntoCurrentWorld((core::IEntity*)new_entity);
 
-		//CREATE ENTITIES
-		//------------------------------------------------------
-		if ((current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE)) 
+		//background_color[ContentCreationController::IA_Karma::EVIL].x += 0.01; background_color[ContentCreationController::IA_Karma::EVIL].y += 0.01; background_color[ContentCreationController::IA_Karma::EVIL].z += 0.01;
+		//fog_color[ContentCreationController::IA_Karma::EVIL].x += 0.01; fog_color[ContentCreationController::IA_Karma::EVIL].y += 0.01; fog_color[ContentCreationController::IA_Karma::EVIL].z += 0.01;
+		//fog_intensity[ContentCreationController::IA_Karma::EVIL] += 0.01;
+
+		//app_mainprod->SetBackgroundColor(background_color[ContentCreationController::IA_Karma::EVIL].x, background_color[ContentCreationController::IA_Karma::EVIL].y, background_color[ContentCreationController::IA_Karma::EVIL].z);
+		//app_mainprod->SetFogColor(fog_color[ContentCreationController::IA_Karma::EVIL].x, fog_color[ContentCreationController::IA_Karma::EVIL].y, fog_color[ContentCreationController::IA_Karma::EVIL].z);
+		//app_mainprod->SetFogIntensity(fog_intensity[ContentCreationController::IA_Karma::EVIL]);
+
+		//app_mainprod->SetBackgroundColor(new_background_color.x, new_background_color.y, new_background_color.z);
+		//app_mainprod->SetFogColor(new_fog_color.x, new_fog_color.y, new_fog_color.z);
+		//app_mainprod->SetFogIntensity(new_fog_intensity);
+
+		if (animate_background)
 		{
-			//if (z_step > 20) //retomar descomentar
-			//	z_step = 0;
-
-			//create new entities and insert them into the world
-			//------------------------------------------------------
-			//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
-			//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
-			std::stringstream model_url;
-			if ( iapp_config )
-				model_url << iapp_config->GetModelDirectory() << "tricube_004";	 //"panda-model";	
-			std::string modelpath = model_url.str();
-			Filename pandafile = Filename::from_os_specific(modelpath);
-			std::cout << pandafile.get_fullpath() << "\n";
-			
-			entity_id++;
-			z_step++;
-			std::stringstream wop_newEntity;
-			wop_newEntity << "StandAloneEntity_" << z_step;
-			core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
-			genesis->SetPsique(NatureOfEntity::STANDALONE);
-			genesis->SetModelData(pandafile);
-			//genesis->SetModelData("cube_star.egg");
-			//genesis->SetModelData("panda-model");
-			//genesis->SetModelData("teapot");
-			//genesis->SetModelData("/F/etc/repos/OX/bin/data/models/cube_star.egg");
-			//genesis->SetSoundDataCreate("f://etc//repos//OX//motor_old.wav");
-			//genesis->SetPosition(0,10,z_step);
-			
-			genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0006.wav");
-			space_bounding_box_min;
-			space_bounding_box_max;
-			corePDU3D<double> candidatepdu;
-			//candidatepdu.position.x = RandomFloat(presence_center_of_mass.x - 1.0, presence_center_of_mass.x + 1.0);
-			//candidatepdu.position.y = RandomFloat(presence_center_of_mass.y + 10.0, presence_center_of_mass.y + 20.0);
-			//candidatepdu.position.z = RandomFloat(presence_center_of_mass.z - 0.0, presence_center_of_mass.z + 1.0);
-			candidatepdu.position.x = RandomFloat(-5.0,  5.0);
-			candidatepdu.position.y = RandomFloat(5.0, 20.0);
-			candidatepdu.position.z = RandomFloat( 0.0,  2.0);
-			float scale = RandomFloat( 0.05,  1.0);
-
-			//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
-			genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
-			genesis->SetScale(scale);
-			genesis->Save();
-			cout << "N-ENTITIES : " << z_step << "\n";
-			core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
-
-			if (app) app->AddNewEntityIntoCurrentWorld((core::IEntity*)new_entity);
-			createdEntity_timesptamp = current_timestamp;
-			//------------------------------------------------------
-
-			//cout << "CONTENT CREATION LOOP: " << time_since_start << "\n";
-			//time_start = timestamp;
+			app_mainprod->SetBackgroundAndFog(current_background_color.x, current_background_color.y, current_background_color.z,
+											  current_fog_color.x, current_fog_color.y, current_fog_color.z,
+											  current_fog_intensity, 
+											  1.0f);
+			recover_collisionevaluation_aftertime = current_timestamp;
 		}
 	}
 }
@@ -365,17 +523,26 @@ void ContentCreationController::RemoveEntityFromCurrentWorld(core::IEntity *enti
 
 void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
 {
-	boost::mutex::scoped_lock lock(m_mutex); // retomar posible bloqueo mutex
+	boost::mutex::scoped_lock lock(m_mutex); 
 
-	cout << "USER HIT ENTITY, but was GOOD?: " << was_good << "\n";
+	if (!(recover_collisionevaluation_aftertime - current_timestamp > 0))
+	{	
+		recover_collisionevaluation_aftertime = current_timestamp + CC_RECOVERCOL_EVAL; 
 
-	if (was_good)
-		psique = (psique-0.35f <= 0.0f) ? 0.0f : psique-0.35f;
-	else
-		psique = (psique+0.35f >= 1.0f) ? 1.0f : psique+0.35f;
+		if (was_good)
+		{	psique = (psique - CC_GOOD_STEP <= 0.0f) ? 0.0f : psique - CC_GOOD_STEP;
+			i_am_being = IA_Karma::GOOD;		}
+		else
+		{	psique = (psique + CC_EVIL_STEP >= 2.0f) ? 2.0f : psique + CC_EVIL_STEP;
+			i_am_being = IA_Karma::EVIL;		}
 
-	if (current_user)
-	{	current_user->SetPsique((int) psique);
-		current_user->Save();
+		cout << "NUEVA PSIQUE TRAS COLISION: " << psique << "\n";
+		if (current_user)
+		{	int previous_psique = 1.0f;
+			current_user->GetPsique(previous_psique);
+			current_user->SetPsique(floor(psique + 0.5));
+			if (previous_psique != floor(psique + 0.5))
+				current_user->Save();
+		}
 	}
 }

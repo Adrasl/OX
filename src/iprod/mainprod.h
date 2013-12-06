@@ -133,6 +133,11 @@ namespace core
 				virtual void RemoveBackgroundSound(const int &id, const double &time_lerp=0.0);
 				virtual void RemoveAllBackgroundSound(const double &time_lerp=0.0);
 
+				virtual void SetBackgroundColor(const float &R, const float &G, const float &B);
+				virtual void SetFogColor(const float &R, const float &G, const float &B);
+				virtual void SetFogIntensity(const float &intensity);
+				virtual void SetBackgroundAndFog(const float &bg_R=0.5f, const float &bg_G=0.5f, const float &bg_B=0.5f, const float &f_R=0.5f, const float &f_G=0.5f, const float &f_B=0.5f, const float &intensity=0.5f, const float animation_time=.0f);
+
 				static NodePath* CreateQuad();
 				static void AddTestQuad();
 			
@@ -144,6 +149,7 @@ namespace core
 				static void InternalRemoveAllBackgroundSound(const double &time_lerp=0.0);
 
 				static core::IUserPersistence				*current_user;
+				static core::IUserPersistence				*default_user;
 				static core::IWorldPersistence				*current_world;
 				static core::IEntityPersistence				*user_dummyPersistence;
 				static Prod3DEntity							*user_entity;
@@ -196,6 +202,8 @@ namespace core
 				static void LoadDefaultScene();
 				static void LoadEmptyScene();
 				static void ClearScene();
+				static void CheckBackgroundAndFogRanges();
+				static bool CheckDesiredBackgroundAndFogRanges();
 
 				static AsyncTask::DoneStatus SpinCameraTask(GenericAsyncTask* task, void* data);
 
@@ -235,7 +243,15 @@ namespace core
 				static sf::Sound Sound;
 
 
-				static PT(Fog) m_fog;
+				//static PT(Fog) m_fog;
+				static Fog m_fog;
+				static corePoint3D<float> background_color, desired_background_color;
+				static corePoint3D<float> fog_color, desired_fog_color;
+				static float fog_intensity, desired_fog_intensity;
+				static float current_timestamp, 
+							 background_animation_starttimestamp, 
+							 background_animation_endtimestamp;
+
 				static unsigned int num_windows;
 
 				static float m_peo, m_caca;

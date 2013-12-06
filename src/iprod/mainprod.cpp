@@ -65,6 +65,7 @@ sf::Sound MainProd::Sound;
 
 core::IUserPersistence   *MainProd::current_user  = NULL;
 core::IWorldPersistence  *MainProd::current_world = NULL;
+core::IUserPersistence   *MainProd::default_user  = NULL;
 Prod3DEntity			 *MainProd::user_entity	  = NULL;
 NodePath				 *MainProd::user_nodepath = NULL;
 core::IEntityPersistence *MainProd::user_dummyPersistence = NULL;
@@ -79,7 +80,14 @@ NodePath MainProd::master_camera;
 IApplicationConfiguration *MainProd::app_config =NULL;
 
 //Fog *MainProd::m_fog;
-PT(Fog) MainProd::m_fog;
+//PT(Fog) MainProd::m_fog;
+Fog MainProd::m_fog("SceneFog");
+corePoint3D<float> MainProd::background_color;
+corePoint3D<float> MainProd::fog_color;
+float MainProd::fog_intensity = 0.25;
+corePoint3D<float> MainProd::desired_background_color;
+corePoint3D<float> MainProd::desired_fog_color;
+float MainProd::desired_fog_intensity = 0.25;
 
 ////---------destroy when ready
 //NodePath MainProd::environment;
@@ -110,11 +118,25 @@ std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> > MainProd::music_mel
 std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > MainProd::music_base_samples;
 std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > MainProd::music_decoration_samples;
 
+float MainProd::background_animation_starttimestamp = 0.0f;
+float MainProd::background_animation_endtimestamp   = 0.0f;
+float MainProd::current_timestamp   = 0.0f;
+
 MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[]) : mesh_factory(NULL)
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	m_argc = argc;
 	m_argv = argv;
 	app_config = app_config_;
+
+	background_color.x = background_color.y = background_color.z = 0.0;
+	fog_color.x = fog_color.y = fog_color.z = 0.0;
+	fog_intensity = 0.0f;
+
+	desired_background_color.x = desired_background_color.y = desired_background_color.z = 0.0;
+	desired_fog_color.x = desired_fog_color.y = desired_fog_color.z = 0.0;
+	desired_fog_intensity = 0.0f;
 
 	pt0.x = pt0.y = pt0.z = 0;
 	pt1 = pti = vel = vel0 = vel1 = acc = pt0;
@@ -140,6 +162,8 @@ MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[
 
 MainProd::~MainProd()
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	m_thread->join();
 	for (std::map<int, Prod3DWindow*>::iterator iter=prod3Dwindow_array.begin(); iter != prod3Dwindow_array.end(); iter++)
 		delete iter->second;
@@ -160,7 +184,6 @@ void MainProd::Delete()
 	stop_requested = true;
 	m_thread->join();
 	assert(m_thread);
-
 }
 
 void MainProd::PostLogMessage(const std::string &message)
@@ -288,6 +311,8 @@ void MainProd::DoMainLoop()
 
 	}
 
+	//m_fog = Fog("Scene Fog");
+
 	while(!stop_requested)
 	{
 		float * ff = new float;
@@ -312,6 +337,8 @@ void MainProd::Iterate()
 
 	if (lock && initialized)
 	{
+		current_timestamp = (double)clock()/CLOCKS_PER_SEC;
+
 		#ifndef _DEBUG
 		CheckCollisions(); 
 		UpdateEntities();  
@@ -332,6 +359,36 @@ void MainProd::Iterate()
 		{
 			if (app_config != NULL)
 			{
+				//background_color.x += 0.001; background_color.y += 0.001; background_color.z += 0.001;
+				//fog_color.x += 0.001; fog_color.y += 0.001; fog_color.z += 0.001;
+				//fog_intensity += 0.001;
+
+				float bg_diff_time = background_animation_endtimestamp - current_timestamp;
+				if (bg_diff_time >= 0.0f && CheckDesiredBackgroundAndFogRanges())
+				{
+					float factor = 1.0f;
+					float anim_starttoend_time = background_animation_endtimestamp - background_animation_starttimestamp;
+					if (anim_starttoend_time > 0.001f)
+						factor = 1.0f - ( bg_diff_time / (background_animation_endtimestamp - background_animation_starttimestamp));
+
+					background_color.x = background_color.x + ((desired_background_color.x - background_color.x)*factor);
+					background_color.y = background_color.y + ((desired_background_color.y - background_color.y)*factor);
+					background_color.z = background_color.z + ((desired_background_color.z - background_color.z)*factor);
+
+					fog_color.x = fog_color.x + ((desired_fog_color.x - fog_color.x)*factor);
+					fog_color.y = fog_color.y + ((desired_fog_color.y - fog_color.y)*factor);
+					fog_color.z = fog_color.z + ((desired_fog_color.z - fog_color.z)*factor);
+
+					fog_intensity = fog_intensity + ((desired_fog_intensity - fog_intensity)*factor);
+					CheckBackgroundAndFogRanges();
+				}
+				m_fog.set_mode(Fog::M_exponential);
+				m_fog.set_color(fog_color.x, fog_color.y, fog_color.z); 
+				m_fog.set_exp_density(fog_intensity); 
+				pandawindows_array[i]->get_render().set_fog(&m_fog, 1);
+				pandawindows_array[i]->get_display_region_3d()->set_clear_color(LColor(background_color.x, background_color.y, background_color.z, 1));
+
+
 				//win_props.set_size(app_config->GetDisplayData(i).resolution_x, app_config->GetDisplayData(i).resolution_y);
 				//pandawindows_array[i];
 				core::DisplayData display_data = app_config->GetDisplayData(i);
@@ -677,6 +734,7 @@ bool MainProd::RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *
 		{	boost::mutex::scoped_lock lock(m_mutex);
 			current_user  = user;
 			current_world = world;	
+			default_user = app->GetDefaultUser();
 
 			////////////LoadEntityIntoScene(NULL);
 			//////////for (int i=0; i < current_world->GetNumEntities(); i++)
@@ -820,6 +878,8 @@ void MainProd::SetUserPosition(const core::corePoint3D<double> &pos)
 		acc.x = vel1.x - vel0.x; acc.y = vel1.y - vel0.y; acc.z = vel1.z - vel0.z; 
 		acc.x = acc.x/interval; acc.y = acc.y/interval; acc.z = acc.z/interval;
 
+
+
 	}
 
 	////windowcamera_array[1].set_hpr(angledegrees, 0, 0);
@@ -962,11 +1022,18 @@ void MainProd::DoDoStuff()
 		////pti.z = (pt1.z - pt0.z)*t + pt0.z;
 
 		//UPDATE USER // retomar
-		for(std::map<int, NodePath>::iterator iter = windowcamera_array.begin(); iter != windowcamera_array.end(); iter++)
-		{	//if (user_nodepath) 
+		//for(std::map<int, NodePath>::iterator iter = windowcamera_array.begin(); iter != windowcamera_array.end(); iter++)
+		{	
+			std::map<int, NodePath>::iterator iter = windowcamera_array.begin();
+
+			//if (user_nodepath) 
 			//	user_nodepath->set_pos(pti.x/40, pti.y/40, pti.z/40);
 			iter->second.set_pos(pti.x/40, pti.y/40, pti.z/40);
 			user_entity->SetPosition(pti.x/40, pti.y/40, pti.z/40);
+			if (current_user)
+				current_user->SetPosition(pti.x/40, pti.y/40, pti.z/40);
+			else if (default_user)
+				default_user->SetPosition(pti.x/40, pti.y/40, pti.z/40);
 		}
 
 		////UPDATE ENTITIES // retomar
@@ -2317,4 +2384,77 @@ void MainProd::InternalRemoveAllBackgroundSound(const double &time_lerp)
 		delete (iter->second.sound_buffer);
 		music_melody_samples.erase(iter);
 	}
+}
+
+void MainProd::SetBackgroundColor(const float &R, const float &G, const float &B)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	background_color.x = R;
+	background_color.y = G;
+	background_color.z = B;
+}
+void MainProd::SetFogColor(const float &R, const float &G, const float &B)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	fog_color.x = R;
+	fog_color.y = G;
+	fog_color.z = B;
+}
+void MainProd::SetFogIntensity(const float &intensity)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	fog_intensity = intensity;
+}
+
+void MainProd::SetBackgroundAndFog(const float &bg_R, const float &bg_G, const float &bg_B, const float &f_R, const float &f_G, const float &f_B, const float &intensity, const float animation_time)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	if (animation_time > 0.0f)
+	{
+		background_animation_starttimestamp = current_timestamp;
+		background_animation_endtimestamp = current_timestamp + animation_time;
+		
+		desired_background_color.x = bg_R;
+		desired_background_color.y = bg_G;
+		desired_background_color.z = bg_B;
+
+		desired_fog_color.x = f_R;
+		desired_fog_color.y = f_G;
+		desired_fog_color.z = f_B;
+
+		desired_fog_intensity = intensity;
+	}
+	else
+	{
+		background_color.x = bg_R;
+		background_color.y = bg_G;
+		background_color.z = bg_B;
+
+		fog_color.x = f_R;
+		fog_color.y = f_G;
+		fog_color.z = f_B;
+
+		fog_intensity = intensity;
+
+		CheckBackgroundAndFogRanges();
+	}
+}
+
+bool MainProd::CheckDesiredBackgroundAndFogRanges()
+{
+	return ( (desired_background_color.x >= 0.0f) && (desired_background_color.y >= 0.0f) && (desired_background_color.z >= 0.0f) &&
+			 (fog_color.x >= 0.0f) && (fog_color.y >= 0.0f) && (fog_color.z >= 0.0f) &&
+			 (fog_intensity >= 0.0f) && (fog_intensity >= 0.0f) && (fog_intensity >= 0.0f) );
+}
+
+void MainProd::CheckBackgroundAndFogRanges()
+{
+	if (background_color.x > 1.0f) background_color.x = 1.0f; else if ((background_color.x < 0.0f)|| !(background_color.z -1.0f > -1.0f)) background_color.x = 0.0f;
+	if (background_color.y > 1.0f) background_color.y = 1.0f; else if ((background_color.y < 0.0f)|| !(background_color.z -1.0f > -1.0f)) background_color.y = 0.0f;
+	if (background_color.z > 1.0f) background_color.z = 1.0f; else if ((background_color.z < 0.0f) || !(background_color.z -1.0f > -1.0f)) background_color.z = 0.0f;
+	if (fog_color.x > 1.0f) fog_color.x = 1.0f; else if ((fog_color.x < 0.0f)|| !(background_color.z -1.0f > -1.0f)) fog_color.x = 0.0f;
+	if (fog_color.y > 1.0f) fog_color.y = 1.0f; else if ((fog_color.y < 0.0f)|| !(background_color.z -1.0f > -1.0f)) fog_color.y = 0.0f;
+	if (fog_color.z > 1.0f) fog_color.z = 1.0f; else if ((fog_color.z < 0.0f)|| !(background_color.z -1.0f > -1.0f)) fog_color.z = 0.0f;
+	if (fog_intensity > 1.0f) fog_intensity = 1.0f; else if ((fog_intensity < 0.0f)|| !(background_color.z -1.0f > -1.0f)) fog_intensity = 0.0f;
 }

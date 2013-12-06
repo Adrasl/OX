@@ -3366,7 +3366,7 @@ bool PerceptVideo::SetCameraRecording(const bool &value)
 			std::string str_file_name = file_name.str();
 			capture_videowriter[i+1] = cvCreateVideoWriter(str_file_name.c_str(), CV_FOURCC('X','V','I','D'), fps, cvSize((int)cam_w,(int)cam_h), 1);
 			if (capture_videowriter[i+1] == NULL)
-				cout << "Could not create the video writer (missing mpg4 codec? http://www.fourcc.org/mpg4/): cvCreateVideoWriter for camera " << i+1 << "\n";
+				cout << "Could not create the video writer (missing XVID codec? http://www.fourcc.org/): cvCreateVideoWriter for camera " << i+1 << "\n";
 		} 
 	}
 	is_recording = value;
