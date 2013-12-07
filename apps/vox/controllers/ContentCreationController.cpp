@@ -37,6 +37,7 @@ std::map<int, core::IEntityPersistence*> ContentCreationController::RTree_Entiti
 std::map<NatureOfEntity, RTree<int, float, 3, float> *> ContentCreationController::RTree_Entities_SpatialIndexes;
 std::map<NatureOfEntity, std::vector<core::IEntityPersistence*>> ContentCreationController::RTree_Entities_by_Psique;
 std::map<int, std::vector<std::string>> ContentCreationController::psique_melody;
+std::string ContentCreationController::current_melody = "";
 
 boost::mutex ContentCreationController::m_mutex;
 
@@ -47,6 +48,9 @@ corePoint3D<float> ContentCreationController::current_background_color;
 corePoint3D<float> ContentCreationController::current_fog_color;
 float			   ContentCreationController::current_fog_intensity = 0.0f;
 ContentCreationController::IA_Karma ContentCreationController::i_am_being = ContentCreationController::IA_Karma::NEUTRAL;
+bool ContentCreationController::must_change_background = false;
+bool ContentCreationController::must_change_music = false;
+
 
 float RandomFloat(const float &Min, const float &Max)
 {
@@ -87,6 +91,8 @@ ContentCreationController::ContentCreationController()
 
 void ContentCreationController::SetApp(IApplication *app_, core::IApplicationConfiguration* iapp_config_, IPercept *app_mainpercept_, IProd *app_mainprod_) 
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	app = app_; 
 	iapp_config = iapp_config_; 
 
@@ -126,6 +132,8 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		psique_melody[IA_Karma::NEUTRAL]= neutral_melodies;
 		psique_melody[IA_Karma::EVIL]	= evil_melodies;
 	}
+
+	DoNotified();
 
 	//if (app_mainprod)
 	//	app_mainprod->SetBackgroundAndFog(current_background_color.x, current_background_color.y, current_background_color.z,
@@ -191,43 +199,25 @@ void ContentCreationController::Clear()
 void ContentCreationController::Reset()
 {
 	Clear();
-
-	bool change_background = false;
+	
+	if (app_mainprod && must_change_background)
+	{
+		app_mainprod->SetBackgroundAndFog(current_background_color.x, current_background_color.y, current_background_color.z,
+								  current_fog_color.x, current_fog_color.y, current_fog_color.z,
+								  current_fog_intensity);
+		{boost::mutex::scoped_lock lock(m_mutex); must_change_background = false;}
+	}
 
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
-		if(app)
-		{	
-			IWorldPersistence* latest_world = current_world;
-			current_world = app->GetCurrentWorld();
-			current_user  = app->GetCurrentUser();
+		current_world = app->GetCurrentWorld();
+		current_user  = app->GetCurrentUser();
 
-			if (!current_world)
-				current_world = app->GetDefaultWorld();
-			if (!current_user)
-				current_user = app->GetDefaultUser();
-
-			if (latest_world != current_world)
-			{
-				psique = (float)IA_Karma::NEUTRAL;
-				energy = (float)IA_Energy::EXITED/2.0f;
-				if (current_user)
-				{	int aux_psique;
-					current_user->GetPsique(aux_psique);
-					psique = (float)aux_psique;
-					current_background_color.x = background_color[(IA_Karma)(int)floor(psique + 0.5)].x;
-					current_background_color.y = background_color[(IA_Karma)(int)floor(psique + 0.5)].y;
-					current_background_color.z = background_color[(IA_Karma)(int)floor(psique + 0.5)].z;
-					current_fog_color.x = fog_color[(IA_Karma)(int)floor(psique + 0.5)].x;
-					current_fog_color.y = fog_color[(IA_Karma)(int)floor(psique + 0.5)].y;
-					current_fog_color.z = fog_color[(IA_Karma)(int)floor(psique + 0.5)].z;
-					current_fog_intensity = fog_intensity[(IA_Karma)(int)floor(psique + 0.5)];
-					
-					change_background =true;
-					recover_collisionevaluation_aftertime = current_timestamp + CC_RECOVERCOL_EVAL;
-				}
-				latest_world = current_world;
-			}
+		if (!current_world && !current_user)
+		{
+			current_world = app->GetDefaultWorld();
+			current_user = app->GetDefaultUser();
+			RestartCurrentUserBackgroundAndFog();
 		}
 
 		if (current_world)
@@ -251,26 +241,44 @@ void ContentCreationController::Reset()
 			}
 		}
 	}
-	if (app_mainprod && change_background)
-		app_mainprod->SetBackgroundAndFog(current_background_color.x, current_background_color.y, current_background_color.z,
-								  current_fog_color.x, current_fog_color.y, current_fog_color.z,
-								  current_fog_intensity);
 }
 
 void ContentCreationController::Update()
 {
-	Reset(); 
-	
-	std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();
-	core::iprod::OXStandAloneEntity *new_entity = NULL;
 	bool animate_background = false;
+	core::iprod::OXStandAloneEntity *new_entity = NULL;
+	std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();
+	bool change_music = false;
+
+	{	boost::mutex::scoped_lock lock(m_mutex);
+		
+		if (!current_world || !current_user)
+			return;
+
+		current_timestamp = (double)clock()/CLOCKS_PER_SEC; 
+
+		change_music = must_change_music && (current_melody !="");
+	}
+
+	Reset(); 
+
+	if ( change_music )
+	{
+			app_mainprod->RemoveAllBackgroundSound(5.0f);
+			int music_id = app_mainprod->AddBackgroundSound(current_melody, 5.0f);
+			{	
+				boost::mutex::scoped_lock lock(m_mutex);
+				background_sound = music_id;
+				music_timestamp = current_timestamp;
+				must_change_music = false;
+			}
+	}
 
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
 		////Interpolate Background color and fog
 		////------------------------------------
-		current_timestamp = (double)clock()/CLOCKS_PER_SEC;
-		animate_background = recover_collisionevaluation_aftertime - current_timestamp > 0.0;
+		animate_background = (recover_collisionevaluation_aftertime - current_timestamp > 0.0);
 		if (animate_background)
 		{
 			int psique_index = (int)psique;
@@ -389,17 +397,16 @@ void ContentCreationController::Update()
 						}					
 
 						if ( iapp_config && 
-							( (background_sounds.size() == 0) || ((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) ) )
+							( (background_sounds.size() == 0) || 
+							  ((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) ) )
 						{
 							int n_melodies = 0;
 							int random_index = 0;
 							std::string filename;
 							if ((int)psique < psique_melody.size())
 							{
-								app_mainprod->RemoveAllBackgroundSound(5.0f);
-								filename = *(psique_melody[(int)psique].begin()+(rand()%(psique_melody[(int)psique].size())));
-								background_sound = app_mainprod->AddBackgroundSound(filename, 5.0f);
-								music_timestamp = current_timestamp;
+								must_change_music = true;
+								current_melody = *(psique_melody[(int)floor(psique+0.5f)].begin()+(rand()%(psique_melody[(int)floor(psique+0.5f)].size())));
 							}
 						}
 
@@ -459,6 +466,7 @@ void ContentCreationController::Update()
 				space_bounding_box_min;
 				space_bounding_box_max;
 				corePDU3D<double> candidatepdu;
+
 				//candidatepdu.position.x = RandomFloat(presence_center_of_mass.x - 1.0, presence_center_of_mass.x + 1.0);
 				//candidatepdu.position.y = RandomFloat(presence_center_of_mass.y + 10.0, presence_center_of_mass.y + 20.0);
 				//candidatepdu.position.z = RandomFloat(presence_center_of_mass.z - 0.0, presence_center_of_mass.z + 1.0);
@@ -474,11 +482,15 @@ void ContentCreationController::Update()
 				//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
 				genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
 				genesis->SetScale(scale);
-				genesis->Save();
+				//genesis->Save();
 				//cout << "N-ENTITIES : " << z_step << "\n";
 				new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
 
+				current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+				current_world->Save();
+
 				createdEntity_timesptamp = current_timestamp;
+				
 				//------------------------------------------------------
 
 				//cout << "CONTENT CREATION LOOP: " << time_since_start << "\n";
@@ -486,9 +498,13 @@ void ContentCreationController::Update()
 			}
 		}
 	}
-	if (app && new_entity && app_mainprod) 
+	if (app && app_mainprod) 
 	{
-		app->AddNewEntityIntoCurrentWorld((core::IEntity*)new_entity);
+		if (new_entity)
+		{
+			app->AddNewEntityIntoCurrentWorld((core::IEntity*)new_entity, 1.0f);
+			new_entity = NULL;
+		}
 
 		//background_color[ContentCreationController::IA_Karma::EVIL].x += 0.01; background_color[ContentCreationController::IA_Karma::EVIL].y += 0.01; background_color[ContentCreationController::IA_Karma::EVIL].z += 0.01;
 		//fog_color[ContentCreationController::IA_Karma::EVIL].x += 0.01; fog_color[ContentCreationController::IA_Karma::EVIL].y += 0.01; fog_color[ContentCreationController::IA_Karma::EVIL].z += 0.01;
@@ -541,8 +557,48 @@ void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
 		{	int previous_psique = 1.0f;
 			current_user->GetPsique(previous_psique);
 			current_user->SetPsique(floor(psique + 0.5));
-			if (previous_psique != floor(psique + 0.5))
-				current_user->Save();
+			//if (previous_psique != floor(psique + 0.5))
+				//current_user->Save();
 		}
 	}
+}
+
+void ContentCreationController::Notified()
+{
+	boost::mutex::scoped_lock lock(m_mutex); 
+	DoNotified();
+}
+
+void ContentCreationController::DoNotified()
+{
+	if(app)
+	{	
+		psique = (float)IA_Karma::NEUTRAL;
+		energy = (float)IA_Energy::EXITED/2.0f;
+
+		current_world = app->GetCurrentWorld();
+		current_user  = app->GetCurrentUser();
+
+		RestartCurrentUserBackgroundAndFog();
+	}
+}
+
+void ContentCreationController::RestartCurrentUserBackgroundAndFog()
+{
+	if (current_user)
+	{	int aux_psique;
+		current_user->GetPsique(aux_psique);
+		psique = (float)aux_psique;
+		current_background_color.x = background_color[(IA_Karma)(int)floor(psique + 0.5)].x;
+		current_background_color.y = background_color[(IA_Karma)(int)floor(psique + 0.5)].y;
+		current_background_color.z = background_color[(IA_Karma)(int)floor(psique + 0.5)].z;
+		current_fog_color.x = fog_color[(IA_Karma)(int)floor(psique + 0.5)].x;
+		current_fog_color.y = fog_color[(IA_Karma)(int)floor(psique + 0.5)].y;
+		current_fog_color.z = fog_color[(IA_Karma)(int)floor(psique + 0.5)].z;
+		current_fog_intensity = fog_intensity[(IA_Karma)(int)floor(psique + 0.5)];
+		
+		must_change_background = true;
+		recover_collisionevaluation_aftertime = current_timestamp + CC_RECOVERCOL_EVAL;
+	}
+
 }

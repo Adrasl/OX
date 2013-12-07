@@ -35,7 +35,7 @@ END_EVENT_TABLE()
 
 core::IApplication* Application::app = NULL;
 
-Application::Application(void) : app_maingui(NULL), app_mainpercept(NULL), app_mainprod(NULL), session_controller(NULL), configuration_controller(NULL), navigation_controller(NULL), user_dataModel_controller(NULL), app_mainpersistence(NULL), benefit_of_the_doubt(0), avatar_entity(NULL)
+Application::Application(void) : app_maingui(NULL), app_mainpercept(NULL), app_mainprod(NULL), session_controller(NULL), configuration_controller(NULL), navigation_controller(NULL), user_dataModel_controller(NULL), app_mainpersistence(NULL), benefit_of_the_doubt(0), avatar_entity(NULL), contentcreation_controller(NULL)
 {
 	//_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 
@@ -80,6 +80,9 @@ Application::~Application(void)
 	{	app_mainpersistence->Delete();
 		delete app_mainpersistence;		}
 
+	if (contentcreation_controller!=NULL)
+	{	delete contentcreation_controller;	}
+
 	if ( app_config ) delete app_config;
 
 	//_CrtDumpMemoryLeaks();
@@ -114,6 +117,8 @@ bool Application::OnInit()
 	app_mainpersistence	= (core::IPersistence *) new core::ipersistence::MainPersistence(iapp_config); 
 	avatar_entity		= (core::IEntityPersistence *) new core::ipersistence::EntityPersistence ("avatar");
 
+	
+
 	if(app_maingui)
 		app_maingui->SetApp((IApplication *)this);
 	if(app_mainprod)
@@ -123,13 +128,18 @@ bool Application::OnInit()
 	if(app_mainpersistence)
 		app_mainpersistence->SetApp((IApplication *)this);
 	if(app_mainprod && app_mainpercept)
-		ContentCreationController::Instance()->SetApp((IApplication *)this, iapp_config, app_mainpercept, app_mainprod);
+	{
+		contentcreation_controller = ContentCreationController::Instance();
+		if (contentcreation_controller)
+			contentcreation_controller->SetApp((IApplication *)this, iapp_config, app_mainpercept, app_mainprod);
+	}
 
 	if( (app_mainprod) && (app_mainpercept))
 	{
 		user_dataModel_controller = new UserDataModelController();
 		navigation_controller = new NavigationController((IApplication *)this, user_dataModel_controller, app_mainpercept, app_mainprod);
 	}
+
 
 	//app_mainpersistence->ListProjects();
 
@@ -147,6 +157,15 @@ bool Application::OnInit()
 	}
 
 	session_controller->LoadDefaultData();
+
+	//Attaching Observers to Subjects
+	if(session_controller && contentcreation_controller)
+	{
+		core::Observer* observer = dynamic_cast<core::Observer*> (contentcreation_controller);
+		if (observer)
+			session_controller->attach(observer);
+	}
+
 	RunDefaultWorld();
 
 	return true;
@@ -427,10 +446,10 @@ bool Application::RunDefaultWorld()
 	return false;
 }
 
-void Application::AddNewEntityIntoCurrentWorld(core::IEntity* new_entity)
+void Application::AddNewEntityIntoCurrentWorld(core::IEntity* new_entity, const double &after_seconds)
 {
 	if (app_mainprod)
-		app_mainprod->InsertEntityIntoCurrentWorld(new_entity);
+		app_mainprod->InsertEntityIntoCurrentWorld(new_entity, after_seconds);
 }
 
 void Application::RemoveEntityFromCurrentWorld(core::IEntity* new_entity)

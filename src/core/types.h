@@ -229,6 +229,57 @@ namespace core
 			vector3F speed_direction;
 	};
 
+
+	class Observer {
+
+	  public:
+
+		virtual void Notified() {}
+
+	};
+
+	class Subject {
+
+		std::vector< class Observer* > observers;
+
+	  public:
+
+		void attach(Observer *observer) 
+		{
+			if (observer)
+			{
+				bool found = false;
+				for (std::vector< class Observer* >::iterator iter = observers.begin(); !found && (iter != observers.end()); iter++ )
+					found = ( (*iter) == observer );
+
+				if (!found)
+					observers.push_back(observer);
+			}
+		}
+
+		void detach(Observer *observer) 
+		{
+			if (observer)
+			{
+				for (std::vector< class Observer* >::iterator iter = observers.begin(); iter != observers.end();  )
+				{
+					if ( (*iter) == observer )
+						observers.erase(iter);
+					else
+						iter++;
+				}
+			}
+		}
+
+		void Notify() {
+			for (std::vector< class Observer* >::iterator iter = observers.begin(); iter != observers.end(); iter++)
+			{
+				if (*iter)
+					(*iter)->Notified();
+			}
+		}
+	};
+
 }
 
 #endif

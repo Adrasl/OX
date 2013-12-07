@@ -24,34 +24,12 @@ Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepat
 
 Prod3DEntity::~Prod3DEntity()
 {
+	
 }
 
-void Prod3DEntity::Delete()
+void Prod3DEntity::DeletePersistence()
 {
-	if(nodepath)
-		delete nodepath;
 
-	if (sound_create.sound_data!=NULL)
-	{	delete sound_create.sound_buffer;
-		delete sound_create.sound_data;
-	}
-	if (sound_create.sound_buffer!=NULL)
-		delete sound_create.sound_buffer;
-
-	if (sound_destroy.sound_data!=NULL)
-		delete sound_destroy.sound_data;
-	if (sound_destroy.sound_buffer!=NULL)
-		delete sound_destroy.sound_buffer;
-
-	if (sound_idle.sound_data!=NULL)
-		delete sound_idle.sound_data;
-	if (sound_idle.sound_buffer!=NULL)
-		delete sound_idle.sound_buffer;
-
-	if (sound_touch.sound_data!=NULL)
-		delete sound_touch.sound_data;
-	if (sound_touch.sound_buffer!=NULL)
-		delete sound_touch.sound_buffer;
 }
 
 void Prod3DEntity::OnDestroy()

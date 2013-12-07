@@ -5,6 +5,8 @@
 #include <core/IPersistence/IPersistence.h>
 #include <core/IPersistence/IUserPersistence.h>
 #include <core/IPersistence/IWorldPersistence.h>
+#include <core/types.h>
+
 #include <ipersistence/types.h>
 #include <vector>
 
@@ -23,7 +25,7 @@ class Application;
 //		~World(){}
 //};
 
-class SessionController
+class SessionController : public core::Subject
 {
 	public:
 		SessionController();
@@ -34,10 +36,10 @@ class SessionController
 		bool LoadUser(const int &user_id);
 		bool LoginUser(const std::string &name, const std::string &passwd);
 		void LogOut();
-		core::IUserPersistence* GetCurrentUser()		{return  (core::IUserPersistence*)app_user;}
-		core::IWorldPersistence* GetCurrentWorld()		{return  (core::IWorldPersistence*)app_world;}
-		core::IUserPersistence* GetDefaultUser()		{return  (core::IUserPersistence*)default_user;}
-		core::IWorldPersistence* GetDefaultWorld()		{return  (core::IWorldPersistence*)default_world;}
+		core::IUserPersistence* GetCurrentUser()		{boost::mutex::scoped_lock lock(m_mutex); return  (core::IUserPersistence*)app_user;}
+		core::IWorldPersistence* GetCurrentWorld()		{boost::mutex::scoped_lock lock(m_mutex); return  (core::IWorldPersistence*)app_world;}
+		core::IUserPersistence* GetDefaultUser()		{boost::mutex::scoped_lock lock(m_mutex); return  (core::IUserPersistence*)default_user;}
+		core::IWorldPersistence* GetDefaultWorld()		{boost::mutex::scoped_lock lock(m_mutex); return  (core::IWorldPersistence*)default_world;}
 		bool RunWorld(const std::string &name);
 		bool OpenSession(const std::string &user_name, const std::string &passwd, const std::string &world_name);
 		bool CloseSession();
@@ -51,6 +53,8 @@ class SessionController
 
 	private:
 		//User	*app_user;
+		static boost::mutex m_mutex;
+
 		core::ipersistence::UserPersistence		*app_user, *default_user;
 		core::ipersistence::WorldPersistence	*app_world, *default_world;
 		int session_permissions;

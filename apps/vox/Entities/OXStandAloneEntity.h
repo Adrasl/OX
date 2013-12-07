@@ -58,7 +58,7 @@ namespace core
 
 				OXStandAloneEntity(core::IEntityPersistence* ent, const float &pitch=1.0f, const float &amplitude=100.0f);
 				virtual ~OXStandAloneEntity();
-				virtual void Delete();
+				virtual void DeletePersistence();
 
 				float GetTimeToLive()					{ boost::mutex::scoped_lock lock(m_mutex); return timeToLive;		}
 				void  SetTimeToLive(const float &value)	{ boost::mutex::scoped_lock lock(m_mutex); timeToLive = value;	}
@@ -89,7 +89,7 @@ namespace core
 				float psique; //type of entity
 				float karma;  //good or evil
 				float energy; //calm or energyc
-				bool  ignore_collisons;
+				bool  ignore_collisons, already_loaded_in_scene;
 				double start_timestamp, latestupdate_timestamp, current_timestamp, killme_afterseconds, recovercollisions_afterseconds;
 				double delta_time, lived_time;
 

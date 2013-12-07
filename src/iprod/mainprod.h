@@ -113,7 +113,7 @@ namespace core
 				virtual void SetUserPosition(const core::corePoint3D<double> &pos);
 				virtual void SetCamerasPDU(core::corePDU3D<double> pdu);
 
-				virtual void InsertEntityIntoCurrentWorld(core::IEntity * ent);
+				virtual void InsertEntityIntoCurrentWorld(core::IEntity * ent, const double &after_seconds = 0.0f);
 				virtual void RemoveEntityFromCurrentWorld(core::IEntity * ent);
 				virtual void LoadEntityFromCurrentWorld(core::IEntity * ent); //if an insertion is not needed because it has been already registered
 				virtual void InsertEntityIntoScene(core::IEntityPersistence* ent);
@@ -143,8 +143,8 @@ namespace core
 			
 			private:
 
-				static void AddProd3DEntityToLoadQueue(Prod3DEntity* entity);
 				static void ProcessProd3DEntitiesToBeLoadedQueue();
+				static void ProcessProd3DEntitiesToBeRemovedQueue();
 				static void PrivateRemoveEntityFromCurrentWorld(core::IEntity * ent);
 				static void InternalRemoveAllBackgroundSound(const double &time_lerp=0.0);
 
@@ -166,7 +166,8 @@ namespace core
 				static NodePath														*avatar_current_graphicNodePath;
 				static std::map< const CollisionSolid *, Prod3DEntity* >			entities_collider_array;
 				static std::vector< Prod3DEntity * >								entity_collidable_array_to_register;
-				static std::vector< Prod3DEntity * >								entity_array_to_be_loaded;
+				static std::map< Prod3DEntity *, double >							entity_array_to_be_loaded_afterseconds;
+				//static std::map< Prod3DEntity *, double >							entity_array_to_be_removed_afterseconds;
 				
 
 				static core::corePoint3D<double> pt0, pt1, pti, vel, vel0, vel1, acc;

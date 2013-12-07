@@ -16,7 +16,7 @@ namespace core
 		public:
 
 			virtual ~IEntity(){}
-			virtual void Delete()=0;
+			virtual void DeletePersistence() = 0;
 
 			virtual void SetPosition(const float &x, const float &y, const float &z)=0;
 			virtual void SetOrientation(const float &x, const float &y, const float &z)=0;

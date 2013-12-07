@@ -8,6 +8,7 @@ using namespace core::iprod;
 
 OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const float &pitch, const float &amplitude)
 {
+	{
 
 		boost::mutex::scoped_lock lock(m_mutex);
 
@@ -16,6 +17,7 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 		collidable			= true;
 		ready_to_die		= false;
 		ignore_collisons	= false;
+		already_loaded_in_scene = false;
 		timeToLive			= 1.5;
 		karma				= 0.5; //good(0) --> evil(1)
 		energy				= 0.0; //calm(0) --> exited(1)
@@ -25,6 +27,7 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 		start_timestamp			= (double)clock()/CLOCKS_PER_SEC;
 		latestupdate_timestamp	= (double)clock()/CLOCKS_PER_SEC;
 		otherEntities_feedback[NatureOfEntity::STANDALONE] = IA_Karma::GOOD;
+
 
 		user_feedback.clear();
 		otherEntities_feedback.clear(); 
@@ -37,22 +40,15 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 		}
 
 		PrepareSounds();
+	}
 		SetPitch(pitch);
 		SetVolume(amplitude);
-
-		if (sound_create.sound_data)
-			sound_create.sound_data->Play();
-
 }
 
 OXStandAloneEntity::~OXStandAloneEntity()
 {
 	boost::mutex::scoped_lock lock(m_mutex);
-	Delete();
-}
 
-void OXStandAloneEntity::Delete()
-{
 	if(nodepath)
 		delete nodepath;
 
@@ -79,11 +75,22 @@ void OXStandAloneEntity::Delete()
 		delete sound_touch.sound_data; }
 	if (sound_touch.sound_buffer!=NULL)
 		delete sound_touch.sound_buffer;
+}
 
+void OXStandAloneEntity::DeletePersistence()
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	core::ipersistence::EntityPersistence* entity_persistence = dynamic_cast<core::ipersistence::EntityPersistence*> (entity);
+
+	if(entity_persistence)
+		entity_persistence->Delete();
 }
 
 void OXStandAloneEntity::SetPitch(const float &value)
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	sound_create.pitch = value;
 	sound_destroy.pitch = value;
 	sound_idle.pitch = value;
@@ -94,6 +101,8 @@ void OXStandAloneEntity::SetPitch(const float &value)
 
 void OXStandAloneEntity::SetVolume(const float &value)
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	sound_create.amplitude = value;
 	sound_destroy.amplitude = value;
 	sound_idle.amplitude = value;
@@ -106,11 +115,18 @@ void OXStandAloneEntity::OnStart()
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 
-	start_timestamp;
+	start_timestamp				= (double)clock()/CLOCKS_PER_SEC;
 	latestupdate_timestamp		= (double)clock()/CLOCKS_PER_SEC;
 	current_timestamp			= (double)clock()/CLOCKS_PER_SEC;
 	lived_time					= start_timestamp - current_timestamp;
 	delta_time					= latestupdate_timestamp - current_timestamp;
+
+	if (!already_loaded_in_scene)
+	{	
+		already_loaded_in_scene = true;
+		if (sound_create.sound_data)
+			sound_create.sound_data->Play();
+	}
 }
 void OXStandAloneEntity::OnUpdate()
 {

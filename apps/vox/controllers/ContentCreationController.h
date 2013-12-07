@@ -32,7 +32,7 @@ enum NatureOfEntity {
 
 class Application;
 
-class ContentCreationController
+class ContentCreationController : public core::Observer
 {
 	static enum IA_Karma {	GOOD,
 							NEUTRAL,
@@ -72,12 +72,17 @@ class ContentCreationController
 		static void EntityHadAGoodUserFeedback(const bool &was_good);
 
 		static void RemoveEntityFromCurrentWorld(core::IEntity *entity);
+
+		virtual void Notified();
 	
 	protected:
 
 		ContentCreationController();
 		ContentCreationController(const ContentCreationController & ) ;
 		ContentCreationController &operator = (const ContentCreationController & ) ;
+		
+		static void DoNotified();
+		static void RestartCurrentUserBackgroundAndFog();
 
 	private:
 
@@ -96,6 +101,7 @@ class ContentCreationController
 					  music_timestamp,
 					  createdEntity_timesptamp,
 					  recover_collisionevaluation_aftertime;
+		static bool must_change_background, must_change_music;
 		static int z_step;
 
 
@@ -103,10 +109,11 @@ class ContentCreationController
 		static float energy; //0-1 calm-energetic
 
 		static std::map<int, std::vector<std::string>> psique_melody;
+		static std::string current_melody;
 
 		static int background_sound;
 		void * ambient_soundsample;
-		//void * background_color;
+
 		static std::map<IA_Karma, corePoint3D<float>> background_color;
 		static std::map<IA_Karma, corePoint3D<float>> fog_color;
 		static std::map<IA_Karma, float> fog_intensity;
@@ -130,15 +137,6 @@ class ContentCreationController
 
 		std::tr1::ranlux64_base_01 randomEngine;
 		//std::tr1::normal_distribution<double> randomDistribution(-20.0,20.0);
-
-
-		//void *current_ambient_channel_01;
-		//void *current_ambient_channel_02;
-		//void *current_ambient_channel_03;
-		//map::<int, void *> calm_ambients;
-		//map::<int, void *> energetic_ambients;
-		//map::<int, void *> good_ambients;
-		//map::<int, void *> evil_ambients;
 
 		//http://composicionmusical.com/oido-musical/elementos-musicales
 		//sonido: duración/tiempo, timbre/textura, intensidad/volumen, altura(grave, agudo)

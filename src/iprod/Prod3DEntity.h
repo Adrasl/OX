@@ -62,7 +62,7 @@ namespace core
 				void GetScale(float &value);
 				void GetPsique(int &value);
 
-				virtual void Delete();
+				virtual void DeletePersistence();
 				virtual void Load();
 				virtual void Save();
 				virtual void OnStart();

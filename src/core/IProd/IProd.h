@@ -24,7 +24,7 @@ namespace core
 			virtual void PostLogMessage(const std::string &message) = 0;
 			virtual bool RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *world) = 0;
 			virtual void LoadEntityFromCurrentWorld(core::IEntity * ent) = 0;
-			virtual void InsertEntityIntoCurrentWorld(core::IEntity * ent)=0;
+			virtual void InsertEntityIntoCurrentWorld(core::IEntity * ent, const double &after_seconds = 0.0f)=0;
 			virtual void RemoveEntityFromCurrentWorld(core::IEntity * ent)=0;
 			virtual void CloseWorld() = 0; 
 

@@ -57,7 +57,7 @@ class Application : public wxApp, public core::IApplication
 		bool WorldExists(const std::string &name);
 		bool RunWorld(const std::string &name);
 		bool RunDefaultWorld();
-		void AddNewEntityIntoCurrentWorld(core::IEntity* new_entity);
+		void AddNewEntityIntoCurrentWorld(core::IEntity* new_entity, const double &after_seconds = 0.0f);
 		void RemoveEntityFromCurrentWorld(core::IEntity* new_entity);
 		core::IUserPersistence* GetCurrentUser();
 		core::IWorldPersistence* GetCurrentWorld();
@@ -98,6 +98,7 @@ class Application : public wxApp, public core::IApplication
 		ConfigurationController *configuration_controller;
 		NavigationController *navigation_controller;
 		UserDataModelController *user_dataModel_controller;
+		ContentCreationController *contentcreation_controller;
 
 		int benefit_of_the_doubt;
 		core::IEntityPersistence *avatar_entity;

@@ -10,6 +10,10 @@
 
 #include "auto_bind.h"
 #include "AnimControlCollection.h"
+#include "ambientLight.h"
+#include "directionalLight.h"
+#include "pointLight.h"
+#include "spotlight.h"
 
 #ifdef WIN32
 #include <Aclapi.h>
@@ -110,7 +114,8 @@ std::map< const CollisionSolid *, core::corePDU3D<double> > MainProd::avatar_col
 NodePath *MainProd::avatar_current_graphicNodePath = NULL;
 std::map< const CollisionSolid *, Prod3DEntity* > MainProd::entities_collider_array;
 std::vector< Prod3DEntity * > MainProd::entity_collidable_array_to_register;
-std::vector< Prod3DEntity * > MainProd::entity_array_to_be_loaded;
+std::map< Prod3DEntity *, double > MainProd::entity_array_to_be_loaded_afterseconds;
+//std::map< Prod3DEntity *, double > MainProd::entity_array_to_be_removed_afterseconds;
 std::vector<NodePath*> MainProd::testnodepaths;
 bool MainProd::insert_now = false;
 
@@ -343,6 +348,7 @@ void MainProd::Iterate()
 		CheckCollisions(); 
 		UpdateEntities();  
 		ProcessProd3DEntitiesToBeLoadedQueue();
+		//ProcessProd3DEntitiesToBeRemovedQueue();
 		#endif
 		////-----
 		//if (insert_now)
@@ -387,6 +393,7 @@ void MainProd::Iterate()
 				m_fog.set_exp_density(fog_intensity); 
 				pandawindows_array[i]->get_render().set_fog(&m_fog, 1);
 				pandawindows_array[i]->get_display_region_3d()->set_clear_color(LColor(background_color.x, background_color.y, background_color.z, 1));
+				//pandawindows_array[i]->get_render().set_shader_auto();
 
 
 				//win_props.set_size(app_config->GetDisplayData(i).resolution_x, app_config->GetDisplayData(i).resolution_y);
@@ -621,24 +628,50 @@ void MainProd::RemoveEntityFromScene(Prod3DEntity * entity)
 		}
 
 		//entity->OnDestroy();
-
+		entity->DeletePersistence();
 		delete entity; //retomar, memory leak
 	}
 }
 
-void MainProd::AddProd3DEntityToLoadQueue(Prod3DEntity* entity)
-{
-	if (entity)
-		entity_array_to_be_loaded.push_back(entity);
-}
-
 void MainProd::ProcessProd3DEntitiesToBeLoadedQueue()
 {
-	for (std::vector< Prod3DEntity * >::iterator iter = entity_array_to_be_loaded.begin(); iter != entity_array_to_be_loaded.end(); iter++)
-		LoadEntityIntoScene((*iter));
-
-	entity_array_to_be_loaded.clear();
+	for (std::map< Prod3DEntity *, double >::iterator iter = entity_array_to_be_loaded_afterseconds.begin(); (entity_array_to_be_loaded_afterseconds.size() >0 ) && (iter != entity_array_to_be_loaded_afterseconds.end());  )
+	{
+		double current_timestamp = (double)clock()/CLOCKS_PER_SEC;
+		double birth_timestamp = iter->second;
+		if ( (birth_timestamp - current_timestamp <= 0.0f) && (iter->first) )
+		{	
+			//current_world->AddEntity(*(iter->first->GetEntity()));
+			//current_world->Save();
+			LoadEntityIntoScene(iter->first);
+			iter->first->OnStart();	
+			std::map< Prod3DEntity *, double >::iterator iter_to_delete = iter;
+			iter++;
+			entity_array_to_be_loaded_afterseconds.erase(iter_to_delete);
+		}
+		else
+		{
+			iter++;
+		}
+	}
+	//entity_array_to_be_loaded_afterseconds.clear();
 }
+
+//void MainProd::ProcessProd3DEntitiesToBeRemovedQueue()
+//{
+//	for (std::map< Prod3DEntity *, double >::iterator iter = entity_array_to_be_removed_afterseconds.begin(); iter != entity_array_to_be_removed_afterseconds.end();  )
+//	{
+//		double current_timestamp = (double)clock()/CLOCKS_PER_SEC;
+//		double death_timestamp = iter->second;
+//		if ( death_timestamp - current_timestamp <= 0.0f)
+//		{	RemoveEntityFromScene(iter->first);
+//			entity_array_to_be_removed_afterseconds.erase(iter);
+//		}
+//		else
+//			iter++;
+//	}
+//	//entity_array_to_be_removed_afterseconds.clear();
+//}
 
 void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 {
@@ -728,10 +761,12 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 bool MainProd::RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *world)
 {	
 	//CloseWorld();
+	
+	boost::mutex::scoped_lock lock(m_mutex);
 
 	if ( (user != NULL) && (world != NULL) )
 	{	
-		{	boost::mutex::scoped_lock lock(m_mutex);
+		{	
 			current_user  = user;
 			current_world = world;	
 			default_user = app->GetDefaultUser();
@@ -1211,6 +1246,20 @@ void MainProd::ClearScene()
 		Sound.Stop();	
 		InternalRemoveAllBackgroundSound();
 		ClearAvatarModel();
+
+		for (std::map< Prod3DEntity *, double >::iterator iter = entity_array_to_be_loaded_afterseconds.begin(); iter != entity_array_to_be_loaded_afterseconds.end();  )
+		{
+			if (iter->first)
+			{
+				delete iter->first;
+				std::map< Prod3DEntity *, double >::iterator iter_to_erase = iter;
+				iter++;
+				entity_array_to_be_loaded_afterseconds.erase(iter_to_erase);
+			}
+			else
+				iter++;
+		}
+		entity_array_to_be_loaded_afterseconds.clear();
 
 		/*if (collision_traverser)
 		{	//collision_traverser->clear_colliders();
@@ -1901,20 +1950,18 @@ NodePath* MainProd::CreateQuad()
 //	Sound.Play();
 //}
 
-void MainProd::InsertEntityIntoCurrentWorld(core::IEntity * ent)
-{
+void MainProd::InsertEntityIntoCurrentWorld(core::IEntity * ent, const double &after_seconds)
+{	
 	boost::mutex::scoped_lock lock(m_mutex);
 	Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
 	if (prod3d_ent && current_world)
-	{	current_world->AddEntity(*(prod3d_ent->GetEntity()));
-		current_world->Save();
-		AddProd3DEntityToLoadQueue(prod3d_ent);
-		//LoadEntityIntoScene(prod3d_ent); //retomar //encolar para el graphic_thread cree el nodo
+	{	double desired_timestamp = (double)clock()/CLOCKS_PER_SEC + after_seconds;
+		entity_array_to_be_loaded_afterseconds[prod3d_ent] = desired_timestamp;
 	} else
 		delete ent;
 }
 void MainProd::RemoveEntityFromCurrentWorld(core::IEntity * ent)
-{
+{	//retomar after seconds
 	boost::mutex::scoped_lock lock(m_mutex);
 	PrivateRemoveEntityFromCurrentWorld(ent);
 
@@ -1923,10 +1970,13 @@ void MainProd::RemoveEntityFromCurrentWorld(core::IEntity * ent)
 void MainProd::PrivateRemoveEntityFromCurrentWorld(core::IEntity * ent)
 {
 	Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
-	if (prod3d_ent)
+	if (prod3d_ent && current_world)
 	{	current_world->RemoveEntity(*(prod3d_ent->GetEntity()));
 		current_world->Save();
-		RemoveEntityFromScene(prod3d_ent); //retomar x: detach, remove_nodes, etc 
+		//double desired_timestamp = (double)clock()/CLOCKS_PER_SEC + after_seconds;
+		RemoveEntityFromScene(prod3d_ent);
+		//entity_array_to_be_removed_afterseconds[prod3d_ent] = desired_timestamp;
+		//RemoveEntityFromScene(prod3d_ent); //retomar x: detach, remove_nodes, etc 
 	}
 }
 
