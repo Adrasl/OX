@@ -6,6 +6,14 @@
 #include <boost/accumulators/statistics/stats.hpp>
 #include <boost/accumulators/statistics/mean.hpp>
 #include <boost/accumulators/statistics/moment.hpp>
+#include <boost/accumulators/statistics/rolling_count.hpp>
+#include <boost/accumulators/statistics/rolling_sum.hpp>
+#include <boost/accumulators/statistics/rolling_mean.hpp>
+#include <boost/accumulators/statistics/max.hpp>
+#include <boost/accumulators/statistics/min.hpp>
+#include <boost/accumulators/statistics/median.hpp>
+#include <boost/accumulators/statistics/peaks_over_threshold.hpp>
+#include <boost/accumulators/statistics/variance.hpp>
 #include <boost/thread.hpp>
 
 #include <Application.h>
@@ -86,6 +94,7 @@ class ContentCreationController : public core::Observer
 
 		static void CreatePresetOfEntities1(const double &time = 1.0f);
 		static void CreatePresetOfEntities2(const double &time = 1.0f);
+		static void ResetStatisticalAccumulators();
 
 	private:
 
@@ -138,6 +147,17 @@ class ContentCreationController : public core::Observer
 		static RTree<int, float, 3, float> RTree_Tree;
 
 		static std::map<core::IEntity *, double> new_timed_entities;
+
+		static accumulator_set<double, stats<tag::max, tag::min, tag::rolling_count, 
+									  tag::mean, tag::median, tag::variance(lazy),
+									  tag::rolling_sum, tag::rolling_mean> > 
+									  accumulators_motion_NumElements,		  
+									  accumulators_motion_GOODorEVIL,
+									  accumulators_motion_CALMorEXITED;
+
+		static corePoint3D<accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >> accumulators_head_pos, accumulators_presence_center_of_mass, 
+																									accumulators_main_lateraldominance, 
+																									accumulators_main_orientation, accumulators_main_eccentricity ;
 
 
 		std::tr1::ranlux64_base_01 randomEngine;

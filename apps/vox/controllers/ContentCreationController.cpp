@@ -53,6 +53,19 @@ bool ContentCreationController::must_change_music = false;
 
 std::map<core::IEntity *, double> ContentCreationController::new_timed_entities;
 
+accumulator_set<double, stats<tag::max, tag::min, tag::rolling_count, 
+							  tag::mean, tag::median, tag::variance(lazy),
+							  tag::rolling_sum, tag::rolling_mean> > 
+							  ContentCreationController::accumulators_motion_NumElements(tag::rolling_window::window_size  = 100),		  
+							  ContentCreationController::accumulators_motion_GOODorEVIL(tag::rolling_window::window_size  = 100), 
+							  ContentCreationController::accumulators_motion_CALMorEXITED(tag::rolling_window::window_size  = 100);
+
+corePoint3D<accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >> ContentCreationController::accumulators_head_pos, 
+																					 ContentCreationController::accumulators_presence_center_of_mass, 
+																					 ContentCreationController::accumulators_main_lateraldominance, 
+																					 ContentCreationController::accumulators_main_orientation, 
+																					 ContentCreationController::accumulators_main_eccentricity ;
+
 
 float RandomFloat(const float &Min, const float &Max)
 {
@@ -61,6 +74,11 @@ float RandomFloat(const float &Min, const float &Max)
 
 ContentCreationController::ContentCreationController()
 {
+	RTree_Entities_SpatialIndexes[NatureOfEntity::NONINTERACTIVE]	= new RTree<int, float, 3, float>();
+	RTree_Entities_SpatialIndexes[NatureOfEntity::STANDALONE]		= new RTree<int, float, 3, float>();
+	RTree_Entities_SpatialIndexes[NatureOfEntity::BOID]				= new RTree<int, float, 3, float>();
+	RTree_Entities_SpatialIndexes[NatureOfEntity::TREE]				= new RTree<int, float, 3, float>();
+
 	background_color[IA_Karma::GOOD].x = 0.9; 
 	background_color[IA_Karma::GOOD].y = 1.0; 
 	background_color[IA_Karma::GOOD].z = 0.95;
@@ -153,27 +171,17 @@ ContentCreationController *ContentCreationController::Instance ()
 		instance = new ContentCreationController;
 		start_timestamp = (double)clock()/CLOCKS_PER_SEC;
 
-		RTree_Entities_SpatialIndexes[NatureOfEntity::NONINTERACTIVE]	= new RTree<int, float, 3, float>();
-		RTree_Entities_SpatialIndexes[NatureOfEntity::STANDALONE]		= new RTree<int, float, 3, float>();
-		RTree_Entities_SpatialIndexes[NatureOfEntity::BOID]				= new RTree<int, float, 3, float>();
-		RTree_Entities_SpatialIndexes[NatureOfEntity::TREE]				= new RTree<int, float, 3, float>();
-
 		std::vector<std::string> good_melodies;
 		std::vector<std::string> neutral_melodies;
 		std::vector<std::string> evil_melodies;
 
-		//Start statistical acccumulators
-		accumulator_set<double, stats<tag::mean, tag::moment<2> > > acc;
 
-		// push in some data ...
-		acc(1.2);
-		acc(2.3);
-		acc(3.4);
-		acc(4.5);
 
-		// Display the results ...
-		std::cout << "Mean:   " << mean(acc) << std::endl;
-		std::cout << "Moment: " << moment<2>(acc) << std::endl;
+		//stats<tag::variance(lazy)
+
+		//retomar //Reset statistical accumulators, make static
+
+		ResetStatisticalAccumulators();
 
 	}
 
@@ -227,19 +235,24 @@ void ContentCreationController::Reset()
 			for (int i=0; i < current_world->GetNumEntities(); i++)
 			{	
 				IEntityPersistence *ient = current_world->GetEntity(i);
-				
-				float envelope = 0.5;
-				corePDU3D<double> position;
-				Rect3F position_rect(position.position.x-envelope,position.position.y-envelope,position.position.z-envelope,
-								  position.position.x+envelope,position.position.y+envelope,position.position.z+envelope);
-				
-				int ient_psique = 0;
-				ient->GetPsique(ient_psique);
-				RTree_Entities_by_entityIDs[entity_id] = ient;
-				RTree_Entities_by_Psique[(NatureOfEntity)ient_psique].push_back(ient);
-				//RTree_Entities_SpatialIndexes[(NatureOfEntity)ient_psique]->Insert(position_rect.min, position_rect.max, entity_id);
-				//retomar //descomentar: el rect está generando volúmenes negativos?!
-				entity_id++;			
+
+				if (ient)
+				{			
+					float envelope = 0.5;
+					corePoint3D<float> position;
+					ient->GetPosition(position.x, position.y, position.z);
+					Rect3F position_rect(position.x-envelope,position.y-envelope,position.z-envelope,
+									  position.x+envelope,position.y+envelope,position.z+envelope);
+					
+					int ient_psique = 0;
+					ient->GetPsique(ient_psique);
+					RTree_Entities_by_entityIDs[entity_id] = ient;
+					RTree_Entities_by_Psique[(NatureOfEntity)ient_psique].push_back(ient);
+					if (RTree_Entities_SpatialIndexes.find((NatureOfEntity)ient_psique) != RTree_Entities_SpatialIndexes.end())
+						RTree_Entities_SpatialIndexes[(NatureOfEntity)ient_psique]->Insert(position_rect.min, position_rect.max, entity_id);
+					//retomar //descomentar: el rect está generando volúmenes negativos?!
+					entity_id++;	
+				}
 			}
 		}
 	}
@@ -276,10 +289,80 @@ void ContentCreationController::Update()
 			}
 	}
 
-	{	boost::mutex::scoped_lock lock(m_mutex);
+	//UPDATE THE KNOWLEDGE ABOUT THE WORLD
+	//------------------------------------------------------
+	core::corePoint3D<double> head_pos, presence_center_of_mass, 
+				  space_bounding_box_min, space_bounding_box_max, space_center, 
+				  main_lateraldominance, main_orientation, main_eccentricity;
+	std::vector<MotionElement> motion_elements;
+	bool presence_detected = false;
 
-		////Interpolate Background color and fog
-		////------------------------------------
+	if (app_mainpercept)
+	{	
+		presence_detected = app_mainpercept->PresenceDetected(); //retomar, posible alternativa para cerrar la sesión tras un tiempo sin presencia
+		app_mainpercept->GetHeadPosition(head_pos);
+		app_mainpercept->GetFeaturePosition("CENTER OF MASS", presence_center_of_mass);
+		//app_mainpercept->GetSpaceBoundingBox(space_bounding_box_min, space_bounding_box_max);
+		app_mainpercept->GetMainLateralDominance(main_lateraldominance);
+		app_mainpercept->GetMainOrientation(main_orientation);
+		app_mainpercept->GetMainEccentricity(main_eccentricity);
+		motion_elements = app_mainpercept->GetMotionElements(); //The first one is about the whole image
+	}
+
+	//space_bounding_box_max.x = space_bounding_box_max.y = space_bounding_box_max.z = 0.0;
+	//space_bounding_box_min.x = space_bounding_box_min.y = space_bounding_box_min.z = 0.0;
+	//presence_center_of_mass.x = presence_center_of_mass.y = presence_center_of_mass.z = 0.0;
+
+	{	boost::mutex::scoped_lock lock(m_mutex);
+	
+		//Feed accumulators
+		accumulators_head_pos.x(head_pos.x);
+		accumulators_head_pos.y(head_pos.y);
+		accumulators_head_pos.z(head_pos.z);
+		accumulators_presence_center_of_mass.x(head_pos.x);
+		accumulators_presence_center_of_mass.y(head_pos.y);
+		accumulators_presence_center_of_mass.z(head_pos.z);
+		accumulators_main_lateraldominance.x(main_lateraldominance.x);
+		accumulators_main_lateraldominance.y(main_lateraldominance.y);
+		accumulators_main_lateraldominance.z(main_lateraldominance.z);
+		accumulators_main_orientation.x(main_orientation.x);
+		accumulators_main_orientation.y(main_orientation.y);
+		accumulators_main_orientation.z(main_orientation.z);
+		accumulators_main_eccentricity.x(main_eccentricity.x);
+		accumulators_main_eccentricity.y(main_eccentricity.y);
+		accumulators_main_eccentricity.z(main_eccentricity.z);
+		accumulators_motion_NumElements(motion_elements.size());
+
+		int count_motionElements = extract_result< tag::count >( accumulators_motion_NumElements );
+
+		if (count_motionElements > 100)
+		{	
+			double n_motionElements = (motion_elements.size() > 4.0f) ? 4.0f : motion_elements.size();
+			double max_motion_mean_value = 4.0f;
+			double max_median_dispersion_value = 4.0f;
+
+			double median_eccentricity = (extract_result< tag::median >( accumulators_main_eccentricity.x ) +
+										  extract_result< tag::median >( accumulators_main_eccentricity.y ) +
+										  extract_result< tag::median >( accumulators_main_eccentricity.z ) )*0.5f;
+			double variance_eccentricity =( extract_result< tag::variance >( accumulators_main_eccentricity.x ) +
+										    extract_result< tag::variance >( accumulators_main_eccentricity.y ) +
+										    extract_result< tag::variance >( accumulators_main_eccentricity.z ) )*0.5f;
+			variance_eccentricity = (variance_eccentricity > 1.0f) ? 100.0f : variance_eccentricity*100.0f;
+			double dispersion_eccentricity = pow((float)variance_eccentricity, 0.5f) * 0.01f;
+			double max_eccentricity_median_value = 1.0f;
+			double max_eccentricity_dispersion_value = 0.5f;
+
+			double factor = 0.8f * (n_motionElements/max_motion_mean_value) +					//the more amount of segments moving and
+							0.2f * (dispersion_eccentricity/max_eccentricity_dispersion_value);		//the more geometric changes, the more energyc the user is being
+
+			energy = factor*((float)IA_Energy::EXITED);
+			accumulators_motion_CALMorEXITED(energy);
+			double median_energy = extract_result< tag::median >( accumulators_motion_CALMorEXITED );
+			cout << "CURRENT MOTION EL: " << n_motionElements << " ECC: " << 0.5*(main_eccentricity.x+main_eccentricity.y+main_eccentricity.z) << " DISP ECC: " << dispersion_eccentricity << "\n";
+			cout << "CURRENT ENERGY: " << energy << " MEDIAN: " << median_energy << "\n";
+		}
+
+		//Interpolate Background color and fog
 		animate_background = (recover_collisionevaluation_aftertime - current_timestamp > 0.0);
 		if (animate_background)
 		{
@@ -306,33 +389,12 @@ void ContentCreationController::Update()
 
 		if (current_user && current_world && (time_since_start >= 5.0))
 		{
-			//retomar, make static
-			core::corePoint3D<double> head_pos, presence_center_of_mass, 
-						  space_bounding_box_min, space_bounding_box_max, space_center, 
-						  main_lateraldominance, main_orientation, main_eccentricity;
-			std::vector<MotionElement> motion_elements;
-			bool presence_detected = false;
-
-			space_bounding_box_max.x = space_bounding_box_max.y = space_bounding_box_max.z = 0.0;
-			space_bounding_box_min.x = space_bounding_box_min.y = space_bounding_box_min.z = 0.0;
-			presence_center_of_mass.x = presence_center_of_mass.y = presence_center_of_mass.z = 0.0;
-
-
 			//CHANGE THE WORLD
 			//------------------------------------------------------
 			if ((time_since_start >= 1) )
 			{
 				if (app_mainpercept)
 				{	
-					presence_detected = app_mainpercept->PresenceDetected();
-					app_mainpercept->GetHeadPosition(head_pos);
-					app_mainpercept->GetFeaturePosition("CENTER OF MASS", presence_center_of_mass);
-					app_mainpercept->GetSpaceBoundingBox(space_bounding_box_min, space_bounding_box_max);
-					app_mainpercept->GetMainLateralDominance(main_lateraldominance);
-					app_mainpercept->GetMainOrientation(main_orientation);
-					app_mainpercept->GetMainEccentricity(main_eccentricity);
-					motion_elements = app_mainpercept->GetMotionElements(); //The first one is about the whole image
-
 					if (app_mainprod)
 					{	
 						switch ((int)psique)
@@ -442,10 +504,12 @@ void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
 
 		if (was_good)
 		{	psique = (psique - CC_GOOD_STEP <= 0.0f) ? 0.0f : psique - CC_GOOD_STEP;
-			i_am_being = IA_Karma::GOOD;		}
+			i_am_being = IA_Karma::GOOD;		
+			accumulators_motion_GOODorEVIL((float)IA_Karma::GOOD);}
 		else
 		{	psique = (psique + CC_EVIL_STEP >= 2.0f) ? 2.0f : psique + CC_EVIL_STEP;
-			i_am_being = IA_Karma::EVIL;		}
+			i_am_being = IA_Karma::EVIL;		
+			accumulators_motion_GOODorEVIL((float)IA_Karma::EVIL);}
 
 		cout << "NUEVA PSIQUE TRAS COLISION: " << psique << "\n";
 		if (current_user && current_world)
@@ -475,6 +539,7 @@ void ContentCreationController::DoNotified()
 		current_user  = app->GetCurrentUser();
 
 		RestartCurrentUserBackgroundAndFog();
+		ResetStatisticalAccumulators();
 	}
 }
 
@@ -600,4 +665,67 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		createdEntity_timesptamp = current_timestamp;
 		new_timed_entities[(core::IEntity *)new_entity] = time;
 	}
+}
+
+void ContentCreationController::ResetStatisticalAccumulators()
+{
+		accumulator_set<double, stats<tag::max, tag::min, tag::rolling_count, 
+										  tag::mean, tag::median, tag::variance(lazy),
+										  tag::rolling_sum, tag::rolling_mean> > 
+										  dummy1(tag::rolling_window::window_size  = 100);
+		accumulator_set<double, stats<tag::max, tag::min, tag::rolling_count, 
+										  tag::mean, tag::median, tag::variance(lazy),
+										  tag::rolling_sum, tag::rolling_mean> > 
+										  dummy2(tag::rolling_window::window_size  = 100);
+		accumulator_set<double, stats<tag::max, tag::min, tag::rolling_count, 
+										  tag::mean, tag::median, tag::variance(lazy),
+										  tag::rolling_sum, tag::rolling_mean> > 
+										  dummy3(tag::rolling_window::window_size  = 100);
+
+		accumulators_motion_NumElements = dummy1;
+		accumulators_motion_GOODorEVIL = dummy2;
+		accumulators_motion_CALMorEXITED = dummy3;
+
+		accumulators_head_pos.x = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+		accumulators_head_pos.y = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+		accumulators_head_pos.z = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+
+		accumulators_presence_center_of_mass.x = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+		accumulators_presence_center_of_mass.y = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+		accumulators_presence_center_of_mass.z = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+
+		accumulators_main_lateraldominance.x = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+		accumulators_main_lateraldominance.y = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+		accumulators_main_lateraldominance.z = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+
+		accumulators_main_orientation.x = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+		accumulators_main_orientation.y = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+		accumulators_main_orientation.z = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+
+		accumulators_main_eccentricity.x = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+		accumulators_main_eccentricity.y = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+		accumulators_main_eccentricity.z = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
+
+
+		//USAGE EXAMPLE
+
+		//accumulator_set<double, stats<tag::mean, tag::moment<2> > > acc(tag::rolling_window::window_size = 3);
+
+		//acc(1.2);
+		//acc(2.3);
+		//acc(3.4);
+		//acc(4.5);
+
+		//std::cout << "Mean:   " << extract_result< tag::mean >( acc ) << std::endl;
+		//std::cout << "Moment: " << extract_result< tag::moment<2> >( acc ) << std::endl;
+		//double conteo = extract_result< tag::count >( acc );
+		//double count = extract_result< tag::count >( accumulators_motion_NumElements );
+		//double max = extract_result< tag::max >( accumulators_motion_NumElements );
+		//double min = extract_result< tag::min >( accumulators_motion_NumElements );
+		//double mean = extract_result< tag::mean >( accumulators_motion_NumElements );
+		//double median = extract_result< tag::median >( accumulators_motion_NumElements );
+		//double rolling_sum = extract_result< tag::rolling_sum >( accumulators_motion_NumElements );
+		//double rolling_mean = extract_result< tag::rolling_mean >( accumulators_motion_NumElements );
+		//double variance = extract_result< tag::variance >( accumulators_motion_NumElements );
+		//double dispersión = pow((float)variance, 0.5f);
 }
