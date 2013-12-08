@@ -113,7 +113,7 @@ namespace core
 				virtual void SetUserPosition(const core::corePoint3D<double> &pos);
 				virtual void SetCamerasPDU(core::corePDU3D<double> pdu);
 
-				virtual void InsertEntityIntoCurrentWorld(core::IEntity * ent, const double &after_seconds = 0.0f);
+				virtual void AddNewEntitiesIntoCurrentWorld(const std::map<core::IEntity *, double> &new_entities_after_seconds);
 				virtual void RemoveEntityFromCurrentWorld(core::IEntity * ent);
 				virtual void LoadEntityFromCurrentWorld(core::IEntity * ent); //if an insertion is not needed because it has been already registered
 				virtual void InsertEntityIntoScene(core::IEntityPersistence* ent);
@@ -265,6 +265,8 @@ namespace core
 				static std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> > music_melody_samples; //background sound tracks
 				static std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_base_samples;
 				static std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_decoration_samples;
+
+				static AnimControlCollection SceneAnimControlCollection;
 
 		};
 

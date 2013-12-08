@@ -18,6 +18,8 @@
 #include <GeomVertexData.h>
 #include <GeomVertexWriter.h>
 #include <GeomTriangles.h>
+#include <auto_bind.h>
+#include <AnimControlCollection.h>
 
 #include <boost/thread.hpp>
 
@@ -45,7 +47,9 @@ namespace core
 				
 				virtual bool IsCollidable()						{ boost::mutex::scoped_lock lock(m_mutex); return collidable;}
 				virtual bool IsReadyToDie();
-				virtual void SetCollidable(const bool &value)	{ boost::mutex::scoped_lock lock(m_mutex); collidable =value;}
+				virtual void SetCollidable(const bool &value)	{ boost::mutex::scoped_lock lock(m_mutex); collidable   = value;}
+				virtual float GetTimeToLive()					{ boost::mutex::scoped_lock lock(m_mutex); return time_to_live;		}
+				virtual void  SetTimeToLive(const float &value)	{ boost::mutex::scoped_lock lock(m_mutex); time_to_live = value;	}
 
 				void SetPDU(const core::corePDU3D<double> &value);
 				void SetNodePath(NodePath *value);
@@ -70,6 +74,7 @@ namespace core
 				virtual void OnDestroy();
 				virtual void OnCollisionCall(IEntity *otherEntity); 
 				virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo);
+				virtual void StartAnimations();
 				//virtual void PlaySound(const std::string &label, const bool &loop);
 				//virtual void PlayAnimation(const std::string &label);
 
@@ -88,6 +93,10 @@ namespace core
 				core::corePDU3D<double>		pdu; //pos, vel, acc
 				bool						collidable;
 				bool						ready_to_die;
+				float						time_to_live;
+
+				AnimControlCollection anim_collection;
+				PT(AnimControl) animcontrol;
 
 		};
 	}

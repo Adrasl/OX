@@ -108,110 +108,120 @@ void NavigationController::Iterate()
 	//	spatial_index.remove(query_box, *iter); 
 	////---------------------------
 
-	boost::try_mutex::scoped_try_lock lock(m_mutex);
+	std::map< int, std::vector<corePDU3D<double>> > presence_volume;
+	core::corePoint3D<double> final_cam_pos;
 
-
-
-	if ((lock) && (app) && (perception) && (production))
 	{
-		current_user  = app->GetCurrentUser();
-		current_world = app->GetCurrentWorld();
+		boost::try_mutex::scoped_try_lock lock(m_mutex);
 
-		int row_step = 3;
-		float scale = 0.2;
-		//std::vector<float> presence_volume;
-		std::map< int, std::vector<corePDU3D<double>> > presence_volume;
+		if ((lock) && (app) && (perception) && (production))
+		{
+			current_user  = app->GetCurrentUser();
+			current_world = app->GetCurrentWorld();
 
-		//BLOCK 1
-		//----------------------------
-		//double b1_timestamp = (double)clock()/CLOCKS_PER_SEC;
-		presence_detected = perception->PresenceDetected();
-		//double b1_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
-		//double b1_dif_time = b1_timestamp2 - b1_timestamp;
-		//cout << "CALCULATING Block 1: " << b1_dif_time << "\n";
-		//double b11_timestamp = (double)clock()/CLOCKS_PER_SEC;
-		perception->GetHeadPosition(head_pos);
-		//double b11_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
-		//double b11_dif_time = b11_timestamp2 - b11_timestamp;
-		//cout << "CALCULATING Block 11: " << b11_dif_time << "\n";
-		//double b12_timestamp = (double)clock()/CLOCKS_PER_SEC;
-		perception->GetFeaturePosition("CENTER OF MASS", presence_center_of_mass);
-		//double b12_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
-		//double b12_dif_time = b12_timestamp2 - b12_timestamp;
-		//cout << "CALCULATING Block 12: " << b12_dif_time << "\n";
-		//-----------------------------
-		//TOO SLOW!! get ptoperties from cam not from images!!
-		//-----------------------------
-		//double b14_timestamp = (double)clock()/CLOCKS_PER_SEC;
-		perception->GetSpaceBoundingBox(space_bounding_box_min, space_bounding_box_max);
-		//double b14_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
-		//double b14_dif_time = b14_timestamp2 - b14_timestamp;
-		//cout << "CALCULATING Block 14: " << b14_dif_time << "\n";
+			int row_step = 3;
+			float scale = 0.2;
+			//std::vector<float> presence_volume;
+			
 
-		//----------------------------
-		
-		//////perception->GetFeaturePositions("PRESENCE VOLUME", presence_volume, row_step, scale);
-		//SLOW AS HELL // decomentar
-		//double timestamp = (double)clock()/CLOCKS_PER_SEC;
-		perception->GetFeatureWeightedPositions("PRESENCE VOLUME", presence_volume, scale);
-		//std::vector<MotionElement> motion_elements = perception->GetMotionElements();
-		//double timestamp2 = (double)clock()/CLOCKS_PER_SEC;
-		//double dif_time = timestamp2 - timestamp;
-		//cout << "CALCULATING CLOUD: " << dif_time << "\n";
+			//BLOCK 1
+			//----------------------------
+			//double b1_timestamp = (double)clock()/CLOCKS_PER_SEC;
+			presence_detected = perception->PresenceDetected();
+			//double b1_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
+			//double b1_dif_time = b1_timestamp2 - b1_timestamp;
+			//cout << "CALCULATING Block 1: " << b1_dif_time << "\n";
+			//double b11_timestamp = (double)clock()/CLOCKS_PER_SEC;
+			perception->GetHeadPosition(head_pos);
+			//double b11_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
+			//double b11_dif_time = b11_timestamp2 - b11_timestamp;
+			//cout << "CALCULATING Block 11: " << b11_dif_time << "\n";
+			//double b12_timestamp = (double)clock()/CLOCKS_PER_SEC;
+			perception->GetFeaturePosition("CENTER OF MASS", presence_center_of_mass);
+			//double b12_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
+			//double b12_dif_time = b12_timestamp2 - b12_timestamp;
+			//cout << "CALCULATING Block 12: " << b12_dif_time << "\n";
+			//-----------------------------
+			//TOO SLOW!! get ptoperties from cam not from images!!
+			//-----------------------------
+			//double b14_timestamp = (double)clock()/CLOCKS_PER_SEC;
+			perception->GetSpaceBoundingBox(space_bounding_box_min, space_bounding_box_max);
+			//double b14_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
+			//double b14_dif_time = b14_timestamp2 - b14_timestamp;
+			//cout << "CALCULATING Block 14: " << b14_dif_time << "\n";
+
+			//----------------------------
+			
+			//////perception->GetFeaturePositions("PRESENCE VOLUME", presence_volume, row_step, scale);
+			//SLOW AS HELL // decomentar
+			//double timestamp = (double)clock()/CLOCKS_PER_SEC;
+			perception->GetFeatureWeightedPositions("PRESENCE VOLUME", presence_volume, scale);
+			//std::vector<MotionElement> motion_elements = perception->GetMotionElements();
+			//double timestamp2 = (double)clock()/CLOCKS_PER_SEC;
+			//double dif_time = timestamp2 - timestamp;
+			//cout << "CALCULATING CLOUD: " << dif_time << "\n";
 
 
-		//BLOCK 2: Positioning the camera
-		//----------------------------
-		//double b2_timestamp = (double)clock()/CLOCKS_PER_SEC;
+			//BLOCK 2: Positioning the camera
+			//----------------------------
+			//double b2_timestamp = (double)clock()/CLOCKS_PER_SEC;
 
-		//cout << "PRESENCE-HEAD_POS        : X=" << head_pos.x << "Y=" << head_pos.y << "Z=" << head_pos.z << "\n";
-		//cout << "PRESENCE-CENTEROFMASS_POS: X=" << presence_center_of_mass.x << "Y=" << presence_center_of_mass.y << "Z=" << presence_center_of_mass.z << "\n";
+			//cout << "PRESENCE-HEAD_POS        : X=" << head_pos.x << "Y=" << head_pos.y << "Z=" << head_pos.z << "\n";
+			//cout << "PRESENCE-CENTEROFMASS_POS: X=" << presence_center_of_mass.x << "Y=" << presence_center_of_mass.y << "Z=" << presence_center_of_mass.z << "\n";
 
-		com_to_head.x = head_pos.x - presence_center_of_mass.x;
-		com_to_head.y = head_pos.y - presence_center_of_mass.y;
-		com_to_head.z = head_pos.z - presence_center_of_mass.z;
-		space_center.x = (space_bounding_box_max.x + space_bounding_box_min.x)/2;
-		space_center.y = (space_bounding_box_max.y + space_bounding_box_min.y)/2;
-		space_center.z = (space_bounding_box_max.z + space_bounding_box_min.z)/2;
-		threshold_distance_to_minmax.x = THRESHOLD * (space_bounding_box_max.x - space_bounding_box_min.x);
-		threshold_distance_to_minmax.y = THRESHOLD * (space_bounding_box_max.y - space_bounding_box_min.y);
-		threshold_distance_to_minmax.z = THRESHOLD * (space_bounding_box_max.z - space_bounding_box_min.z);
+			com_to_head.x = head_pos.x - presence_center_of_mass.x;
+			com_to_head.y = head_pos.y - presence_center_of_mass.y;
+			com_to_head.z = head_pos.z - presence_center_of_mass.z;
+			space_center.x = (space_bounding_box_max.x + space_bounding_box_min.x)/2;
+			space_center.y = (space_bounding_box_max.y + space_bounding_box_min.y)/2;
+			space_center.z = (space_bounding_box_max.z + space_bounding_box_min.z)/2;
+			threshold_distance_to_minmax.x = THRESHOLD * (space_bounding_box_max.x - space_bounding_box_min.x);
+			threshold_distance_to_minmax.y = THRESHOLD * (space_bounding_box_max.y - space_bounding_box_min.y);
+			threshold_distance_to_minmax.z = THRESHOLD * (space_bounding_box_max.z - space_bounding_box_min.z);
 
-		double diff = abs(space_bounding_box_max.x - presence_center_of_mass.x);
-		if ( diff < abs(threshold_distance_to_minmax.x))
-			space_offset.x += OFFSET_STEP*diff;
-		else
-		{	diff = abs(-1*space_bounding_box_min.x + presence_center_of_mass.x);
+			double diff = abs(space_bounding_box_max.x - presence_center_of_mass.x);
 			if ( diff < abs(threshold_distance_to_minmax.x))
-				space_offset.x -= OFFSET_STEP*diff;				}
+				space_offset.x += OFFSET_STEP*diff;
+			else
+			{	diff = abs(-1*space_bounding_box_min.x + presence_center_of_mass.x);
+				if ( diff < abs(threshold_distance_to_minmax.x))
+					space_offset.x -= OFFSET_STEP*diff;				}
 
-		diff = abs(space_bounding_box_max.y - presence_center_of_mass.y);
-		if ( diff< abs(threshold_distance_to_minmax.y))
-			space_offset.y += OFFSET_STEP*diff;
-		else
-		{	diff = abs(-1*space_bounding_box_min.y + presence_center_of_mass.y);
-			if ( diff < abs(threshold_distance_to_minmax.y))
-				space_offset.y -= OFFSET_STEP*diff;				}
+			diff = abs(space_bounding_box_max.y - presence_center_of_mass.y);
+			if ( diff< abs(threshold_distance_to_minmax.y))
+				space_offset.y += OFFSET_STEP*diff;
+			else
+			{	diff = abs(-1*space_bounding_box_min.y + presence_center_of_mass.y);
+				if ( diff < abs(threshold_distance_to_minmax.y))
+					space_offset.y -= OFFSET_STEP*diff;				}
 
-		diff = abs(space_bounding_box_max.z - presence_center_of_mass.z);
-		if ( diff < abs(threshold_distance_to_minmax.z))
-			space_offset.z += OFFSET_STEP*diff;
-		else
-		{	diff = abs(-1*space_bounding_box_min.z + presence_center_of_mass.z);
+			diff = abs(space_bounding_box_max.z - presence_center_of_mass.z);
 			if ( diff < abs(threshold_distance_to_minmax.z))
-				space_offset.z -= OFFSET_STEP*diff;				}
+				space_offset.z += OFFSET_STEP*diff;
+			else
+			{	diff = abs(-1*space_bounding_box_min.z + presence_center_of_mass.z);
+				if ( diff < abs(threshold_distance_to_minmax.z))
+					space_offset.z -= OFFSET_STEP*diff;				}
 
-		core::corePoint3D<double> final_cam_pos;
-		final_cam_pos.x = 0-(presence_center_of_mass.x + space_offset.x + com_to_head.x);
-		final_cam_pos.y = presence_center_of_mass.y + space_offset.y + com_to_head.y;
-		final_cam_pos.z = presence_center_of_mass.z + space_offset.z + com_to_head.z;
+			
+			final_cam_pos.x = 0-(presence_center_of_mass.x + space_offset.x + com_to_head.x);
+			final_cam_pos.y = presence_center_of_mass.y + space_offset.y + com_to_head.y;
+			final_cam_pos.z = presence_center_of_mass.z + space_offset.z + com_to_head.z;
 
-		final_cam_pos.x = presence_center_of_mass.x + 5*com_to_head.x;
-		final_cam_pos.y = presence_center_of_mass.y + 5*com_to_head.y;
-		final_cam_pos.z = presence_center_of_mass.z + 5*com_to_head.z;
+			final_cam_pos.x = presence_center_of_mass.x + 5*com_to_head.x;
+			final_cam_pos.y = presence_center_of_mass.y + 5*com_to_head.y;
+			final_cam_pos.z = presence_center_of_mass.z + 5*com_to_head.z;
 
-		production->SetUserPosition(final_cam_pos);
+			
+			//production->SetAvatar("teapot");
+			//production->SetCamerasPosition(head_pos);
+			//production->SetCamerasPDU(pdu);
+		}
 
+	}
+
+	if ((app) && (perception) && (production))
+	{
 		// BLOCK 3: Creating the avatar
 		if (presence_volume.size() > 0) 
 		{
@@ -221,13 +231,8 @@ void NavigationController::Iterate()
 			double dif_time = timestamp2 - timestamp;
 			//cout << "CALCULATING MESH: " << dif_time << "\n";
 			production->SetAvatar(graphic_node); 
-			
 		}
-
-		//production->SetAvatar("teapot");
-		//production->SetCamerasPosition(head_pos);
-		//production->SetCamerasPDU(pdu);
-	}
+		production->SetUserPosition(final_cam_pos);
 
 		double timestamp = (double)clock()/CLOCKS_PER_SEC;
 		double dif_time = timestamp - time_loop;
@@ -236,5 +241,6 @@ void NavigationController::Iterate()
 
 		if (contentCreationController)
 			contentCreationController->Update();
+	}
 		
 }

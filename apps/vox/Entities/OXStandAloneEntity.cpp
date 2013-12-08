@@ -14,11 +14,11 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 
 		entity				= ent; 
 		nodepath			= NULL;
-		collidable			= true;
+		//collidable			= true;
 		ready_to_die		= false;
 		ignore_collisons	= false;
 		already_loaded_in_scene = false;
-		timeToLive			= 1.25;
+		//time_to_live		= 1.5;
 		karma				= 0.5; //good(0) --> evil(1)
 		energy				= 0.0; //calm(0) --> exited(1)
 		delta_time			= 0.0;
@@ -35,7 +35,9 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 		if (entity != NULL )
 		{
 			entity->SetPsique(NatureOfEntity::STANDALONE);
-			data = entity->GetModelData();
+			data		= entity->GetModelData();
+			collidable	= entity->IsCollidable();
+			time_to_live = entity->GetTimeToLive();
 			entity->Save();
 		}
 
@@ -142,7 +144,7 @@ void OXStandAloneEntity::OnUpdate()
 
 		}
 
-		if (  (lived_time > timeToLive) ||
+		if (  (lived_time > time_to_live) ||
 			  ((killme_afterseconds > 0) && (killme_afterseconds - current_timestamp < 0.0f)) )
 		{
 			KillMyself();
@@ -189,7 +191,7 @@ void OXStandAloneEntity::OnUpdate()
 									  h+delta_time*12.0f*rotation_speed_touchingfactor, 
 									  p+delta_time*60.0f*rotation_speed_touchingfactor, 
 									  r+delta_time*120.0f*rotation_speed_touchingfactor,
-									  scale);
+									  scale+0.0001f);
 
 	//for (std::map<core::IGuiWindow*, int>::iterator i = registered_windows.begin(); i != registered_windows.end(); i++)
 	//std::map<NatureOfEntity, float>::iterator found  = otherEntities_feedback.find(id); 

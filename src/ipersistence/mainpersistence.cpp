@@ -109,8 +109,8 @@ MainPersistence::MainPersistence(IApplicationConfiguration *app_config_) : app(N
 		user_2.Save();
 		userLoadid.Load(1);
 		userLoadname.Load("test2");
-		userLoadid.SetPassword("123");
-		userLoadname.SetPassword("123");
+		userLoadid.SetPassword("111");
+		userLoadname.SetPassword("222");
 		userLoadid.Save();
 		userLoadname.Save();
 		user_3.Delete();

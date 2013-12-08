@@ -43,6 +43,11 @@ namespace core
 			virtual void GetScale(float &value) = 0;
 			virtual void GetPsique(int &value) = 0;
 
+			virtual bool IsCollidable() = 0;
+			virtual void SetCollidable(const bool &value) = 0;
+			virtual float GetTimeToLive() = 0;
+			virtual void  SetTimeToLive(const float &value) = 0;
+
 	};
 }
 

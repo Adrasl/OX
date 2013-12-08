@@ -127,6 +127,8 @@ float MainProd::background_animation_starttimestamp = 0.0f;
 float MainProd::background_animation_endtimestamp   = 0.0f;
 float MainProd::current_timestamp   = 0.0f;
 
+AnimControlCollection MainProd::SceneAnimControlCollection;
+
 MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[]) : mesh_factory(NULL)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
@@ -706,38 +708,13 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 	Filename animation_file = Filename::from_os_specific(animation_path);
 
 	NodePath *new_model = new NodePath(pandawindows_array[1]->load_model(framework.get_models(),model_file));
-	//AnimControlCollection *anim_collection = new AnimControlCollection();
 	NodePath anim_np = pandawindows_array[1]->load_model(*new_model, animation_file);
-	//AnimControlCollection anim_collection;
-	//if (anim_np.get_error_type() == NodePath::ET_ok)
-	//{
-	//	//PT(AnimControl) animcontrol;
-	//	//anim_collection->clear_anims();
-	//	auto_bind((*new_model).node(), anim_collection, PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
-	//	PT(AnimControl) newAnim = anim_collection.get_anim(0);
-	//	newAnim->play();
-	//	newAnim->loop(true);
-	//	//anim_collection.loop_all(true); //retomar MEMORY LEAK
-	//	//pandawindows_array[1]->loop_animations(0);
-	//}
 	scene_entities_nodepaths[entity]    = new_model;
 	scene_nodepaths_entities[new_model] = entity;
 	entity->SetNodePath(scene_entities_nodepaths[entity]);
-	entity_collidable_array_to_register.push_back(entity);
-	//////////////////////CollisionSphere *collision_solid = new CollisionSphere(0,0,0,15);
-	//////////////////////std::stringstream wop;
-	//////////////////////wop << "testcoll" << dummy_erase_me ;
-	//////////////////////std::string nombre = wop.str();
-	//////////////////////dummy_erase_me++;
-	//////////////////////CollisionNode *collision_node = new CollisionNode(nombre);
-	//////////////////////collision_node->add_solid(collision_solid);
-	//////////////////////NodePath col_node = entity->GetNodePath()->attach_new_node(collision_node);
-	//////////////////////col_node.show();
-	//////////////////////entity_collider_array[entity] = collision_node;
-	////////////////////////////////////////////////////////////collision_traverser->add_collider(col_node, collision_handler_queue);
-
-	//scene_entities_nodepaths[entity].set_scale(0.25,0.25,0.25);
-	//scene_entities_nodepaths[entity].set_pos(-8,42,0);
+	entity->StartAnimations();
+	if (entity->IsCollidable())
+		entity_collidable_array_to_register.push_back(entity);
 
 	scene_entities_nodepaths[entity]->reparent_to(pandawindows_array[1]->get_render());
 	std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin();
@@ -755,7 +732,10 @@ void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
 
 	//if (anim_np.get_error_type() == NodePath::ET_ok)
 	//	anim_collection.loop_all(true); //retomar MEMORY LEAK
-	pandawindows_array[1]->loop_animations(PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
+
+	// RESTART ALL ANIMATIONS EVERYTIME WE INSERT AN ENTITY
+	//pandawindows_array[1]->loop_animations(PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
+
 }
 
 bool MainProd::RunWorld(core::IUserPersistence  *user, core::IWorldPersistence *world)
@@ -1950,15 +1930,32 @@ NodePath* MainProd::CreateQuad()
 //	Sound.Play();
 //}
 
-void MainProd::InsertEntityIntoCurrentWorld(core::IEntity * ent, const double &after_seconds)
+void MainProd::AddNewEntitiesIntoCurrentWorld(const std::map<core::IEntity *, double> &new_entities_after_seconds)
 {	
 	boost::mutex::scoped_lock lock(m_mutex);
-	Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
-	if (prod3d_ent && current_world)
-	{	double desired_timestamp = (double)clock()/CLOCKS_PER_SEC + after_seconds;
-		entity_array_to_be_loaded_afterseconds[prod3d_ent] = desired_timestamp;
-	} else
-		delete ent;
+
+	for (std::map<core::IEntity *, double>::const_iterator iter = new_entities_after_seconds.begin(); iter != new_entities_after_seconds.end(); iter++)
+	{
+		if (iter->first)
+		{
+			if (current_world)
+			{
+				Prod3DEntity *prod3d_ent = (Prod3DEntity *)(iter->first);
+				double desired_timestamp = (double)clock()/CLOCKS_PER_SEC + iter->second;
+				entity_array_to_be_loaded_afterseconds[prod3d_ent] = desired_timestamp;
+			}
+		}
+		else
+		{
+			delete iter->first;
+		}
+	}
+	//Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
+	//if (prod3d_ent && current_world)
+	//{	double desired_timestamp = (double)clock()/CLOCKS_PER_SEC + after_seconds;
+	//	entity_array_to_be_loaded_afterseconds[prod3d_ent] = desired_timestamp;
+	//} else
+	//	delete ent;
 }
 void MainProd::RemoveEntityFromCurrentWorld(core::IEntity * ent)
 {	//retomar after seconds

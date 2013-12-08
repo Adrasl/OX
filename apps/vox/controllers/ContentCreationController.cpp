@@ -2,14 +2,14 @@
 
 #include <debugger.h> 
 
-#define CCTIMELAPSE 1.0f
+#define CCTIMELAPSE 0.5f
 #define CCCHANGEBACKGROUNDMUSIC 60.0f
 #define CC_MAX_HEADPOS 90.0f
 #define CC_MIN_HEADPOS -10.0f
 #define CC_MAX_PITCH 2.0f
 #define CC_MIN_PITCH 1.0f
-#define CC_GOOD_STEP 0.0015f
-#define CC_EVIL_STEP 0.0075f
+#define CC_GOOD_STEP 0.003f
+#define CC_EVIL_STEP 0.015f
 #define CC_RECOVERCOL_EVAL 1.0f;
 
 IApplication* ContentCreationController::app = NULL;
@@ -61,29 +61,29 @@ float RandomFloat(const float &Min, const float &Max)
 
 ContentCreationController::ContentCreationController()
 {
-	background_color[IA_Karma::GOOD].x = 0.15; 
-	background_color[IA_Karma::GOOD].y = 0.15; 
-	background_color[IA_Karma::GOOD].z = 1.0;
-	background_color[IA_Karma::NEUTRAL].x = 0.15; 
-	background_color[IA_Karma::NEUTRAL].y = 1.0; 
-	background_color[IA_Karma::NEUTRAL].z = 0.15;
-	background_color[IA_Karma::EVIL].x = 1.0; 
-	background_color[IA_Karma::EVIL].y = 0.15; 
-	background_color[IA_Karma::EVIL].z = 0.15;
+	background_color[IA_Karma::GOOD].x = 0.9; 
+	background_color[IA_Karma::GOOD].y = 1.0; 
+	background_color[IA_Karma::GOOD].z = 0.95;
+	background_color[IA_Karma::NEUTRAL].x = 0.35; 
+	background_color[IA_Karma::NEUTRAL].y = 0.7; 
+	background_color[IA_Karma::NEUTRAL].z = 0.45;
+	background_color[IA_Karma::EVIL].x = 0.69; 
+	background_color[IA_Karma::EVIL].y = 0.10; 
+	background_color[IA_Karma::EVIL].z = 0.05;
 
-	fog_color[IA_Karma::GOOD].x = 0.15; 
-	fog_color[IA_Karma::GOOD].y = 0.15; 
-	fog_color[IA_Karma::GOOD].z = 1.0;
-	fog_color[IA_Karma::NEUTRAL].x = 0.15; 
-	fog_color[IA_Karma::NEUTRAL].y = 1.0; 
-	fog_color[IA_Karma::NEUTRAL].z = 0.15;
-	fog_color[IA_Karma::EVIL].x = 1.0; 
-	fog_color[IA_Karma::EVIL].y = 0.15; 
-	fog_color[IA_Karma::EVIL].z = 0.15;
+	fog_color[IA_Karma::GOOD].x = 0.9; 
+	fog_color[IA_Karma::GOOD].y = 1.0; 
+	fog_color[IA_Karma::GOOD].z = 0.95;
+	fog_color[IA_Karma::NEUTRAL].x = 0.35; 
+	fog_color[IA_Karma::NEUTRAL].y = 0.7; 
+	fog_color[IA_Karma::NEUTRAL].z = 0.45;
+	fog_color[IA_Karma::EVIL].x = 0.69; 
+	fog_color[IA_Karma::EVIL].y = 0.10; 
+	fog_color[IA_Karma::EVIL].z = 0.05;
 
-	fog_intensity[IA_Karma::GOOD] = 0.001;
-	fog_intensity[IA_Karma::NEUTRAL] = 0.1;
-	fog_intensity[IA_Karma::EVIL] = 1.0;
+	fog_intensity[IA_Karma::GOOD] = 0.4;
+	fog_intensity[IA_Karma::NEUTRAL] = 0.05;
+	fog_intensity[IA_Karma::EVIL] = 0.4;
 
 	current_background_color.x = background_color[IA_Karma::NEUTRAL].x; current_background_color.y = background_color[IA_Karma::NEUTRAL].y; current_background_color.z = background_color[IA_Karma::NEUTRAL].z;
 	current_fog_color.x = fog_color[IA_Karma::NEUTRAL].x; current_fog_color.y = fog_color[IA_Karma::NEUTRAL].y; current_fog_color.z = fog_color[IA_Karma::NEUTRAL].z; 
@@ -297,52 +297,6 @@ void ContentCreationController::Update()
 
 			current_fog_intensity = fog_intensity[(IA_Karma)psique_index] + (factor*(fog_intensity[(IA_Karma)target_psique_index] - fog_intensity[(IA_Karma)psique_index])) ;
 		}
-		//	//int psique_index = (int)psique;
-		//	//int target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
-		//	//float psique_factor = ((float)target_psique_index) - psique;
-		//	//float psique_factor = recover_collisionevaluation_aftertime - current_timestamp;
-
-		//	int psique_index = (int)psique;
-		//	int target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
-		//	float previous_psique = 0.0;
-		//	float current_animated_psique = 0.0f;
-		//	
-		//	if (i_am_being == IA_Karma::GOOD)
-		//	{
-		//		previous_psique = psique - (CC_GOOD_STEP);
-		//		psique_index = (int)previous_psique;
-		//		target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
-		//		current_animated_psique = psique; 
-		//		current_animated_psique -= CC_GOOD_STEP * (recover_collisionevaluation_aftertime - current_timestamp) / CC_RECOVERCOL_EVAL;
-		//	}
-		//	else if (i_am_being == IA_Karma::EVIL)
-		//	{
-		//		previous_psique = psique - (CC_EVIL_STEP);
-		//		psique_index = (int)previous_psique;
-		//		target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
-		//		current_animated_psique = psique; 
-		//		current_animated_psique -= CC_EVIL_STEP * (recover_collisionevaluation_aftertime - current_timestamp) / CC_RECOVERCOL_EVAL;
-		//	}
-
-		//	float psique_factor = ((float)target_psique_index) - current_animated_psique;
-
-		//	//int psique_index = (int)current_animated_psique;
-		//	//int target_psique_index = (psique_index >= IA_Karma::NEUTRAL) ? IA_Karma::EVIL : psique_index + 1;
-		//	//float psique_factor = ((float)target_psique_index) - current_animated_psique;
-		//	cout << "PSIQUE: " << psique << "CURRENT PSIQUE: " << current_animated_psique << ", PSIQUE INDEX: " << psique_index << ", TARGET PSIQUE INDEX: " << target_psique_index << ", factor:" << psique_factor << "\n";
-
-		//	current_background_color.x = background_color[(IA_Karma)psique_index].x +((background_color[(IA_Karma)target_psique_index].x - background_color[(IA_Karma)psique_index].x)*(1.0-psique_factor));		
-		//	current_background_color.y = background_color[(IA_Karma)psique_index].y +((background_color[(IA_Karma)target_psique_index].y - background_color[(IA_Karma)psique_index].y)*(1.0-psique_factor));		
-		//	current_background_color.z = background_color[(IA_Karma)psique_index].z +((background_color[(IA_Karma)target_psique_index].z - background_color[(IA_Karma)psique_index].z)*(1.0-psique_factor));		
-
-		//	current_fog_color.x = fog_color[(IA_Karma)psique_index].x +((fog_color[(IA_Karma)target_psique_index].x - fog_color[(IA_Karma)psique_index].x)*(1.0-psique_factor));		
-		//	current_fog_color.y = fog_color[(IA_Karma)psique_index].y +((fog_color[(IA_Karma)target_psique_index].y - fog_color[(IA_Karma)psique_index].y)*(1.0-psique_factor));		
-		//	current_fog_color.z = fog_color[(IA_Karma)psique_index].z +((fog_color[(IA_Karma)target_psique_index].z - fog_color[(IA_Karma)psique_index].z)*(1.0-psique_factor));		
-
-		//	current_fog_intensity = fog_intensity[(IA_Karma)psique_index]+((fog_intensity[(IA_Karma)target_psique_index] - fog_intensity[(IA_Karma)psique_index])*(1.0-psique_factor)) ;
-		//}
-		////else
-		////	i_am_being = IA_Karma::NEUTRAL;
 		//------------------------------------
 
 		latest_timestamp = current_timestamp;
@@ -434,32 +388,22 @@ void ContentCreationController::Update()
 			//------------------------------------------------------
 			if (current_world && (current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE)) 
 			{
-				CreatePresetOfEntities2(1.0f);
+				CreatePresetOfEntities1(1.0f);
 				CreatePresetOfEntities2(1.25f);
-				CreatePresetOfEntities1(1.5f);
+				CreatePresetOfEntities2(1.5f);
+				
 			}
 		}
 	}
+
 	if (app && app_mainprod) 
 	{
 		if (new_timed_entities.size() > 0)
 		{
-			for (std::map<core::IEntity *, double>::iterator entity_iter = new_timed_entities.begin(); entity_iter != new_timed_entities.end(); entity_iter++)
-				app->AddNewEntityIntoCurrentWorld(entity_iter->first, entity_iter->second);
-			new_timed_entities.clear();
+			app->AddNewEntitiesIntoCurrentWorld(new_timed_entities);
+			//for (std::map<core::IEntity *, double>::iterator entity_iter = new_timed_entities.begin(); entity_iter != new_timed_entities.end(); entity_iter++)
+			//	app->AddNewEntityIntoCurrentWorld(entity_iter->first, entity_iter->second);
 		}
-
-		//background_color[ContentCreationController::IA_Karma::EVIL].x += 0.01; background_color[ContentCreationController::IA_Karma::EVIL].y += 0.01; background_color[ContentCreationController::IA_Karma::EVIL].z += 0.01;
-		//fog_color[ContentCreationController::IA_Karma::EVIL].x += 0.01; fog_color[ContentCreationController::IA_Karma::EVIL].y += 0.01; fog_color[ContentCreationController::IA_Karma::EVIL].z += 0.01;
-		//fog_intensity[ContentCreationController::IA_Karma::EVIL] += 0.01;
-
-		//app_mainprod->SetBackgroundColor(background_color[ContentCreationController::IA_Karma::EVIL].x, background_color[ContentCreationController::IA_Karma::EVIL].y, background_color[ContentCreationController::IA_Karma::EVIL].z);
-		//app_mainprod->SetFogColor(fog_color[ContentCreationController::IA_Karma::EVIL].x, fog_color[ContentCreationController::IA_Karma::EVIL].y, fog_color[ContentCreationController::IA_Karma::EVIL].z);
-		//app_mainprod->SetFogIntensity(fog_intensity[ContentCreationController::IA_Karma::EVIL]);
-
-		//app_mainprod->SetBackgroundColor(new_background_color.x, new_background_color.y, new_background_color.z);
-		//app_mainprod->SetFogColor(new_fog_color.x, new_fog_color.y, new_fog_color.z);
-		//app_mainprod->SetFogIntensity(new_fog_intensity);
 
 		if (animate_background)
 		{
@@ -467,8 +411,16 @@ void ContentCreationController::Update()
 											  current_fog_color.x, current_fog_color.y, current_fog_color.z,
 											  current_fog_intensity, 
 											  1.0f);
-			recover_collisionevaluation_aftertime = current_timestamp;
 		}
+	}
+
+	{	boost::mutex::scoped_lock lock(m_mutex); 
+
+		if (new_timed_entities.size() > 0)
+			new_timed_entities.clear();
+
+		if (animate_background)
+			recover_collisionevaluation_aftertime = current_timestamp;
 	}
 }
 
@@ -496,7 +448,7 @@ void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
 			i_am_being = IA_Karma::EVIL;		}
 
 		cout << "NUEVA PSIQUE TRAS COLISION: " << psique << "\n";
-		if (current_user)
+		if (current_user && current_world)
 		{	int previous_psique = 1.0f;
 			current_user->GetPsique(previous_psique);
 			current_user->SetPsique(floor(psique + 0.5));
@@ -548,96 +500,104 @@ void ContentCreationController::RestartCurrentUserBackgroundAndFog()
 
 void ContentCreationController::CreatePresetOfEntities1(const double &time)
 {
-	//create new entities and insert them into the world
-	//------------------------------------------------------
-	//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
-	//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
+	if (current_world)
+	{
+		//create new entities and insert them into the world
+		//------------------------------------------------------
+		//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
+		//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
 
-	std::stringstream model_url;
-	if ( iapp_config )
-		model_url << iapp_config->GetModelDirectory() << "tricube_004";	 //"panda-model";	
-	std::string modelpath = model_url.str();
-	Filename pandafile = Filename::from_os_specific(modelpath);
-	//std::cout << pandafile.get_fullpath() << "\n";
-	
-	entity_id++;
-	z_step++;
-	std::stringstream wop_newEntity;
-	wop_newEntity << "StandAloneEntity_1_" << z_step;
-	core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
-	genesis->SetPsique(NatureOfEntity::STANDALONE);
-	genesis->SetModelData(pandafile);			
-	genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0006.wav");
-	genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
-	genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
-	corePDU3D<double> candidatepdu;
+		std::stringstream model_url;
+		if ( iapp_config )
+			model_url << iapp_config->GetModelDirectory() << "tricube_004";	 //"panda-model";	
+		std::string modelpath = model_url.str();
+		Filename pandafile = Filename::from_os_specific(modelpath);
+		//std::cout << pandafile.get_fullpath() << "\n";
+		
+		entity_id++;
+		z_step++;
+		std::stringstream wop_newEntity;
+		wop_newEntity << "StandAloneEntity_1_" << z_step;
+		core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
+		genesis->SetPsique(NatureOfEntity::STANDALONE);
+		genesis->SetModelData(pandafile);			
+		genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0006.wav");
+		genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
+		genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
+		genesis->SetCollidable(true);
+		genesis->SetTimeToLive(1.5f);
+		corePDU3D<double> candidatepdu;
 
-	float user_pos_x, user_pos_y, user_pos_z;
-	user_pos_x = user_pos_y =user_pos_z = 0;
-	if (current_user)
-		current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
-	candidatepdu.position.x = RandomFloat(user_pos_x - 3.0, user_pos_x + 3.0);
-	candidatepdu.position.y = RandomFloat(user_pos_y + 6.0, user_pos_y + 15.0);
-	candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
-	float scale = RandomFloat( 0.5,  0.95);
+		float user_pos_x, user_pos_y, user_pos_z;
+		user_pos_x = user_pos_y =user_pos_z = 0;
+		if (current_user)
+			current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
+		candidatepdu.position.x = RandomFloat(user_pos_x - 4.0, user_pos_x + 4.0);
+		candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 20.0);
+		candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
+		float scale = RandomFloat( 0.25,  0.75);
 
-	//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
-	genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
-	genesis->SetScale(scale);
+		//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
+		genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
+		genesis->SetScale(scale);
 
-	core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
-	current_world->AddEntity(*((core::IEntityPersistence *)genesis));
-	current_world->Save();
+		core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
+		current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+		current_world->Save();
 
-	createdEntity_timesptamp = current_timestamp;
-	new_timed_entities[(core::IEntity *)new_entity] = time;
+		createdEntity_timesptamp = current_timestamp;
+		new_timed_entities[(core::IEntity *)new_entity] = time;
+	}
 				
 }
 void ContentCreationController::CreatePresetOfEntities2(const double &time)
 {
-	//create new entities and insert them into the world
-	//------------------------------------------------------
-	//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
-	//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
+	if (current_world)
+	{
+		//create new entities and insert them into the world
+		//------------------------------------------------------
+		//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
+		//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
 
-	std::stringstream model_url;
-	if ( iapp_config )
-		model_url << iapp_config->GetModelDirectory() << "tricube_006";	 //"panda-model";	
-	std::string modelpath = model_url.str();
-	Filename pandafile = Filename::from_os_specific(modelpath);
-	//std::cout << pandafile.get_fullpath() << "\n";
-	
-	entity_id++;
-	z_step++;
-	std::stringstream wop_newEntity;
-	wop_newEntity << "StandAloneEntity_2_" << z_step;
-	core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
-	genesis->SetPsique(NatureOfEntity::STANDALONE);
-	genesis->SetModelData(pandafile);			
-	genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
-	genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
-	genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
-	corePDU3D<double> candidatepdu;
+		std::stringstream model_url;
+		if ( iapp_config )
+			model_url << iapp_config->GetModelDirectory() << "tricube_006";	 //"panda-model";	
+		std::string modelpath = model_url.str();
+		Filename pandafile = Filename::from_os_specific(modelpath);
+		//std::cout << pandafile.get_fullpath() << "\n";
+		
+		entity_id++;
+		z_step++;
+		std::stringstream wop_newEntity;
+		wop_newEntity << "StandAloneEntity_2_" << z_step;
+		core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
+		genesis->SetPsique(NatureOfEntity::STANDALONE);
+		genesis->SetModelData(pandafile);			
+		genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
+		genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
+		genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
+		genesis->SetCollidable(false);
+		genesis->SetTimeToLive(0.5f);
+		corePDU3D<double> candidatepdu;
 
-	float user_pos_x, user_pos_y, user_pos_z;
-	user_pos_x = user_pos_y =user_pos_z = 0;
-	if (current_user)
-		current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
-	candidatepdu.position.x = RandomFloat(user_pos_x - 5.0, user_pos_x + 5.0);
-	candidatepdu.position.y = RandomFloat(user_pos_y + 6.0, user_pos_y + 20.0);
-	candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
-	float scale = RandomFloat( 0.1,  0.25);
+		float user_pos_x, user_pos_y, user_pos_z;
+		user_pos_x = user_pos_y =user_pos_z = 0;
+		if (current_user)
+			current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
+		candidatepdu.position.x = RandomFloat(user_pos_x - 5.0, user_pos_x + 5.0);
+		candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 20.0);
+		candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
+		float scale = RandomFloat( 0.1,  0.45);
 
-	//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
-	genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
-	genesis->SetScale(scale);
+		//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
+		genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
+		genesis->SetScale(scale);
 
-	core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
-	//new_entity->SetCollidable(false);
-	//new_entity->SetTimeToLive(0.5f);
-	current_world->AddEntity(*((core::IEntityPersistence *)genesis));
-	current_world->Save();
+		core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
+		current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+		current_world->Save();
 
-	createdEntity_timesptamp = current_timestamp;
-	new_timed_entities[(core::IEntity *)new_entity] = time;
+		createdEntity_timesptamp = current_timestamp;
+		new_timed_entities[(core::IEntity *)new_entity] = time;
+	}
 }

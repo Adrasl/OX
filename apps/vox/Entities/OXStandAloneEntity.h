@@ -60,8 +60,8 @@ namespace core
 				virtual ~OXStandAloneEntity();
 				virtual void DeletePersistence();
 
-				float GetTimeToLive()					{ boost::mutex::scoped_lock lock(m_mutex); return timeToLive;		}
-				void  SetTimeToLive(const float &value)	{ boost::mutex::scoped_lock lock(m_mutex); timeToLive = value;	}
+				float GetTimeToLive()					{ boost::mutex::scoped_lock lock(m_mutex); return time_to_live;		}
+				void  SetTimeToLive(const float &value)	{ boost::mutex::scoped_lock lock(m_mutex); time_to_live = value;	}
 
 				virtual void OnStart();
 				virtual void OnUpdate();
@@ -85,7 +85,7 @@ namespace core
 
 				void KillMyself();
 
-				float timeToLive;
+				//float timeToLive;
 				float psique; //type of entity
 				float karma;  //good or evil
 				float energy; //calm or energyc

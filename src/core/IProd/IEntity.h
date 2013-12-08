@@ -23,6 +23,8 @@ namespace core
 			virtual void SetUp(const float &x, const float &y, const float &z)=0;
 			virtual void SetScale(const float &value)=0;
 			virtual void SetPsique(const int &value)=0;
+			virtual void SetTimeToLive(const float &value)=0;
+			virtual float GetTimeToLive()=0;
 			virtual void GetPosition(float &x, float &y, float &z)=0;
 			virtual void GetOrientation(float &x, float &y, float &z)=0;
 			virtual void GetUp(float &x, float &y, float &z)=0;

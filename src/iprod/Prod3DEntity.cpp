@@ -8,13 +8,15 @@ Prod3DEntity::Prod3DEntity() : entity(NULL), nodepath(NULL), collidable(false)
 {}
 
 Prod3DEntity::Prod3DEntity(core::IEntityPersistence* ent) : entity(ent), nodepath(NULL), collidable(false), 
-															ready_to_die(false), sound_create(), sound_destroy(), sound_idle(), sound_touch()
+															ready_to_die(false), sound_create(), sound_destroy(), sound_idle(), sound_touch(), time_to_live(-1.0f)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 
 	if (entity != NULL )
 	{
-		data = entity->GetModelData();
+		data		= entity->GetModelData();
+		collidable	= entity->IsCollidable();
+		time_to_live= entity->GetTimeToLive();
 		
 		//PrepareSounds();
 		//if (sound_create.sound_data)
@@ -361,6 +363,18 @@ void Prod3DEntity::OnUserCollisionCall(core::corePDU3D<double> collisionInfo)
 	boost::mutex::scoped_lock lock(m_mutex);
 	this;
 	//retomar
+}
+
+void Prod3DEntity::StartAnimations()
+{
+	if (nodepath && (nodepath->get_error_type() == NodePath::ET_ok) )
+	{
+		auto_bind(nodepath->node(), anim_collection, PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
+		anim_collection.loop_all(true);
+		//PT(AnimControl) newAnim = anim_collection.get_anim(0);
+		//newAnim->play();
+		//newAnim->loop(true);
+	}
 }
 
 //void Prod3DEntity::PlaySound(const std::string &label, const bool &loop){}

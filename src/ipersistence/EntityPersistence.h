@@ -56,15 +56,20 @@ namespace core
 				virtual void GetScale(float &value)											{ value = scale; }
 				virtual void GetPsique(int &value)											{ value = psique;}
 
+				virtual bool IsCollidable()													{ return collidable;		}
+				virtual void SetCollidable(const bool &value)								{ collidable   = value;		}
+				virtual float GetTimeToLive()												{ return time_to_live;		}
+				virtual void  SetTimeToLive(const float &value)								{ time_to_live = value;		}
+
 			private:
 
 				std::string name;
 
-				int   psique;
+				int   psique, collidable;
 				float position_x, position_y, position_z, 
 					  orientation_x, orientation_y, orientation_z,
 					  up_x, up_y, up_z,
-					  scale;
+					  scale, time_to_live;
 
 				std::string modeldata;
 				std::string sounddata_create;

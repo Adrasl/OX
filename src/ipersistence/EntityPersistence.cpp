@@ -28,6 +28,8 @@ BEGIN_STORE_TABLE(EntityPersistence, dba::Storeable, "entity_table")
 	BIND_STR(EntityPersistence::sounddata_touch,		dba::String,	"sounddata_touch"	)
 	BIND_STR(EntityPersistence::sounddata_idle,			dba::String,	"sounddata_idle"	)
 	BIND_INT(EntityPersistence::psique,					dba::Int,			"psique"		)
+	BIND_INT(EntityPersistence::collidable,				dba::Int,			"collidable"	)
+	BIND_FLT(EntityPersistence::time_to_live,			dba::vFloat,		"timetolive"	)
 END_STORE_TABLE()
 
 //SQL schema
@@ -51,6 +53,8 @@ dba::SQL EntityPersistence::schema(
 "  sounddata_touch VARCHAR,"
 "  sounddata_idle VARCHAR,"
 "  psique INT,"
+"  collidable INT,"
+"  timetolive FLOAT,"
 "  fk_world INT"
 ")");
 
@@ -60,7 +64,7 @@ EntityPersistence::EntityPersistence(const std::string &name_) : name(name_), ps
 				  position_x(0.0f), position_y(0.0f), position_z(0.0f), 
 				  orientation_x(0.0f), orientation_y(0.0f), orientation_z(0.0f),
 				  up_x(0.0f), up_y(0.0f), up_z(1.0f),
-				  scale(1.0f),
+				  scale(1.0f), collidable(0), time_to_live(0.0f),
                   modeldata(""), sounddata_create(""), sounddata_destroy(""), sounddata_touch(""), sounddata_idle("")
 {
 	try 

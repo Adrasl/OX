@@ -29,7 +29,7 @@ namespace core
 			virtual bool UserExists(const std::string &name) = 0;
 			virtual bool WorldExists(const std::string &name) = 0;
 			virtual bool RunWorld(const std::string &name) = 0;
-			virtual void AddNewEntityIntoCurrentWorld(core::IEntity* new_entity, const double &after_seconds = 0.0f) = 0;
+			virtual void AddNewEntitiesIntoCurrentWorld(const std::map<core::IEntity *, double> &new_entities_after_seconds) = 0;
 			virtual void RemoveEntityFromCurrentWorld(core::IEntity* new_entity) = 0;
 			virtual core::IUserPersistence* GetCurrentUser() = 0;
 			virtual core::IWorldPersistence* GetCurrentWorld()= 0;

@@ -446,10 +446,10 @@ bool Application::RunDefaultWorld()
 	return false;
 }
 
-void Application::AddNewEntityIntoCurrentWorld(core::IEntity* new_entity, const double &after_seconds)
+void Application::AddNewEntitiesIntoCurrentWorld(const std::map<core::IEntity *, double> &new_entities_after_seconds)
 {
 	if (app_mainprod)
-		app_mainprod->InsertEntityIntoCurrentWorld(new_entity, after_seconds);
+		app_mainprod->AddNewEntitiesIntoCurrentWorld(new_entities_after_seconds);
 }
 
 void Application::RemoveEntityFromCurrentWorld(core::IEntity* new_entity)
