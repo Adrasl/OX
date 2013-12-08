@@ -84,6 +84,9 @@ class ContentCreationController : public core::Observer
 		static void DoNotified();
 		static void RestartCurrentUserBackgroundAndFog();
 
+		static void CreatePresetOfEntities1(const double &time = 1.0f);
+		static void CreatePresetOfEntities2(const double &time = 1.0f);
+
 	private:
 
 		//static boost::shared_ptr<boost::thread> m_thread;
@@ -133,6 +136,8 @@ class ContentCreationController : public core::Observer
 		static RTree<int, float, 3, float> RTree_StandAlone;
 		static RTree<int, float, 3, float> RTree_BOIDs;
 		static RTree<int, float, 3, float> RTree_Tree;
+
+		static std::map<core::IEntity *, double> new_timed_entities;
 
 
 		std::tr1::ranlux64_base_01 randomEngine;

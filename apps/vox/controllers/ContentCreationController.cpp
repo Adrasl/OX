@@ -2,14 +2,14 @@
 
 #include <debugger.h> 
 
-#define CCTIMELAPSE 0.5f
+#define CCTIMELAPSE 1.0f
 #define CCCHANGEBACKGROUNDMUSIC 60.0f
 #define CC_MAX_HEADPOS 90.0f
 #define CC_MIN_HEADPOS -10.0f
 #define CC_MAX_PITCH 2.0f
 #define CC_MIN_PITCH 1.0f
-#define CC_GOOD_STEP 0.01f
-#define CC_EVIL_STEP 0.05f
+#define CC_GOOD_STEP 0.0015f
+#define CC_EVIL_STEP 0.0075f
 #define CC_RECOVERCOL_EVAL 1.0f;
 
 IApplication* ContentCreationController::app = NULL;
@@ -50,6 +50,8 @@ float			   ContentCreationController::current_fog_intensity = 0.0f;
 ContentCreationController::IA_Karma ContentCreationController::i_am_being = ContentCreationController::IA_Karma::NEUTRAL;
 bool ContentCreationController::must_change_background = false;
 bool ContentCreationController::must_change_music = false;
+
+std::map<core::IEntity *, double> ContentCreationController::new_timed_entities;
 
 
 float RandomFloat(const float &Min, const float &Max)
@@ -246,7 +248,7 @@ void ContentCreationController::Reset()
 void ContentCreationController::Update()
 {
 	bool animate_background = false;
-	core::iprod::OXStandAloneEntity *new_entity = NULL;
+	core::iprod::OXStandAloneEntity *new_entityx = NULL;
 	std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();
 	bool change_music = false;
 
@@ -432,78 +434,19 @@ void ContentCreationController::Update()
 			//------------------------------------------------------
 			if (current_world && (current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE)) 
 			{
-				//if (z_step > 20) //retomar descomentar
-				//	z_step = 0;
-
-				//create new entities and insert them into the world
-				//------------------------------------------------------
-				//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
-				//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
-				std::stringstream model_url;
-				if ( iapp_config )
-					model_url << iapp_config->GetModelDirectory() << "tricube_004";	 //"panda-model";	
-				std::string modelpath = model_url.str();
-				Filename pandafile = Filename::from_os_specific(modelpath);
-				//std::cout << pandafile.get_fullpath() << "\n";
-				
-				entity_id++;
-				z_step++;
-				std::stringstream wop_newEntity;
-				wop_newEntity << "StandAloneEntity_" << z_step;
-				core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
-				genesis->SetPsique(NatureOfEntity::STANDALONE);
-				genesis->SetModelData(pandafile);
-				//genesis->SetModelData("cube_star.egg");
-				//genesis->SetModelData("panda-model");
-				//genesis->SetModelData("teapot");
-				//genesis->SetModelData("/F/etc/repos/OX/bin/data/models/cube_star.egg");
-				//genesis->SetSoundDataCreate("f://etc//repos//OX//motor_old.wav");
-				//genesis->SetPosition(0,10,z_step);
-				
-				genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0006.wav");
-				genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
-				genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
-				space_bounding_box_min;
-				space_bounding_box_max;
-				corePDU3D<double> candidatepdu;
-
-				//candidatepdu.position.x = RandomFloat(presence_center_of_mass.x - 1.0, presence_center_of_mass.x + 1.0);
-				//candidatepdu.position.y = RandomFloat(presence_center_of_mass.y + 10.0, presence_center_of_mass.y + 20.0);
-				//candidatepdu.position.z = RandomFloat(presence_center_of_mass.z - 0.0, presence_center_of_mass.z + 1.0);
-				float user_pos_x, user_pos_y, user_pos_z;
-				user_pos_x = user_pos_y =user_pos_z = 0;
-				if (current_user)
-					current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
-				candidatepdu.position.x = RandomFloat(user_pos_x - 5.0, user_pos_x + 5.0);
-				candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 20.0);
-				candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
-				float scale = RandomFloat( 0.025,  0.75);
-
-				//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
-				genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
-				genesis->SetScale(scale);
-				//genesis->Save();
-				//cout << "N-ENTITIES : " << z_step << "\n";
-				new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
-
-				current_world->AddEntity(*((core::IEntityPersistence *)genesis));
-				current_world->Save();
-
-				createdEntity_timesptamp = current_timestamp;
-				
-				//------------------------------------------------------
-
-				//cout << "CONTENT CREATION LOOP: " << time_since_start << "\n";
-				//time_start = timestamp;
+				CreatePresetOfEntities2(1.0f);
+				CreatePresetOfEntities2(1.25f);
+				CreatePresetOfEntities1(1.5f);
 			}
 		}
 	}
 	if (app && app_mainprod) 
 	{
-		if (new_entity)
+		if (new_timed_entities.size() > 0)
 		{
-			app->AddNewEntityIntoCurrentWorld((core::IEntity*)new_entity, 1.0f);
-			new_entity = NULL;
+			for (std::map<core::IEntity *, double>::iterator entity_iter = new_timed_entities.begin(); entity_iter != new_timed_entities.end(); entity_iter++)
+				app->AddNewEntityIntoCurrentWorld(entity_iter->first, entity_iter->second);
+			new_timed_entities.clear();
 		}
 
 		//background_color[ContentCreationController::IA_Karma::EVIL].x += 0.01; background_color[ContentCreationController::IA_Karma::EVIL].y += 0.01; background_color[ContentCreationController::IA_Karma::EVIL].z += 0.01;
@@ -601,4 +544,100 @@ void ContentCreationController::RestartCurrentUserBackgroundAndFog()
 		recover_collisionevaluation_aftertime = current_timestamp + CC_RECOVERCOL_EVAL;
 	}
 
+}
+
+void ContentCreationController::CreatePresetOfEntities1(const double &time)
+{
+	//create new entities and insert them into the world
+	//------------------------------------------------------
+	//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
+	//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
+
+	std::stringstream model_url;
+	if ( iapp_config )
+		model_url << iapp_config->GetModelDirectory() << "tricube_004";	 //"panda-model";	
+	std::string modelpath = model_url.str();
+	Filename pandafile = Filename::from_os_specific(modelpath);
+	//std::cout << pandafile.get_fullpath() << "\n";
+	
+	entity_id++;
+	z_step++;
+	std::stringstream wop_newEntity;
+	wop_newEntity << "StandAloneEntity_1_" << z_step;
+	core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
+	genesis->SetPsique(NatureOfEntity::STANDALONE);
+	genesis->SetModelData(pandafile);			
+	genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0006.wav");
+	genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
+	genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
+	corePDU3D<double> candidatepdu;
+
+	float user_pos_x, user_pos_y, user_pos_z;
+	user_pos_x = user_pos_y =user_pos_z = 0;
+	if (current_user)
+		current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
+	candidatepdu.position.x = RandomFloat(user_pos_x - 3.0, user_pos_x + 3.0);
+	candidatepdu.position.y = RandomFloat(user_pos_y + 6.0, user_pos_y + 15.0);
+	candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
+	float scale = RandomFloat( 0.5,  0.95);
+
+	//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
+	genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
+	genesis->SetScale(scale);
+
+	core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
+	current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+	current_world->Save();
+
+	createdEntity_timesptamp = current_timestamp;
+	new_timed_entities[(core::IEntity *)new_entity] = time;
+				
+}
+void ContentCreationController::CreatePresetOfEntities2(const double &time)
+{
+	//create new entities and insert them into the world
+	//------------------------------------------------------
+	//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
+	//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
+
+	std::stringstream model_url;
+	if ( iapp_config )
+		model_url << iapp_config->GetModelDirectory() << "tricube_006";	 //"panda-model";	
+	std::string modelpath = model_url.str();
+	Filename pandafile = Filename::from_os_specific(modelpath);
+	//std::cout << pandafile.get_fullpath() << "\n";
+	
+	entity_id++;
+	z_step++;
+	std::stringstream wop_newEntity;
+	wop_newEntity << "StandAloneEntity_2_" << z_step;
+	core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
+	genesis->SetPsique(NatureOfEntity::STANDALONE);
+	genesis->SetModelData(pandafile);			
+	genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
+	genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
+	genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
+	corePDU3D<double> candidatepdu;
+
+	float user_pos_x, user_pos_y, user_pos_z;
+	user_pos_x = user_pos_y =user_pos_z = 0;
+	if (current_user)
+		current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
+	candidatepdu.position.x = RandomFloat(user_pos_x - 5.0, user_pos_x + 5.0);
+	candidatepdu.position.y = RandomFloat(user_pos_y + 6.0, user_pos_y + 20.0);
+	candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
+	float scale = RandomFloat( 0.1,  0.25);
+
+	//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
+	genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
+	genesis->SetScale(scale);
+
+	core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
+	//new_entity->SetCollidable(false);
+	//new_entity->SetTimeToLive(0.5f);
+	current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+	current_world->Save();
+
+	createdEntity_timesptamp = current_timestamp;
+	new_timed_entities[(core::IEntity *)new_entity] = time;
 }

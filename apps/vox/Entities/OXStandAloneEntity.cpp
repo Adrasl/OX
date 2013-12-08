@@ -18,7 +18,7 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 		ready_to_die		= false;
 		ignore_collisons	= false;
 		already_loaded_in_scene = false;
-		timeToLive			= 1.5;
+		timeToLive			= 1.25;
 		karma				= 0.5; //good(0) --> evil(1)
 		energy				= 0.0; //calm(0) --> exited(1)
 		delta_time			= 0.0;
