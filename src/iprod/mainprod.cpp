@@ -1037,9 +1037,9 @@ void MainProd::DoDoStuff()
 		////pti.z = (pt1.z - pt0.z)*t + pt0.z;
 
 		//UPDATE USER // retomar
-		//for(std::map<int, NodePath>::iterator iter = windowcamera_array.begin(); iter != windowcamera_array.end(); iter++)
+		for(std::map<int, NodePath>::iterator iter = windowcamera_array.begin(); iter != windowcamera_array.end(); iter++)
 		{	
-			std::map<int, NodePath>::iterator iter = windowcamera_array.begin();
+			//std::map<int, NodePath>::iterator iter = windowcamera_array.begin();
 
 			//if (user_nodepath) 
 			//	user_nodepath->set_pos(pti.x/40, pti.y/40, pti.z/40);
@@ -1197,17 +1197,20 @@ void MainProd::CreateDefaultWindows(int num_windows)
 	origin.set_pos(0,0,0);
 	origin.set_scale(0.001);
 	origin.reparent_to(pandawindows_array[2]->get_camera_group());
+	origin.hide();
 
 	up = pandawindows_array[1]->load_model(framework.get_models(), "panda-model");
 	up.set_pos(0,0,10);
 	up.set_scale(0.002);
 	up.reparent_to(pandawindows_array[2]->get_camera_group());
+	up.hide();
 
 	cam_viewpoint = pandawindows_array[1]->load_model(framework.get_models(), "panda-model");
 	cam_viewpoint.set_pos(0,10,0);
 	LPoint3f ppp = cam_viewpoint.get_pos();
 	cam_viewpoint.set_scale(0.002);
 	cam_viewpoint.reparent_to(pandawindows_array[2]->get_camera_group());
+	cam_viewpoint.hide();
 
 	LVector3f abs_vec_at, abs_vec_up;
 	abs_vec_at = cam_viewpoint.get_pos(pandawindows_array[2]->get_render());

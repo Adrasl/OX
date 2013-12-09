@@ -12,9 +12,16 @@ using namespace core::ipersistence;
 //::MAPPING:: Class name, parent class name and relation name (SQL table in case of SQL database)
 BEGIN_STORE_TABLE(EntityPersistence, dba::Storeable, "entity_table")
 	BIND_STR(EntityPersistence::name,					dba::String,		"name"			)
+	BIND_INT(EntityPersistence::type,					dba::Int,			"type"		)
 	BIND_FLT(EntityPersistence::position_x,				dba::vFloat,		"position_x"	)
 	BIND_FLT(EntityPersistence::position_y,				dba::vFloat,		"position_y"	)
 	BIND_FLT(EntityPersistence::position_z,				dba::vFloat,		"position_z"	)
+	BIND_FLT(EntityPersistence::velocity_x,				dba::vFloat,		"velocity_x"	)
+	BIND_FLT(EntityPersistence::velocity_y,				dba::vFloat,		"velocity_y"	)
+	BIND_FLT(EntityPersistence::velocity_z,				dba::vFloat,		"velocity_z"	)
+	BIND_FLT(EntityPersistence::acceleration_x,			dba::vFloat,		"acceleration_x")
+	BIND_FLT(EntityPersistence::acceleration_y,			dba::vFloat,		"acceleration_y")
+	BIND_FLT(EntityPersistence::acceleration_z,			dba::vFloat,		"acceleration_z")
 	BIND_FLT(EntityPersistence::orientation_x,			dba::vFloat,		"orientation_x"	)
 	BIND_FLT(EntityPersistence::orientation_y,			dba::vFloat,		"orientation_y"	)
 	BIND_FLT(EntityPersistence::orientation_z,			dba::vFloat,		"orientation_z"	)
@@ -37,9 +44,16 @@ dba::SQL EntityPersistence::schema(
 "CREATE TABLE entity_table ("
 "  id INT PRIMARY KEY,"
 "  name VARCHAR,"
+"  type INT,"
 "  position_x FLOAT,"
 "  position_y FLOAT,"
 "  position_z FLOAT,"
+"  velocity_x FLOAT,"
+"  velocity_y FLOAT,"
+"  velocity_z FLOAT,"
+"  acceleration_x FLOAT,"
+"  acceleration_y FLOAT,"
+"  acceleration_z FLOAT,"
 "  orientation_x FLOAT,"
 "  orientation_y FLOAT,"
 "  orientation_z FLOAT,"
@@ -60,8 +74,10 @@ dba::SQL EntityPersistence::schema(
 
 boost::mutex EntityPersistence::m_mutex;
 
-EntityPersistence::EntityPersistence(const std::string &name_) : name(name_), psique(0),
+EntityPersistence::EntityPersistence(const std::string &name_) : name(name_), type(0), psique(0),
 				  position_x(0.0f), position_y(0.0f), position_z(0.0f), 
+				  velocity_x(0.0f), velocity_y(0.0f), velocity_z(0.0f), 
+				  acceleration_x(0.0f), acceleration_y(0.0f), acceleration_z(0.0f), 
 				  orientation_x(0.0f), orientation_y(0.0f), orientation_z(0.0f),
 				  up_x(0.0f), up_y(0.0f), up_z(1.0f),
 				  scale(1.0f), collidable(0), time_to_live(0.0f),

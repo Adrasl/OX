@@ -33,9 +33,11 @@ int ContentCreationController::background_sound = 0;
 float ContentCreationController::psique=1.0f; //0-1-2 good-neutral-evil
 float ContentCreationController::energy=0.5f; //0-1 calm-energetic
 
+std::map<int, std::vector<core::IEntityPersistence*>> ContentCreationController::ccc_ecosystem;
 std::map<int, core::IEntityPersistence*> ContentCreationController::RTree_Entities_by_entityIDs;
 std::map<NatureOfEntity, RTree<int, float, 3, float> *> ContentCreationController::RTree_Entities_SpatialIndexes;
 std::map<NatureOfEntity, std::vector<core::IEntityPersistence*>> ContentCreationController::RTree_Entities_by_Psique;
+RTree<int, float, 3, float> ContentCreationController::RTree_Everything_spatialIndexes;
 std::map<int, std::vector<std::string>> ContentCreationController::psique_melody;
 std::string ContentCreationController::current_melody = "";
 
@@ -192,9 +194,12 @@ void ContentCreationController::Clear()
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 
+	ccc_ecosystem.clear();
+
 	for (std::map<NatureOfEntity, RTree<int, float, 3, float>*>::iterator iter = RTree_Entities_SpatialIndexes.begin(); iter != RTree_Entities_SpatialIndexes.end(); iter++)
 		if (iter->second->Count())
 			iter->second->RemoveAll();
+	RTree_Everything_spatialIndexes.RemoveAll();
 
 	entity_id = 0;
 	RTree_Entities_by_Psique.clear();
@@ -250,7 +255,12 @@ void ContentCreationController::Reset()
 					RTree_Entities_by_Psique[(NatureOfEntity)ient_psique].push_back(ient);
 					if (RTree_Entities_SpatialIndexes.find((NatureOfEntity)ient_psique) != RTree_Entities_SpatialIndexes.end())
 						RTree_Entities_SpatialIndexes[(NatureOfEntity)ient_psique]->Insert(position_rect.min, position_rect.max, entity_id);
+					RTree_Everything_spatialIndexes.Insert(position_rect.min, position_rect.max, entity_id);
 					//retomar //descomentar: el rect está generando volúmenes negativos?!
+
+					int species = 0;
+					ient->GetType(species);
+					ccc_ecosystem[species].push_back(ient);
 					entity_id++;	
 				}
 			}
@@ -453,7 +463,8 @@ void ContentCreationController::Update()
 				CreatePresetOfEntities1(1.0f);
 				CreatePresetOfEntities2(1.25f);
 				CreatePresetOfEntities2(1.5f);
-				
+
+				//core::icog::CommonSwarmIndividual::SetEcosystem(ccc_ecosystem);
 			}
 		}
 	}

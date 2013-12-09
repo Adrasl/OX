@@ -27,6 +27,10 @@
 #include <vector>
 #include <random>
 
+//class Application;
+//class core::iprod::OXStandAloneEntity;
+//class core::iprod::OXBoidsEntity;
+
 using namespace boost::accumulators;
 
 enum NatureOfEntity {
@@ -35,8 +39,6 @@ enum NatureOfEntity {
       BOID			= 2,
       TREE			= 3
    };
-
-
 
 class Application;
 
@@ -134,9 +136,11 @@ class ContentCreationController : public core::Observer
 		static float			  current_fog_intensity;
 		static IA_Karma			  i_am_being;
 
+		static std::map<int, std::vector<core::IEntityPersistence*>> ccc_ecosystem;
 		static std::map<int, core::IEntityPersistence*> RTree_Entities_by_entityIDs;
 		static std::map<NatureOfEntity, RTree<int, float, 3, float> *> RTree_Entities_SpatialIndexes;
 		static std::map<NatureOfEntity, std::vector<core::IEntityPersistence*>> RTree_Entities_by_Psique;
+		static RTree<int, float, 3, float> RTree_Everything_spatialIndexes;
 		static IWorldPersistence* current_world;
 		static IUserPersistence*  current_user;
 		static int entity_id;
@@ -145,6 +149,7 @@ class ContentCreationController : public core::Observer
 		static RTree<int, float, 3, float> RTree_StandAlone;
 		static RTree<int, float, 3, float> RTree_BOIDs;
 		static RTree<int, float, 3, float> RTree_Tree;
+		
 
 		static std::map<core::IEntity *, double> new_timed_entities;
 

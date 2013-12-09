@@ -189,7 +189,9 @@ void Prod3DEntity::SetPDU(const core::corePDU3D<double> &value)
 
 	if (entity)
 	{
-		entity->SetPosition(pdu.position.x, pdu.position.y, pdu.position.z);
+		entity->SetPositionVelocityAcceleration(pdu.position.x, pdu.position.y, pdu.position.z,
+												pdu.velocity.x, pdu.velocity.y, pdu.velocity.z,
+												pdu.acceleration.x, pdu.acceleration.y, pdu.acceleration.z);
 	}
 
 	UpdateSoundInfo();

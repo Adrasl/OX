@@ -104,7 +104,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;..\..\src;..\..\extern\include"
+				AdditionalIncludeDirectories=".;..\..\src;..\..\extern\include;..\..\extern\boost;..\..\extern\utils"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_MSVC;"
 				RuntimeLibrary="2"
 				WarningLevel="3"
@@ -149,6 +149,14 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\CommonObstacle.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CommonSwarmIndividual.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\maincog.cpp"
 				>
 			</File>
@@ -158,6 +166,14 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\CommonObstacle.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CommonSwarmIndividual.h"
+				>
+			</File>
 			<File
 				RelativePath=".\maincog.h"
 				>

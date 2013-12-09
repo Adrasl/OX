@@ -1,4 +1,6 @@
 #include <Entities/OXStandAloneEntity.h>
+//#include <controllers/ContentCreationController.h>
+//#include <Entities/OXBoidsEntity.h>
 
 #include <debugger.h> 
 
@@ -276,16 +278,4 @@ void OXStandAloneEntity::OnUserCollisionCall(core::corePDU3D<double> collisionIn
 	}
 }
 
-void OXStandAloneEntity::PlaySound(const string &label, const bool &loop)
-{
-	boost::mutex::scoped_lock lock(m_mutex);
-	this;
-	int testing = NatureOfEntity::STANDALONE;
-}
 
-void OXStandAloneEntity::PlayAnimation(const string &label)
-{
-	boost::mutex::scoped_lock lock(m_mutex);
-	this;
-	int testing = NatureOfEntity::STANDALONE;
-}

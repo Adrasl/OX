@@ -385,8 +385,8 @@ bool Application::RunWorld(const std::string &name)
 					   {	new_entity = new iprod::OXStandAloneEntity(ient); break;	   }
 						case NatureOfEntity::BOID		:
 					   {	new_entity = new iprod::OXBoidsEntity(ient); break;	   }
-						case NatureOfEntity::TREE		:
-					   {	new_entity = new iprod::OXTreeEntity(ient); break;	   }
+						//case NatureOfEntity::TREE		:
+					 //  {	new_entity = new iprod::OXTreeEntity(ient); break;	   }
 						default							: 
 					   {	new_entity = new iprod::Prod3DEntity(ient); break;	   }
 					}
@@ -428,8 +428,8 @@ bool Application::RunDefaultWorld()
 					   {	new_entity = new iprod::OXStandAloneEntity(ient); break;	   }
 						case NatureOfEntity::BOID		:
 					   {	new_entity = new iprod::OXBoidsEntity(ient); break;	   }
-						case NatureOfEntity::TREE		:
-					   {	new_entity = new iprod::OXTreeEntity(ient); break;	   }
+						//case NatureOfEntity::TREE		:
+					 //  {	new_entity = new iprod::OXTreeEntity(ient); break;	   }
 						default							: 
 					   {	new_entity = new iprod::Prod3DEntity(ient); break;	   }
 					}

@@ -262,6 +262,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Entities\OXEntityTypes.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Entities\OXStandAloneEntity.h"
 				>
 			</File>

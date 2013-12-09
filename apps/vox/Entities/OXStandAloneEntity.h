@@ -6,11 +6,10 @@
 #include <core/IPersistence/IEntityPersistence.h>
 #include <core/IProd/IEntity.h>
 #include <core/types.h>
+#include <Entities/OXEntityTypes.h>
 #include <iprod/Prod3DEntity.h>
 #include <ipersistence/EntityPersistence.h>
-
 #include <controllers/ContentCreationController.h>
-
 #include <string>
 #include <vector>
 
@@ -27,35 +26,39 @@
 
 //using namespace core;
 
+//class ContentCreationController;
+
 namespace core
 {
 	namespace iprod
 	{
-		//retomar, esto debería ir en otro fichero común
-		enum NatureOfEntity {
-								STANDALONE	= 1,
-								BOID			= 2,
-								TREE			= 3};
+		
+		////retomar, esto debería ir en otro fichero común
+		//enum NatureOfEntity {
+		//						STANDALONE		= 1,
+		//						BOID			= 2,
+		//						TREE			= 3};
 
-		static enum IA_State {	BORN,
-								HAPPY,
-								ANGRY,
-								SCARED,
-								HUNGRY,
-								HORNY,
-								DEAD };
+		//static enum IA_State {	BORN,
+		//						HAPPY,
+		//						ANGRY,
+		//						SCARED,
+		//						HUNGRY,
+		//						HORNY,
+		//						DEAD };
 
-		static enum IA_Karma {	GOOD,
-								NEUTRAL,
-								EVIL};
+		//static enum IA_Karma {	GOOD,
+		//						NEUTRAL,
+		//						EVIL};
 
-		static enum IA_Energy{	CALM,
-								EXITED};
+		//static enum IA_Energy{	CALM,
+		//						EXITED};
 
 		class OXStandAloneEntity : public iprod::Prod3DEntity
 		{
 			public:
 
+				OXStandAloneEntity(){};
 				OXStandAloneEntity(core::IEntityPersistence* ent, const float &pitch=1.0f, const float &amplitude=100.0f);
 				virtual ~OXStandAloneEntity();
 				virtual void DeletePersistence();
@@ -69,8 +72,7 @@ namespace core
 				virtual void OnDestroy();
 				virtual void OnCollisionCall(IEntity *otherEntity); 
 				virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo);
-				virtual void PlaySound(const std::string &label, const bool &loop);
-				virtual void PlayAnimation(const std::string &label);
+
 
 				virtual void ReceiveDamage();
 				virtual void ReceivePleasure();
@@ -81,7 +83,7 @@ namespace core
 				virtual void SetVolume(const float &value);
 
 
-			private:
+			protected:
 
 				void KillMyself();
 
@@ -93,7 +95,7 @@ namespace core
 				double start_timestamp, latestupdate_timestamp, current_timestamp, killme_afterseconds, recovercollisions_afterseconds;
 				double delta_time, lived_time;
 
-				std::map<NatureOfEntity, float> otherEntities_feedback; //good(0) --> evil(1) 
+				std::map<NatureOfEntity, float> otherEntities_feedback; //<natureofentity , karma> : karma = good(0.0) -> evil(1.0) 
 				std::map<IEntity*, float> user_feedback;
 
 				//map::<double, std::string> feedback_from_otherEntities; //<feedback, EntityLabel>, feedback < 0.50 bad, >0.50 good;
