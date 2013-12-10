@@ -378,7 +378,13 @@ bool Application::RunWorld(const std::string &name)
 				{	int ient_psique = 0;
 					IEntityPersistence *ient = world->GetEntity(i);
 					iprod::Prod3DEntity *new_entity = NULL;
-					if (ient) ient->GetPsique(ient_psique);
+					if (ient) 
+					{
+						core::Subject* subject = dynamic_cast<core::Subject*> (ient);
+						core::Observer* observer = dynamic_cast<core::Observer*> (contentcreation_controller);
+						subject->attach(observer);
+						ient->GetPsique(ient_psique);
+					}
 
 					switch (ient_psique)
 					{	case NatureOfEntity::STANDALONE :

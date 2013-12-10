@@ -118,7 +118,7 @@ bool SessionController::RunWorld(const std::string &name)
 		}
 	}
 	if (success)
-		Notify();
+		Notify(this, "RUN WORLD");
 	else
 		CloseWorld();
 	return success;

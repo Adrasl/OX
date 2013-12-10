@@ -15,7 +15,7 @@ namespace core
 	{
 		class MainPersistence;
 
-		class EntityPersistence : core::IEntityPersistence, public dba::Storeable
+		class EntityPersistence : public core::IEntityPersistence, public dba::Storeable
 		{
 			DECLARE_STORE_TABLE();
 

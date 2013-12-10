@@ -155,7 +155,7 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		psique_melody[IA_Karma::EVIL]	= evil_melodies;
 	}
 
-	DoNotified();
+	DoNotifiedBySessionController();
 
 	//if (app_mainprod)
 	//	app_mainprod->SetBackgroundAndFog(current_background_color.x, current_background_color.y, current_background_color.z,
@@ -536,13 +536,19 @@ void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
 	}
 }
 
-void ContentCreationController::Notified()
+void ContentCreationController::Notified(void* callinginstance, const std::string &tag, const int &flag)
 {
-	boost::mutex::scoped_lock lock(m_mutex); 
-	DoNotified();
+	//boost::mutex::scoped_lock lock(m_mutex); 
+	if (tag == "RUN WORLD")
+	{	boost::mutex::scoped_lock lock(m_mutex);
+		DoNotifiedBySessionController(tag);
+	}
+	else if (tag == "DYING ENTITY")
+		DoNotifiedByDyingEntity(callinginstance, tag, flag);
+
 }
 
-void ContentCreationController::DoNotified()
+void ContentCreationController::DoNotifiedBySessionController(const std::string &tag)
 {
 	if(app)
 	{	
@@ -555,6 +561,12 @@ void ContentCreationController::DoNotified()
 		RestartCurrentUserBackgroundAndFog();
 		ResetStatisticalAccumulators();
 	}
+}
+
+void ContentCreationController::DoNotifiedByDyingEntity(void* callinginstance, const std::string &tag, const int &flag)
+{
+	core::IEntityPersistence * ient = (core::IEntityPersistence *) callinginstance;
+	core::icog::CommonSwarmIndividual::ExtractFromEcosystem(flag, ient);
 }
 
 void ContentCreationController::RestartCurrentUserBackgroundAndFog()
@@ -604,7 +616,7 @@ void ContentCreationController::CreatePresetOfEntities1(const double &time)
 		genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
 		genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
 		genesis->SetCollidable(true);
-		genesis->SetTimeToLive(1.5f);
+		genesis->SetTimeToLive(1.5f); 
 		corePDU3D<double> candidatepdu;
 
 		float user_pos_x, user_pos_y, user_pos_z;
@@ -619,6 +631,7 @@ void ContentCreationController::CreatePresetOfEntities1(const double &time)
 		//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
 		genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
 		genesis->SetScale(scale);
+		genesis->attach(instance);
 
 		core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
 		current_world->AddEntity(*((core::IEntityPersistence *)genesis));
@@ -671,6 +684,7 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
 		genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
 		genesis->SetScale(scale);
+		genesis->attach(instance);
 
 		core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
 		current_world->AddEntity(*((core::IEntityPersistence *)genesis));

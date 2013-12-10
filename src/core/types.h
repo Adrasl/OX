@@ -234,7 +234,7 @@ namespace core
 
 	  public:
 
-		virtual void Notified() {}
+		  virtual void Notified(void* callinginstance = NULL, const std::string &tag = "", const int &flag = 0) {}
 
 	};
 
@@ -243,6 +243,11 @@ namespace core
 		std::vector< class Observer* > observers;
 
 	  public:
+
+		int ObserversCount() 
+		{
+			return observers.size();
+		}
 
 		void attach(Observer *observer) 
 		{
@@ -271,11 +276,11 @@ namespace core
 			}
 		}
 
-		void Notify() {
+		virtual void Notify(void* callinginstance = NULL, const std::string &tag = "", const int &flag = 0) {
 			for (std::vector< class Observer* >::iterator iter = observers.begin(); iter != observers.end(); iter++)
 			{
 				if (*iter)
-					(*iter)->Notified();
+					(*iter)->Notified(callinginstance, tag, flag);
 			}
 		}
 	};

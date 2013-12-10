@@ -83,7 +83,7 @@ class ContentCreationController : public core::Observer
 
 		static void RemoveEntityFromCurrentWorld(core::IEntity *entity);
 
-		virtual void Notified();
+		virtual void Notified(void* callinginstance = NULL, const std::string &tag = "", const int &flag = 0);
 	
 	protected:
 
@@ -91,7 +91,8 @@ class ContentCreationController : public core::Observer
 		ContentCreationController(const ContentCreationController & ) ;
 		ContentCreationController &operator = (const ContentCreationController & ) ;
 		
-		static void DoNotified();
+		static void DoNotifiedByDyingEntity(void* callinginstance = NULL, const std::string &tag = "", const int &flag = 0);
+		static void DoNotifiedBySessionController(const std::string &tag = "");
 		static void RestartCurrentUserBackgroundAndFog();
 
 		static void CreatePresetOfEntities1(const double &time = 1.0f);

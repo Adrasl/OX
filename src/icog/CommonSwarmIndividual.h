@@ -42,6 +42,7 @@ namespace core
 				virtual ~CommonSwarmIndividual();
 
 				static void		SetEcosystem(const std::map<int, std::vector<core::IEntityPersistence*>> &ecosystem_);
+				static void		ExtractFromEcosystem(const int &species, core::IEntityPersistence* entity_to_extract);
 				static bool		Register_SearchResults(int id);
 
 				virtual int		GetSpecies()	{return my_species;}

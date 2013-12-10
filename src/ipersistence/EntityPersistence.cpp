@@ -93,6 +93,9 @@ EntityPersistence::EntityPersistence(const std::string &name_) : name(name_), ty
 
 EntityPersistence::~EntityPersistence()
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	Notify(this, "DYING ENTITY", type);
 }
 
 void EntityPersistence::Changed()

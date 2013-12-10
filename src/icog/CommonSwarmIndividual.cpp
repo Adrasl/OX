@@ -68,6 +68,34 @@ void CommonSwarmIndividual::SetEcosystem(const std::map<int, std::vector<core::I
 	ClassifyEcosystem();
 }
 
+void CommonSwarmIndividual::ExtractFromEcosystem( const int &species, core::IEntityPersistence* entity_to_extract)
+{
+	boost::mutex::scoped_lock lock(csi_mutex);
+
+	core::IEntityPersistence* entity_to_extract_ = dynamic_cast<core::IEntityPersistence*> (entity_to_extract);
+
+	if (entity_to_extract_)
+	{
+		std::map<int, std::vector<core::IEntityPersistence*>>::iterator iter_ecosystem = ecosystem.find(species);
+		if (iter_ecosystem != ecosystem.end())
+		{
+			bool found = false;
+			for (std::vector<core::IEntityPersistence*>::iterator population_iter = (iter_ecosystem->second).begin(); 
+				 !found && (population_iter != (iter_ecosystem->second).end()); )
+			{
+				 if (entity_to_extract_ == (*population_iter))
+				 {
+					 found = true;
+					 iter_ecosystem->second.erase(population_iter);
+				 } 
+				 else
+					 population_iter++;
+			}				
+		}
+	}
+	ecosystem;
+}
+
 void CommonSwarmIndividual::ClearEcosystem() 
 { 
 	for (std::map<int, RTree<int, float, 3, float>*>::iterator iter = RTree_BySpecies_SpatialIndexes.begin(); iter != RTree_BySpecies_SpatialIndexes.end(); iter ++)
@@ -93,7 +121,8 @@ void CommonSwarmIndividual::ClassifyEcosystem()
 
 		for (std::vector<core::IEntityPersistence*>::iterator entity_iter = iter->second.begin(); entity_iter != iter->second.end(); entity_iter++)
 		{
-			if (*entity_iter)
+			core::Subject *ient_subject = dynamic_cast<core::Subject*> (*entity_iter);
+			if (*entity_iter && ient_subject && (ient_subject->ObserversCount() >0 ))
 			{
 				int spatial_index = individuals_by_spatialIndex.size() + 1;
 				individuals_by_spatialIndex[spatial_index] = (*entity_iter);

@@ -3,10 +3,11 @@
 
 #include <string>
 #include <core/Export.h>
+#include <core/types.h>
 
 namespace core
 {
-	class _COREEXPORT_ IEntityPersistence
+	class _COREEXPORT_ IEntityPersistence : public core::Subject
 	{
 		public:
 			
