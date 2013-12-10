@@ -72,7 +72,7 @@ namespace core
 				static std::map<int, std::vector<core::IEntityPersistence*>> ecosystem;
 
 				static RTree<int, float, 3, float> RTree_Everything_spatialIndexes;
-				static std::map<int, RTree<int, float, 3, float>> RTree_BySpecies_SpatialIndexes;
+				static std::map<int, RTree<int, float, 3, float>*> RTree_BySpecies_SpatialIndexes;
 
 				static boost::mutex csi_mutex;
 

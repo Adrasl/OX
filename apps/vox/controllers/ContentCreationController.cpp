@@ -260,6 +260,9 @@ void ContentCreationController::Reset()
 
 					int species = 0;
 					ient->GetType(species);
+					std::map<int, std::vector<core::IEntityPersistence*>>::iterator iter_ccc_ecosystem = ccc_ecosystem.find(species);
+					if (iter_ccc_ecosystem == ccc_ecosystem.end())
+						ccc_ecosystem[species] = std::vector<core::IEntityPersistence*>();
 					ccc_ecosystem[species].push_back(ient);
 					entity_id++;	
 				}
@@ -464,7 +467,7 @@ void ContentCreationController::Update()
 				CreatePresetOfEntities2(1.25f);
 				CreatePresetOfEntities2(1.5f);
 
-				//core::icog::CommonSwarmIndividual::SetEcosystem(ccc_ecosystem);
+				core::icog::CommonSwarmIndividual::SetEcosystem(ccc_ecosystem);
 			}
 		}
 	}

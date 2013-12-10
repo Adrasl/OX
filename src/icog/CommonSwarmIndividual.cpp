@@ -9,7 +9,7 @@ std::map<core::IEntityPersistence*, int> CommonSwarmIndividual::species_of_indiv
 std::map<int, std::vector<core::IEntityPersistence*>> CommonSwarmIndividual::ecosystem;
 
 RTree<int, float, 3, float> CommonSwarmIndividual::RTree_Everything_spatialIndexes;
-std::map<int, RTree<int, float, 3, float>> CommonSwarmIndividual::RTree_BySpecies_SpatialIndexes;
+std::map<int, RTree<int, float, 3, float>*> CommonSwarmIndividual::RTree_BySpecies_SpatialIndexes;
 
 boost::mutex CommonSwarmIndividual::csi_mutex;
 
@@ -70,8 +70,11 @@ void CommonSwarmIndividual::SetEcosystem(const std::map<int, std::vector<core::I
 
 void CommonSwarmIndividual::ClearEcosystem() 
 { 
-	for (std::map<int, RTree<int, float, 3, float>>::iterator iter = RTree_BySpecies_SpatialIndexes.begin(); iter != RTree_BySpecies_SpatialIndexes.end(); iter ++)
-		iter->second.RemoveAll();
+	for (std::map<int, RTree<int, float, 3, float>*>::iterator iter = RTree_BySpecies_SpatialIndexes.begin(); iter != RTree_BySpecies_SpatialIndexes.end(); iter ++)
+	{
+		iter->second->RemoveAll();
+		delete iter->second;
+	}
 	RTree_BySpecies_SpatialIndexes.clear();
 
 	RTree_Everything_spatialIndexes.RemoveAll();
@@ -98,7 +101,7 @@ void CommonSwarmIndividual::ClassifyEcosystem()
 
 				float envelope = 0.5f;
 				corePoint3D<float> position;
-				(*entity_iter)->GetPosition(position.x, position.y, position.z);
+				(*entity_iter)->GetPosition(position.x, position.y, position.z); //retomar, se está llamando a una entidad que ya ha sido destruída
 				core::icog::CommonObstacle *obstacle = dynamic_cast<core::icog::CommonObstacle*> (*entity_iter);
 				if (obstacle)
 					envelope = obstacle->GetBoundingRadius();
@@ -107,7 +110,12 @@ void CommonSwarmIndividual::ClassifyEcosystem()
 									 position.x+envelope,position.y+envelope,position.z+envelope);
 
 				RTree_Everything_spatialIndexes.Insert(position_rect.min, position_rect.max, spatial_index);
-				RTree_BySpecies_SpatialIndexes[iter->first].Insert(position_rect.min, position_rect.max, spatial_index);
+				static std::map<int, RTree<int, float, 3, float>*>::iterator iter_RTree_BySpecies_SpatialIndexes = RTree_BySpecies_SpatialIndexes.find(iter->first);
+				if (iter_RTree_BySpecies_SpatialIndexes == RTree_BySpecies_SpatialIndexes.end())
+				{
+					RTree_BySpecies_SpatialIndexes[iter->first] = new RTree<int, float, 3, float>();
+				}
+				RTree_BySpecies_SpatialIndexes[iter->first]->Insert(position_rect.min, position_rect.max, spatial_index);
 			}
 		}
 	}

@@ -26,7 +26,7 @@ OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent, const float &pitch, 
 		recovercollisions_afterseconds = -1.0;
 		start_timestamp			= (double)clock()/CLOCKS_PER_SEC;
 		latestupdate_timestamp	= (double)clock()/CLOCKS_PER_SEC;
-		otherEntities_feedback[NatureOfEntity::STANDALONE] = IA_Karma::GOOD;
+		otherEntities_feedback[NatureOfEntity::BOID] = IA_Karma::GOOD;
 
 
 		user_feedback.clear();
@@ -34,7 +34,7 @@ OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent, const float &pitch, 
 
 		if (entity != NULL )
 		{
-			entity->SetPsique(NatureOfEntity::STANDALONE);
+			entity->SetPsique(NatureOfEntity::BOID);
 			entity->SetType(Species::SPECIES1);
 			data		= entity->GetModelData();
 			collidable	= entity->IsCollidable();
