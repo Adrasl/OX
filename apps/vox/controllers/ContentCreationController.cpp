@@ -2,7 +2,7 @@
 
 #include <debugger.h> 
 
-#define CCTIMELAPSE 0.5f
+#define CCTIMELAPSE 1.0f
 #define CCCHANGEBACKGROUNDMUSIC 60.0f
 #define CC_MAX_HEADPOS 90.0f
 #define CC_MIN_HEADPOS -10.0f
@@ -10,7 +10,9 @@
 #define CC_MIN_PITCH 1.0f
 #define CC_GOOD_STEP 0.003f
 #define CC_EVIL_STEP 0.015f
-#define CC_RECOVERCOL_EVAL 1.0f;
+#define CC_RECOVERCOL_EVAL 1.0f
+#define CC_RECOVER_CREATESWARM1_TIME 10.0f
+#define CC_RECOVER_CREATESWARM2_TIME 10.0f
 
 IApplication* ContentCreationController::app = NULL;
 IApplicationConfiguration* ContentCreationController::iapp_config=NULL;
@@ -27,6 +29,8 @@ double ContentCreationController::current_timestamp = 0;
 double ContentCreationController::music_timestamp = 0;
 double ContentCreationController::createdEntity_timesptamp = 0;
 double ContentCreationController::recover_collisionevaluation_aftertime = 0;
+double ContentCreationController::recover_createswarm1_afterseconds = 0;
+double ContentCreationController::recover_createswarm2_afterseconds = 0;
 
 int ContentCreationController::z_step = 0;
 int ContentCreationController::background_sound = 0;
@@ -251,11 +255,11 @@ void ContentCreationController::Reset()
 					
 					int ient_psique = 0;
 					ient->GetPsique(ient_psique);
-					RTree_Entities_by_entityIDs[entity_id] = ient;
-					RTree_Entities_by_Psique[(NatureOfEntity)ient_psique].push_back(ient);
-					if (RTree_Entities_SpatialIndexes.find((NatureOfEntity)ient_psique) != RTree_Entities_SpatialIndexes.end())
-						RTree_Entities_SpatialIndexes[(NatureOfEntity)ient_psique]->Insert(position_rect.min, position_rect.max, entity_id);
-					RTree_Everything_spatialIndexes.Insert(position_rect.min, position_rect.max, entity_id);
+					//RTree_Entities_by_entityIDs[entity_id] = ient;
+					//RTree_Entities_by_Psique[(NatureOfEntity)ient_psique].push_back(ient);
+					//if (RTree_Entities_SpatialIndexes.find((NatureOfEntity)ient_psique) != RTree_Entities_SpatialIndexes.end())
+					//	RTree_Entities_SpatialIndexes[(NatureOfEntity)ient_psique]->Insert(position_rect.min, position_rect.max, entity_id);
+					//RTree_Everything_spatialIndexes.Insert(position_rect.min, position_rect.max, entity_id);
 					//retomar //descomentar: el rect está generando volúmenes negativos?!
 
 					int species = 0;
@@ -515,15 +519,24 @@ void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
 	if (!(recover_collisionevaluation_aftertime - current_timestamp > 0))
 	{	
 		recover_collisionevaluation_aftertime = current_timestamp + CC_RECOVERCOL_EVAL; 
+		
 
 		if (was_good)
 		{	psique = (psique - CC_GOOD_STEP <= 0.0f) ? 0.0f : psique - CC_GOOD_STEP;
 			i_am_being = IA_Karma::GOOD;		
-			accumulators_motion_GOODorEVIL((float)IA_Karma::GOOD);}
+			accumulators_motion_GOODorEVIL((float)IA_Karma::GOOD);
+			if (!(recover_createswarm1_afterseconds - current_timestamp > 0))
+			{	//retomar //descomentar CreatePresetOfSwarm1( CC_RECOVER_CREATESWARM1_TIME );
+				recover_createswarm1_afterseconds = current_timestamp + CC_RECOVER_CREATESWARM1_TIME;
+			}}
 		else
 		{	psique = (psique + CC_EVIL_STEP >= 2.0f) ? 2.0f : psique + CC_EVIL_STEP;
 			i_am_being = IA_Karma::EVIL;		
-			accumulators_motion_GOODorEVIL((float)IA_Karma::EVIL);}
+			accumulators_motion_GOODorEVIL((float)IA_Karma::EVIL);
+			if (!(recover_createswarm1_afterseconds - current_timestamp > 0))
+			{	//retomar //descomentar CreatePresetOfSwarm2(CC_RECOVER_CREATESWARM2_TIME);
+				recover_createswarm2_afterseconds = current_timestamp + CC_RECOVER_CREATESWARM2_TIME;
+			}}
 
 		cout << "NUEVA PSIQUE TRAS COLISION: " << psique << "\n";
 		if (current_user && current_world)
@@ -668,7 +681,7 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
 		genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
 		genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
-		genesis->SetCollidable(false);
+		genesis->SetCollidable(true);
 		genesis->SetTimeToLive(0.5f);
 		corePDU3D<double> candidatepdu;
 
@@ -676,10 +689,10 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		user_pos_x = user_pos_y =user_pos_z = 0;
 		if (current_user)
 			current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
-		candidatepdu.position.x = RandomFloat(user_pos_x - 5.0, user_pos_x + 5.0);
+		candidatepdu.position.x = RandomFloat(user_pos_x - 3.0, user_pos_x + 3.0);
 		candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 20.0);
 		candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
-		float scale = RandomFloat( 0.1,  0.45);
+		float scale = RandomFloat( 0.1,  0.25);
 
 		//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
 		genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
@@ -693,6 +706,74 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		createdEntity_timesptamp = current_timestamp;
 		new_timed_entities[(core::IEntity *)new_entity] = time;
 	}
+}
+
+void ContentCreationController::CreatePresetOfSwarm1(const double &time)
+{
+	if (current_world)
+	{
+		//create new entities and insert them into the world
+		//------------------------------------------------------
+		//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
+		//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
+
+		std::stringstream model_url;
+		if ( iapp_config )
+			model_url << iapp_config->GetModelDirectory() << "tricube_002";	 
+		std::string modelpath = model_url.str();
+		Filename pandafile = Filename::from_os_specific(modelpath);
+
+		for (int i = 0; i < 5; i++)
+		{
+			entity_id++;
+			z_step++;
+			std::stringstream wop_newEntity;
+			wop_newEntity << "Boid_SwarmEntity_1_" << z_step;
+			core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
+
+			genesis->SetPsique(NatureOfEntity::STANDALONE);
+			genesis->SetModelData(pandafile);			
+			genesis->SetCollidable(time);
+			genesis->SetTimeToLive(RandomFloat(time*0.8, time));
+			//genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
+			//genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
+			//genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
+
+			corePDU3D<double> candidatepdu;
+			float user_pos_x, user_pos_y, user_pos_z;
+			user_pos_x = user_pos_y =user_pos_z = 0;
+			if (current_user)
+				current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
+			//candidatepdu.position.x = RandomFloat(user_pos_x - 1.0, user_pos_x + 1.0);
+			//candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 6.0);
+			//candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 1.0);
+			candidatepdu.position.x = RandomFloat(0.5f, 0.7f);
+			candidatepdu.position.y = RandomFloat( 6.0f, 6.2f);
+			candidatepdu.position.z = RandomFloat(0.5f, 1.0f);
+			candidatepdu.velocity.x = RandomFloat(-0.001f, 0.001f);
+			candidatepdu.velocity.y = RandomFloat(-0.001f, 0.001f);
+			candidatepdu.velocity.z = RandomFloat(-0.001f, 0.001f);
+			float scale = RandomFloat(0.1f, 0.1f);
+
+			//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
+			genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
+			genesis->SetScale(scale);
+			genesis->attach(instance);
+
+			core::iprod::OXBoidsEntity *new_entity = new core::iprod::OXBoidsEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
+			current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+			current_world->Save();
+
+			createdEntity_timesptamp = current_timestamp;
+			new_timed_entities[(core::IEntity *)new_entity] = time;
+			
+		}
+	}	
+}
+
+void ContentCreationController::CreatePresetOfSwarm2(const double &time)
+{
+	int i = 666;
 }
 
 void ContentCreationController::ResetStatisticalAccumulators()

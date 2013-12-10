@@ -93,7 +93,7 @@ namespace core
 				float energy; //calm or energyc
 				bool  ignore_collisons, already_loaded_in_scene;
 				double start_timestamp, latestupdate_timestamp, current_timestamp, killme_afterseconds, recovercollisions_afterseconds;
-				double delta_time, lived_time;
+				double delta_time, lived_time, think_time;
 
 				std::map<NatureOfEntity, float> otherEntities_feedback; //<natureofentity , karma> : karma = good(0.0) -> evil(1.0) 
 				std::map<IEntity*, float> user_feedback;

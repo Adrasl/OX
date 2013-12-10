@@ -29,6 +29,7 @@ namespace core
 			virtual std::string GetOwner() = 0;
 			virtual int			GetNumEntities() = 0;			
 			virtual int			GetPermissions() = 0;
+			virtual void		GetId(int &value)= 0;
 			virtual core::IEntityPersistence* GetEntity(const int &i) = 0;
 			
 

@@ -62,6 +62,7 @@ namespace core
 				virtual void GetScale(float &value)											{ value = scale; }
 				virtual void GetType(int &value)											{ value = type;}
 				virtual void GetPsique(int &value)											{ value = psique;}
+				virtual void GetId(int &value)												{ value = this->getId();	}
 
 				virtual bool IsCollidable()													{ return collidable;		}
 				virtual void SetCollidable(const bool &value)								{ collidable   = value;		}

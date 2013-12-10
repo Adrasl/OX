@@ -47,7 +47,7 @@ namespace core
 				virtual void GetUp(float &x, float &y, float &z)				{ x = up_x; y = up_y; z = up_z; }
 				virtual void GetScale(float &value)						        { value = scale; }
 				virtual void GetPsique(int &value)						        { value = psique;}
-				virtual void GetId(int &value)									{ value = this->getId();}
+				virtual void GetId(int &value)									{ value = this->getId();			}
 				virtual std::string GetModel()									{ return model;						}
 				static dba::SQL *GetSchema()									{ return &schema;					}
 

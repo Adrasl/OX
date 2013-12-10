@@ -122,13 +122,13 @@ void CommonSwarmIndividual::ClassifyEcosystem()
 		for (std::vector<core::IEntityPersistence*>::iterator entity_iter = iter->second.begin(); entity_iter != iter->second.end(); entity_iter++)
 		{
 			core::Subject *ient_subject = dynamic_cast<core::Subject*> (*entity_iter);
-			if (*entity_iter && ient_subject && (ient_subject->ObserversCount() >0 ))
+			if (*entity_iter && ient_subject && (ient_subject->ObserversCount() == 1 ))
 			{
 				int spatial_index = individuals_by_spatialIndex.size() + 1;
 				individuals_by_spatialIndex[spatial_index] = (*entity_iter);
 				species_of_individual[*entity_iter] = iter->first;
 
-				float envelope = 0.5f;
+				float envelope = 0.05f;
 				corePoint3D<float> position;
 				(*entity_iter)->GetPosition(position.x, position.y, position.z); //retomar, se está llamando a una entidad que ya ha sido destruída
 				core::icog::CommonObstacle *obstacle = dynamic_cast<core::icog::CommonObstacle*> (*entity_iter);
@@ -171,172 +171,187 @@ void CommonSwarmIndividual::Think()
 	for (std::vector<int>::iterator result_iter = RTree_search_results.begin(); result_iter != RTree_search_results.end(); result_iter++)
 	{
 		core::IEntityPersistence* result_entity = individuals_by_spatialIndex[*result_iter];
-		if ( result_entity && (result_entity != csi_entity))
+		core::Subject *entitiy_is_subject = dynamic_cast<core::Subject*> (result_entity);
+		
+		if ( result_entity 
+			 && entitiy_is_subject && (entitiy_is_subject->ObserversCount() >0 ))
 		{
-			if (species_of_individual[result_entity] == species_of_individual[csi_entity]) //my species
+			int me_id, other_id, me_type, other_type;
+			result_entity->GetId(other_id);
+			csi_entity->GetId(me_id);
+
+			if(other_id != me_id)
 			{
-				corePoint3D<float> my_position, other_position,
-								   my_velocity, other_velocity,
-								   my_acceleration, other_acceleration;
-				
-				csi_entity->GetPositionVelocityAcceleration
-								(my_position.x, my_position.y, my_position.z,
-								 my_velocity.x, my_velocity.y, my_velocity.z,
-								 my_acceleration.x, my_acceleration.y, my_acceleration.z);
-
-				result_entity->GetPositionVelocityAcceleration
-								(other_position.x, other_position.y, other_position.z,
-								 other_velocity.x, other_velocity.y, other_velocity.z,
-								 other_acceleration.x, other_acceleration.y, other_acceleration.z);
-
-				//WorldLimit: based on distance to the world limits
-				//---------------------------------------------------------
-				if (use_world_limits)
-				{	worldlimits.x = ((world_max.x - my_position.x) < 0.0f ) ? world_max.x - 1.0f : worldlimits.x;
-					worldlimits.x = ((my_position.x - world_min.x) < 0.0f ) ? world_min.x + 1.0f : worldlimits.x;
-					worldlimits.y = ((world_max.y - my_position.y) < 0.0f ) ? world_max.y - 1.0f : worldlimits.y;
-					worldlimits.y = ((my_position.y - world_min.y) < 0.0f ) ? world_min.y + 1.0f : worldlimits.y;
-					worldlimits.z = ((world_max.z - my_position.z) < 0.0f ) ? world_max.z - 1.0f : worldlimits.z;
-					worldlimits.z = ((my_position.z - world_min.z) < 0.0f ) ? world_min.z + 1.0f : worldlimits.z;
-				}
-
-				//Separation: based on distance to near mates minus desired separation
-				//---------------------------------------------------------
-				corePoint3D<float> distance_separation, separation_position;
-				distance_separation.x = other_position.x - my_position.x;
-				distance_separation.y = other_position.y - my_position.y;
-				distance_separation.z = other_position.z - my_position.z;
-				if ( (std::abs(distance_separation.x) < separation_distance) ||
-					 (std::abs(distance_separation.y) < separation_distance) ||
-					 (std::abs(distance_separation.z) < separation_distance)   )
+				result_entity->GetType(other_type);
+				csi_entity->GetType(me_type);
+				if ( other_type == me_type ) //my species
 				{
-					separation_position.x = my_position.x;
-					separation_position.y = my_position.y;
-					separation_position.z = my_position.z;
-					if (std::abs(distance_separation.x) < separation_distance)
-						separation_position.x = other_position.x - separation_distance;
-					if (std::abs(distance_separation.y) < separation_distance)
-						separation_position.y = other_position.y - separation_distance;
-					if (std::abs(distance_separation.z) < separation_distance)
-						separation_position.z = other_position.z - separation_distance;
+					corePoint3D<float> my_position, other_position,
+									   my_velocity, other_velocity,
+									   my_acceleration, other_acceleration;
+					
+					csi_entity->GetPositionVelocityAcceleration
+									(my_position.x, my_position.y, my_position.z,
+									 my_velocity.x, my_velocity.y, my_velocity.z,
+									 my_acceleration.x, my_acceleration.y, my_acceleration.z);
 
-					accumulators_separation.x(separation_position.x);
-					accumulators_separation.y(separation_position.y);
-					accumulators_separation.z(separation_position.z);
-				}
-				
-				//Cohesion: based on position of near mates
-				//---------------------------------------------------------
-				accumulators_cohesion.x(other_position.x);
-				accumulators_cohesion.y(other_position.y);
-				accumulators_cohesion.z(other_position.z);
+					result_entity->GetPositionVelocityAcceleration
+									(other_position.x, other_position.y, other_position.z,
+									 other_velocity.x, other_velocity.y, other_velocity.z,
+									 other_acceleration.x, other_acceleration.y, other_acceleration.z);
 
-				//Alignment: based on velocity of near mates 
-				//---------------------------------------------------------
-				accumulators_cohesion.x(other_velocity.x);
-				accumulators_cohesion.y(other_velocity.y);
-				accumulators_cohesion.z(other_velocity.z);
+					//WorldLimit: based on distance to the world limits
+					//---------------------------------------------------------
+					if (use_world_limits)
+					{	
+						if      ((world_max.x - my_position.x) < 0.0f ) worldlimits.x = world_max.x - 1.0f;
+						else if ((my_position.x - world_min.x) < 0.0f ) worldlimits.x = world_min.x + 1.0f;
+						if      ((world_max.y - my_position.y) < 0.0f ) worldlimits.y = world_max.y - 1.0f;
+						else if ((my_position.y - world_min.y) < 0.0f ) worldlimits.y = world_min.y + 1.0f;
+						if      ((world_max.z - my_position.z) < 0.0f ) worldlimits.z = world_max.z - 1.0f;
+						else if ((my_position.z - world_min.z) < 0.0f ) worldlimits.z = world_min.z + 1.0f;
+					}
 
-			}
-			else //other species
-			{
-				corePoint3D<float> my_position, other_position;
-				csi_entity->GetPosition(my_position.x, my_position.y, my_position.z);
-				result_entity->GetPosition(other_position.x, other_position.y, other_position.z);
+					//Separation: based on distance to near mates minus desired separation
+					//---------------------------------------------------------
+					corePoint3D<float> distance_separation, separation_position;
+					separation_position.x = separation_position.y = separation_position.z = 0.0f;
+					distance_separation.x = other_position.x - my_position.x;
+					distance_separation.y = other_position.y - my_position.y;
+					distance_separation.z = other_position.z - my_position.z;
+					if ( (std::abs(distance_separation.x) < separation_distance) ||
+						 (std::abs(distance_separation.y) < separation_distance) ||
+						 (std::abs(distance_separation.z) < separation_distance)   )
+					{
+						separation_position.x = my_position.x;
+						separation_position.y = my_position.y;
+						separation_position.z = my_position.z;
+						if (std::abs(distance_separation.x) < separation_distance)
+							separation_position.x = (distance_separation.x > 0.0f) ? other_position.x - separation_distance : other_position.x + separation_distance;
+						if (std::abs(distance_separation.y) < separation_distance)
+							separation_position.y = (distance_separation.y > 0.0f) ? other_position.y - separation_distance : other_position.y + separation_distance;
+						if (std::abs(distance_separation.z) < separation_distance)
+							separation_position.z = (distance_separation.z > 0.0f) ? other_position.z - separation_distance : other_position.z + separation_distance;
 
-				//Avoidance: based on distance to undesired others minus desired separation
-				//---------------------------------------------------------
-				corePoint3D<float> distance_separation, separation_position;
-				distance_separation.x = other_position.x - my_position.x;
-				distance_separation.y = other_position.y - my_position.y;
-				distance_separation.z = other_position.z - my_position.z;
-				if ( (std::abs(distance_separation.x) < avoidance_distance) ||
-					 (std::abs(distance_separation.y) < avoidance_distance) ||
-					 (std::abs(distance_separation.z) < avoidance_distance)   )
-				{
-					separation_position.x = my_position.x;
-					separation_position.y = my_position.y;
-					separation_position.z = my_position.z;
-					if (std::abs(distance_separation.x) < avoidance_distance)
-						separation_position.x = other_position.x - avoidance_distance;
-					if (std::abs(distance_separation.y) < avoidance_distance)
-						separation_position.y = other_position.y - avoidance_distance;
-					if (std::abs(distance_separation.z) < avoidance_distance)
-						separation_position.z = other_position.z - avoidance_distance;
-
-					accumulators_avoidance.x(separation_position.x);
-					accumulators_avoidance.y(separation_position.y);
-					accumulators_avoidance.z(separation_position.z);
-				}
-				
-				//Attraction: based on position of attractors
-				//---------------------------------------------------------
-				if (false)
-				{	accumulators_cohesion.x(other_position.x);
+						accumulators_separation.x(separation_position.x);
+						accumulators_separation.y(separation_position.y);
+						accumulators_separation.z(separation_position.z);
+					}
+					
+					//Cohesion: based on position of near mates
+					//---------------------------------------------------------
+					accumulators_cohesion.x(other_position.x);
 					accumulators_cohesion.y(other_position.y);
 					accumulators_cohesion.z(other_position.z);
+
+					//Alignment: based on velocity of near mates 
+					//---------------------------------------------------------
+					accumulators_cohesion.x(other_velocity.x);
+					accumulators_cohesion.y(other_velocity.y);
+					accumulators_cohesion.z(other_velocity.z);
+
 				}
+				else //other species
+				{
+					corePoint3D<float> my_position, other_position;
+					csi_entity->GetPosition(my_position.x, my_position.y, my_position.z);
+					result_entity->GetPosition(other_position.x, other_position.y, other_position.z);
 
+					//Avoidance: based on distance to undesired others minus desired separation
+					//---------------------------------------------------------
+					corePoint3D<float> distance_separation, separation_position;
+					distance_separation.x = other_position.x - my_position.x;
+					distance_separation.y = other_position.y - my_position.y;
+					distance_separation.z = other_position.z - my_position.z;
+					if ( (std::abs(distance_separation.x) < avoidance_distance) ||
+						 (std::abs(distance_separation.y) < avoidance_distance) ||
+						 (std::abs(distance_separation.z) < avoidance_distance)   )
+					{
+						separation_position.x = my_position.x;
+						separation_position.y = my_position.y;
+						separation_position.z = my_position.z;
+						if (std::abs(distance_separation.x) < avoidance_distance)
+							separation_position.x = other_position.x - avoidance_distance;
+						if (std::abs(distance_separation.y) < avoidance_distance)
+							separation_position.y = other_position.y - avoidance_distance;
+						if (std::abs(distance_separation.z) < avoidance_distance)
+							separation_position.z = other_position.z - avoidance_distance;
+
+						accumulators_avoidance.x(separation_position.x);
+						accumulators_avoidance.y(separation_position.y);
+						accumulators_avoidance.z(separation_position.z);
+					}
+					
+					//Attraction: based on position of attractors
+					//---------------------------------------------------------
+					if (false)
+					{	accumulators_cohesion.x(other_position.x);
+						accumulators_cohesion.y(other_position.y);
+						accumulators_cohesion.z(other_position.z);
+					}
+
+				}
 			}
-
-			worldlimits;
-			separation	= CalculateSeparation();   
-			alignment	= CalculateAlignment();      
-			cohesion	= CalculateCohesion();   
-			attraction	= CalculateAttraction(); 
-			avoidance	= CalculateAvoidance();
-
-			float separation_factor	= 1.0f;
-			float alignment_factor	= 1.0f;
-			float cohesion_factor	= 1.0f;
-			float attraction_factor	= 1.0f;
-			float avoidance_factor	= 2.0f;
-			float worldlimits_factor= 2.0f;
-
-			separation.x *= separation_factor; 
-			separation.y *= separation_factor; 
-			separation.z *= separation_factor;
-
-			alignment.x *= alignment_factor; 
-			alignment.y *= alignment_factor; 
-			alignment.z *= alignment_factor;
-
-			cohesion.x *= cohesion_factor; 
-			cohesion.y *= cohesion_factor; 
-			cohesion.z *= cohesion_factor;
-
-			attraction.x *= attraction_factor; 
-			attraction.y *= attraction_factor; 
-			attraction.z *= attraction_factor;
-
-			avoidance.x *= avoidance_factor; 
-			avoidance.y *= avoidance_factor; 
-			avoidance.z *= avoidance_factor;
-
-			worldlimits.x *= worldlimits_factor;
-			worldlimits.y *= worldlimits_factor;
-			worldlimits.z *= worldlimits_factor;
-
-			AddForce(separation);
-			AddForce(alignment);
-			AddForce(cohesion);
-			AddForce(attraction);
-			AddForce(avoidance);
-			AddForce(worldlimits);
 		}
 	}
+
+	worldlimits;
+	separation	= CalculateSeparation();   
+	alignment	= CalculateAlignment();      
+	cohesion	= CalculateCohesion();   
+	attraction	= CalculateAttraction(); 
+	avoidance	= CalculateAvoidance();
+
+	float separation_factor	= 1.0f;
+	float alignment_factor	= 1.0f;
+	float cohesion_factor	= 1.0f;
+	float attraction_factor	= 1.0f;
+	float avoidance_factor	= 2.0f;
+	float worldlimits_factor= 2.0f;
+
+	separation.x *= separation_factor; 
+	separation.y *= separation_factor; 
+	separation.z *= separation_factor;
+
+	alignment.x *= alignment_factor; 
+	alignment.y *= alignment_factor; 
+	alignment.z *= alignment_factor;
+
+	cohesion.x *= cohesion_factor; 
+	cohesion.y *= cohesion_factor; 
+	cohesion.z *= cohesion_factor;
+
+	attraction.x *= attraction_factor; 
+	attraction.y *= attraction_factor; 
+	attraction.z *= attraction_factor;
+
+	avoidance.x *= avoidance_factor; 
+	avoidance.y *= avoidance_factor; 
+	avoidance.z *= avoidance_factor;
+
+	worldlimits.x *= worldlimits_factor;
+	worldlimits.y *= worldlimits_factor;
+	worldlimits.z *= worldlimits_factor;
+
+	AddForce(separation);
+	AddForce(alignment);
+	AddForce(cohesion);
+	AddForce(attraction);
+	AddForce(avoidance);
+	AddForce(worldlimits);
+
+	CheckPDULimits();
 
 	csi_pdu.velocity.x += csi_pdu.acceleration.x;
 	csi_pdu.velocity.y += csi_pdu.acceleration.y;
 	csi_pdu.velocity.z += csi_pdu.acceleration.z;
+	csi_pdu.acceleration.x = csi_pdu.acceleration.y = csi_pdu.acceleration.z = 0.0f;
+
+	CheckPDULimits();
 
 	csi_pdu.position.x += csi_pdu.velocity.x;
 	csi_pdu.position.y += csi_pdu.velocity.y;
 	csi_pdu.position.z += csi_pdu.velocity.z;
-
-	csi_pdu.acceleration.x = csi_pdu.acceleration.y = csi_pdu.acceleration.z = 0.0f;
-
-	CheckPDULimits();
 }
 
 void CommonSwarmIndividual::AddForce(const core::corePoint3D<float> &force)
@@ -492,11 +507,11 @@ void CommonSwarmIndividual::CheckPDULimits()
 									 csi_pdu.velocity.y*csi_pdu.velocity.y +
 									 csi_pdu.velocity.z*csi_pdu.velocity.z), 0.5);
 
-	if (mod_acc > max_velocity)
+	if (mod_vecc > max_velocity)
 	{
-		csi_pdu.velocity.x = max_velocity * csi_pdu.velocity.x/mod_acc;
-		csi_pdu.velocity.y = max_velocity * csi_pdu.velocity.y/mod_acc;
-		csi_pdu.velocity.z = max_velocity * csi_pdu.velocity.z/mod_acc;
+		csi_pdu.velocity.x = max_velocity * csi_pdu.velocity.x/mod_vecc;
+		csi_pdu.velocity.y = max_velocity * csi_pdu.velocity.y/mod_vecc;
+		csi_pdu.velocity.z = max_velocity * csi_pdu.velocity.z/mod_vecc;
 	}
 
 }

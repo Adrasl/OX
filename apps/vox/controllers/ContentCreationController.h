@@ -97,6 +97,8 @@ class ContentCreationController : public core::Observer
 
 		static void CreatePresetOfEntities1(const double &time = 1.0f);
 		static void CreatePresetOfEntities2(const double &time = 1.0f);
+		static void CreatePresetOfSwarm1(const double &time = 1.0f);
+		static void CreatePresetOfSwarm2(const double &time = 1.0f);
 		static void ResetStatisticalAccumulators();
 
 	private:
@@ -115,7 +117,9 @@ class ContentCreationController : public core::Observer
 					  current_timestamp,
 					  music_timestamp,
 					  createdEntity_timesptamp,
-					  recover_collisionevaluation_aftertime;
+					  recover_collisionevaluation_aftertime,
+					  recover_createswarm1_afterseconds,
+					  recover_createswarm2_afterseconds;
 		static bool must_change_background, must_change_music;
 		static int z_step;
 

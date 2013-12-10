@@ -7,27 +7,29 @@
 using namespace core::iprod;
 
 #define USER_HIT_THRESHOLD_STRENGHT 40.f
+#define BOID_THINKTIMELAPSE 0.5f
 
 OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent, const float &pitch, const float &amplitude)
 {
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
+		think_time			= 0;
 		entity				= ent; 
 		nodepath			= NULL;
-		//collidable			= true;
+		collidable			= false;
 		ready_to_die		= false;
 		ignore_collisons	= false;
 		already_loaded_in_scene = false;
-		//time_to_live		= 1.5;
+		time_to_live		= 1.5;
 		karma				= 0.5; //good(0) --> evil(1)
 		energy				= 0.0; //calm(0) --> exited(1)
 		delta_time			= 0.0;
 		killme_afterseconds = -1.0;
 		recovercollisions_afterseconds = -1.0;
-		start_timestamp			= (double)clock()/CLOCKS_PER_SEC;
-		latestupdate_timestamp	= (double)clock()/CLOCKS_PER_SEC;
+		current_timestamp = latestupdate_timestamp = start_timestamp = (double)clock()/CLOCKS_PER_SEC;
+		killme_afterseconds = recovercollisions_afterseconds = delta_time = lived_time = 0.0f;
 		otherEntities_feedback[NatureOfEntity::BOID] = IA_Karma::GOOD;
-
+		psique = NatureOfEntity::BOID;
 
 		user_feedback.clear();
 		otherEntities_feedback.clear(); 
@@ -44,25 +46,37 @@ OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent, const float &pitch, 
 		PrepareSounds();
 	}
 
-	core::corePoint3D<float> world_max_coords;
-	core::corePoint3D<float> world_min_coords;
-	world_max_coords.x = world_max_coords.y = world_max_coords.z = 10.0f;
-	world_min_coords.x = world_min_coords.y = world_min_coords.z = 10.0f;
+	core::corePoint3D<float> world_max_coords,
+							 world_min_coords;
+	corePoint3D<float> separation, alignment, cohesion, 
+				   attraction, avoidance, worldlimits;
+	world_max_coords.x = world_max_coords.y = world_max_coords.z = 1.0f;
+	world_min_coords.x = world_min_coords.y = world_min_coords.z = -1.0f;
+	world_max_coords.y = 6.0f; world_min_coords.y = 5.0f;
+	separation.x = separation.y = separation.z = 0.0f;
+	alignment.x = alignment.y = alignment.z = 0.0f;
+	cohesion.x = cohesion.y = cohesion.z = 0.0f;
+	attraction.x = attraction.y = attraction.z = 0.0f;
+	avoidance.x = avoidance.y = avoidance.z = 0.0f;
+	worldlimits.x = worldlimits.y = worldlimits.z = 0.0f;
 	{	boost::mutex::scoped_lock lock(csi_mutex);
 		my_species			= Species::SPECIES1;
 		csi_entity			= entity;
 		csi_pdu				= pdu;
-		max_acceleration	= 1.0f;
-		max_velocity		= 5.0f;
-		perception_distance = 10.f;
-		separation_distance = 1.0f;
-		avoidance_distance	= 3.0f; 
+		max_acceleration	= 0.5f;
+		max_velocity		= 0.25f;
+		perception_distance = 1.f;
+		separation_distance = 0.01f;
+		avoidance_distance	= 0.05f; 
 		use_world_limits	= true;
+		world_max			= world_max_coords;
+		world_min			= world_min_coords;
 		//csi_pdu.acceleration.x = csi_pdu.acceleration.y = csi_pdu.acceleration.z = 0.0f;
 	}
-		UseWorldLimits(world_max_coords, world_min_coords );
-		SetPitch(pitch);
-		SetVolume(amplitude);
+
+	//UseWorldLimits(world_max_coords, world_min_coords );
+	SetPitch(pitch);
+	SetVolume(amplitude);
 }
 
 OXBoidsEntity::~OXBoidsEntity()
@@ -218,7 +232,11 @@ void OXBoidsEntity::OnStart()
 
 void OXBoidsEntity::OnUpdate()
 {
-	Think();
+	if ( think_time - current_timestamp < 0 ) 
+	{
+		Think();
+		think_time = current_timestamp + BOID_THINKTIMELAPSE;
+	}
 
 	{	boost::mutex::scoped_lock lock(m_mutex);
 		start_timestamp;
@@ -244,7 +262,11 @@ void OXBoidsEntity::OnUpdate()
 									  scale);
 	pdu = csi_pdu;
 
-	this->SetPositionOrientationScale(pdu.position.x, pdu.position.y, pdu.position.z,
+	x = pdu.position.x + pdu.velocity.x * (current_timestamp - think_time);
+	y = pdu.position.y + pdu.velocity.y * (current_timestamp - think_time);
+	z = pdu.position.z + pdu.velocity.z * (current_timestamp - think_time);
+
+	this->SetPositionOrientationScale(x, y, z,
 									  h+delta_time*12.0f, 
 									  p+delta_time*60.0f, 
 									  r+delta_time*120.0f,

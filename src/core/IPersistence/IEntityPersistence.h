@@ -49,6 +49,7 @@ namespace core
 			virtual void GetScale(float &value) = 0;
 			virtual void GetPsique(int &value) = 0;
 			virtual void GetType(int &value) = 0;
+			virtual void GetId(int &value) = 0;
 			
 
 			virtual bool IsCollidable() = 0;

@@ -32,7 +32,7 @@ namespace core
 				virtual void Delete();
 
 				virtual void SetName(const std::string &name_)					{ name = name_; Changed();					}
-				virtual void SetOwner(const std::string &user_owner)			{ owner = user_owner; Changed();					}
+				virtual void SetOwner(const std::string &user_owner)			{ owner = user_owner; Changed();			}
 				virtual void SetPermissions(const int &permissions_)			{ permissions = permissions_; Changed();	}
 				virtual void AddEntity(core::IEntityPersistence &entity);
 				virtual void RemoveEntity(core::IEntityPersistence &entity);
@@ -41,6 +41,7 @@ namespace core
 				virtual int			GetPermissions()							{ return permissions;						}
 				virtual core::IEntityPersistence* GetEntity(const int &i);
 				virtual int GetNumEntities()									{ return entities.size();					}
+				virtual void GetId(int &value)									{ value = this->getId();					}
 				
 				static dba::SQL *GetSchema()									{ return &schema;							}
 
