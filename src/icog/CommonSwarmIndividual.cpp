@@ -15,6 +15,7 @@ boost::mutex CommonSwarmIndividual::csi_mutex;
 
 std::vector<int> CommonSwarmIndividual::RTree_search_results;
 
+
 CommonSwarmIndividual::CommonSwarmIndividual(const int &species_, core::IEntityPersistence* entity_, 
 											 const core::corePDU3D<double> &initial_pdu, 
 											 const float &max_velocity_, const float &max_acceleration_, const float &perception_distance_) 
@@ -174,7 +175,7 @@ void CommonSwarmIndividual::Think()
 		core::Subject *entitiy_is_subject = dynamic_cast<core::Subject*> (result_entity);
 		
 		if ( result_entity 
-			 && entitiy_is_subject && (entitiy_is_subject->ObserversCount() >0 ))
+			 && entitiy_is_subject && (entitiy_is_subject->ObserversCount() == 1 ))
 		{
 			int me_id, other_id, me_type, other_type;
 			result_entity->GetId(other_id);
@@ -302,13 +303,22 @@ void CommonSwarmIndividual::Think()
 	attraction	= CalculateAttraction(); 
 	avoidance	= CalculateAvoidance();
 
-	float separation_factor	= 1.0f;
+	float randomness_factor	= 1.0f;
+	float separation_factor	= 1.5f;
 	float alignment_factor	= 1.0f;
 	float cohesion_factor	= 1.0f;
 	float attraction_factor	= 1.0f;
-	float avoidance_factor	= 2.0f;
-	float worldlimits_factor= 2.0f;
+	float avoidance_factor	= 1.5f;
+	float worldlimits_factor= 1.5f;
 
+	randomness.x = RandomFloat(-1.0f*max_acceleration, max_acceleration);
+	randomness.y = RandomFloat(-1.0f*max_acceleration, max_acceleration);
+	randomness.z = RandomFloat(-1.0f*max_acceleration, max_acceleration);
+
+	randomness.x *= randomness_factor; 
+	randomness.y *= randomness_factor; 
+	randomness.z *= randomness_factor;	
+	
 	separation.x *= separation_factor; 
 	separation.y *= separation_factor; 
 	separation.z *= separation_factor;
@@ -333,6 +343,7 @@ void CommonSwarmIndividual::Think()
 	worldlimits.y *= worldlimits_factor;
 	worldlimits.z *= worldlimits_factor;
 
+	AddForce(randomness);
 	AddForce(separation);
 	AddForce(alignment);
 	AddForce(cohesion);

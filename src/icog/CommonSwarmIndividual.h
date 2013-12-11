@@ -22,6 +22,7 @@
 #include <iostream> 
 #include <map>
 #include <cmath> 
+#include <random>
 
 using namespace boost::accumulators;
 
@@ -67,6 +68,9 @@ namespace core
 				virtual void					 ResetAccumulators();
 				virtual void					 CheckPDULimits();
 
+				
+				float RandomFloat(const float &Min, const float &Max)	{ return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;}
+
 				//shared knowledge
 				static std::map<int, core::IEntityPersistence*> individuals_by_spatialIndex;
 				static std::map<core::IEntityPersistence*, int> species_of_individual;
@@ -83,7 +87,7 @@ namespace core
 				core::corePDU3D<double> csi_pdu;
 				float max_acceleration, max_velocity;
 				float perception_distance;
-				corePoint3D<float> separation, alignment, cohesion, 
+				corePoint3D<float> separation, alignment, cohesion, randomness,
 								   attraction, avoidance, worldlimits;
 
 				corePoint3D<accumulator_set<double, stats<tag::count, tag::mean> >> accumulators_separation,

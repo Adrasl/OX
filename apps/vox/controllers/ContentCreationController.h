@@ -100,6 +100,7 @@ class ContentCreationController : public core::Observer
 		static void CreatePresetOfSwarm1(const double &time = 1.0f);
 		static void CreatePresetOfSwarm2(const double &time = 1.0f);
 		static void ResetStatisticalAccumulators();
+		static float RandomFloat(const float &Min, const float &Max)	{ return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;}
 
 	private:
 

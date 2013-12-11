@@ -73,11 +73,6 @@ corePoint3D<accumulator_set<double, stats<tag::mean, tag::median, tag::variance 
 																					 ContentCreationController::accumulators_main_eccentricity ;
 
 
-float RandomFloat(const float &Min, const float &Max)
-{
-    return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
-}
-
 ContentCreationController::ContentCreationController()
 {
 	RTree_Entities_SpatialIndexes[NatureOfEntity::NONINTERACTIVE]	= new RTree<int, float, 3, float>();
@@ -723,7 +718,7 @@ void ContentCreationController::CreatePresetOfSwarm1(const double &time)
 		std::string modelpath = model_url.str();
 		Filename pandafile = Filename::from_os_specific(modelpath);
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 10; i++)
 		{
 			entity_id++;
 			z_step++;
@@ -750,9 +745,9 @@ void ContentCreationController::CreatePresetOfSwarm1(const double &time)
 			candidatepdu.position.x = RandomFloat(0.4f, 0.8f);
 			candidatepdu.position.y = RandomFloat( 6.0f, 6.4f);
 			candidatepdu.position.z = RandomFloat(0.5f, 1.0f);
-			candidatepdu.velocity.x = RandomFloat(-0.02f, 0.02f);
-			candidatepdu.velocity.y = RandomFloat(-0.02f, 0.02f);
-			candidatepdu.velocity.z = RandomFloat(-0.02f, 0.02f);
+			candidatepdu.velocity.x = RandomFloat(-0.05f, 0.05f);
+			candidatepdu.velocity.y = RandomFloat(-0.05f, 0.05f);
+			candidatepdu.velocity.z = RandomFloat(-0.05f, 0.05f);
 			candidatepdu.acceleration.x = 0.0f;
 			candidatepdu.acceleration.y = 0.0f;
 			candidatepdu.acceleration.z = 0.0f;
