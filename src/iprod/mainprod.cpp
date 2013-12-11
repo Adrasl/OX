@@ -8,6 +8,10 @@
 #include <string>
 #include <antialiasAttrib.h>
 
+#if PANDA_NUMERIC_VERSION >= 1008000
+#define Colorf LColorf
+#endif
+
 #include "auto_bind.h"
 #include "AnimControlCollection.h"
 #include "ambientLight.h"
@@ -47,6 +51,8 @@ boost::shared_ptr<boost::thread> MainProd::m_thread;
 std::map<int, Prod3DWindow*>     MainProd::prod3Dwindow_array;
 std::map<int, WindowFramework*>	 MainProd::pandawindows_array;
 std::map<int, NodePath>			 MainProd::windowcamera_array;
+std::map<int, CCommonFilters*>	 MainProd::ccommonfilters_array;
+std::map<int, DisplayRegion *>	 MainProd::displayregions_array;
 std::vector< NodePath >			 MainProd::camera_array;
 int MainProd::last_window_id = 0;
 int MainProd::m_argc = 0;
@@ -128,6 +134,10 @@ float MainProd::background_animation_endtimestamp   = 0.0f;
 float MainProd::current_timestamp   = 0.0f;
 
 AnimControlCollection MainProd::SceneAnimControlCollection;
+
+bool MainProd::enable_simpleGlowEffect = true; //retomar
+
+
 
 MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[]) : mesh_factory(NULL)
 {
@@ -268,6 +278,9 @@ void MainProd::DoMainLoop()
 		if (collision_traverser && SHOW_COLLISION)
 			collision_traverser->show_collisions(pandawindows_array[1]->get_render());
 
+	   if(!pandawindows_array[1]->get_graphics_window()->get_gsg()->get_supports_basic_shaders())
+		  cout << "Glow Filter: Video driver reports that shaders are not supported.";
+
 		//NOTES---------
 		GraphicsEngine	*ge = framework.get_graphics_engine();		//only one, global, pointers and buffers
 		GraphicsPipe	*gp = framework.get_default_pipe();			//at least one, OGL/DX
@@ -395,6 +408,8 @@ void MainProd::Iterate()
 				m_fog.set_exp_density(fog_intensity); 
 				pandawindows_array[i]->get_render().set_fog(&m_fog, 1);
 				pandawindows_array[i]->get_display_region_3d()->set_clear_color(LColor(background_color.x, background_color.y, background_color.z, 1));
+				//DESCOMENTAR EFFECTOS //displayregions_array[i]->set_clear_color(LColor(background_color.x, background_color.y, background_color.z, 1));
+				
 				//pandawindows_array[i]->get_render().set_shader_auto();
 
 
@@ -1133,6 +1148,48 @@ void MainProd::CreateDefaultWindows(int num_windows)
 		pandawindows_array[i]->set_perpixel(true);
 		pandawindows_array[i]->get_render().set_antialias(AntialiasAttrib::Mode::M_multisample,1);
 		windowcamera_array[i] = pandawindows_array[i]->get_camera_group();
+
+		//DESCOMENTAR EFFECTOS
+		////if we use this region we loose the option of resizing the region after boot
+		////it makes a region of the size of the window for post-processing
+		//displayregions_array[i] = pandawindows_array[i]->get_graphics_window()->make_display_region();
+		//ccommonfilters_array[i] = new CCommonFilters(pandawindows_array[i]->get_graphics_output(), NodePath(pandawindows_array[i]->get_camera(0)));
+		//
+		//////INVERT COLOR
+		////ccommonfilters_array[i]->set_inverted();
+		////ccommonfilters_array[i]->del_inverted();
+		////BLOOM
+		////Parameters: https://www.panda3d.org/manual/index.php/Common_Image_Filters
+		//CCommonFilters::SetBloomParameters bloom_paramns; 
+		//bloom_paramns.blend		 = LVector4f(0.33,0.34,0.33,0.0);
+		//bloom_paramns.mintrigger = 0.85f;
+		//bloom_paramns.maxtrigger = 1.0f;
+		//bloom_paramns.desat		 = 0.8f;
+		//bloom_paramns.intensity	 = 1.0f;
+		//bloom_paramns.size		 = "large";
+		//ccommonfilters_array[i]->set_bloom(bloom_paramns);
+		//////TOON
+		////ccommonfilters_array[i]->set_cartoon_ink();
+		//////BLUR
+		////ccommonfilters_array[i]->set_blur_sharpen(0.5f);
+		//////VOLUMETRIC LIGHTING
+		////CCommonFilters::SetVolumetricLightingParameters vol_params(NodePath(pandawindows_array[i]->get_camera(0))); //retomar, The light Object, do not use the camera 
+		////vol_params.decay = 0.98f;
+		////vol_params.density = 5.0f;
+		////vol_params.exposure = 0.1f;
+		////vol_params.numsamples = 32;
+		////ccommonfilters_array[i]->set_volumetric_lighting(vol_params);
+		//////SPACE IMAGE AMBIENT OCCLUSION
+		////CCommonFilters::SetAmbientOcclusionParameters ambient_params;
+		////ambient_params.amount = 2.0f;
+		////ambient_params.falloff = 0.000002f;
+		////ambient_params.numsamples = 16;
+		////ambient_params.radius = 0.05f;
+		////ambient_params.strength = 0.01f;
+		////ccommonfilters_array[i]->set_ambient_occlusion(ambient_params);
+
+
+
 		//pandawindows_array[i]->setup_trackball();
 		//pandawindows_array[i]->set_wireframe(true);
 		//pandawindows_array[i]->set_texture(true);
@@ -2454,6 +2511,12 @@ void MainProd::SetFogIntensity(const float &intensity)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 	fog_intensity = intensity;
+}
+
+void MainProd::EnableSimpleGlowEffect(const bool &enable)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	enable_simpleGlowEffect = enable;
 }
 
 void MainProd::SetBackgroundAndFog(const float &bg_R, const float &bg_G, const float &bg_B, const float &f_R, const float &f_G, const float &f_B, const float &intensity, const float animation_time)

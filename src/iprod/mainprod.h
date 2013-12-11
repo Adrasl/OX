@@ -37,6 +37,15 @@
 #include "cLerpNodePathInterval.h"
 #include "cMetaInterval.h"
 
+#if PANDA_NUMERIC_VERSION >= 1008000
+#define Colorf LColorf
+#endif
+////#include <cpp_drunken_octo_robot_master/p3util/cActor.h>
+//#include <cpp_drunken_octo_robot_master/p3util/cBufferViewer.h>
+#include "p3util/cCommonFilters.h"
+//#include <cpp_drunken_octo_robot_master/p3util/cOnscreenText.h>
+
+
 #include <boost/thread.hpp>
 
 #include <SFML/Audio.hpp>
@@ -138,8 +147,12 @@ namespace core
 				virtual void SetFogIntensity(const float &intensity);
 				virtual void SetBackgroundAndFog(const float &bg_R=0.5f, const float &bg_G=0.5f, const float &bg_B=0.5f, const float &f_R=0.5f, const float &f_G=0.5f, const float &f_B=0.5f, const float &intensity=0.5f, const float animation_time=.0f);
 
+				virtual void EnableSimpleGlowEffect(const bool &enable = true);
+
 				static NodePath* CreateQuad();
 				static void AddTestQuad();
+
+
 			
 			private:
 
@@ -160,6 +173,8 @@ namespace core
 				static std::vector<NodePath*>				testnodepaths;
 				static CollisionHandlerQueue				*collision_handler_queue;
 				static CollisionTraverser					*collision_traverser;
+
+				static bool									enable_simpleGlowEffect;
 
 				static std::map< Prod3DEntity *, CollisionNode * >					entity_collider_array;
 				static std::map< const CollisionSolid *, core::corePDU3D<double> >	avatar_collider_array;
@@ -221,6 +236,8 @@ namespace core
 				static std::map<int, Prod3DWindow*>		prod3Dwindow_array;
 				static std::map<int, WindowFramework*>	pandawindows_array;
 				static std::map<int, NodePath>			windowcamera_array;
+				static std::map<int, CCommonFilters*>	ccommonfilters_array;
+				static std::map<int, DisplayRegion *>	displayregions_array;
 				static std::vector< NodePath >			camera_array;
 				static int last_window_id, m_argc;
 				static char **m_argv;
