@@ -51,6 +51,14 @@ namespace core
 				virtual float GetTimeToLive()					{ boost::mutex::scoped_lock lock(m_mutex); return time_to_live;		}
 				virtual void  SetTimeToLive(const float &value)	{ boost::mutex::scoped_lock lock(m_mutex); time_to_live = value;	}
 
+				virtual void SetPositionVelocityAcceleration(const float &px, const float &py, const float &pz,
+															 const float &vx, const float &vy, const float &vz,
+															 const float &ax, const float &ay, const float &az);
+
+				virtual void GetPositionVelocityAcceleration(float &px, float &py, float &pz,
+															 float &vx, float &vy, float &vz,
+															 float &ax, float &ay, float &az);
+
 				void SetPDU(const core::corePDU3D<double> &value);
 				void SetNodePath(NodePath *value);
 				void SetPosition(const float &x, const float &y, const float &z);

@@ -33,6 +33,13 @@ namespace core
 			virtual void GetPsique(int &value)=0;
 			virtual corePDU3D<double> GetPDU()=0;
 
+			virtual void SetPositionVelocityAcceleration(const float &px, const float &py, const float &pz,
+														 const float &vx, const float &vy, const float &vz,
+														 const float &ax, const float &ay, const float &az) = 0;
+			virtual void GetPositionVelocityAcceleration(float &px, float &py, float &pz,
+														 float &vx, float &vy, float &vz,
+														 float &ax, float &ay, float &az) = 0;
+
 			virtual void OnStart()=0;
 			virtual void OnUpdate()=0;
 			virtual void OnDestroy()=0;

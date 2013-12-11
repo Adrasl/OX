@@ -9,7 +9,7 @@
 #define CC_MAX_PITCH 2.0f
 #define CC_MIN_PITCH 1.0f
 #define CC_GOOD_STEP 0.003f
-#define CC_EVIL_STEP 0.015f
+#define CC_EVIL_STEP 0.03f
 #define CC_RECOVERCOL_EVAL 1.0f
 #define CC_RECOVER_CREATESWARM1_TIME 10.0f
 #define CC_RECOVER_CREATESWARM2_TIME 10.0f
@@ -468,8 +468,8 @@ void ContentCreationController::Update()
 			if (current_world && (current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE)) 
 			{
 				CreatePresetOfEntities1(1.0f);
-				CreatePresetOfEntities2(1.25f);
-				CreatePresetOfEntities2(1.5f);
+				//CreatePresetOfEntities2(1.25f);
+				//CreatePresetOfEntities2(1.5f);
 
 				core::icog::CommonSwarmIndividual::SetEcosystem(ccc_ecosystem);
 			}
@@ -526,7 +526,7 @@ void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
 			i_am_being = IA_Karma::GOOD;		
 			accumulators_motion_GOODorEVIL((float)IA_Karma::GOOD);
 			if (!(recover_createswarm1_afterseconds - current_timestamp > 0))
-			{	//retomar //descomentar CreatePresetOfSwarm1( CC_RECOVER_CREATESWARM1_TIME );
+			{	CreatePresetOfSwarm1( CC_RECOVER_CREATESWARM1_TIME );
 				recover_createswarm1_afterseconds = current_timestamp + CC_RECOVER_CREATESWARM1_TIME;
 			}}
 		else
@@ -733,7 +733,7 @@ void ContentCreationController::CreatePresetOfSwarm1(const double &time)
 
 			genesis->SetPsique(NatureOfEntity::STANDALONE);
 			genesis->SetModelData(pandafile);			
-			genesis->SetCollidable(time);
+			genesis->SetCollidable(false);
 			genesis->SetTimeToLive(RandomFloat(time*0.8, time));
 			//genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
 			//genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
@@ -747,16 +747,21 @@ void ContentCreationController::CreatePresetOfSwarm1(const double &time)
 			//candidatepdu.position.x = RandomFloat(user_pos_x - 1.0, user_pos_x + 1.0);
 			//candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 6.0);
 			//candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 1.0);
-			candidatepdu.position.x = RandomFloat(0.5f, 0.7f);
-			candidatepdu.position.y = RandomFloat( 6.0f, 6.2f);
+			candidatepdu.position.x = RandomFloat(0.4f, 0.8f);
+			candidatepdu.position.y = RandomFloat( 6.0f, 6.4f);
 			candidatepdu.position.z = RandomFloat(0.5f, 1.0f);
-			candidatepdu.velocity.x = RandomFloat(-0.001f, 0.001f);
-			candidatepdu.velocity.y = RandomFloat(-0.001f, 0.001f);
-			candidatepdu.velocity.z = RandomFloat(-0.001f, 0.001f);
+			candidatepdu.velocity.x = RandomFloat(-0.02f, 0.02f);
+			candidatepdu.velocity.y = RandomFloat(-0.02f, 0.02f);
+			candidatepdu.velocity.z = RandomFloat(-0.02f, 0.02f);
+			candidatepdu.acceleration.x = 0.0f;
+			candidatepdu.acceleration.y = 0.0f;
+			candidatepdu.acceleration.z = 0.0f;
 			float scale = RandomFloat(0.1f, 0.1f);
 
 			//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
-			genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
+			genesis->SetPositionVelocityAcceleration(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z,
+													 candidatepdu.velocity.x, candidatepdu.velocity.y, candidatepdu.velocity.z,
+													 candidatepdu.acceleration.x, candidatepdu.acceleration.y, candidatepdu.acceleration.z);
 			genesis->SetScale(scale);
 			genesis->attach(instance);
 
@@ -766,7 +771,6 @@ void ContentCreationController::CreatePresetOfSwarm1(const double &time)
 
 			createdEntity_timesptamp = current_timestamp;
 			new_timed_entities[(core::IEntity *)new_entity] = time;
-			
 		}
 	}	
 }

@@ -260,7 +260,7 @@ void Prod3DEntity::SetPositionOrientationScale(const float &x, const float &y, c
 
 	pdu.position.x = x;
 	pdu.position.y = y;
-	pdu.position.y = y;
+	pdu.position.z = z;
 
 	if (nodepath)
 	{
@@ -276,6 +276,40 @@ void Prod3DEntity::SetPositionOrientationScale(const float &x, const float &y, c
 		entity->SetOrientation(h, p, r);
 		entity->SetScale(scale);
 	}
+}
+
+void Prod3DEntity::SetPositionVelocityAcceleration(const float &px, const float &py, const float &pz,
+											 const float &vx, const float &vy, const float &vz,
+											 const float &ax, const float &ay, const float &az)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	pdu.position.x = px;	pdu.position.y = py;	pdu.position.z = pz;
+	pdu.velocity.x = vx;	pdu.velocity.y = vy;	pdu.velocity.z = vz;
+	pdu.acceleration.x = ax;pdu.acceleration.y = ay;pdu.acceleration.z = az;
+
+	if (nodepath)
+	{
+		nodepath->set_pos(px, py, pz);
+	}
+
+	if (entity)
+	{
+		entity->SetPositionVelocityAcceleration(px, py, pz,
+											    vx, vy, vz,
+												ax, ay, az);
+	}
+}
+
+void Prod3DEntity::GetPositionVelocityAcceleration(float &px, float &py, float &pz,
+											 float &vx, float &vy, float &vz,
+											 float &ax, float &ay, float &az)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	px = pdu.position.x;	py = pdu.position.y;	pz = pdu.position.z;
+	vx = pdu.velocity.x;	vy = pdu.velocity.y;	vz = pdu.velocity.z;
+	ax = pdu.acceleration.x;ay = pdu.acceleration.y;az = pdu.acceleration.z;
 }
 
 void Prod3DEntity::SetPsique(const int &value)									
