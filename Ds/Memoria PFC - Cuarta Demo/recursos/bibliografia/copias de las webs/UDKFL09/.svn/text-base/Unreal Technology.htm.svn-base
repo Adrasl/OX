@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0058)http://www.unrealtechnology.com/features.php?ref=rendering -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<META name="description" content="Home of the award-winning Unreal Engine Technology, developed by Epic Games, Inc.">
+<META name="keywords" content="Unreal, Unreal Engine, Unreal Technology, Epic, Epic Games, Gears of War, Unreal Tournament">
+<TITLE>Unreal Technology</TITLE>
+
+<LINK href="./Unreal Technology_files/unrealtech.css" rel="stylesheet" type="text/css" media="screen">
+<LINK href="./Unreal Technology_files/print.css" rel="stylesheet" type="text/css" media="print">
+<LINK rel="icon" href="http://www.unrealtechnology.com/favicon.ico" type="image/x-icon">
+<LINK rel="shortcut icon" href="http://www.unrealtechnology.com/favicon.ico" type="image/x-icon"> 
+<SCRIPT language="javascript" type="text/javascript" src="./Unreal Technology_files/abt.js"></SCRIPT>
+<SCRIPT language="javascript" type="text/javascript" src="./Unreal Technology_files/jquery-1.2.3.pack.js"></SCRIPT>
+<SCRIPT language="javascript" type="text/javascript" src="./Unreal Technology_files/dimensions.js"></SCRIPT>
+<SCRIPT language="javascript" type="text/javascript" src="./Unreal Technology_files/mousewheel.js"></SCRIPT>
+<SCRIPT language="javascript" type="text/javascript" src="./Unreal Technology_files/jScrollPane-c.js"></SCRIPT>
+<SCRIPT language="javascript" type="text/javascript" src="./Unreal Technology_files/bootup.js"></SCRIPT>
+<SCRIPT language="javascript" type="text/javascript" src="./Unreal Technology_files/dw_scroll_dx.js"></SCRIPT>
+
+</HEAD><BODY id="feature" class="feature one-col">
+
+<DIV id="container">
+<DIV id="wrap-outer">
+<DIV id="wrap">
+
+	
+		<DIV><DIV id="flash-area"><IMG src="./Unreal Technology_files/utech-banners-rendering.jpg" alt="Rendering"></DIV></DIV>	<DIV id="masthead">
+		<DIV id="logo"><A href="http://www.unrealtechnology.com/" title="Unreal Technology"><IMG src="./Unreal Technology_files/ind_logo-lofi.gif" alt="Unreal Technology" border="0"></A></DIV>
+		<P id="skip-link"><A href="http://www.unrealtechnology.com/features.php?ref=rendering#content">Skip to Content</A></P>
+		<HR>
+		<DIV id="epic-nav">
+			<UL>
+				<LI id="en-epic"><A href="http://www.epicgames.com/" title="EPIC Games" target="_blank">EPIC Games</A></LI>
+				<LI id="en-unreal"><A href="http://www.unrealtechnology.com/" title="Unreal Technology">UNREAL</A></LI>
+			</UL>
+			<HR>
+		</DIV>
+	</DIV>
+	
+
+<DIV id="main-area">	
+		<DIV id="content">
+			<!--
+<h1>Unreal<em class="sup">TM</em> Gemini <span>- Multithreaded Rendering</span></h1>
+--><IMG alt="" width="181" height="301" src="./Unreal Technology_files/g_feature-rendering.gif">
+<P>The Unreal Engine renderer: </P>
+<UL>
+    <LI>Multi-threaded rendering system – <EM>Gemini</EM>. </LI>
+    <LI>Dynamic visibility determination, requiring no pre-processing or specially placed portals. </LI>
+    <LI>64-bit color high dynamic range (HDR) rendering pipeline. The gamma-correct, linear color space renderer provides for immaculate color precision while supporting a wide range of post-processing effects such as motion blur, depth of field, bloom, ambient occlusion and artist-defined materials. </LI>
+    <LI>Support for all modern per-pixel lighting and rendering techniques including normal mapped, parameterized Phong lighting; custom artist-controlled per material lighting models including anisotropic effects; virtual displacement mapping; light attenuation functions; pre-computed shadow masks; directional light maps; and pre-computed bump-granularity self-shadowing using spherical harmonic maps. </LI>
+    <LI>Detailed character lighting
+    <UL>
+        <LI>&nbsp; </LI>
+        <LI>Uses spherical harmonics to composite accurately-synthesized, complex light environment and support large numbers of affecting lights at near constant rendering cost. </LI>
+        <LI>Fill lighting is added using the increased accuracy to maintain the contrast of character details. </LI>
+        <LI>Fresnel-inspired rim amplification distinguishes characters in a world without changing the perceived lighting, and character shadowing accuracy has also been enhanced. </LI>
+    </UL>
+    </LI>
+    <LI>Advanced shadowing, providing full support for four shadowing techniques:
+    <UL>
+        <LI>Dynamic stencil shadow volumes supporting fully dynamic, moving light sources casting accurate shadows on all objects in the scene. </LI>
+        <LI>Dynamic characters casting dynamic soft shadows on the scene using projected shadow buffers. Multiple shadow filtering methods are supported including uniform PCF, jittered PCF and VSM. Filtering methods support varying quality settings and are optimized to take advantage of platform-specific features. </LI>
+        <LI>Ultra high quality and high performance pre-computed shadow masks allow offline processing of static light interactions, while retaining fully dynamic specular lighting and reflections. </LI>
+        <LI>Directional light mapping enables the static shadowing and diffuse normal-mapped lighting of an unlimited number of lights to be pre-computed and stored into a single set of texture maps, permitting very large light counts in high performance scenes. </LI>
+    </UL>
+    </LI>
+    <LI>All supported shadow techniques are visually compatible and may be mixed freely at the artist's discretion. Techniques also may be combined with colored attenuation functions to generate properly shadowed directional, spotlight and projector lighting effects. </LI>
+    <LI>Global Illumination
+    <UL>
+        <LI>Approximation via Ambient Occlusion: results in increased perception of geometric shape for the entire scene, including dynamic characters. The effect is scene-independent and operates with constant memory and performance overhead with no pre-processing. </LI>
+        <LI>Unreal Lightmass: A global illumination solver which produces high-quality static lighting and effects including soft shadows with accurate penumbrae; diffuse and specular interreflection; and color bleeding. The result is higher-quality light maps without affecting the standard UE3 rendering pipeline, producing more prominent details such as indirect shadows. </LI>
+        <LI>Unreal Swarm: A massively scalable job distribution system, Swarm can manage clusters of heterogeneous systems, automatically distributing tasks on-demand and employing a transparent distributed cache system that allows for dramatically increased job performance when reusing input resources. Swarm is configured and managed entirely through a visual interface that provides detailed information about jobs in progress, including both local and remote agents participating in the job, and color-coded activity per-worker thread on all agents. Swarm can be used for accelerating virtually any broadly parallelizable job, and it is currently used to accelerate Lightmass with outstanding results. </LI>
+    </UL>
+    </LI>
+    <LI>Volumetric environmental effects that integrate seamlessly with arbitrary environments. Camera, volume and opaque object interactions are handled correctly per-pixel. Volumetric effects on translucency are approximated for maximum efficiency. They include:
+    <UL>
+        <LI>Multi-layered, global height fog. </LI>
+        <LI>Fog volumes bounded by arbitrary, user-defined, animated or static meshes. Multiple density functions are supported, allowing for complex yet efficient fog effects. Fog volumes can replace hundreds of soft particles in effects to achieve the same visual impact without the overdraw. </LI>
+    </UL>
+    </LI>
+    <LI>Full support for seamlessly interconnected indoor and outdoor environments with dynamic per-pixel lighting and shadowing supported everywhere. </LI>
+    <LI>High performance texture streaming system, which seamlessly handles both static and dynamic objects while maintaining constant memory usage. </LI>
+    <LI>Threaded fluid surface simulation on both the CPU and the GPU, allowing for height and normal simulation � or just normal simulation at extremely high detail. Dynamic fluid surfaces breathes life into liquid surfaces.
+    <UL>
+        <LI>Sophisticated water physics combined with realistic specular and environment reflections produce a realistic, liquid-like feel. </LI>
+        <LI>Characters have dynamic interactions with the water, produce more realistic sound effects and create more lifelike splashes using particle systems � and all this scales to very large environments. </LI>
+    </UL>
+    </LI>
+    <LI>Real-time structural analysis produces realistic destructible environments. </LI>
+    <LI>Realistic lens flares. </LI>
+    <LI>Split-screen rendering. </LI>
+    <LI>High-resolution screenshot support. </LI>
+    <LI>Platform-abstracting rendering layer - the Render Hardware Interface (RHI):
+    <UL>
+        <LI>Allows an extremely low level of abstraction, minimizing redundant code pathways. </LI>
+        <LI>Supports static and dynamic binding. </LI>
+    </UL>
+    </LI>
+    <LI>Debug view modes to accelerate level optimization, such as:
+    <UL>
+        <LI>Shader complexity that provides a visualization for the shading cost of each pixel. </LI>
+        <LI>Light complexity showing light-object interactions. </LI>
+        <LI>Texture density that enables a quick and detailed overview of a level's texture detail distribution. </LI>
+    </UL>
+    </LI>
+    <LI>Scalability settings to support a wide range of end users on PC. </LI>
+    <LI>Optimized skinned mesh rendering. </LI>
+    <LI>Render-To-Texture tools, allowing real-time dynamic reflections and static scene captures. </LI>
+    <LI>Versatile decals supported on every type of mesh with optimized pathways for each. Decals support artist-defined materials and can be lit and shadowed to integrate with the environment. </LI>
+    <LI>An easily extensible post-process system with built-in effects including:
+    <UL>
+        <LI>Motion blur. </LI>
+        <LI>Depth of field (DOF). </LI>
+        <LI>Bloom. </LI>
+        <LI>Dynamic ambient occlusion. </LI>
+        <LI>Tone mapping. </LI>
+        <LI>Artist-defined materials. </LI>
+    </UL>
+    </LI>
+    <LI>Artist-driven terrain system:
+    <UL>
+        <LI>Terrain building and editing tool, using a dynamically deformable base height map extended by multiple layers of smoothly blended materials including displacement maps, normal maps and arbitrarily complex materials, dynamic LOD-based tessellation, and vegetation layers with procedurally-placed meshes. </LI>
+        <LI>Artist-controlled layers of procedural weathering – for example, grass and vegetation on the flat areas of terrain, rock on high slopes, and snow at the peaks. </LI>
+    </UL>
+    </LI>
+    <LI>Powerful material system, composed of:
+    <UL>
+        <LI>A visual interface comparable to the non-real-time functionality provided by XSI and Maya, enabling artists to create arbitrarily complex real-time shaders on the fly. </LI>
+        <LI>Modular material framework, so programmers can add not only new shader programs, but also shader components that artists can connect with other components on the fly, resulting in dynamic composition and compilation of shader code. </LI>
+        <LI>Cross-platform material shader generation. </LI>
+        <LI>Automatic optimization of generated shaders by pulling out uniform expressions and collapsing them on the CPU. </LI>
+        <LI>Unconstrained material attributes evaluated per-pixel. </LI>
+        <LI>Material Instances, allowing the same material to be reused with different parameters. </LI>
+        <LI>Static switches, enabling template materials that reduce artist workload with no runtime overhead. </LI>
+        <LI>Automatic or user-defined fallback materials for scalability. </LI>
+    </UL>
+    </LI>
+    <LI>Shader management and development system, featuring:
+    <UL>
+        <LI>Full cross-platform support of shader compilation and caching. </LI>
+        <LI>Automatic versioning, which detects shader changes and streamlines development. </LI>
+        <LI>Reference shader caches, allowing an automated process to build common shaders. </LI>
+    </UL>
+    </LI>
+    <LI>Extensible particle system, supporting:
+    <UL>
+        <LI>Advanced visual editor, <A href="http://www.unrealtechnology.com/features.php?ref=cascade">UnrealCascade</A>. </LI>
+        <LI>Particle physics and environmental effects. </LI>
+        <LI>Lens flares. </LI>
+        <LI>Beams and trails. </LI>
+    </UL>
+    </LI>
+    <LI>Cross-platform movie texture support. </LI>
+    <LI>Full <A href="http://www.speedtree.com/">SpeedTree</A> integration including LOD techniques and lightmaps. </LI>
+</UL>
+<P><A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-1.jpg"><IMG style="FLOAT: left" alt="" src="./Unreal Technology_files/ue3-rendering-1-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-2.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-2-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-3.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-3-s.jpg"></A> </P>
+<P><A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-4.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-4-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-5.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-5-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-6.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-6-s.jpg"></A> </P>
+<P><A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-7.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-7-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-8.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-8-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-9.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-9-s.jpg"></A> </P>
+<P><A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-10.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-10-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-11.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-11-s.jpg"></A> </P>
+<P><A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-destructibleenvironments1.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-destructibleenvironments1-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-destructibleenvironments2.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-destructibleenvironments2-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-destructibleenvironments3.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-destructibleenvironments3-s.jpg"></A> </P>
+<P><A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-ambientocclusion.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-ambientocclusion-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-characterlighting.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-characterlighting-s.jpg"></A> <A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-crowds.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-crowds-s.jpg"></A> </P>
+<P><A href="http://www.unrealtechnology.com/media/banners/ue3-rendering-speedtree.jpg"><IMG style="FLOAT: left" alt="" width="130" height="66" src="./Unreal Technology_files/ue3-rendering-speedtree-s.jpg"></A> </P>
+		</DIV>
+	</DIV></DIV> <!-- end wrap -->
+</DIV> <!-- end wrap-outer -->
+
+	<DIV id="nav-wrap">
+		<H4>Main Navigation</H4>
+		<DIV id="navigation">
+			<UL>
+				<LI id="n-technology"><A href="http://www.unrealtechnology.com/technology.php">Technology</A>
+					<DIV>
+					<UL>
+						<LI class="first"><A href="http://www.unrealtechnology.com/features.php?ref=technology-overview"> Overview</A></LI><LI><A href="./Unreal Technology_files/Unreal Technology.htm"> Rendering</A></LI><LI><A href="http://www.unrealtechnology.com/features.php?ref=animation"> Animation</A></LI><LI><A href="http://www.unrealtechnology.com/features.php?ref=audio"> Audio</A></LI><LI><A href="http://www.unrealtechnology.com/features.php?ref=physics"> Physics</A></LI><LI><A href="http://www.unrealtechnology.com/features.php?ref=kismet"> Kismet</A></LI><LI><A href="http://www.unrealtechnology.com/features.php?ref=matinee"> Matinee</A></LI><LI><A href="http://www.unrealtechnology.com/features.php?ref=cascade"> Cascade</A></LI><LI><A href="http://www.unrealtechnology.com/features.php?ref=editor"> Editor</A></LI><LI><A href="http://www.unrealtechnology.com/features.php?ref=online"> Online</A></LI><LI><A href="http://www.unrealtechnology.com/features.php?ref=unrealscript"> UnrealScript</A></LI>					</UL>
+					</DIV>
+				</LI>
+				<LI id="n-licensing"><A href="http://www.unrealtechnology.com/licensing.php">Licensing</A>
+					<DIV>
+					<UL>
+						<LI class="first"><A href="http://www.unrealtechnology.com/licensing.php?ref=licensing-overview"> Overview</A></LI><LI><A href="http://www.unrealtechnology.com/licensing.php?ref=faq"> FAQ</A></LI><LI><A href="http://www.unrealtechnology.com/licensing.php?ref=support"> Support</A></LI><LI><A href="http://www.unrealtechnology.com/licensing.php?ref=terms"> Terms</A></LI>					</UL>
+					</DIV>
+				</LI>
+				<LI id="n-whats-new"><A href="http://www.unrealtechnology.com/whats-new.php">What's New</A>
+					<DIV>
+					<UL>
+						<LI class="first"><A href="http://www.unrealtechnology.com/whats-new.php?ref=whats-new-overview"> Overview</A></LI><LI><A href="http://www.unrealtechnology.com/whats-new.php?ref=downloads"> Downloads</A></LI>						<LI><A href="http://www.unrealtechnology.com/events.php">Events</A></LI>
+						<LI><A href="http://www.unrealtechnology.com/news.php">News</A></LI>
+					</UL>
+					</DIV>
+				</LI>
+				<LI id="n-ue-runtime"><A href="http://www.unrealtechnology.com/development-kit.php">Development Kit</A>
+					<DIV>
+					<UL>
+						<LI class="first"><A href="http://www.unrealtechnology.com/development-kit.php?ref=development-kit-overview"> Overview</A></LI>					</UL>
+					</DIV>
+				</LI>
+				<LI id="n-partner-program"><A href="http://www.unrealtechnology.com/partner-program.php">Partner Program</A></LI>
+				<LI id="n-success-stories"><A href="http://www.unrealtechnology.com/success-stories.php">Success Stories</A>
+					<DIV>
+					<UL>
+					<LI><A href="http://www.unrealtechnology.com/success-stories.php">Overview</A></LI>
+						<LI class="first"><A href="http://www.unrealtechnology.com/case-studies.php?ref=cowboys-stadium"> Cowboys Stadium</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=muvizu"> Muvizu 3D</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=lazytown"> LazyTown</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=chadam"> Chadam</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=ut"> Unreal Tournament </A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=gears"> Gears of War</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=shadowcomplex"> Shadow Complex</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=bioshock"> BioShock</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=moh"> Medal of Honor</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=ao2"> Army of Two</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=grimm"> Grimm</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=batman"> Batman: Arkham Asylum</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=borderlands"> Borderlands</A></LI><LI><A href="http://www.unrealtechnology.com/case-studies.php?ref=magnacarta2"> Magnacarta 2</A></LI>					</UL>
+					</DIV>
+				</LI>
+			</UL>
+		</DIV>
+		</DIV>
+	
+	<DIV id="site-info">
+			<HR>
+			<DIV id="site-copyright">
+				<FONT face="Arial">© 2004-2008, Epic Games, Inc.&nbsp; All rights reserved.&nbsp; Epic, Epic Games, the Epic Games logo, Unreal, Unreal Engine, Unreal Technology, the Unreal Technology logo, Cascade, Gemini, and the Circle-U logo are trademarks or registered trademarks of Epic Games, Inc. in the United States of America and elsewhere.&nbsp; Other brands or product names are the trademarks of their respective owners.</FONT><BR><BR>
+<CENTER><A href="http://www.videogamevoters.org/"><IMG src="./Unreal Technology_files/vgvn_ad_234x60.jpg" border="0" width="234" height="60" alt="Video Game Voters Network"></A></CENTER>
+			</DIV>
+	</DIV>
+
+
+</DIV>
+
+
+</BODY></HTML>

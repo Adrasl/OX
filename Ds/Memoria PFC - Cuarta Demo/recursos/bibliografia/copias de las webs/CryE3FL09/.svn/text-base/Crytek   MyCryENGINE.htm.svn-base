@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0060)http://www.crytek.com/technology/cryengine-3/specifications/ -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+
+<!-- 
+	This website is powered by TYPO3 - inspiring people to share!
+	TYPO3 is a free open source Content Management Framework initially created by Kasper Skaarhoj and licensed under GNU/GPL.
+	TYPO3 is copyright 1998-2006 of Kasper Skaarhoj. Extensions are copyright of their respective owners.
+	Information and contribution at http://typo3.com/ and http://typo3.org/
+-->
+
+	<!-- <BASE href="http://www.crytek.com"> --><BASE href=".">
+	<LINK rel="SHORTCUT ICON" href="http://www.crytek.com/fileadmin/images/favicon.ico">
+	<LINK rel="stylesheet" type="text/css" href="./Crytek   MyCryENGINE_files/stylesheet_95c6ca7efd.css">
+	<LINK rel="stylesheet" type="text/css" href="./Crytek   MyCryENGINE_files/main.css">
+	<LINK rel="stylesheet" type="text/css" href="./Crytek   MyCryENGINE_files/content.css">
+	<LINK rel="stylesheet" type="text/css" href="./Crytek   MyCryENGINE_files/slimbox.css">
+
+<LINK rel="meta" href="http://www.crytek.com/labels.rdf" type="application/rdf xml" title="ICRA labels">
+<META http-equiv="pics-Label" content="(pics-1.1 &quot;http://www.icra.org/pics/vocabularyv03/&quot; l gen true for &quot;http://www.crytek.com&quot; r (n 0 s 0 v 3 l 2 oa 0 ob 0 oc 0 od 2 oe 0 of 2 og 2 oh 0 c 3))"><META name="robots" content="index,follow">
+<META http-equiv="imagetoolbar" content="no">
+<META http-equiv="Pragma" content="no-cache">
+<META http-equiv="Expires" content="Fr, 27 Nov 2009 16:00:00 GMT">
+<META http-equiv="Last-Modified" content="Fr, 27 Nov 2009 16:00:00 GMT">
+<META http-equiv="Cache-Control" content="no-cache">
+
+<SCRIPT type="text/javascript" src="./Crytek   MyCryENGINE_files/formbehaviour.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="./Crytek   MyCryENGINE_files/mootools.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="./Crytek   MyCryENGINE_files/swfobject.js"></SCRIPT>
+<SCRIPT src="./Crytek   MyCryENGINE_files/AC_OETags.js" language="javascript" type="text/javascript"></SCRIPT>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+// -----------------------------------------------------------------------------
+// Globals
+// Major version of Flash required
+var requiredMajorVersion = 9;
+// Minor version of Flash required
+var requiredMinorVersion = 0;
+// Minor version of Flash required
+var requiredRevision = 0;
+// -----------------------------------------------------------------------------
+function showflashvideo(video){
+	if(self.location.href.indexOf("initplay")==-1){
+		if(self.location.href.indexOf("play")==-1){
+			self.location.href=self.location.pathname+"?initplay="+video;
+		}else{
+			//alert(self.location.href=self.location.pathname);
+			self.location.href=self.location.pathname+"?play="+video;
+		}
+	}else{
+		self.location.href=self.location.pathname+"?play="+video;
+	}
+
+}
+// -->
+
+</SCRIPT>
+
+<LINK rel="stylesheet" type="text/css" href="./Crytek   MyCryENGINE_files/flashbox.css">
+
+<LINK rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements">
+
+	<TITLE>Crytek GmbH: Specifications</TITLE>
+	<META name="generator" content="TYPO3 4.1 CMS">
+	<SCRIPT type="text/javascript" src="./Crytek   MyCryENGINE_files/javascript_ebd9c81938.js"></SCRIPT>
+
+
+
+</HEAD><BODY>
+
+
+<DIV id="outerWrapper">
+	<DIV id="backgroundWrapper">
+		<DIV id="leftWrapper">
+			<DIV id="headerLeft"></DIV>
+			<DIV id="leftBorder"><IMG src="./Crytek   MyCryENGINE_files/border_left.gif" alt="left border"></DIV>
+		</DIV>
+
+		<DIV id="contentWrapper">
+			<DIV id="header">
+				<DIV id="headerTop">
+					<DIV id="leftHeaderMenu"><A href="http://www.crytek.com/index.php" title="Home">Home</A>|<A href="http://www.crytek.com/culture/sitemap/" title="sitemap" onfocus="blurLink(this);">sitemap</A>|<A href="http://www.crytek.com/links/press/" target="_blank" title="Press" onfocus="blurLink(this);">Press</A></DIV>
+					<DIV id="newsletterForm">
+<TABLE width="100%">
+				<TBODY><TR>
+				<TD width="200"><SPAN style="font-size:1.1em">Join Newsletter</SPAN></TD>
+				<TD><FORM class="tt_address_form" action="http://www.crytek.com/newsletter" method="post">
+			
+				<FIELDSET>
+				
+				<INPUT type="text" id="nlName" name="THR[tt_address][name]" title="Please insert your name." value="your name">
+				
+
+				<INPUT type="text" id="nlEmail" name="THR[tt_address][email]" title="Please insert your email address" value="your email">
+				
+
+				<INPUT type="image" name="submit" class="nlSubmit" src="./Crytek   MyCryENGINE_files/btn_newsletter.gif" title="Subscribe" value="Subscribe" alt="Subscribe">
+
+				<INPUT type="hidden" name="THR[tt_address][module_sys_dmail_html]" value="1">
+				<INPUT type="hidden" name="THR[tt_address][category]" value="1">
+				<INPUT type="hidden" name="THR[tt_address][pid]" value="67">
+				
+				</FIELDSET>
+			</FORM></TD></TR></TBODY></TABLE>
+</DIV>
+				</DIV>
+				<DIV id="mainMenu"><A href="http://www.crytek.com/news/" title="Here you can find an archive of all news." onfocus="blurLink(this);">News</A>|<A href="http://www.crytek.com/games/crysis2/overview/" title="Games" onfocus="blurLink(this);">Games</A>|<A href="./Crytek   MyCryENGINE_files/Crytek   MyCryENGINE.htm" title="Technology" onfocus="blurLink(this);">Technology</A>|<A href="http://www.crytek.com/culture/crytek/" title="Culture" onfocus="blurLink(this);">Culture</A>|<A href="http://www.crytek.com/career/" title="Career" onfocus="blurLink(this);">Career</A>|<A href="http://www.crytek.com/community/" title="Community" onfocus="blurLink(this);">Community</A>|<A href="http://www.crytek.com/developer/" target="_blank" title="Developer" onfocus="blurLink(this);">Developer</A>|<A href="http://www.crytek.com/downloads/" title="Downloads" onfocus="blurLink(this);">Downloads</A>|<A href="http://www.crytek.com/contact/" title="Contact" onfocus="blurLink(this);">Contact</A></DIV>
+			</DIV>
+			
+			<DIV id="flashContent"><EMBED type="application/x-shockwave-flash" src="fileadmin/swf/FAR_FLASH.swf?id=0.11283843033015728&amp;current=Technology&amp;videos=" width="836" height="288" style="undefined" id="FAR_FLASH" name="FAR_FLASH" bgcolor="#ffffff" quality="high" allowfullscreen="true" flashvars="play_video=&amp;init_video=&amp;allowFullScreen=true"></DIV>
+			<SCRIPT language="JavaScript" type="text/javascript">
+			<!--
+			// Version check based upon the values entered above in "Globals"
+			var hasReqestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+      var randomNr=Math.random();
+			// Check to see if the version meets the requirements for playback
+			if (hasReqestedVersion) {
+				var so = new SWFObject("fileadmin/swf/FAR_FLASH.swf?id="+randomNr+"&amp;current=Technology&amp;videos=", "FAR_FLASH", "836", "288", "8", "#ffffff");
+				so.addParam( "allowFullScreen", "true");
+				so.addVariable("play_video", getQueryParamValue("play"));
+				so.addVariable("init_video", getQueryParamValue("initplay"));
+				so.addVariable("allowFullScreen", "true");
+				so.write("flashContent");
+			} else {  // flash is too old or we can't detect the plugin
+				// keep flashcontent
+			}
+			// -->
+			</SCRIPT>
+			<DIV id="swfbox"><SCRIPT type="text/javascript" src="./Crytek   MyCryENGINE_files/swfbox.js"></SCRIPT></DIV>
+			<DIV id="breadcrumb"><A href="http://www.crytek.com/index.php" title="Home" onfocus="blurLink(this);" class="breadCrumbHome">Home</A><DIV class="breadCrumbSeparator">»</DIV><A href="./Crytek   MyCryENGINE_files/Crytek   MyCryENGINE.htm" title="Technology" onfocus="blurLink(this);">Technology</A><DIV class="breadCrumbSeparator">»</DIV><A href="./Crytek   MyCryENGINE_files/Crytek   MyCryENGINE.htm" title="CRYENGINE 3" onfocus="blurLink(this);">CRYENGINE 3</A><DIV class="breadCrumbSeparator">»</DIV><A href="./Crytek   MyCryENGINE_files/Crytek   MyCryENGINE.htm" title="Specifications" onfocus="blurLink(this);">Specifications</A></DIV>
+			<DIV id="content"><DIV id="content_top"><IMG src="./Crytek   MyCryENGINE_files/content_top.gif" alt=""></DIV><DIV id="secondLevel"><DIV class="sectionMarker"><A href="./Crytek   MyCryENGINE_files/Crytek   MyCryENGINE.htm" onfocus="blurLink(this);">Technology</A></DIV><UL><LI><A href="./Crytek   MyCryENGINE_files/Crytek   MyCryENGINE.htm" onfocus="blurLink(this);" class="secondLevelLink_sel">CRYENGINE 3</A><UL><LI><A href="./Crytek   MyCryENGINE_files/Crytek   MyCryENGINE.htm" onfocus="blurLink(this);" class="thirdLevelLink_sel">Specifications</A></LI><LI><A href="http://www.crytek.com/technology/cryengine-3/screenshots/" onfocus="blurLink(this);" class="thirdLevelLink">Screenshots</A></LI><LI><A href="http://www.crytek.com/technology/cryengine-3/videos/" onfocus="blurLink(this);" class="thirdLevelLink">Videos</A></LI><LI><A href="http://www.crytek.com/downloads/technology/" onfocus="blurLink(this);" class="thirdLevelLink">Downloads</A></LI></UL></LI><LI><A href="http://www.crytek.com/technology/cryengine-2/specifications/" onfocus="blurLink(this);" class="secondLevelLink">CRYENGINE 2</A><UL><LI><A href="http://www.crytek.com/technology/cryengine-2/specifications/" onfocus="blurLink(this);" class="thirdLevelLink">Specifications</A></LI><LI><A href="http://www.crytek.com/technology/cryengine-2/screenshots/" onfocus="blurLink(this);" class="thirdLevelLink">Screenshots</A></LI><LI><A href="http://www.crytek.com/technology/cryengine-2/videos/" onfocus="blurLink(this);" class="thirdLevelLink">Videos</A></LI><LI><A href="http://www.crytek.com/downloads/technology/" onfocus="blurLink(this);" class="thirdLevelLink">Downloads</A></LI></UL></LI><LI><A href="http://www.crytek.com/technology/cryengine-1x/specifications/" onfocus="blurLink(this);" class="secondLevelLink">CRYENGINE 1.X</A><UL><LI><A href="http://www.crytek.com/technology/cryengine-1x/specifications/" onfocus="blurLink(this);" class="thirdLevelLink">Specifications</A></LI><LI><A href="http://www.crytek.com/technology/cryengine-1x/screenshots/" onfocus="blurLink(this);" class="thirdLevelLink">Screenshots</A></LI><LI><A href="http://www.crytek.com/technology/cryengine-1x/videos/" onfocus="blurLink(this);" class="thirdLevelLink">Videos</A></LI><LI><A href="http://www.crytek.com/downloads/technology/" onfocus="blurLink(this);" class="thirdLevelLink">Downloads</A></LI></UL></LI><LI><A href="http://www.crytek.com/technology/presentations/" onfocus="blurLink(this);" class="secondLevelLink">Presentations</A></LI><LI><A href="http://www.crytek.com/technology/contact/" onfocus="blurLink(this);" class="secondLevelLink">Contact</A></LI></UL></DIV><DIV id="textContent">
+	<!--  CONTENT ELEMENT, uid:1105/text [begin] -->
+		<A id="c1105"></A>
+		<!--  Header: [begin] -->
+			<DIV class="csc-header csc-header-n1"><H1 style="text-align:left;" class="csc-firstHeader">CryENGINE® 3 - Specifications</H1></DIV>
+		<!--  Header: [end] -->
+			
+	<!--  CONTENT ELEMENT, uid:1105/text [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1104/textpic [begin] -->
+		<A id="c1104"></A><DIV class="csc-frame csc-frame-invisible">
+		<!--  Image block: [begin] -->
+			<DIV class="csc-textpic csc-textpic-intext-right-nowrap"><DIV class="csc-textpic-imagewrap" style="width:196px;"><DIV class="csc-textpic-imagerow" style="width:196px;"><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:196px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/placeholder.png" width="196" height="20" border="0" alt=""></DIV><DIV class="csc-textpic-caption"></DIV></DIV></DIV><DIV class="csc-textpic-imagerow" style="width:196px;"><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/cryengine3_logo.gif" width="190" height="114" border="0" alt=""></DIV><DIV class="csc-textpic-caption"></DIV></DIV></DIV></DIV><DIV style="margin-right:206px;"><DIV class="csc-textpic-text">
+		<!--  Text: [begin] -->
+			<P class="bodytext"><STRONG>CryENGINE® 3: </STRONG><STRONG>The Maximum Game Development Solution</STRONG><BR> 
+</P>
+<P class="bodytext">CryENGINE® 3 is the first Xbox 360™, PlayStation® 3, MMO, DX9 and DX10 all-in-one game development solution that is next-gen ready – with scalable computation and graphics technologies. With CryENGINE® 3 you can start the development of your next generation games today. CryENGINE® 3 is the only solution that provides multi-award winning graphics, physics and AI out of the box. The complete game engine suite includes the famous CryENGINE® 3 Sandbox™ editor, a production-proven, 3rd generation tool suite designed and built by AAA developers. CryENGINE® 3 delivers everything you need to create your AAA games.
+</P>
+<P class="bodytext">&nbsp;</P>
+		<!--  Text: [end] -->
+			</DIV></DIV></DIV><DIV class="csc-textpic-clear"><!-- --></DIV>
+		<!--  Image block: [end] -->
+			</DIV>
+	<!--  CONTENT ELEMENT, uid:1104/textpic [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1103/textpic [begin] -->
+		<A id="c1103"></A><DIV class="csc-frame csc-frame-invisible">
+		<!--  Image block: [begin] -->
+			<DIV class="csc-textpic csc-textpic-intext-right-nowrap csc-textpic-caption-c"><DIV class="csc-textpic-imagewrap"><DIV class="csc-textpic-imagecolumn" style="width:196px;"><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:196px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/placeholder.png" width="196" height="20" border="0" alt=""></DIV><DIV class="csc-textpic-caption"><BR>
+</DIV></DIV></DIV></DIV><DIV style="margin-right:206px;"><DIV class="csc-textpic-text">
+		<!--  Header: [begin] -->
+			<DIV class="csc-textpicHeader csc-textpicHeader-25"><H2 style="text-align:left;">CryENGINE® 3 Maximum Support – Delivered to Your Door</H2></DIV>
+		<!--  Header: [end] -->
+			
+		<!--  Text: [begin] -->
+			<P class="bodytext">Crytek will set the benchmark for engine support, delivering the best experience to developers to match the players’ experience of a CryENGINE® 3 game!</P><UL><LI><STRONG>Real Developers, Real Support</STRONG><P>CryENGINE® 3 support is delivered by a combination of our development, R&amp;D teams and our specialist support team. Our support team is staffed by experienced Crytek game developers, lending their expertise of developing with CryENGINE® 3 Sandbox™ and CryENGINE® to our licensees. Crytek's support team also develops technology and assets for licensees and Crytek’s game teams, to ensure direct experience of developing content for the latest features in CryENGINE® 3.</P></LI></UL><UL><LI><STRONG>Extensive Training</STRONG><P>Initially, licensees are offered the Crytek “Start Up” training week – delivered at the developers’ own&nbsp; studio. This training is carried out by a specialist team of all-rounders from Crytek, to accelerate the&nbsp; initial use of the engine and ensure that the development project starts on the right track and&nbsp;&nbsp;&nbsp; prototyping can being rapidly. A further week of training is offered to licensees at Crytek’s HQ in Frankfurt, Germany. Licensees can spend a week at Crytek and literally be trained and work with the individual engineers who built CryENGINE® 3, enabling teams to utilise the full power of the engine at the lowest level.</P></LI></UL><UL><LI><STRONG>Local Support</STRONG><P>Through 2009 Crytek will establish local support facilities in all the major territories world-wide – US, China, Japan, UK and Korea, in addition to our HQ support centre in Frankfurt, Germany. This will&nbsp; ensure local time-zone and local language support for all our licensees – wherever they are in the world.</P></LI></UL><UL><LI><STRONG>Innovative Support Portal</STRONG><P>The Crytek Knowledge Network is available to licensees via www.cryengine3.com and delivers rapid response to all developers’ inquiries on using CryENGINE® 3 technology. Through 2009 Crytek will launch a new, innovative support portal, set to change the manner in which online support is delivered for game engine licensing communities.  </P></LI></UL><UL><LI><STRONG>Extensive Documentation &amp; Tutorials</STRONG><P>Crytek are constantly improving the documentation and information to assist developers in making new product on CryENGINE® 3. Now basing our documentation style and structure on proven academic and scientific delivery methods, Crytek will set the benchmark for middleware documentation and training materials. The new documentation will be made available throughout 2009 and will be localised into Korean, Chinese and Japanese.</P></LI></UL>
+		<!--  Text: [end] -->
+			</DIV></DIV></DIV><DIV class="csc-textpic-clear"><!-- --></DIV>
+		<!--  Image block: [end] -->
+			</DIV>
+	<!--  CONTENT ELEMENT, uid:1103/textpic [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1118/text [begin] -->
+		<A id="c1118"></A>
+		<!--  Text: [begin] -->
+			<P class="bodytext">&nbsp;</P>
+<P class="bodytext">&nbsp;</P>
+		<!--  Text: [end] -->
+			
+	<!--  CONTENT ELEMENT, uid:1118/text [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1102/textpic [begin] -->
+		<A id="c1102"></A><DIV class="csc-frame csc-frame-invisible">
+		<!--  Image block: [begin] -->
+			<DIV class="csc-textpic csc-textpic-intext-right-nowrap csc-textpic-caption-c"><DIV class="csc-textpic-imagewrap"><DIV class="csc-textpic-imagecolumn" style="width:196px;"><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:196px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/placeholder.png" width="196" height="20" border="0" alt=""></DIV><DIV class="csc-textpic-caption"><BR>
+</DIV></DIV></DIV></DIV><DIV style="margin-right:206px;"><DIV class="csc-textpic-text">
+		<!--  Header: [begin] -->
+			<DIV class="csc-textpicHeader csc-textpicHeader-25"><H2 style="text-align:left;">CryENGINE® 3 Sandbox™: The Ultimate Game Creation Toolset</H2></DIV>
+		<!--  Header: [end] -->
+			
+		<!--  Text: [begin] -->
+			<P class="bodytext">CryENGINE® 3 Sandbox™ gives developers full control over their multi-platform creations in real-time. It features many improved efficiency tools to enable the fastest development of game environments and&nbsp; ame-play available on PC, PlayStation® 3 and Xbox 360™. All features of CryENGINE® 3 games (without exception) can be produced and played immediately with Crytek’s “What You See Is What You Play” (WYSIWYP) system! CryENGINE® 3 Sandbox™ was introduced in 2001 as the world’s first editor featuring&nbsp; WYSIWYPtechnology. Since then Crytek have continued to improve and enhance the CryENGINE® 3 Sandbox™ tools and now the 3rd generation, fully integrated CryENGINE® 3 Sandbox™ editor brings&nbsp; WYSIWYP functionality to a whole new level. WYSIWYP is now possible on PlayStation® 3 and Xbox 360™ enhanced production tools and development efficiencies will give your team more time to create AAA multi-platform game content. </P><UL><LI><STRONG>Simultaneous WYSIWYP on all Platforms</STRONG><P>CryENGINE® 3 Sandbox™ now enables real-time editing of multi-platform game environments simultaneously making changes across platforms from CryENGINE® 3 Sandbox™ running on PC, without loading or baking delays. The ability to edit anything within the integrated CryENGINE® 3 Sandbox™ and simultaneously play on multiple platforms vastly reduces the time to build compelling content for cross-platform products.</P></LI></UL><UL><LI><STRONG>Hot-Update for all Platforms</STRONG><P>Changes can be made to original art asset sources (using standard art tools) for CryENGINE® 3&nbsp; Sandbox™ on PC, then CryENGINE® 3 immediately and automatically converts, compresses and optimizes the content, then updates the output to all supported platforms. Developers can instantly see the effect of lighting, material and modeling changes within moments on any supported platform. Cross-platform development has never been so easy! </P></LI></UL>
+		<!--  Text: [end] -->
+			</DIV></DIV></DIV><DIV class="csc-textpic-clear"><!-- --></DIV>
+		<!--  Image block: [end] -->
+			</DIV>
+	<!--  CONTENT ELEMENT, uid:1102/textpic [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1101/text [begin] -->
+		<A id="c1101"></A>
+		<!--  Text: [begin] -->
+			<P class="bodytext">&nbsp;</P>
+<P class="bodytext">&nbsp;</P>
+		<!--  Text: [end] -->
+			
+	<!--  CONTENT ELEMENT, uid:1101/text [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1100/textpic [begin] -->
+		<A id="c1100"></A><DIV class="csc-frame csc-frame-invisible">
+		<!--  Image block: [begin] -->
+			<DIV class="csc-textpic csc-textpic-intext-right-nowrap csc-textpic-caption-c"><DIV class="csc-textpic-imagewrap"><DIV class="csc-textpic-imagecolumn" style="width:196px;"><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:196px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/placeholder.png" width="196" height="20" border="0" alt=""></DIV><DIV class="csc-textpic-caption"><BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/integrated_vegetation_and_terrain_cover_generation_system.gif" width="190" height="114" border="0" alt="Integrated Vegetation and Terrain Cover Generation System" title="Integrated Vegetation and Terrain Cover Generation System"></DIV><DIV class="csc-textpic-caption">Integrated Vegetation and Terrain Cover Generation System<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/dedicated_road_tool.gif" width="190" height="114" border="0" alt="Dedicated Road Tool" title="Dedicated Road Tool"></DIV><DIV class="csc-textpic-caption">Dedicated Road Tool<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/deferred_lighting.gif" width="190" height="114" border="0" alt="Deferred Lighting" title="Deferred Lighting"></DIV><DIV class="csc-textpic-caption">Deferred Lighting<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/natural_lighting_and_dynamic_soft_shadows.gif" width="190" height="114" border="0" alt="State-of-the-art Lighting &amp; Shadows" title="State-of-the-art Lighting &amp; Shadows"></DIV><DIV class="csc-textpic-caption">State-of-the-art Lighting &amp; Shadows<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/volumetric_layer_and_view_distance_fogging.gif" width="190" height="114" border="0" alt="Volumetric, Layer &amp; View Distance Fogging" title="Volumetric, Layer &amp; View Distance Fogging"></DIV><DIV class="csc-textpic-caption">Volumetric, Layer &amp; View Distance Fogging<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/normal_and_parallax_occlusion_maps.gif" width="190" height="114" border="0" alt="Normal and Parallax Occlusion Maps" title="Normal and Parallax Occlusion Maps"></DIV><DIV class="csc-textpic-caption">Normal and Parallax Occlusion Maps<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/screen_space_ambient_occlusion.gif" width="190" height="114" border="0" alt="Screen Space Ambient Occlusion" title="Screen Space Ambient Occlusion"></DIV><DIV class="csc-textpic-caption">Screen Space Ambient Occlusion<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/high_dynamic_range_lighting.gif" width="190" height="114" border="0" alt="High Dynamic Range (HDR) Lighting" title="High Dynamic Range (HDR) Lighting"></DIV><DIV class="csc-textpic-caption">High Dynamic Range (HDR) Lighting<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/depth_of_field.gif" width="190" height="114" border="0" alt="Depth of Field" title="Depth of Field"></DIV><DIV class="csc-textpic-caption">Depth of Field</DIV></DIV></DIV></DIV><DIV style="margin-right:206px;"><DIV class="csc-textpic-text">
+		<!--  Header: [begin] -->
+			<DIV class="csc-textpicHeader csc-textpicHeader-25"><H2 style="text-align:left;">CryENGINE® 3: Next Generation Real-Time Graphics</H2></DIV>
+		<!--  Header: [end] -->
+			
+		<!--  Text: [begin] -->
+			<P class="bodytext"> The CryENGINE® 3 renderer provides seamless support for both indoor and outdoor environments on current platforms and our multi-core and future-proof graphics technology ensure that CryENGINE® 3 is next-gen ready. CryENGINE® technology is world famous for its award winning rendering and CryENGINE® 3 is no exception. CryENGINE® 3 is the fastest, high-end renderer in the world, with new features specifically designed for console platforms. Benchmark-setting graphical performance, near-photorealism in indoor and wide-open outdoor environments and extra-ordinary real-time special effects are some of the hallmarks of CryENGINE® technology. With CryENGINE® 3, scalability across multiple platforms is a further evolution to enable great looking games – regardless of the target platform.<BR> </P><UL><LI><STRONG>Flow Graph</STRONG><P>The CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> simple visual editing system gives designers an intuitive interface to create and&nbsp; control events, triggers and other game logic. This allows designers to build complex levels without needing to write a single script.<BR> </P></LI></UL><UL><LI><STRONG>Integrated Vegetation &amp; Terrain Cover Generation System</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> vegetation behaves according to natural rules about the desirable and allowable groun&nbsp; slope, surface altitude and allowable plant density, at run-time. Vegetation placement tools&nbsp; automatically&nbsp; create realistic, natural environments in a fraction of the time of traditional hand-placed systems, but still grant the freedom to position individual elements to achieve the perfect look.<BR> </P></LI></UL><UL><LI><STRONG>Real Time Soft Particle System &amp; Integrated FX Editor</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> simplifies the creation of extremely complex explosion, fire, smoke and other special effects using next generation soft particles, which in turn can be affected by: collisions with any other objects, forces such as wind or gravity and can interact with lights and shadows.<BR> </P></LI></UL><UL><LI> <STRONG>Dedicated Road &amp; River Tools</STRONG><P>All worlds have paths, roads and rivers, so CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> features a dedicated toolset to enable instantaneous smoothing and leveling of terrain and application of materials, based on the placement of roads and river networks.<BR> </P></LI></UL><UL><LI><STRONG>Dedicated Vehicle Creator</STRONG><P>The CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> vehicle toolset allows easy creation of any vehicle type, with intuitive control over vehicle characteristics, including defining component damage and damage effects, passenger positions and functions, weapon hard-points and turrets, engine and physics parameters as well as vehicle specific special effects.</P></LI></UL><UL><LI><STRONG>Multi-Core Support</STRONG><P>To get the most out of modern multi-core processor architectures, CPU intensive subsystems of CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> such as graphics, physics, AI, networking and sound have been optimized to support multiple processors.<BR> </P></LI></UL><UL><LI><STRONG>Real-time Dynamic Global Illumination</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> features a novel real-time dynamic global illumination solution, fully optimised for current and next generation platforms. For the first time – without pre-computation or geometric limits – you can experience light-bounces, colour bleeding and specular effects in a real-time game engine – unified for all static and dynamic objects. <BR> </P></LI></UL><UL><LI> <STRONG>Deferred Lighting</STRONG><P>The CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> unique deferred lighting solution allows the rendering of a vast amount of light sources with per pixel shading efficiently and simplifies engine performance tuning across multiple platforms.<BR> </P></LI></UL><UL><LI> <STRONG>Natural Lighting &amp; Dynamic Soft Shadows</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> features near-reality natural lighting at low-cost on multiple platforms and creates soft shadows that dynamically respond to natural movements in real time. High-resolution, perspective&nbsp;&nbsp; correct and volumetric smooth-shadow implementations are also included in CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN>.<BR> </P></LI></UL><UL><LI> <STRONG>Volumetric, Layer &amp; View Distance Fogging</STRONG><P>Clouds, smoke, visible gases and fog banks are all rendered realistically, allowing physical phenomena, such as ground-hugging realistic reduction in visibility and contrast, and interaction with dynamic lights and shadows.</P></LI></UL><UL><LI> <STRONG>Normal Maps &amp; Parallax Occlusion Maps</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> includes parallax occlusion mapping, for all supported platforms, to give a sense of&nbsp; depth to a surface texture applied to a polygon, to achieve realistic levels of detail without needing hi-poly models, for example the relief surface structure of a brick wall or a cobblestone street.<BR> </P></LI></UL><UL><LI><STRONG>Screen Space Ambient Occlusion</STRONG><P>First pioneered by Crytek in 2005 and now used in most high quality graphics engines, SSAO provides a real time simulation of ambient light occlusion, to provide the real darkening of edges and corners as in the natural world. This high performance solution creates a low overhead on all platforms, with a very high quality result. CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> provides improved visual functionality alongside the fastest implementation of SSAO available on Xbox 360™, PlayStation<SPAN id="__firefox-findbar-search-id">® 3</SPAN> and PC.</P></LI></UL><UL><LI><STRONG>Uber Shader Technology</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> shaders are written once in a high level language, then compiled automatically to each platform. The shader output is optimized based on the artists’ settings and the 3D environment in which the shader is used. This creates high performance unique effects, such as: “cloaking”, wet, muddy, and frozen surfaces, which can be layered together and combined with other shaders, such as: metal, glass and other visual effects. CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> supports real time per-pixel lighting, bumpy reflections, refractions, volumetric glow effects and animated textures to simulate windows, bullet holes, shiny surfaces and many other effects. CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> also takes advantage of the unified shader architecture of current and next-gen hardware. The combination of deferred lighting and this technology allows CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> to avoid the traditional shortcomings of Uber Shaders alone. </P></LI></UL><UL><LI> <STRONG>Eye Adaptation &amp; High Dynamic Range (HDR) Lighting</STRONG><P>Eye Adaptation is used to simulate the human eye’s adaptation to sudden or extreme changes in lighting conditions, like dark indoor environments suddenly transitioning to bright sunny outdoor environments, while HDR allows scenes with extreme brightness and contrast ranges to be more realistically rendered. <BR> </P></LI></UL><UL><LI><STRONG>Pristine Motion Blur &amp; Depth of Field</STRONG><P>Motion Blur can be applied to individual objects (object based motion blur) and to an entire scene (screen based motion blur) Depth of Field effects can be defined easily with the multi-platform WYSIWYP editor. CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> now implements the highest quality for these effects at a low performance cost, across all supported platforms.</P></LI></UL>
+		<!--  Text: [end] -->
+			</DIV></DIV></DIV><DIV class="csc-textpic-clear"><!-- --></DIV>
+		<!--  Image block: [end] -->
+			</DIV>
+	<!--  CONTENT ELEMENT, uid:1100/textpic [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1119/text [begin] -->
+		<A id="c1119"></A>
+		<!--  Text: [begin] -->
+			<P class="bodytext">&nbsp;</P>
+<P class="bodytext">&nbsp;</P>
+		<!--  Text: [end] -->
+			
+	<!--  CONTENT ELEMENT, uid:1119/text [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1099/textpic [begin] -->
+		<A id="c1099"></A><DIV class="csc-frame csc-frame-frame2">
+		<!--  Image block: [begin] -->
+			<DIV class="csc-textpic csc-textpic-intext-right-nowrap csc-textpic-caption-c"><DIV class="csc-textpic-imagewrap"><DIV class="csc-textpic-imagecolumn" style="width:196px;"><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:196px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/placeholder.png" width="196" height="20" border="0" alt=""></DIV><DIV class="csc-textpic-caption"><BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/character_animation_system.gif" width="190" height="114" border="0" alt="Character Animation System" title="Character Animation System"></DIV><DIV class="csc-textpic-caption">Character Animation System<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/parametric_skeletal_animations.gif" width="190" height="114" border="0" alt="Parametric Skeletal Animation" title="Parametric Skeletal Animation"></DIV><DIV class="csc-textpic-caption">Parametric Skeletal Animation<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/procedural_motion_warping_and_high_end_ik.gif" width="190" height="114" border="0" alt="Procedural Motion Warping &amp; High-End IK" title="Procedural Motion Warping &amp; High-End IK"></DIV><DIV class="csc-textpic-caption">Procedural Motion Warping &amp; High-End IK<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/subsurface_scattering.gif" width="190" height="114" border="0" alt="Subsurface Scattering" title="Subsurface Scattering"></DIV><DIV class="csc-textpic-caption">Subsurface Scattering</DIV></DIV></DIV></DIV><DIV style="margin-right:206px;"><DIV class="csc-textpic-text">
+		<!--  Header: [begin] -->
+			<DIV class="csc-textpicHeader csc-textpicHeader-25"><H2 style="text-align:left;">CryENGINE® 3 Realistic Characters</H2></DIV>
+		<!--  Header: [end] -->
+			
+		<!--  Text: [begin] -->
+			<P class="bodytext"> Characters and faces are becoming features of almost all modern AAA title and Crytek are in the vanguard of the quest to achieve realistic characters in real-time graphics, as demonstrated in Crysis®. CryENGINE® 3 brings the most technically advanced, integrated and scalable animation and graphics technology together to deliver astonishingly real characters to cross-platform games, at no extra licensing cost.</P><UL><LI><STRONG>Character Animation System</STRONG><P>Our new character animation system considerably advances the state of the art in real-time character animation. A dedicated character editor allows animations to be previewed inside of CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> Sandbox™, for all supported platforms, while our extremely powerful animation tools allow animators to visually define the states and transitions of a character to ensure realism is achieved in concert with aesthetic quality.  </P></LI></UL><UL><LI><STRONG>Character Individualization System</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> uses an innovative attachment system for skinned, animated, or physicalized elements to be attached to the skeleton or mesh of a character. With this system it is even possible to replace entire body parts such as heads, hands, or upper and lower body – in real-time. A multiplatform, hardware-based, shape deformation system also allows flexible variation of the character meshes, supporting manual and procedurally generation to ensure a small memory footprint. An additional variation system, based on shaders can be used for dirt, decals for clothes, and camouflage shaders for the skin. </P></LI></UL><UL><LI> <STRONG>Parametric Skeletal Animation</STRONG><P>By blending example-motions based on user-defined parameters, CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> delivers responsive interactive control over a character with a focus on believability. Characters in CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> can follow paths where the direction and speed changes smoothly or suddenly, move uphill or downhill and react to changing scenarios on-the-fly – dynamically blending animations to create a believable and realistic, yet dynamic and game-controlled representation of movement.</P></LI></UL><UL><LI> <STRONG>Procedural Motion Warping &amp; High-End IK Solutions</STRONG><P>Procedural algorithms like CCD-IK, analytic IK, examplebased IK or physical simulations are used to augment pre-authored animations to avoid the typical computergenerated look that is often exhibited when combining artificial and captured animations. The CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> scalable and cross-platform warping technique preserves the style and the content of the base motion, despite the transformations complying with the everchanging constraints.<BR> </P></LI></UL><UL><LI><STRONG>Unique Dedicated Facial Animation Editor</STRONG><P>The powerful Facial Animation editing tool within CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> Sandbox™ uses audio waveform analysis technology to extract phonemes (and other key features of speech) to animate facial features and provide convincing lip-sync. The sophisticated yet convenient user interface allows expressions to be defined and combined, then animated quickly and intuitively to multiple models across multiple platforms. The CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> video tracking tool captures movements from an actor’s face and these movements are transferred directly to the facial model in the editor, where the expressions can be&nbsp; com-bined with the lip sync and/or further edited by an animator.</P></LI></UL><UL><LI> <STRONG>Subsurface Scattering</STRONG><P>Simulates the diffusion and diffraction of light transmitted through translucent objects, like ice and jade. The CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> unified solution can be used on in-game assets such as trees and plants or to create realistic human skin.</P></LI></UL>
+		<!--  Text: [end] -->
+			</DIV></DIV></DIV><DIV class="csc-textpic-clear"><!-- --></DIV>
+		<!--  Image block: [end] -->
+			</DIV>
+	<!--  CONTENT ELEMENT, uid:1099/textpic [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1120/text [begin] -->
+		<A id="c1120"></A>
+		<!--  Text: [begin] -->
+			<P class="bodytext">&nbsp;</P>
+<P class="bodytext">&nbsp;</P>
+		<!--  Text: [end] -->
+			
+	<!--  CONTENT ELEMENT, uid:1120/text [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1115/textpic [begin] -->
+		<A id="c1115"></A><DIV class="csc-frame csc-frame-frame2">
+		<!--  Image block: [begin] -->
+			<DIV class="csc-textpic csc-textpic-intext-right-nowrap csc-textpic-caption-c"><DIV class="csc-textpic-imagewrap"><DIV class="csc-textpic-imagecolumn" style="width:196px;"><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:196px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/placeholder.png" width="196" height="20" border="0" alt=""></DIV><DIV class="csc-textpic-caption"><BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/Natural-World-Effects.gif" width="190" height="114" border="0" alt="Natural World Effects" title="Natural World Effects"></DIV><DIV class="csc-textpic-caption">Natural World Effects<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/cgi_quality_time_of_day_system.gif" width="190" height="114" border="0" alt="CGI Quality Time of Day System" title="CGI Quality Time of Day System"></DIV><DIV class="csc-textpic-caption">CGI Quality Time of Day System<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/high_quality_3d_water.gif" width="190" height="114" border="0" alt="High Quality 3D Water" title="High Quality 3D Water"></DIV><DIV class="csc-textpic-caption">High Quality 3D Water<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/dynamic_volumetric_light_beams_and_light_shaft_effects.gif" width="190" height="114" border="0" alt="Dynamic Volumetric Light Beams &amp; Light Shaft Effects" title="Dynamic Volumetric Light Beams &amp; Light Shaft Effects"></DIV><DIV class="csc-textpic-caption">Dynamic Volumetric Light Beams &amp; Light Shaft Effects<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/interactive_and_destructible_environments.gif" width="190" height="114" border="0" alt="Interactive &amp; Destructible Environments" title="Interactive &amp; Destructible Environments"></DIV><DIV class="csc-textpic-caption">Interactive &amp; Destructible Environments<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/advanced_rope_physics.gif" width="190" height="114" border="0" alt="Advanced Rope Physics" title="Advanced Rope Physics"></DIV><DIV class="csc-textpic-caption">Advanced Rope Physics</DIV></DIV></DIV></DIV><DIV style="margin-right:206px;"><DIV class="csc-textpic-text">
+		<!--  Header: [begin] -->
+			<DIV class="csc-textpicHeader csc-textpicHeader-25"><H2 style="text-align:left;">Advanced Modular AI System</H2></DIV>
+		<!--  Header: [end] -->
+			
+		<!--  Text: [begin] -->
+			<P class="bodytext"> Realistically rendered and animated characters require state of the art AI systems to intelligently respond to the game environment and maintain the illusion of realism. CryENGINE® 3 features powerful, scalable and flexible AI technology to handle character behaviours with modular sensory systems (such as sight and hearing) and fully support the complex requirements of the character locomotion system. AI in CryENGINE® 3 requires no additional middleware and is fully integrated for your game within CryENGINE® 3 Sandbox™, with WYSIWYP functionality on all platforms.</P><UL><LI><STRONG> Designer-Friendly AI Editing System</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> Sandbox™ enables designers to control basic AI behaviours using the Flow-Graph visual scripting system, placing most AI gameplay control in their hands. Simple LUA scripting enhances the variability of these behaviors, creating more complex AI responses and even extending state machine behaviors. This combination of systems enables the creation of any AI behaviour through an extremely simple WYSIWYP pipeline.</P></LI></UL><UL><LI><STRONG>Dynamic Path Finding</STRONG><P>Advanced 2D and 3D algorithms allow the AI navigation paths to be modified in real time in response to events which may create, modify or destroy existing paths, a critical feature for creating believable AI in a highly interactive and destructible environment.<BR> </P></LI></UL><UL><LI><STRONG>Automated Nagivation Mesh Generation</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> will feature an automated navigation mesh generation for AI pathfinding unlike most waypoint-based systems, generating paths and information about the vicinity. The system is unified for indoor and outdoor areas and generated automatically, within volumes placed by designers. Generated nav-mesh supports multi-storey surfaces (such as floors in a building), special moves (jumps, climbing etc.) and adapts itself in real-time to dynamic obstacles. </P></LI></UL><UL><LI><STRONG>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> Realistic Infinite Worlds</STRONG><P>CryENGINE®2 introduced incredibly interactive photo-realistic worlds, with huge natural environments that responded to player input and game events as if in the real world. From naturally frozen nature to fully destructible vegetation and buildings, players saw the game world as near real for the first time.</P><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> continues with this benchmark level of interactive realism in worlds limited in size only by the development budget thanks to intelligent streaming of game data.<BR> </P></LI></UL><UL><LI><STRONG>Natural World Effects</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> features the most natural looking environments available in real-time – adding enhanced natural lighting to our existing large scale natural world representations.</P></LI></UL><UL><LI> <STRONG>CGI Quality Time of Day System</STRONG><P>Time of day dynamically changes during a game mission to reflect sun/moon position, lighting and atmospheric conditions over any predefined day/night cycle, from a blue and foggy morning sunrise to a fiery orange sunset to a clear cold moonlit night. Create visually rich time of day simulation for your game world or its locations and achieve the most realistic or creatively surreal settings.</P></LI></UL><UL><LI><STRONG>High Quality 3D Water</STRONG><P>Crytek has spearheaded the creation of realistic, real-time 3D water in games, with X-Isle, Far Cry Land Crysis over the past 10 years. CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> water and ocean surfaces can be modified due to wind and wave direction, generating soft shoreline effects automatically where the water meets the shore or bank, depending on the shoreline contour and water depth, while caustics simulation creates the most realistic looking moving shadows and highlights in underwater environments available in real-time 3D.</P></LI></UL><UL><LI><STRONG>Dynamic Volumetric Light Beams &amp; Light Shaft Effects</STRONG><P>These are used to create visually stunning light beams and shadows when light intersects with solid, highly detailed geometry, and to generate god ray phenomena in skies, on earth and through water.</P></LI></UL><UL><LI> <STRONG>Streaming</STRONG><P>Game levels rarely fit into memory of most hardware platforms, so streaming content is often required. With the CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> scalable streaming solution, data is clustered for fast access, platform-specific features are utilized and data content is prepared and compressed for optimal streaming. CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> utilizes multiple CPUs and schedules access based on dynamic priorities, to deliver an efficient and scalable multiplatform streaming solution.<BR> </P></LI></UL><UL><LI><STRONG>Integrated Multi-threaded High Performance Physics Engine</STRONG><P>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> physics can be applied to almost everything in a game world, including buildings, props, trees and vegetation, to realistically model reactions to forces such as: wind currents, explosions, gravity, friction and collisions with other objects, without the need of external middleware.<BR> </P></LI></UL><UL><LI> <STRONG>Interactive &amp; Destructible Environments</STRONG><P>All environments in CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> can be dynamically physicalized, regardless of their nature (wood, steel, concrete, natural vegetation, cloth, etc.). This allows procedural destruction of as much of the environment as the game requires. All broken objects or parts can be interactive, with realistic properties such as mass, buoyancy, etc. applied to the debris. <BR> </P></LI></UL><UL><LI> <STRONG>Advanced Rope Physics</STRONG><P>Bendable vegetation which responds to wind, rain or character movement, realistically interactive rope bridges, and physically driven creature tentacle animations are just some of the uses to which we’ve put our rope physics technology.</P></LI></UL>
+		<!--  Text: [end] -->
+			</DIV></DIV></DIV><DIV class="csc-textpic-clear"><!-- --></DIV>
+		<!--  Image block: [end] -->
+			</DIV>
+	<!--  CONTENT ELEMENT, uid:1115/textpic [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1121/text [begin] -->
+		<A id="c1121"></A>
+		<!--  Text: [begin] -->
+			<P class="bodytext">&nbsp;</P>
+<P class="bodytext">&nbsp;</P>
+		<!--  Text: [end] -->
+			
+	<!--  CONTENT ELEMENT, uid:1121/text [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1116/textpic [begin] -->
+		<A id="c1116"></A><DIV class="csc-frame csc-frame-frame2">
+		<!--  Image block: [begin] -->
+			<DIV class="csc-textpic csc-textpic-intext-right-nowrap csc-textpic-caption-c"><DIV class="csc-textpic-imagewrap"><DIV class="csc-textpic-imagecolumn" style="width:196px;"><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:196px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/placeholder.png" width="196" height="20" border="0" alt=""></DIV><DIV class="csc-textpic-caption"><BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/art_scene_budget_analyser.gif" width="190" height="114" border="0" alt="Art Scene Budget Analyser" title="Art Scene Budget Analyser"></DIV><DIV class="csc-textpic-caption">CPU Frame Time Analyser<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/Memory-Map-Analyser.gif" width="190" height="114" border="0" alt="Memory Map Analyser" title="Memory Map Analyser"></DIV><DIV class="csc-textpic-caption">Art Scene Budget Analyser<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/Polybump_TM_.gif" width="190" height="114" border="0" alt="Polybump&trade;" title="Polybump&trade;"></DIV><DIV class="csc-textpic-caption">Memory Map Analyser<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/Hi-res-offline-rendering-for-any-scene.gif" width="190" height="114" border="0" alt="Hi-res offline rendering for any scene" title="Hi-res offline rendering for any scene"></DIV><DIV class="csc-textpic-caption">Polybump™<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/Network-audition-with-runtime-profiling.gif" width="190" height="114" border="0" alt="Network audition with runtime profiling" title="Network audition with runtime profiling"></DIV><DIV class="csc-textpic-caption">Hi-res offline rendering for any scene<BR>
+</DIV></DIV></DIV></DIV><DIV style="margin-right:206px;"><DIV class="csc-textpic-text">
+		<!--  Header: [begin] -->
+			<DIV class="csc-textpicHeader csc-textpicHeader-25"><H2 style="text-align:left;">CryENGINE® 3 Achieve Your Vision At Maximum Speed</H2></DIV>
+		<!--  Header: [end] -->
+			
+		<!--  Text: [begin] -->
+			<P class="bodytext">In 1999 Crytek started to work with a novice team on ambitious game that no existing technology could deliver. Concentrating our efforts on CryENGINE® as much as our games, we improved as developers. Great tools make great developers! The benchmarks that Crytek set for graphics performance and quality are matched by the performance and quality of the development tools our internal teams and engine licensees all utilize. CryENGINE® 3 features many innovations to accelerate development and ensure teams are able to maximise their own creativity without delays or painful development processes multi-platform game content.</P><UL><LI><STRONG>Performance Analysis Tools</STRONG><P>Powerful instrumentation features allow the developer to analyse engine performance in real time, create detailed memory usage reports, and run automated walkthroughs of each level to get consistent test results from build to build. </P></LI></UL><UL><LI><STRONG>CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> Sandbox™ Development Layers</STRONG><P>In a similar fashion to most professional art programs, CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> Sandbox™ features a layers system allowing controlled separation of a game level. By locking any elements into (up to) 256 layers, each can be worked on in parallel, exported, imported and merged. This system allows an entire team of developers to simultaneously make changes on a single level, without concern of impacting colleagues’ work. Such unequalled parallel control of levels local, layered source control of assets and clearly organised level data management materially increases development progress. </P></LI></UL><UL><LI><STRONG>Polybump™</STRONG><P>Polybump™, the CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> normal map creation tool has again been enhanced to take advantage of multicore hardware and 64-bit operating systems. Crytek developed Polybump™ in 2001 and shipped Far Cry in March 2004, as the first game ever to feature normal mapping, powered by Polybump™. Polybump™ can be used as either as a standalone utility, or fully integrated with other tools, such as 3ds Max®. Polybump™ creates a high quality surface description that allows quick extraction of surface features like normal maps (tangentspace or object-space), displacement maps, non-occluded area direction, accessibility and other properties. The extracted information can be used to render Low poly models with surface detail almost indistinguishable from higher-poly models at high-render speeds. The data is stored in a intermediate file format so it can be exported in different ways without doing the computation again. Even very high polygon counts (e.g. 10 million triangles) are processed quickly with the improved Polybump™ technology.</P></LI></UL><UL><LI><STRONG>Offline Rendering</STRONG><P>Creating streaming videos or still images from within the game is made easier by the inclusion of specific console commands which can output a scene at any arbitrary screen resolution and/or aspect ratio, including generating auto-stitched panoramic views for use on 360 degree projection video displays. Creating marketing material becomes a matter of a single button-press! </P></LI></UL><UL><LI><STRONG>Resource Compiler</STRONG><P>Resource Compiler Assets are compiled from their original formats to an optimized platform dependent&nbsp; one by the resource compiler at project build time. This allows making global changes (e.g. mipmap computation, mesh stripification) to the output data depending on presets and target platforms without affecting the final level loading times, or requiring developers to keep multiple versions of assets on hand for different platforms.</P></LI></UL>
+		<!--  Text: [end] -->
+			</DIV></DIV></DIV><DIV class="csc-textpic-clear"><!-- --></DIV>
+		<!--  Image block: [end] -->
+			</DIV>
+	<!--  CONTENT ELEMENT, uid:1116/textpic [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1122/text [begin] -->
+		<A id="c1122"></A>
+		<!--  Text: [begin] -->
+			<P class="bodytext">&nbsp;</P>
+<P class="bodytext">&nbsp;</P>
+		<!--  Text: [end] -->
+			
+	<!--  CONTENT ELEMENT, uid:1122/text [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1117/textpic [begin] -->
+		<A id="c1117"></A><DIV class="csc-frame csc-frame-frame2">
+		<!--  Image block: [begin] -->
+			<DIV class="csc-textpic csc-textpic-intext-right-nowrap csc-textpic-caption-c"><DIV class="csc-textpic-imagewrap"><DIV class="csc-textpic-imagecolumn" style="width:196px;"><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:196px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/placeholder.png" width="196" height="20" border="0" alt=""></DIV><DIV class="csc-textpic-caption"><BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/Real-time-DSP-effects-for-voice-processing.gif" width="190" height="114" border="0" alt="Real Time DSP Effects for Voice Processing" title="Real Time DSP Effects for Voice Processing"></DIV><DIV class="csc-textpic-caption">Real Time DSP Effects for Voice Processing<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/Intuitive-Control-over-player-driven-music-logic.gif" width="190" height="114" border="0" alt="Intuitive Control over Player-Driven Music Logic" title="Intuitive Control over Player-Driven Music Logic"></DIV><DIV class="csc-textpic-caption">Intuitive Control over Player-Driven Music Logic<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/Hierarchical-area-shapes-for-ambience-soundS.gif" width="190" height="114" border="0" alt="Hierarchical Area Shapes for Ambience Sounds" title="Hierarchical Area Shapes for Ambience Sounds"></DIV><DIV class="csc-textpic-caption">Hierarchical Area Shapes for Ambience Sounds<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/Animation-controlled-sounds-and-foley-effects.gif" width="190" height="114" border="0" alt="Animation-controlled Sounds and Foley Effects" title="Animation-controlled Sounds and Foley Effects"></DIV><DIV class="csc-textpic-caption">Animation-controlled Sounds and Foley Effects<BR>
+</DIV></DIV><DIV class="csc-textpic-image csc-textpic-firstcol csc-textpic-lastcol" style="width:190px;"><DIV><IMG src="./Crytek   MyCryENGINE_files/Sound-moods-change-the-mix-matching-the-game.gif" width="190" height="114" border="0" alt="Sound Moods Change the Mix Matching the Game" title="Sound Moods Change the Mix Matching the Game"></DIV><DIV class="csc-textpic-caption">Sound Moods Change the Mix Matching the Game</DIV></DIV></DIV></DIV><DIV style="margin-right:206px;"><DIV class="csc-textpic-text">
+		<!--  Header: [begin] -->
+			<DIV class="csc-textpicHeader csc-textpicHeader-25"><H2 style="text-align:left;">Sound and music</H2></DIV>
+		<!--  Header: [end] -->
+			
+		<!--  Text: [begin] -->
+			<P class="bodytext"> The sound system in CryENGINE® 3 offers many features and improvements with its&nbsp; data-driven concept which guaranties a flawless and low-risk audio development. Each sound carries its own specification with it, so sound designers are in full control of the dynamic behaviour and the final quality of the sound. <BR> </P><UL><LI><STRONG>Data-driven Sound System</STRONG><P>Complex sounds can be easily created and delivered with studio quality while supporting any available surround sound speaker configuration up to 7.1. Multi-platform compatibility, improved data streaming, and individual performance optimization for Xbox 360™ or PlayStation<SPAN id="__firefox-findbar-search-id">® 3</SPAN> are guaranteed by the included sound library FMOD Ex®.<BR> </P></LI></UL><UL><LI> <STRONG>In Game Mixing &amp; Profiling</STRONG><P>Integrated editor functionality and advanced sound specification tools ensure the WYSIWYP method. Turn around times of only a few seconds constantly guarantee a well mixed game in every development stage. Reviewing and polishing the game audio through network auditioning and profiling it on any target platform is easy and possible at any time.<BR> </P></LI></UL><UL><LI> <STRONG>Dynamic Sounds &amp; Interactive Music</STRONG><P>With minimal coding effort sounds can automatically react in a complex manner to parameters like distance, time-of-day, or battle noise using real time DSP effects. This technique provides&nbsp; non-repetitive and responsive audio feedback in an interactive and physicalized game world. The customizable music system reacts to any desired game event in order to give the player an interactive and movie-like emotional experience. <BR> </P></LI></UL><UL><LI><STRONG>Environmental Audio</STRONG><P>Sound designers can create a dense sound impression by accurately reproducing sounds from nature, with seamless blending between different environments sweetened with oneshot sounds ontop. New technology allows an ambience sound to be directional in the distance and then to open up into a surround mix the closer the player gets.</P></LI></UL><UL><LI> <STRONG>Key frame Accurate Sounds in Animations</STRONG><P>In CryENGINE<SPAN id="__firefox-findbar-search-id">® 3</SPAN> sounds can now be triggered by adding them directly onto blended animations to improve implementation of all foley effects, allowing for example, limping characters over several walk cycles. Adding audio assets onto animation attachments increases character individualization efficiently.<BR> </P></LI></UL><UL><LI> <STRONG>Sound Moods</STRONG><P>Audio mixes can be defined to match any gameplay situation. Not only volume and pitch are controllable but also DSP effects like filters and equalizers can be added. In-game the audio mix blends into the predefined sound moods in realtime and mimics the current environmental effect, for example, when driving inside a tank.</P></LI></UL>
+		<!--  Text: [end] -->
+			</DIV></DIV></DIV><DIV class="csc-textpic-clear"><!-- --></DIV>
+		<!--  Image block: [end] -->
+			</DIV>
+	<!--  CONTENT ELEMENT, uid:1117/textpic [end] -->
+		
+	<!--  CONTENT ELEMENT, uid:1091/text [begin] -->
+		<A id="c1091"></A>
+		<!--  Text: [begin] -->
+			<P class="bodytext">To download the complete CryENGINE® 3 features document in PDF format <IMG src="./Crytek   MyCryENGINE_files/icon_pdf.gif" class="tx-mllinks-icon" alt=""> <A href="http://www.crytek.com/fileadmin/user_upload/cryengine3/CryENGINE_3_Info_booklet.pdf" target="_blank" class="download">click here</A>  [6.3 MB] .<BR>&nbsp;<BR><STRONG>For more information</STRONG>: <A href="javascript:linkTo_UnCryptMailto('nbjmup+dszfohjofAdszufl/ef');" class="mail">cryengine<IMG src="./Crytek   MyCryENGINE_files/at.png" alt="@" border="0">crytek.de</A>
+</P>
+<P class="bodytext">&nbsp;</P>
+		<!--  Text: [end] -->
+			
+	<!--  CONTENT ELEMENT, uid:1091/text [end] -->
+		</DIV>&nbsp;</DIV>
+		</DIV>
+
+		<DIV id="rightWrapper">
+			<DIV id="headerRight"></DIV>
+			<DIV id="rightBorder"><IMG src="./Crytek   MyCryENGINE_files/border_right.gif" alt="right border"></DIV>
+		</DIV>
+
+		<DIV id="bottomWrapper">
+			<DIV id="leftBorderPiece"></DIV>
+			<DIV id="contentBottom"><IMG src="./Crytek   MyCryENGINE_files/clear.gif" width="1" height="5" alt=""></DIV>
+			<DIV id="rightBorderPiece"></DIV>
+		</DIV>
+
+		<DIV id="footerWrapper">
+			<DIV id="footerLeft"></DIV>
+			<DIV id="footer">
+
+
+	<!--
+
+		BEGIN: Content of extension "crytek_logos", plugin "tx_cryteklogos_pi1"
+
+	-->
+	<DIV class="tx-cryteklogos-pi1">
+		<TABLE class="tx-cryteklogos-pi1-logoBox"><TBODY><TR></TBODY></TABLE>
+	</DIV>
+	
+	<!-- END: Content of extension "crytek_logos", plugin "tx_cryteklogos_pi1" -->
+
+	</DIV>
+			<DIV id="footerRight"><DIV id="leftHeaderMenu" style="position:relative; left:-120px; bottom:-5px;"><A href="http://www.crytek.com/index.php" title="Home">Home</A>|<A href="http://www.crytek.com/culture/sitemap/" title="sitemap" onfocus="blurLink(this);">sitemap</A>|<A href="http://www.crytek.com/links/press/" target="_blank" title="Press" onfocus="blurLink(this);">Press</A></DIV></DIV>
+		</DIV>
+	</DIV>
+	<DIV id="footerBottom"><IMG src="./Crytek   MyCryENGINE_files/clear.gif" width="1" height="9" alt=""></DIV>
+	<DIV id="footerLinks">© 2009 CRYTEK » all rights reserved |<A href="http://www.crytek.com/contact/" title="Contact us" onfocus="blurLink(this);">Contact us</A>|<A href="http://www.crytek.com/contact/imprint/" title="Imprint" onfocus="blurLink(this);">Imprint</A>|<A href="http://www.crytek.com/contact/legal/" title="Legal" onfocus="blurLink(this);">Legal</A></DIV>
+</DIV>
+<!-- Piwik -->
+<SCRIPT type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://statistics.mycrysis.com/" : "http://statistics.mycrysis.com/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT><SCRIPT src="./Crytek   MyCryENGINE_files/piwik.js" type="text/javascript"></SCRIPT><SCRIPT type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 5);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</SCRIPT><NOSCRIPT></NOSCRIPT>
+
+<!-- End Piwik Tag -->
+
+
+<DIV id="flbOverlay" style="visibility: hidden; zoom: 1; opacity: 0; "></DIV><DIV id="flbCenter" style="width: 360px; height: 202px; margin-left: -180px; display: none; background-color: rgb(0, 0, 0); "><DIV id="flbSWF" style="background-color: transparent; "></DIV></DIV><DIV id="flbBottomContainer" style="display: none; "><DIV id="flbBottom"><A id="flbCloseLink" href="http://www.crytek.com/#"></A></DIV></DIV></BODY></HTML>

@@ -27,6 +27,13 @@ CommonSwarmIndividual::CommonSwarmIndividual(const int &species_, core::IEntityP
 	  use_world_limits(false)
 {
 	csi_pdu.acceleration.x = csi_pdu.acceleration.y = csi_pdu.acceleration.z = 0.0f;
+	randomness_factor	= 0.5f;
+	separation_factor	= 1.5f;
+	alignment_factor	= 1.0f;
+	cohesion_factor		= 1.5f;
+	attraction_factor	= 1.0f;
+	avoidance_factor	= 2.0f;
+	worldlimits_factor	= 1.5f;
 }
 
 CommonSwarmIndividual::~CommonSwarmIndividual()
@@ -247,9 +254,9 @@ void CommonSwarmIndividual::Think()
 
 					//Alignment: based on velocity of near mates 
 					//---------------------------------------------------------
-					accumulators_cohesion.x(other_velocity.x);
-					accumulators_cohesion.y(other_velocity.y);
-					accumulators_cohesion.z(other_velocity.z);
+					accumulators_alignment.x(other_velocity.x);
+					accumulators_alignment.y(other_velocity.y);
+					accumulators_alignment.z(other_velocity.z);
 
 				}
 				else //other species
@@ -302,14 +309,6 @@ void CommonSwarmIndividual::Think()
 	cohesion	= CalculateCohesion();   
 	attraction	= CalculateAttraction(); 
 	avoidance	= CalculateAvoidance();
-
-	float randomness_factor	= 1.0f;
-	float separation_factor	= 1.5f;
-	float alignment_factor	= 1.0f;
-	float cohesion_factor	= 1.0f;
-	float attraction_factor	= 1.0f;
-	float avoidance_factor	= 1.5f;
-	float worldlimits_factor= 1.5f;
 
 	randomness.x = RandomFloat(-1.0f*max_acceleration, max_acceleration);
 	randomness.y = RandomFloat(-1.0f*max_acceleration, max_acceleration);

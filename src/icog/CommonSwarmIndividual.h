@@ -99,6 +99,13 @@ namespace core
 					  avoidance_distance;
 				bool use_world_limits;
 				corePoint3D<float> world_max, world_min;
+				float randomness_factor;
+				float separation_factor;
+				float alignment_factor;
+				float cohesion_factor;
+				float attraction_factor;
+				float avoidance_factor;
+				float worldlimits_factor;
 
 				static std::vector<int> RTree_search_results;
 

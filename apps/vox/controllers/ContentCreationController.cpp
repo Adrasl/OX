@@ -465,8 +465,6 @@ void ContentCreationController::Update()
 				CreatePresetOfEntities1(1.0f);
 				//CreatePresetOfEntities2(1.25f);
 				//CreatePresetOfEntities2(1.5f);
-
-				core::icog::CommonSwarmIndividual::SetEcosystem(ccc_ecosystem);
 			}
 		}
 	}
@@ -496,7 +494,11 @@ void ContentCreationController::Update()
 
 		if (animate_background)
 			recover_collisionevaluation_aftertime = current_timestamp;
+
+		core::icog::CommonSwarmIndividual::SetEcosystem(ccc_ecosystem);
 	}
+
+	
 }
 
 void ContentCreationController::RemoveEntityFromCurrentWorld(core::IEntity *entity)
@@ -507,13 +509,15 @@ void ContentCreationController::RemoveEntityFromCurrentWorld(core::IEntity *enti
 	}
 }
 
-void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
+void ContentCreationController::EntityHadAGoodUserFeedback(core::IEntityPersistence* entity, const bool &was_good)
 {
 	boost::mutex::scoped_lock lock(m_mutex); 
 
 	if (!(recover_collisionevaluation_aftertime - current_timestamp > 0))
 	{	
 		recover_collisionevaluation_aftertime = current_timestamp + CC_RECOVERCOL_EVAL; 
+		corePoint3D<float> spawn_point;
+		entity->GetPosition(spawn_point.x, spawn_point.y, spawn_point.z);
 		
 
 		if (was_good)
@@ -521,7 +525,7 @@ void ContentCreationController::EntityHadAGoodUserFeedback(const bool &was_good)
 			i_am_being = IA_Karma::GOOD;		
 			accumulators_motion_GOODorEVIL((float)IA_Karma::GOOD);
 			if (!(recover_createswarm1_afterseconds - current_timestamp > 0))
-			{	CreatePresetOfSwarm1( CC_RECOVER_CREATESWARM1_TIME );
+			{	CreatePresetOfSwarm1AtCoords(spawn_point,  CC_RECOVER_CREATESWARM1_TIME );
 				recover_createswarm1_afterseconds = current_timestamp + CC_RECOVER_CREATESWARM1_TIME;
 			}}
 		else
@@ -703,7 +707,7 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 	}
 }
 
-void ContentCreationController::CreatePresetOfSwarm1(const double &time)
+void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> spawn_point, const double &time)
 {
 	if (current_world)
 	{
@@ -718,7 +722,7 @@ void ContentCreationController::CreatePresetOfSwarm1(const double &time)
 		std::string modelpath = model_url.str();
 		Filename pandafile = Filename::from_os_specific(modelpath);
 
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 20; i++)
 		{
 			entity_id++;
 			z_step++;
@@ -739,12 +743,15 @@ void ContentCreationController::CreatePresetOfSwarm1(const double &time)
 			user_pos_x = user_pos_y =user_pos_z = 0;
 			if (current_user)
 				current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
-			//candidatepdu.position.x = RandomFloat(user_pos_x - 1.0, user_pos_x + 1.0);
-			//candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 6.0);
-			//candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 1.0);
-			candidatepdu.position.x = RandomFloat(0.4f, 0.8f);
-			candidatepdu.position.y = RandomFloat( 6.0f, 6.4f);
-			candidatepdu.position.z = RandomFloat(0.5f, 1.0f);
+			////candidatepdu.position.x = RandomFloat(user_pos_x - 1.0, user_pos_x + 1.0);
+			////candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 6.0);
+			////candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 1.0);
+			//candidatepdu.position.x = RandomFloat(0.4f, 0.8f);
+			//candidatepdu.position.y = RandomFloat( 6.0f, 6.4f);
+			//candidatepdu.position.z = RandomFloat(0.5f, 1.0f);
+			candidatepdu.position.x = RandomFloat(spawn_point.x-0.15f, spawn_point.x+0.15f);
+			candidatepdu.position.y = RandomFloat(spawn_point.y-0.15f, spawn_point.y+0.15f);
+			candidatepdu.position.z = RandomFloat(spawn_point.z-0.15f, spawn_point.z+0.15f);
 			candidatepdu.velocity.x = RandomFloat(-0.05f, 0.05f);
 			candidatepdu.velocity.y = RandomFloat(-0.05f, 0.05f);
 			candidatepdu.velocity.z = RandomFloat(-0.05f, 0.05f);
@@ -764,13 +771,13 @@ void ContentCreationController::CreatePresetOfSwarm1(const double &time)
 			current_world->AddEntity(*((core::IEntityPersistence *)genesis));
 			current_world->Save();
 
-			createdEntity_timesptamp = current_timestamp;
-			new_timed_entities[(core::IEntity *)new_entity] = time;
+			//createdEntity_timesptamp = current_timestamp;
+			new_timed_entities[(core::IEntity *)new_entity] = 0.1f;
 		}
 	}	
 }
 
-void ContentCreationController::CreatePresetOfSwarm2(const double &time)
+void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> spawn_point, const double &time)
 {
 	int i = 666;
 }

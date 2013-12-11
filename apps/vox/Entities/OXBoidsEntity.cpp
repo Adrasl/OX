@@ -68,30 +68,60 @@ OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent, const float &pitch, 
 	//CommonSwarm
 	core::corePoint3D<float>world_max_coords,
 							world_min_coords;
-	corePoint3D<float>		separation, alignment, cohesion, 
-							attraction, avoidance, worldlimits;
-	world_max_coords.x = world_max_coords.y = world_max_coords.z = 1.5f;
-	world_min_coords.x = world_min_coords.y = world_min_coords.z = -1.5f;
-	world_max_coords.y = 8.0f; world_min_coords.y = 5.0f;
-	separation.x = separation.y = separation.z = 0.0f;
-	alignment.x = alignment.y = alignment.z = 0.0f;
-	cohesion.x = cohesion.y = cohesion.z = 0.0f;
-	attraction.x = attraction.y = attraction.z = 0.0f;
-	avoidance.x = avoidance.y = avoidance.z = 0.0f;
-	worldlimits.x = worldlimits.y = worldlimits.z = 0.0f;
+	//corePoint3D<float>		separation, alignment, cohesion, 
+	//						attraction, avoidance, worldlimits;
+	world_max_coords.x = world_max_coords.y = world_max_coords.z = 10.0f;
+	world_min_coords.x = world_min_coords.y = world_min_coords.z = -10.0f;
+	world_max_coords.y = 25.0f; world_min_coords.y = 5.0f; 
+	//world_max_coords.y = 8.0f; world_min_coords.y = 5.0f;
 	{	
 		boost::mutex::scoped_lock lock(csi_mutex);
 		my_species			= Species::SPECIES1;
 		csi_entity			= entity;
 		csi_pdu				= pdu;
+		//max_acceleration	= 0.05f;
+		//max_velocity		= 0.05f;
+		//perception_distance = 2.0f;
+		//separation_distance = 1.0f;
+		//avoidance_distance	= 2.0f; 
+		//use_world_limits	= true;
+		//world_max			= world_max_coords;
+		//world_min			= world_min_coords;
+		////randomness_factor	= 1.5f;
+		////separation_factor	= 1.0f;
+		////alignment_factor	= 1.0f;
+		////cohesion_factor		= 1.5f;
+		////attraction_factor	= 1.0f;
+		////avoidance_factor	= 2.0f;
+		////worldlimits_factor	= 2.0f;
+		//randomness_factor	= 1.5f;
+		//separation_factor	= 1.0f;
+		//alignment_factor	= 0.5f;
+		//cohesion_factor		= 1.0f;
+		//attraction_factor	= 1.0f;
+		//avoidance_factor	= 2.0f;
+		//worldlimits_factor	= 2.0f;
 		max_acceleration	= 0.05f;
 		max_velocity		= 0.05f;
-		perception_distance = 0.5f;
-		separation_distance = 0.01f;
-		avoidance_distance	= 0.01f; 
+		perception_distance = 4.0f;
+		separation_distance = 2.0f;
+		avoidance_distance	= 2.0f; 
 		use_world_limits	= true;
 		world_max			= world_max_coords;
 		world_min			= world_min_coords;
+		randomness_factor	= 1.0f;
+		separation_factor	= 1.5f;
+		alignment_factor	= 0.25f;
+		cohesion_factor		= 0.5f;
+		attraction_factor	= 1.0f;
+		avoidance_factor	= 1.5f;
+		worldlimits_factor	= 1.5f;
+		separation.x = separation.y = separation.z = 0.0f;
+		alignment.x = alignment.y = alignment.z = 0.0f;
+		cohesion.x = cohesion.y = cohesion.z = 0.0f;
+		attraction.x = attraction.y = attraction.z = 0.0f;
+		avoidance.x = avoidance.y = avoidance.z = 0.0f;
+		worldlimits.x = worldlimits.y = worldlimits.z = 0.0f;
 		//csi_pdu.acceleration.x = csi_pdu.acceleration.y = csi_pdu.acceleration.z = 0.0f;
 	}
 
@@ -418,7 +448,7 @@ void OXBoidsEntity::OnUserCollisionCall(core::corePDU3D<double> collisionInfo)
 					recovercollisions_afterseconds = current_timestamp + 2.0f;
 			}			
 		}
-		ContentCreationController::Instance()->EntityHadAGoodUserFeedback(the_user_is_good);
+		ContentCreationController::Instance()->EntityHadAGoodUserFeedback(entity, the_user_is_good);
 	}
 }
 

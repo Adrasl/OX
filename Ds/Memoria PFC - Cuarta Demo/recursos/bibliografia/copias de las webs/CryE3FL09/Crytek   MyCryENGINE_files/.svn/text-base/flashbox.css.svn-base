@@ -1,0 +1,47 @@
+/* SLIMBOX */
+
+#flbOverlay {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	background-color: #000;
+	cursor: pointer;
+}
+
+#flbCenter, #flbBottomContainer {
+	position: absolute;
+	left: 50%;
+	overflow: hidden;
+	background-color: #000;
+}
+
+#flbSWF {
+	position: absolute;
+	overflow: hidden;
+	background-color: #000;
+}
+
+.flbLoading {
+	background: #000 url(../images/loading.gif) no-repeat center;
+}
+
+#flbBottom {
+	font-family: Verdana, Arial, Geneva, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666;
+	height: 15px;
+	line-height: 1.4em;
+	text-align: left;
+	border: 10px solid #000;
+	background: transparent url(../images/fullscreen_advice.gif) no-repeat center;
+	border-top-style: none;
+}
+
+#flbCloseLink {
+	display: block;
+	float: right;
+	width: 66px;
+	height: 22px;
+	background: transparent url(../images/icloselabel.gif) no-repeat center;
+	margin: 5px 0;
+}

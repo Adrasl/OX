@@ -29,6 +29,9 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 		start_timestamp			= (double)clock()/CLOCKS_PER_SEC;
 		latestupdate_timestamp	= (double)clock()/CLOCKS_PER_SEC;
 		otherEntities_feedback[NatureOfEntity::STANDALONE] = IA_Karma::GOOD;
+		pdu.position.x = pdu.position.y = pdu.position.z = 0.0f;
+		pdu.velocity.x = pdu.velocity.y = pdu.velocity.z = 0.0f;
+		pdu.acceleration.x = pdu.acceleration.y = pdu.acceleration.z = 0.0f;
 
 
 		user_feedback.clear();
@@ -40,6 +43,15 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 			data		= entity->GetModelData();
 			collidable	= entity->IsCollidable();
 			time_to_live = entity->GetTimeToLive();
+			float position_x, position_y, position_z,
+				  velocity_x, velocity_y, velocity_z,
+				  acceleration_x, acceleration_y, acceleration_z;
+			entity->GetPositionVelocityAcceleration(position_x, position_y, position_z,
+													velocity_x, velocity_y, velocity_z,
+													acceleration_x, acceleration_y, acceleration_z);
+			pdu.position.x = position_x, pdu.position.y = position_y, pdu.position.z = position_z,
+			pdu.velocity.x = velocity_x, pdu.velocity.y = velocity_y, pdu.velocity.z = velocity_z,
+			pdu.acceleration.x = acceleration_x, pdu.acceleration.y = acceleration_y, pdu.acceleration.z = acceleration_z;
 			entity->Save();
 		}
 
@@ -188,16 +200,19 @@ void OXStandAloneEntity::OnUpdate()
 									  scale);
 	
 	scale = (killme_afterseconds - current_timestamp > 0.0) ? scale*0.5*(killme_afterseconds - current_timestamp) : scale;
-	
-	this->SetPositionOrientationScale(x, y - delta_time*3.0f, z,
+
+	pdu.position.x = x; pdu.position.y = y; pdu.position.z = z;
+	pdu.position.y -= delta_time*3.0f;
+
+	this->SetPositionOrientationScale(pdu.position.x, pdu.position.y , pdu.position.z,
 									  h+delta_time*12.0f*rotation_speed_touchingfactor, 
 									  p+delta_time*60.0f*rotation_speed_touchingfactor, 
 									  r+delta_time*120.0f*rotation_speed_touchingfactor,
 									  scale+0.0001f);
 
-	//for (std::map<core::IGuiWindow*, int>::iterator i = registered_windows.begin(); i != registered_windows.end(); i++)
-	//std::map<NatureOfEntity, float>::iterator found  = otherEntities_feedback.find(id); 
-	//if ( found != otherEntities_feedback.end() ) 
+	this->SetPositionVelocityAcceleration(pdu.position.x, pdu.position.y, pdu.position.z,
+										  pdu.velocity.x, pdu.velocity.y, pdu.velocity.z,
+										  pdu.acceleration.x, pdu.acceleration.y, pdu.acceleration.z);
 }
 
 void OXStandAloneEntity::OnDeath()
@@ -274,7 +289,7 @@ void OXStandAloneEntity::OnUserCollisionCall(core::corePDU3D<double> collisionIn
 					recovercollisions_afterseconds = current_timestamp + 2.0f;
 			}			
 		}
-		ContentCreationController::Instance()->EntityHadAGoodUserFeedback(the_user_is_good);
+		ContentCreationController::Instance()->EntityHadAGoodUserFeedback(entity, the_user_is_good);
 	}
 }
 
