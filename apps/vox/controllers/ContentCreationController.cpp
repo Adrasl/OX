@@ -104,6 +104,10 @@ ContentCreationController::ContentCreationController()
 	fog_intensity[IA_Karma::NEUTRAL] = 0.05;
 	fog_intensity[IA_Karma::EVIL] = 0.4;
 
+	//fog_intensity[IA_Karma::GOOD] = 0.0001;
+	//fog_intensity[IA_Karma::NEUTRAL] = 0.0001;
+	//fog_intensity[IA_Karma::EVIL] = 0.0001;
+
 	current_background_color.x = background_color[IA_Karma::NEUTRAL].x; current_background_color.y = background_color[IA_Karma::NEUTRAL].y; current_background_color.z = background_color[IA_Karma::NEUTRAL].z;
 	current_fog_color.x = fog_color[IA_Karma::NEUTRAL].x; current_fog_color.y = fog_color[IA_Karma::NEUTRAL].y; current_fog_color.z = fog_color[IA_Karma::NEUTRAL].z; 
 	current_fog_intensity = fog_intensity[IA_Karma::NEUTRAL];

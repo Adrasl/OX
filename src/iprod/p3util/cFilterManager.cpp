@@ -78,16 +78,21 @@ CFilterManager::CFilterManager(GraphicsOutput* win,
       return;
       }
 
+    //region->get_clear_color();
+	//region->set_clear_color(LColor(0.0f, 0.0f, 1.0f, 1.0f));
+   //region->set_clear_color_active(false);
+
    // Instance Variables.
    m_engine = win->get_gsg()->get_engine();
    m_region = region;
    get_clears(*m_win, &m_wclears);
-   get_clears(*m_region, &m_rclears);
+   get_clears(*m_region, &m_rclears); //A partir de aquí se pierde la capacidad de cambiar el color de fondo
    m_nextsort = m_win->get_sort() - 1000;
 
    EventHandler::get_global_event_handler()->add_hook("window-event",
                                                       call_resize_buffers,
                                                       this);
+
    }
 
 void CFilterManager::get_clears(const DrawableRegion& region,

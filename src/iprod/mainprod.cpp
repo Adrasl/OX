@@ -18,6 +18,7 @@
 #include "directionalLight.h"
 #include "pointLight.h"
 #include "spotlight.h"
+#include "geomTriangles.h"
 
 #ifdef WIN32
 #include <Aclapi.h>
@@ -135,8 +136,14 @@ float MainProd::current_timestamp   = 0.0f;
 
 AnimControlCollection MainProd::SceneAnimControlCollection;
 
-bool MainProd::enable_simpleGlowEffect = true; //retomar
-
+bool MainProd::enableEffects = true;
+bool MainProd::enable_simpleINVERTEffect = false;
+bool MainProd::enable_simpleBLOOMEffect = false;
+bool MainProd::enable_simpleTOONEffect = false;
+bool MainProd::enable_simpleBLUREffect = false;
+bool MainProd::enable_simpleVOLUMETRICLIGHTSEffect = false;
+bool MainProd::enable_simpleSSAOEffect = false;
+NodePath* MainProd::fake_background_quad = NULL; //As there's a panda bug that forbids changing the background color when using ImageFilters
 
 
 MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[]) : mesh_factory(NULL)
@@ -408,11 +415,10 @@ void MainProd::Iterate()
 				m_fog.set_exp_density(fog_intensity); 
 				pandawindows_array[i]->get_render().set_fog(&m_fog, 1);
 				pandawindows_array[i]->get_display_region_3d()->set_clear_color(LColor(background_color.x, background_color.y, background_color.z, 1));
-				//DESCOMENTAR EFFECTOS //displayregions_array[i]->set_clear_color(LColor(background_color.x, background_color.y, background_color.z, 1));
+				if (fake_background_quad)
+					fake_background_quad->set_color(LColor(background_color.x, background_color.y, background_color.z, 1));
 				
 				//pandawindows_array[i]->get_render().set_shader_auto();
-
-
 				//win_props.set_size(app_config->GetDisplayData(i).resolution_x, app_config->GetDisplayData(i).resolution_y);
 				//pandawindows_array[i];
 				core::DisplayData display_data = app_config->GetDisplayData(i);
@@ -1135,6 +1141,7 @@ void MainProd::CreateDefaultWindows(int num_windows)
 	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	//------------
 
+
 	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
 	{
 		if (app_config != NULL)
@@ -1143,51 +1150,65 @@ void MainProd::CreateDefaultWindows(int num_windows)
 			win_props.set_size(800, 600);
 		prod3Dwindow_array[i] = new Prod3DWindow(&framework, win_props, true, true);
 		pandawindows_array[i] = prod3Dwindow_array[i]->GetWindowFrameWork();
-		pandawindows_array[i]->set_background_type(WindowFramework::BackgroundType::BT_white);
+		pandawindows_array[i]->set_background_type(WindowFramework::BackgroundType::BT_black);
 		pandawindows_array[i]->set_lighting(true);
 		pandawindows_array[i]->set_perpixel(true);
 		pandawindows_array[i]->get_render().set_antialias(AntialiasAttrib::Mode::M_multisample,1);
 		windowcamera_array[i] = pandawindows_array[i]->get_camera_group();
 
-		//DESCOMENTAR EFFECTOS
-		////if we use this region we loose the option of resizing the region after boot
-		////it makes a region of the size of the window for post-processing
-		//displayregions_array[i] = pandawindows_array[i]->get_graphics_window()->make_display_region();
-		//ccommonfilters_array[i] = new CCommonFilters(pandawindows_array[i]->get_graphics_output(), NodePath(pandawindows_array[i]->get_camera(0)));
-		//
-		//////INVERT COLOR
-		////ccommonfilters_array[i]->set_inverted();
-		////ccommonfilters_array[i]->del_inverted();
-		////BLOOM
-		////Parameters: https://www.panda3d.org/manual/index.php/Common_Image_Filters
-		//CCommonFilters::SetBloomParameters bloom_paramns; 
-		//bloom_paramns.blend		 = LVector4f(0.33,0.34,0.33,0.0);
-		//bloom_paramns.mintrigger = 0.85f;
-		//bloom_paramns.maxtrigger = 1.0f;
-		//bloom_paramns.desat		 = 0.8f;
-		//bloom_paramns.intensity	 = 1.0f;
-		//bloom_paramns.size		 = "large";
-		//ccommonfilters_array[i]->set_bloom(bloom_paramns);
-		//////TOON
-		////ccommonfilters_array[i]->set_cartoon_ink();
-		//////BLUR
-		////ccommonfilters_array[i]->set_blur_sharpen(0.5f);
-		//////VOLUMETRIC LIGHTING
-		////CCommonFilters::SetVolumetricLightingParameters vol_params(NodePath(pandawindows_array[i]->get_camera(0))); //retomar, The light Object, do not use the camera 
-		////vol_params.decay = 0.98f;
-		////vol_params.density = 5.0f;
-		////vol_params.exposure = 0.1f;
-		////vol_params.numsamples = 32;
-		////ccommonfilters_array[i]->set_volumetric_lighting(vol_params);
-		//////SPACE IMAGE AMBIENT OCCLUSION
-		////CCommonFilters::SetAmbientOcclusionParameters ambient_params;
-		////ambient_params.amount = 2.0f;
-		////ambient_params.falloff = 0.000002f;
-		////ambient_params.numsamples = 16;
-		////ambient_params.radius = 0.05f;
-		////ambient_params.strength = 0.01f;
-		////ccommonfilters_array[i]->set_ambient_occlusion(ambient_params);
+		if (!fake_background_quad)
+			fake_background_quad = CreateQuad();	
 
+		if (enableEffects)
+		{	//It creates a quad of the size of the window for post-processing
+			//Panda3D bug: if we use ImageFilters we won't be able to resize or reorient the region after boot 
+			pandawindows_array[i]->get_graphics_window()->make_display_region();
+			NodePath cam_np = NodePath(pandawindows_array[i]->get_camera(0));
+			GraphicsOutput *graphicoutput = pandawindows_array[i]->get_graphics_output();
+			ccommonfilters_array[i] = new CCommonFilters(graphicoutput, cam_np);
+			DisplayRegion *region = NULL;
+			for(int j = 0 ; j < graphicoutput->get_num_active_display_regions(); ++j)
+			{	PT(DisplayRegion) dr = graphicoutput->get_display_region(j);
+				NodePath drcam = dr->get_camera();
+				if(drcam == cam_np) { region = dr;		}}
+			if (region)
+			{	region->set_clear_color(LColor(0.0f, 0.0f, 1.0f, 1.0f));
+				displayregions_array[i] = region;		}
+		
+			//INVERT COLOR
+			//ccommonfilters_array[i]->set_inverted();
+			////ccommonfilters_array[i]->del_inverted();
+			//BLOOM
+			//Parameters: https://www.panda3d.org/manual/index.php/Common_Image_Filters
+			CCommonFilters::SetBloomParameters bloom_paramns; 
+			bloom_paramns.blend		 = LVector4f(0.33,0.34,0.33,0.0);
+			bloom_paramns.mintrigger = 0.90f;
+			bloom_paramns.maxtrigger = 1.0f;
+			bloom_paramns.desat		 = 0.8f;
+			bloom_paramns.intensity	 = 0.9f;
+			bloom_paramns.size		 = "medium";
+			ccommonfilters_array[i]->set_bloom(bloom_paramns);
+			//////TOON
+			//ccommonfilters_array[i]->set_cartoon_ink();
+			//////BLUR
+			//ccommonfilters_array[i]->set_blur_sharpen(0.25f);
+			//VOLUMETRIC LIGHTING
+			//CCommonFilters::SetVolumetricLightingParameters vol_params(NodePath(pandawindows_array[i]->get_camera(0))); //retomar, The light Object, do not use the camera 
+			//CCommonFilters::SetVolumetricLightingParameters vol_params(*fake_background_quad); //retomar, The light Object, do not use the camera 
+			//vol_params.decay = 0.98f;
+			//vol_params.density = 5.0f;
+			//vol_params.exposure = 0.1f;
+			//vol_params.numsamples = 32;
+			//ccommonfilters_array[i]->set_volumetric_lighting(vol_params);
+			//////SPACE IMAGE AMBIENT OCCLUSION
+			////CCommonFilters::SetAmbientOcclusionParameters ambient_params;
+			////ambient_params.amount = 2.0f;
+			////ambient_params.falloff = 0.000002f;
+			////ambient_params.numsamples = 16;
+			////ambient_params.radius = 0.05f;
+			////ambient_params.strength = 0.01f;
+			////ccommonfilters_array[i]->set_ambient_occlusion(ambient_params);
+		}
 
 
 		//pandawindows_array[i]->setup_trackball();
@@ -1248,6 +1269,23 @@ void MainProd::CreateDefaultWindows(int num_windows)
 		master_pandawindow->get_render().set_antialias(AntialiasAttrib::Mode::M_multisample,1);
 		master_camera = master_pandawindow->get_camera_group();
 		master_pandawindow->setup_trackball();
+	}
+
+
+	if (master_pandawindow)
+	{
+		fake_background_quad->set_pos(0,500,0);
+		fake_background_quad->set_scale(1000.0);
+		fake_background_quad->reparent_to(master_pandawindow->get_render());
+		//fake_background_quad->reparent_to(pandawindows_array[1]->get_camera_group());
+		std::map<int, NodePath>::iterator iter = windowcamera_array.begin();
+		//if (iter != windowcamera_array.end())iter++;
+		while(iter != windowcamera_array.end())
+		{	
+			fake_background_quad->instance_to(iter->second);
+			//iter->second.attach_new_node(fake_background_quad->node());
+			iter++;				
+		}
 	}
 
 	origin = pandawindows_array[1]->load_model(framework.get_models(), "panda-model");
@@ -1545,106 +1583,106 @@ void MainProd::PlaySoundCapture()
 	//Sound.Play();
 }
 
-NodePath* MainProd::CreateQuad()
-{
-	
-
-	//step 1) create GeomVertexData and add vertex information 
-	CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3n3c4t2();
-	PT(GeomVertexData) vdata = new GeomVertexData("vertices", format, GeomEnums::UH_static);
-
-	GeomVertexWriter vertex, normal, color, texcoord;
-	vertex = GeomVertexWriter(vdata, "vertex");
-	normal = GeomVertexWriter(vdata, "normal");
-	color = GeomVertexWriter(vdata, "color");
-	texcoord = GeomVertexWriter(vdata, "texcoord");
-	
-	//vertex.add_data3f(1, 0, 0);
-	//normal.add_data3f(0, 0, 1);
-	//color.add_data4f(0, 0, 1, 1);
-	//texcoord.add_data2f(1, 0);
-
-	//GeomVertexWriter *vertexWriter = new GeomVertexWriter(vdata, "vertex");
-	//vertexWriter->add_data3f(10,5,10) ;
-	//vertexWriter->add_data3f(50,5,0) ;
-	//vertexWriter->add_data3f(50,25,50) ;
-	//vertexWriter->add_data3f(0,5,50) ;
-
-	//vertex->add_data3f(10,5,10);
-	//color->add_data4f(0, 0, 1, 1);
-	//
-	//vertex->add_data3f(50,5,0);
-	//color->add_data4f(0, 0, 1, 1);
-	//
-	//vertex->add_data3f(50,25,50);
-	//color->add_data4f(0, 0, 1, 1);
-	//
-	//vertex->add_data3f(0,5,50);
-	//color->add_data4f(0, 0, 1, 1);
-
-	vertex.add_data3f(10,5,10);
-	normal.add_data3f(0, 0, 1);
-	color.add_data4f(1.0, 0.0, 1.0, 0.0);
-	texcoord.add_data2f(1, 0);
-	 
-	vertex.add_data3f(50,5,0);
-	normal.add_data3f(0, 0, 1);
-	color.add_data4f(1.0, 0.0, 1.0, 0.0);
-	texcoord.add_data2f(1, 1);
-	 
-	vertex.add_data3f(50,25,50);
-	normal.add_data3f(0, 0, 1);
-	color.add_data4f(1.0, 0.0, 1.0, 0.0);
-	texcoord.add_data2f(0, 1);
-	 
-	vertex.add_data3f(0,5,50);
-	normal.add_data3f(0, 0, 1);
-	color.add_data4f(1.0, 0.0, 1.0, 0.0);
-	texcoord.add_data2f(0, 0);
-
-	//step 2) make primitives and assign vertices to them 
-	PT(GeomTriangles) tris;
-	tris = new GeomTriangles(Geom::UH_static);
-	//have to add vertices one by one since they are not in order 
-	tris->add_vertex(0) ;
-	tris->add_vertex(1) ;
-	tris->add_vertex(3) ;
-	//indicates that we have finished adding vertices for the first triangle. 
-	tris->close_primitive() ;
-	//since the coordinates are in order we can use this convenience function. 
-	tris->add_consecutive_vertices(1,3); //#add vertex 1, 2 and 3 ;
-	tris->close_primitive() ;
-
-	//step 3) make a Geom object to hold the primitives 
-	PT(Geom) squareGeom = new Geom(vdata) ;
-	squareGeom->add_primitive(tris) ;
-
-	//now put squareGeom in a GeomNode. You can now position your geometry in the scene graph. 
-	PT(GeomNode) squareGN = new GeomNode("square") ;
-	squareGN->add_geom(squareGeom) ;
-	//render.attachNewNode(squareGN);
-
-	NodePath* quad = new NodePath( (PandaNode*)squareGN );
-	quad->set_two_sided(true);
-	quad->set_texture_off();
-	//PT(NodePath) quad = new NodePath( (PandaNode*)squareGN );
-
-	boost::filesystem::path data_path = boost::filesystem::initial_path();
-	data_path = data_path / "../../bin/data"; 
-	data_path = data_path / "/images/help.png";
-	std::string mi_path = data_path.normalize().string();
-	int pos = mi_path.find(":");
-	if (pos != std::string::npos) mi_path.erase(pos, 1);
-	std::replace(mi_path.begin(), mi_path.end(), '\\', '/');
-	mi_path = "/" + mi_path; //case sensitive y el boost saca la unidad de disco en mayuscula cuando panda la queire en minuscula
-	//Texture *text = TexturePool::load_texture(mi_path); 
-	Texture *text = TexturePool::load_texture("/c/etc/Iris.png");
-	quad->set_transparency(TransparencyAttrib::M_alpha);
-	quad->set_texture(text);
-
-
-	return quad;
-}
+////////////NodePath* MainProd::CreateQuad()
+////////////{
+////////////	
+////////////
+////////////	//step 1) create GeomVertexData and add vertex information 
+////////////	CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3n3c4t2();
+////////////	PT(GeomVertexData) vdata = new GeomVertexData("vertices", format, GeomEnums::UH_static);
+////////////
+////////////	GeomVertexWriter vertex, normal, color, texcoord;
+////////////	vertex = GeomVertexWriter(vdata, "vertex");
+////////////	normal = GeomVertexWriter(vdata, "normal");
+////////////	color = GeomVertexWriter(vdata, "color");
+////////////	texcoord = GeomVertexWriter(vdata, "texcoord");
+////////////	
+////////////	//vertex.add_data3f(1, 0, 0);
+////////////	//normal.add_data3f(0, 0, 1);
+////////////	//color.add_data4f(0, 0, 1, 1);
+////////////	//texcoord.add_data2f(1, 0);
+////////////
+////////////	//GeomVertexWriter *vertexWriter = new GeomVertexWriter(vdata, "vertex");
+////////////	//vertexWriter->add_data3f(10,5,10) ;
+////////////	//vertexWriter->add_data3f(50,5,0) ;
+////////////	//vertexWriter->add_data3f(50,25,50) ;
+////////////	//vertexWriter->add_data3f(0,5,50) ;
+////////////
+////////////	//vertex->add_data3f(10,5,10);
+////////////	//color->add_data4f(0, 0, 1, 1);
+////////////	//
+////////////	//vertex->add_data3f(50,5,0);
+////////////	//color->add_data4f(0, 0, 1, 1);
+////////////	//
+////////////	//vertex->add_data3f(50,25,50);
+////////////	//color->add_data4f(0, 0, 1, 1);
+////////////	//
+////////////	//vertex->add_data3f(0,5,50);
+////////////	//color->add_data4f(0, 0, 1, 1);
+////////////
+////////////	vertex.add_data3f(10,5,10);
+////////////	normal.add_data3f(0, 0, 1);
+////////////	color.add_data4f(1.0, 0.0, 1.0, 0.0);
+////////////	texcoord.add_data2f(1, 0);
+////////////	 
+////////////	vertex.add_data3f(50,5,0);
+////////////	normal.add_data3f(0, 0, 1);
+////////////	color.add_data4f(1.0, 0.0, 1.0, 0.0);
+////////////	texcoord.add_data2f(1, 1);
+////////////	 
+////////////	vertex.add_data3f(50,25,50);
+////////////	normal.add_data3f(0, 0, 1);
+////////////	color.add_data4f(1.0, 0.0, 1.0, 0.0);
+////////////	texcoord.add_data2f(0, 1);
+////////////	 
+////////////	vertex.add_data3f(0,5,50);
+////////////	normal.add_data3f(0, 0, 1);
+////////////	color.add_data4f(1.0, 0.0, 1.0, 0.0);
+////////////	texcoord.add_data2f(0, 0);
+////////////
+////////////	//step 2) make primitives and assign vertices to them 
+////////////	PT(GeomTriangles) tris;
+////////////	tris = new GeomTriangles(Geom::UH_static);
+////////////	//have to add vertices one by one since they are not in order 
+////////////	tris->add_vertex(0) ;
+////////////	tris->add_vertex(1) ;
+////////////	tris->add_vertex(3) ;
+////////////	//indicates that we have finished adding vertices for the first triangle. 
+////////////	tris->close_primitive() ;
+////////////	//since the coordinates are in order we can use this convenience function. 
+////////////	tris->add_consecutive_vertices(1,3); //#add vertex 1, 2 and 3 ;
+////////////	tris->close_primitive() ;
+////////////
+////////////	//step 3) make a Geom object to hold the primitives 
+////////////	PT(Geom) squareGeom = new Geom(vdata) ;
+////////////	squareGeom->add_primitive(tris) ;
+////////////
+////////////	//now put squareGeom in a GeomNode. You can now position your geometry in the scene graph. 
+////////////	PT(GeomNode) squareGN = new GeomNode("square") ;
+////////////	squareGN->add_geom(squareGeom) ;
+////////////	//render.attachNewNode(squareGN);
+////////////
+////////////	NodePath* quad = new NodePath( (PandaNode*)squareGN );
+////////////	quad->set_two_sided(true);
+////////////	quad->set_texture_off();
+////////////	//PT(NodePath) quad = new NodePath( (PandaNode*)squareGN );
+////////////
+////////////	boost::filesystem::path data_path = boost::filesystem::initial_path();
+////////////	data_path = data_path / "../../bin/data"; 
+////////////	data_path = data_path / "/images/help.png";
+////////////	std::string mi_path = data_path.normalize().string();
+////////////	int pos = mi_path.find(":");
+////////////	if (pos != std::string::npos) mi_path.erase(pos, 1);
+////////////	std::replace(mi_path.begin(), mi_path.end(), '\\', '/');
+////////////	mi_path = "/" + mi_path; //case sensitive y el boost saca la unidad de disco en mayuscula cuando panda la queire en minuscula
+////////////	//Texture *text = TexturePool::load_texture(mi_path); 
+////////////	Texture *text = TexturePool::load_texture("/c/etc/Iris.png");
+////////////	quad->set_transparency(TransparencyAttrib::M_alpha);
+////////////	quad->set_texture(text);
+////////////
+////////////
+////////////	return quad;
+////////////}
 
 //#include <mainprod.h>
 //#include <debugger.h> 
@@ -2513,10 +2551,113 @@ void MainProd::SetFogIntensity(const float &intensity)
 	fog_intensity = intensity;
 }
 
-void MainProd::EnableSimpleGlowEffect(const bool &enable)
+void MainProd::EnableSimpleBloomEffect(const bool &enable)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
-	enable_simpleGlowEffect = enable;
+
+	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	{
+		if (enable)
+		{
+			CCommonFilters::SetBloomParameters bloom_paramns; 
+			bloom_paramns.blend		 = LVector4f(0.33,0.34,0.33,0.0);
+			bloom_paramns.mintrigger = 0.85f;
+			bloom_paramns.maxtrigger = 1.0f;
+			bloom_paramns.desat		 = 0.8f;
+			bloom_paramns.intensity	 = 1.0f;
+			bloom_paramns.size		 = "large";
+			ccommonfilters_array[i]->set_bloom(bloom_paramns);
+		}
+		else
+			ccommonfilters_array[i]->del_bloom();
+	}
+	
+	enable_simpleBLOOMEffect = enable;
+}
+
+void MainProd::EnableSimpleInverEffect(const bool &enable)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	{
+		if (enable)
+			ccommonfilters_array[i]->set_inverted();
+		else
+			ccommonfilters_array[i]->del_inverted();
+	}
+	enable_simpleINVERTEffect = enable;
+}
+
+void MainProd::EnableSimpleToonEffect(const bool &enable)
+{
+	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	{
+		if (enable)
+			ccommonfilters_array[i]->set_cartoon_ink();
+		else
+			ccommonfilters_array[i]->del_cartoon_ink();
+	}
+	enable_simpleTOONEffect = enable;
+}
+
+void MainProd::EnableSimpleBlurEffect(const bool &enable)
+{
+	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	{
+		if (enable)
+			ccommonfilters_array[i]->set_blur_sharpen(0.5f);
+		else
+			ccommonfilters_array[i]->del_blur_sharpen();
+	}
+	enable_simpleBLUREffect = enable;
+}
+
+void MainProd::EnableSimpleSSAOEffect(const bool &enable)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	{
+		if (enable)
+		{
+			CCommonFilters::SetAmbientOcclusionParameters ambient_params;
+			ambient_params.amount = 2.0f;
+			ambient_params.falloff = 0.000002f;
+			ambient_params.numsamples = 16;
+			ambient_params.radius = 0.05f;
+			ambient_params.strength = 0.01f;
+			ccommonfilters_array[i]->set_ambient_occlusion(ambient_params);
+		}
+		else
+			ccommonfilters_array[i]->del_ambient_occlusion();
+	}
+	
+	enable_simpleSSAOEffect = enable;
+}
+
+void MainProd::EnableSimpleVolumetricLightEffect(core::IEntityPersistence* ent, const bool &enable)
+{
+
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	{
+		if (enable)
+		{
+			enable_simpleBLOOMEffect = enable;
+			CCommonFilters::SetVolumetricLightingParameters vol_params(NodePath(pandawindows_array[i]->get_camera(0))); //retomar, The light Object, do not use the camera 
+			vol_params.decay = 0.98f;
+			vol_params.density = 5.0f;
+			vol_params.exposure = 0.1f;
+			vol_params.numsamples = 32;
+			ccommonfilters_array[i]->set_volumetric_lighting(vol_params);
+		}
+		else
+			ccommonfilters_array[i]->del_volumetric_lighting();
+	}
+
+	enable_simpleVOLUMETRICLIGHTSEffect = enable;
 }
 
 void MainProd::SetBackgroundAndFog(const float &bg_R, const float &bg_G, const float &bg_B, const float &f_R, const float &f_G, const float &f_B, const float &intensity, const float animation_time)
@@ -2570,4 +2711,56 @@ void MainProd::CheckBackgroundAndFogRanges()
 	if (fog_color.y > 1.0f) fog_color.y = 1.0f; else if ((fog_color.y < 0.0f)|| !(background_color.z -1.0f > -1.0f)) fog_color.y = 0.0f;
 	if (fog_color.z > 1.0f) fog_color.z = 1.0f; else if ((fog_color.z < 0.0f)|| !(background_color.z -1.0f > -1.0f)) fog_color.z = 0.0f;
 	if (fog_intensity > 1.0f) fog_intensity = 1.0f; else if ((fog_intensity < 0.0f)|| !(background_color.z -1.0f > -1.0f)) fog_intensity = 0.0f;
+}
+
+NodePath* MainProd::CreateQuad()
+{
+	CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3n3c4t2();
+	PT(GeomVertexData) vdata = new GeomVertexData("fake_background", format, GeomEnums::UH_static);
+
+	GeomVertexWriter vertex, normal, color, texcoord;
+	vertex = GeomVertexWriter(vdata, "vertex");
+	normal = GeomVertexWriter(vdata, "normal");
+	color = GeomVertexWriter(vdata, "color");
+	texcoord = GeomVertexWriter(vdata, "texcoord");
+
+	vertex.add_data3f(-1, 0, -1);
+	normal.add_data3f(0, -1, 0);
+	color.add_data4f(0, 0, 1, 1);
+	texcoord.add_data2f(1, 0);
+	 
+	vertex.add_data3f(-1, 0, 1);
+	normal.add_data3f(0, -1, 1);
+	color.add_data4f(0, 0, 1, 1);
+	texcoord.add_data2f(1, 1);
+	 
+	vertex.add_data3f(1, 0, -1);
+	normal.add_data3f(0, -1, 0);
+	color.add_data4f(0, 0, 1, 1);
+	texcoord.add_data2f(0, 1);
+	 
+	vertex.add_data3f(1, 0, 1);
+	normal.add_data3f(0, -1, 0);
+	color.add_data4f(0, 0, 1, 1);
+	texcoord.add_data2f(0, 0);
+
+
+	PT(GeomTriangles) prim;
+	prim = new GeomTriangles(Geom::UH_static);
+	prim->add_vertices(0, 1, 2);
+	prim->add_vertices(2, 1, 3);
+
+	PT(Geom) geom;
+	geom = new Geom(vdata);
+	geom->add_primitive(prim);
+ 
+	PT(GeomNode) node;
+	node = new GeomNode("gnode");
+	node->add_geom(geom);
+ 
+	NodePath* quad = new NodePath( (PandaNode*)node );
+	quad->set_two_sided(true);
+	quad->set_texture_off();
+
+	return quad;
 }

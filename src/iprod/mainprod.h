@@ -147,7 +147,12 @@ namespace core
 				virtual void SetFogIntensity(const float &intensity);
 				virtual void SetBackgroundAndFog(const float &bg_R=0.5f, const float &bg_G=0.5f, const float &bg_B=0.5f, const float &f_R=0.5f, const float &f_G=0.5f, const float &f_B=0.5f, const float &intensity=0.5f, const float animation_time=.0f);
 
-				virtual void EnableSimpleGlowEffect(const bool &enable = true);
+				virtual void EnableSimpleInverEffect(const bool &enable = true);
+				virtual void EnableSimpleBloomEffect(const bool &enable = true);
+				virtual void EnableSimpleToonEffect(const bool &enable = true);
+				virtual void EnableSimpleBlurEffect(const bool &enable = true);
+				virtual void EnableSimpleSSAOEffect(const bool &enable = true);
+				virtual void EnableSimpleVolumetricLightEffect(core::IEntityPersistence* ent, const bool &enable = true);
 
 				static NodePath* CreateQuad();
 				static void AddTestQuad();
@@ -174,7 +179,13 @@ namespace core
 				static CollisionHandlerQueue				*collision_handler_queue;
 				static CollisionTraverser					*collision_traverser;
 
-				static bool									enable_simpleGlowEffect;
+				static bool									enableEffects;
+				static bool									enable_simpleINVERTEffect;
+				static bool									enable_simpleBLOOMEffect;
+				static bool									enable_simpleTOONEffect;
+				static bool									enable_simpleBLUREffect;
+				static bool									enable_simpleVOLUMETRICLIGHTSEffect;
+				static bool									enable_simpleSSAOEffect;
 
 				static std::map< Prod3DEntity *, CollisionNode * >					entity_collider_array;
 				static std::map< const CollisionSolid *, core::corePDU3D<double> >	avatar_collider_array;
@@ -203,6 +214,7 @@ namespace core
 				static void RemoveEntityFromScene(Prod3DEntity * entity);
 
 
+				//static NodePath* CreateQuad();
 
 				static bool insert_now;
 
@@ -284,6 +296,10 @@ namespace core
 				static std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_decoration_samples;
 
 				static AnimControlCollection SceneAnimControlCollection;
+
+				static NodePath* fake_background_quad; //Panda won't allow changing the background color while using
+										  //post processing filters, so we create a non-illuminated quad 
+										  //relative to the cam, with that color...
 
 		};
 
