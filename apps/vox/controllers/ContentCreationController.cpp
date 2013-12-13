@@ -164,6 +164,7 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 	//	app_mainprod->SetBackgroundAndFog(current_background_color.x, current_background_color.y, current_background_color.z,
 	//							  current_fog_color.x, current_fog_color.y, current_fog_color.z,
 	//							  current_fog_intensity);
+
 }
 
 
@@ -276,6 +277,13 @@ void ContentCreationController::Reset()
 
 void ContentCreationController::Update()
 {
+	if (app_mainprod)
+	{	//app_mainprod->PrepareSimpleEffects();
+		app_mainprod->EnableSimpleInverEffect();
+		app_mainprod->EnableSimpleBloomEffect();
+		app_mainprod->EnableSimpleBackgroundVolumetricLightEffect();
+	}
+
 	bool animate_background = false;
 	core::iprod::OXStandAloneEntity *new_entityx = NULL;
 	std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();

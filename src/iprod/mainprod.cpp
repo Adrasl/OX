@@ -136,7 +136,7 @@ float MainProd::current_timestamp   = 0.0f;
 
 AnimControlCollection MainProd::SceneAnimControlCollection;
 
-bool MainProd::enableEffects = true;
+bool MainProd::enableEffects = false;
 bool MainProd::enable_simpleINVERTEffect = false;
 bool MainProd::enable_simpleBLOOMEffect = false;
 bool MainProd::enable_simpleTOONEffect = false;
@@ -146,9 +146,11 @@ bool MainProd::enable_simpleSSAOEffect = false;
 NodePath* MainProd::fake_background_quad = NULL; //As there's a panda bug that forbids changing the background color when using ImageFilters
 NodePath* MainProd::default_ambientLight = NULL;
 
-MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[]) : mesh_factory(NULL)
+MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[], bool enable_effects) : mesh_factory(NULL)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
+
+	enableEffects = enable_effects;
 
 	m_argc = argc;
 	m_argv = argv;
@@ -1155,6 +1157,21 @@ void MainProd::CreateDefaultWindows(int num_windows)
 		pandawindows_array[i]->set_perpixel(true);
 		pandawindows_array[i]->get_render().set_antialias(AntialiasAttrib::Mode::M_multisample,1);
 		windowcamera_array[i] = pandawindows_array[i]->get_camera_group();
+		if (enableEffects)
+		{
+			pandawindows_array[i]->get_graphics_window()->make_display_region();
+			NodePath cam_np = NodePath(pandawindows_array[i]->get_camera(0));
+			GraphicsOutput *graphicoutput = pandawindows_array[i]->get_graphics_output();
+			ccommonfilters_array[i] = new CCommonFilters(graphicoutput, cam_np);
+			DisplayRegion *region = NULL;
+			for(int j = 0 ; j < graphicoutput->get_num_active_display_regions(); ++j)
+			{	PT(DisplayRegion) dr = graphicoutput->get_display_region(j);
+				NodePath drcam = dr->get_camera();
+				if(drcam == cam_np) { region = dr;		}}
+			if (region)
+			{	region->set_clear_color(LColor(0.0f, 0.0f, 1.0f, 1.0f));
+				displayregions_array[i] = region;		}
+		}
 
 		if (!fake_background_quad)
 		{
@@ -1170,59 +1187,6 @@ void MainProd::CreateDefaultWindows(int num_windows)
 		//	NodePath nodepath_ambient_light = pandawindows_array[i]->get_render().attach_new_node(ambient_light);
 		//	pandawindows_array[i]->get_render().set_light(nodepath_ambient_light);
 		//}
-
-		if (enableEffects)
-		{	//It creates a quad of the size of the window for post-processing
-			//Panda3D bug: if we use ImageFilters we won't be able to resize or reorient the region after boot 
-			pandawindows_array[i]->get_graphics_window()->make_display_region();
-			NodePath cam_np = NodePath(pandawindows_array[i]->get_camera(0));
-			GraphicsOutput *graphicoutput = pandawindows_array[i]->get_graphics_output();
-			ccommonfilters_array[i] = new CCommonFilters(graphicoutput, cam_np);
-			DisplayRegion *region = NULL;
-			for(int j = 0 ; j < graphicoutput->get_num_active_display_regions(); ++j)
-			{	PT(DisplayRegion) dr = graphicoutput->get_display_region(j);
-				NodePath drcam = dr->get_camera();
-				if(drcam == cam_np) { region = dr;		}}
-			if (region)
-			{	region->set_clear_color(LColor(0.0f, 0.0f, 1.0f, 1.0f));
-				displayregions_array[i] = region;		}
-		
-			//INVERT COLOR
-			ccommonfilters_array[i]->set_inverted();
-			////ccommonfilters_array[i]->del_inverted();
-			//BLOOM
-			//Parameters: https://www.panda3d.org/manual/index.php/Common_Image_Filters
-			CCommonFilters::SetBloomParameters bloom_paramns; 
-			bloom_paramns.blend		 = LVector4f(0.33,0.34,0.33,0.0);
-			bloom_paramns.mintrigger = 0.90f;
-			bloom_paramns.maxtrigger = 1.0f;
-			bloom_paramns.desat		 = 0.8f;
-			bloom_paramns.intensity	 = 0.9f;
-			bloom_paramns.size		 = "medium";
-			ccommonfilters_array[i]->set_bloom(bloom_paramns);
-			//////TOON
-			//ccommonfilters_array[i]->set_cartoon_ink();
-			//////BLUR
-			//ccommonfilters_array[i]->set_blur_sharpen(0.25f);
-			//VOLUMETRIC LIGHTING
-			//CCommonFilters::SetVolumetricLightingParameters vol_params(NodePath(pandawindows_array[i]->get_camera(0))); //retomar, The light Object, do not use the camera 
-			pandawindows_array[i]->get_render().set_shader_auto();	
-			fake_background_quad->set_pos(-200,500,20);
-			CCommonFilters::SetVolumetricLightingParameters vol_params(*fake_background_quad); //retomar, The light Object, do not use the camera 
-			vol_params.decay = 0.98f;
-			vol_params.density = 5.0f;
-			vol_params.exposure = 0.1f;
-			vol_params.numsamples = 64;
-			ccommonfilters_array[i]->set_volumetric_lighting(vol_params);
-			//////SPACE IMAGE AMBIENT OCCLUSION
-			////CCommonFilters::SetAmbientOcclusionParameters ambient_params;
-			////ambient_params.amount = 2.0f;
-			////ambient_params.falloff = 0.000002f;
-			////ambient_params.numsamples = 16;
-			////ambient_params.radius = 0.05f;
-			////ambient_params.strength = 0.01f;
-			////ccommonfilters_array[i]->set_ambient_occlusion(ambient_params);
-		}
 
 
 		//pandawindows_array[i]->setup_trackball();
@@ -2568,23 +2532,25 @@ void MainProd::EnableSimpleBloomEffect(const bool &enable)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 
-	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
-	{
-		if (enable)
+	if (enableEffects)
+	{			
+		for (std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin(); iter != pandawindows_array.end(); iter++)
 		{
-			CCommonFilters::SetBloomParameters bloom_paramns; 
-			bloom_paramns.blend		 = LVector4f(0.33,0.34,0.33,0.0);
-			bloom_paramns.mintrigger = 0.85f;
-			bloom_paramns.maxtrigger = 1.0f;
-			bloom_paramns.desat		 = 0.8f;
-			bloom_paramns.intensity	 = 1.0f;
-			bloom_paramns.size		 = "large";
-			ccommonfilters_array[i]->set_bloom(bloom_paramns);
+			if (enable && !enable_simpleBLOOMEffect)
+			{
+				CCommonFilters::SetBloomParameters bloom_paramns; 
+				bloom_paramns.blend		 = LVector4f(0.33,0.34,0.33,0.0);
+				bloom_paramns.mintrigger = 0.90f;
+				bloom_paramns.maxtrigger = 1.0f;
+				bloom_paramns.desat		 = 0.8f;
+				bloom_paramns.intensity	 = 0.9f;
+				bloom_paramns.size		 = "medium";
+				ccommonfilters_array[iter->first]->set_bloom(bloom_paramns);
+			}
+			else if (!enable)
+				ccommonfilters_array[iter->first]->del_bloom();
 		}
-		else
-			ccommonfilters_array[i]->del_bloom();
 	}
-	
 	enable_simpleBLOOMEffect = enable;
 }
 
@@ -2592,36 +2558,49 @@ void MainProd::EnableSimpleInverEffect(const bool &enable)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 
-	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	if (enableEffects)
 	{
-		if (enable)
-			ccommonfilters_array[i]->set_inverted();
-		else
-			ccommonfilters_array[i]->del_inverted();
+		for (std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin(); iter != pandawindows_array.end(); iter++)
+		{
+			if (enable && ! enable_simpleINVERTEffect)
+				ccommonfilters_array[iter->first]->set_inverted();
+			else if (!enable)
+				ccommonfilters_array[iter->first]->del_inverted();
+		}
 	}
 	enable_simpleINVERTEffect = enable;
 }
 
 void MainProd::EnableSimpleToonEffect(const bool &enable)
 {
-	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	if (enableEffects)
 	{
-		if (enable)
-			ccommonfilters_array[i]->set_cartoon_ink();
-		else
-			ccommonfilters_array[i]->del_cartoon_ink();
+		for (std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin(); iter != pandawindows_array.end(); iter++)
+		{
+			if (enable && !enable_simpleTOONEffect)
+				ccommonfilters_array[iter->first]->set_cartoon_ink();
+			else if (!enable)
+				ccommonfilters_array[iter->first]->del_cartoon_ink();
+		}
 	}
 	enable_simpleTOONEffect = enable;
 }
 
 void MainProd::EnableSimpleBlurEffect(const bool &enable)
 {
-	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	if (enableEffects)
 	{
-		if (enable)
-			ccommonfilters_array[i]->set_blur_sharpen(0.5f);
-		else
-			ccommonfilters_array[i]->del_blur_sharpen();
+		for (std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin(); iter != pandawindows_array.end(); iter++)
+		{
+			if (enable && !enable_simpleBLUREffect)
+				ccommonfilters_array[iter->first]->set_blur_sharpen(0.5f);
+			else if (!enable)
+				ccommonfilters_array[iter->first]->del_blur_sharpen();
+		}
 	}
 	enable_simpleBLUREffect = enable;
 }
@@ -2630,48 +2609,53 @@ void MainProd::EnableSimpleSSAOEffect(const bool &enable)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
 
-	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	if (enableEffects)
 	{
-		if (enable)
+		for (std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin(); iter != pandawindows_array.end(); iter++)
 		{
-			CCommonFilters::SetAmbientOcclusionParameters ambient_params;
-			ambient_params.amount = 2.0f;
-			ambient_params.falloff = 0.000002f;
-			ambient_params.numsamples = 16;
-			ambient_params.radius = 0.05f;
-			ambient_params.strength = 0.01f;
-			ccommonfilters_array[i]->set_ambient_occlusion(ambient_params);
-		}
-		else
-			ccommonfilters_array[i]->del_ambient_occlusion();
+			if (enable && !enable_simpleSSAOEffect)
+			{
+				CCommonFilters::SetAmbientOcclusionParameters ambient_params;
+				ambient_params.amount = 2.0f;
+				ambient_params.falloff = 0.000002f;
+				ambient_params.numsamples = 16;
+				ambient_params.radius = 0.05f;
+				ambient_params.strength = 0.01f;
+				ccommonfilters_array[iter->first]->set_ambient_occlusion(ambient_params);
+			}
+			else if (!enable)
+				ccommonfilters_array[iter->first]->del_ambient_occlusion();
+		}	
 	}
-	
 	enable_simpleSSAOEffect = enable;
 }
 
-void MainProd::EnableSimpleVolumetricLightEffect(core::IEntityPersistence* ent, const bool &enable)
+void MainProd::EnableSimpleBackgroundVolumetricLightEffect(const bool &enable)
 {
 
 	boost::mutex::scoped_lock lock(m_mutex);
 
-	for (int i=last_window_id+1; i <= last_window_id + num_windows; i++)
+	if (enableEffects)
 	{
-		if (enable)
+		for (std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin(); iter != pandawindows_array.end(); iter++)
 		{
-			enable_simpleBLOOMEffect = enable;
-			CCommonFilters::SetVolumetricLightingParameters vol_params(NodePath(pandawindows_array[i]->get_camera(0))); //retomar, The light Object, do not use the camera 
-			vol_params.decay = 0.98f;
-			vol_params.density = 5.0f;
-			vol_params.exposure = 0.1f;
-			vol_params.numsamples = 32;
-			ccommonfilters_array[i]->set_volumetric_lighting(vol_params);
+			if (enable && !enable_simpleVOLUMETRICLIGHTSEffect)
+			{
+				enable_simpleBLOOMEffect = enable;
+				CCommonFilters::SetVolumetricLightingParameters vol_params(NodePath(iter->second->get_camera(0))); //retomar, The light Object, do not use the camera 
+				vol_params.decay = 0.98f;
+				vol_params.density = 5.0f;
+				vol_params.exposure = 0.1f;
+				vol_params.numsamples = 40;
+				ccommonfilters_array[iter->first]->set_volumetric_lighting(vol_params);
+			}
+			else if (!enable)
+				ccommonfilters_array[iter->first]->del_volumetric_lighting();
 		}
-		else
-			ccommonfilters_array[i]->del_volumetric_lighting();
 	}
-
 	enable_simpleVOLUMETRICLIGHTSEffect = enable;
 }
+
 
 void MainProd::SetBackgroundAndFog(const float &bg_R, const float &bg_G, const float &bg_B, const float &f_R, const float &f_G, const float &f_B, const float &intensity, const float animation_time)
 {
@@ -2725,6 +2709,67 @@ void MainProd::CheckBackgroundAndFogRanges()
 	if (fog_color.z > 1.0f) fog_color.z = 1.0f; else if ((fog_color.z < 0.0f)|| !(background_color.z -1.0f > -1.0f)) fog_color.z = 0.0f;
 	if (fog_intensity > 1.0f) fog_intensity = 1.0f; else if ((fog_intensity < 0.0f)|| !(background_color.z -1.0f > -1.0f)) fog_intensity = 0.0f;
 }
+
+//void MainProd::PrepareSimpleEffects()
+//{
+//	enableEffects = true;
+//
+//	for (std::map<int, WindowFramework*>::iterator iter = pandawindows_array.begin(); iter != pandawindows_array.end(); iter++)
+//	{
+//		//It creates a quad of the size of the window for post-processing
+//		//Panda3D bug: if we use ImageFilters we won't be able to resize or reorient the region after boot
+//		//We also loose the option to change the region clear color, in order to patch that we create a fake_background quad
+//		//that changes its color to the background color.
+//		iter->second->get_graphics_window()->make_display_region();
+//		NodePath cam_np = NodePath(iter->second->get_camera(0));
+//		GraphicsOutput *graphicoutput = iter->second->get_graphics_output();
+//		ccommonfilters_array[iter->first] = new CCommonFilters(graphicoutput, cam_np);
+//		DisplayRegion *region = NULL;
+//		for(int j = 0 ; j < graphicoutput->get_num_active_display_regions(); ++j)
+//		{	PT(DisplayRegion) dr = graphicoutput->get_display_region(j);
+//			NodePath drcam = dr->get_camera();
+//			if(drcam == cam_np) { region = dr;		}}
+//		if (region)
+//		{	region->set_clear_color(LColor(0.0f, 0.0f, 1.0f, 1.0f));
+//			displayregions_array[iter->first] = region;		}
+//	
+//		////INVERT COLOR
+//		//ccommonfilters_array[iter->first]->set_inverted();
+//		//////ccommonfilters_array[i]->del_inverted();
+//		////BLOOM
+//		////Parameters: https://www.panda3d.org/manual/index.php/Common_Image_Filters
+//		//CCommonFilters::SetBloomParameters bloom_paramns; 
+//		//bloom_paramns.blend		 = LVector4f(0.33,0.34,0.33,0.0);
+//		//bloom_paramns.mintrigger = 0.90f;
+//		//bloom_paramns.maxtrigger = 1.0f;
+//		//bloom_paramns.desat		 = 0.8f;
+//		//bloom_paramns.intensity	 = 0.9f;
+//		//bloom_paramns.size		 = "medium";
+//		//ccommonfilters_array[iter->first]->set_bloom(bloom_paramns);
+//		////////TOON
+//		////ccommonfilters_array[iter->first]->set_cartoon_ink();
+//		////////BLUR
+//		////ccommonfilters_array[iter->first]->set_blur_sharpen(0.25f);
+//		////VOLUMETRIC LIGHTING
+//		////CCommonFilters::SetVolumetricLightingParameters vol_params(NodePath(pandawindows_array[iter->first]->get_camera(0))); //retomar, The light Object, do not use the camera 
+//		//pandawindows_array[iter->first]->get_render().set_shader_auto();	
+//		//fake_background_quad->set_pos(-200,500,20);
+//		//CCommonFilters::SetVolumetricLightingParameters vol_params(*fake_background_quad); //retomar, The light Object, do not use the camera 
+//		//vol_params.decay = 0.98f;
+//		//vol_params.density = 5.0f;
+//		//vol_params.exposure = 0.1f;
+//		//vol_params.numsamples = 64;
+//		//ccommonfilters_array[iter->first]->set_volumetric_lighting(vol_params);
+//		////////SPACE IMAGE AMBIENT OCCLUSION
+//		//////CCommonFilters::SetAmbientOcclusionParameters ambient_params;
+//		//////ambient_params.amount = 2.0f;
+//		//////ambient_params.falloff = 0.000002f;
+//		//////ambient_params.numsamples = 16;
+//		//////ambient_params.radius = 0.05f;
+//		//////ambient_params.strength = 0.01f;
+//		//////ccommonfilters_array[iter->first]->set_ambient_occlusion(ambient_params);
+//	}
+//}
 
 NodePath* MainProd::CreateQuad()
 {

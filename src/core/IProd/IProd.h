@@ -56,6 +56,14 @@ namespace core
 			
 			//virtual void EnableSimpleGlowEffect(const bool &enable = true) = 0;
 
+			virtual void PrepareSimpleEffects() {}
+			virtual void EnableSimpleInverEffect(const bool &enable = true) {}
+			virtual void EnableSimpleBloomEffect(const bool &enable = true) {}
+			virtual void EnableSimpleToonEffect(const bool &enable = true) {}
+			virtual void EnableSimpleBlurEffect(const bool &enable = true) {}
+			virtual void EnableSimpleSSAOEffect(const bool &enable = true) {}
+			virtual void EnableSimpleBackgroundVolumetricLightEffect(const bool &enable = true) {}
+
 		private:
 
 

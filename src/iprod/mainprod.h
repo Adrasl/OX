@@ -109,7 +109,7 @@ namespace core
 		{
 			public:
 
-				MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[]);
+				MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[], bool enable_effects = false);
 				virtual ~MainProd();
 
 				virtual void Delete();
@@ -151,12 +151,14 @@ namespace core
 				virtual void SetFogIntensity(const float &intensity);
 				virtual void SetBackgroundAndFog(const float &bg_R=0.5f, const float &bg_G=0.5f, const float &bg_B=0.5f, const float &f_R=0.5f, const float &f_G=0.5f, const float &f_B=0.5f, const float &intensity=0.5f, const float animation_time=.0f);
 
+				//After activating this feature it wont be possible to resize the windows and reorient them anymore
+				//virtual void PrepareSimpleEffects();
 				virtual void EnableSimpleInverEffect(const bool &enable = true);
 				virtual void EnableSimpleBloomEffect(const bool &enable = true);
 				virtual void EnableSimpleToonEffect(const bool &enable = true);
 				virtual void EnableSimpleBlurEffect(const bool &enable = true);
 				virtual void EnableSimpleSSAOEffect(const bool &enable = true);
-				virtual void EnableSimpleVolumetricLightEffect(core::IEntityPersistence* ent, const bool &enable = true);
+				virtual void EnableSimpleBackgroundVolumetricLightEffect(const bool &enable = true);
 
 				static NodePath* CreateQuad();
 				static void AddTestQuad();

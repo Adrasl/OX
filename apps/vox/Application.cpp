@@ -112,12 +112,10 @@ bool Application::OnInit()
 	core::IApplicationConfiguration* iapp_config = (core::IApplicationConfiguration*)app_config;
 
 	app_maingui		    =  core::igui::MainGui::GetInstance(iapp_config, "VOX");
-	app_mainprod	    = (core::IProd *) new core::iprod::MainProd(iapp_config, argc, argv); 
+	app_mainprod	    = (core::IProd *) new core::iprod::MainProd(iapp_config, argc, argv, true); 
 	app_mainpercept     = (core::IPercept *) new core::ipercept::MainPercept(iapp_config); 
 	app_mainpersistence	= (core::IPersistence *) new core::ipersistence::MainPersistence(iapp_config); 
 	avatar_entity		= (core::IEntityPersistence *) new core::ipersistence::EntityPersistence ("avatar");
-
-	
 
 	if(app_maingui)
 		app_maingui->SetApp((IApplication *)this);
@@ -127,33 +125,26 @@ bool Application::OnInit()
 		app_mainpercept->SetApp((IApplication *)this);
 	if(app_mainpersistence)
 		app_mainpersistence->SetApp((IApplication *)this);
-	if(app_mainprod && app_mainpercept)
-	{
-		contentcreation_controller = ContentCreationController::Instance();
-		if (contentcreation_controller)
-			contentcreation_controller->SetApp((IApplication *)this, iapp_config, app_mainpercept, app_mainprod);
-	}
-
-	if( (app_mainprod) && (app_mainpercept))
-	{
-		user_dataModel_controller = new UserDataModelController();
-		navigation_controller = new NavigationController((IApplication *)this, user_dataModel_controller, app_mainpercept, app_mainprod);
-	}
-
-
-	//app_mainpersistence->ListProjects();
 
 	PostLogMessage("Modules running...");
-
 	if(app_mainprod)
-	{
-		PostLogMessage("Initializing production...");
+	{	PostLogMessage("Initializing production...");
 		app_mainprod->Init();
 	}
 	if(app_mainpercept)
-	{
-		PostLogMessage("Initializing perception...");
+	{	PostLogMessage("Initializing perception...");
 		app_mainpercept->Init();
+	}
+
+	if(app_mainprod && app_mainpercept)
+	{
+		user_dataModel_controller = new UserDataModelController();
+		navigation_controller = new NavigationController((IApplication *)this, user_dataModel_controller, app_mainpercept, app_mainprod);
+		contentcreation_controller = ContentCreationController::Instance();
+		if (contentcreation_controller)
+		{
+			contentcreation_controller->SetApp((IApplication *)this, iapp_config, app_mainpercept, app_mainprod);
+		}
 	}
 
 	session_controller->LoadDefaultData();
