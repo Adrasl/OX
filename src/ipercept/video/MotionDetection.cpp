@@ -36,6 +36,7 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 	{
 
 		boost::mutex::scoped_lock lock2(m_mutex_motion_areas);
+
 		motion_elements.clear();
 
 		double timestamp = (double)clock()/CLOCKS_PER_SEC; // get current time in seconds
@@ -53,6 +54,11 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 		//OPTICAL FLOW
 		//---------------------------
 		//Updating previous and current frames
+		if (!velx)
+			velx = cvCreateImage(size,IPL_DEPTH_32F,1);
+		if (!vely)
+			vely = cvCreateImage(size,IPL_DEPTH_32F,1);	
+
 		if (previous_frame == NULL)
 		{	previous_frame = cvCreateImage(size,IPL_DEPTH_8U,1);
 			cvCvtColor(img,previous_frame,CV_RGB2GRAY);
@@ -61,35 +67,43 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 			previous_frame = current_frame;
 		}
 		current_frame = cvCreateImage(size,IPL_DEPTH_8U,1);
-		cvCvtColor(img,current_frame,CV_RGB2GRAY);		
+		cvCvtColor(img, current_frame, CV_RGB2GRAY);		
 		
+		if (!velx_Mat)
+			velx_Mat = cvCreateMat(size.height, size.width, CV_32FC1); 
+		if (!vely_Mat)
+			vely_Mat = cvCreateMat(size.height, size.width, CV_32FC1);
 		if (show_frame)
 			cvReleaseImage(&show_frame);
 		show_frame = cvCreateImage(size,IPL_DEPTH_8U,3);
-		//else
-		//{
-		//	cvReleaseImage(&show_frame);
-		//	show_frame = cvCreateImage(size,IPL_DEPTH_8U,3);
-		//}
-		//preparing output velocities (flow)
-		if (velx)
-			cvReleaseImage(&velx);
-		if (vely)
-			cvReleaseImage(&vely);
-		velx = cvCreateImage(size,IPL_DEPTH_32F,1);
-		vely = cvCreateImage(size,IPL_DEPTH_32F,1);
+
+		////else
+		////{
+		////	cvReleaseImage(&show_frame);
+		////	show_frame = cvCreateImage(size,IPL_DEPTH_8U,3);
+		////}
+		////preparing output velocities (flow)
+
+		//if (velx)
+		//	cvReleaseImage(&velx);
+		//if (vely)
+		//	cvReleaseImage(&vely);
+		//velx = cvCreateImage(size,IPL_DEPTH_32F,1);
+		//vely = cvCreateImage(size,IPL_DEPTH_32F,1);
+
+	
 
 		//Calculating dense Optical Flow (Lucas Kanade)
 		block_size.height = block_size.width = 3;
 		if (previous_frame && current_frame)
 			cvCalcOpticalFlowLK(previous_frame, current_frame, block_size, velx, vely);
 
-		if (velx_Mat)
-			cvReleaseMat(&velx_Mat);
-		if (vely_Mat)
-			cvReleaseMat(&vely_Mat);
-		velx_Mat = cvCreateMat(size.height, size.width, CV_32FC1); 
-		vely_Mat = cvCreateMat(size.height, size.width, CV_32FC1);
+		//if (velx_Mat)
+		//	cvReleaseMat(&velx_Mat);
+		//if (vely_Mat)
+		//	cvReleaseMat(&vely_Mat);
+		//velx_Mat = cvCreateMat(size.height, size.width, CV_32FC1); 
+		//vely_Mat = cvCreateMat(size.height, size.width, CV_32FC1);
 
 		cvConvert(velx, velx_Mat);
 		cvConvert(vely, vely_Mat);
@@ -262,6 +276,8 @@ MotionDetection::~MotionDetection()
 
 void MotionDetection::Delete()
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	stop_requested = true;
 	m_thread->join();
 	assert(m_thread);
@@ -306,7 +322,7 @@ void MotionDetection::Iterate()
 void MotionDetection::Process()
 {
     if( !motion )
-    {	boost::try_mutex::scoped_lock lock(m_mutex);
+    {	boost::mutex::scoped_lock lock(m_mutex);
         motion = cvCreateImage( cvSize(image->width,image->height), 8, 3 );
         cvZero( motion );
         motion->origin = image->origin;
@@ -314,7 +330,7 @@ void MotionDetection::Process()
 
     UpdateMHI( image, motion, 30 );
 
-	{boost::try_mutex::scoped_lock lock(m_mutex);
+	{boost::mutex::scoped_lock lock(m_mutex);
 	updated = false;}
 }
 
@@ -438,9 +454,12 @@ char * MotionDetection::GetCopyOfCurrentImage(int &size_x, int &size_y, int &n_c
 
 char * MotionDetection::GetCopyOfCurrentImageOpticalFlow(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb)
 {
-	boost::try_mutex::scoped_try_lock lock(m_mutex);
+	boost::try_mutex::scoped_try_lock lock(m_mutex); 
+
 	if ((lock)&&(show_frame))
 	{
+		boost::mutex::scoped_lock lock2(m_mutex_motion_areas);
+
 		char *source = show_frame->imageData;
 		char *copy;
 
