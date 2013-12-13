@@ -52,17 +52,11 @@ Application::~Application(void)
 {
 	configuration_controller->Save();
 
-	if (configuration_controller!=NULL)
-	{	delete configuration_controller;}
+	if (session_controller)
+		session_controller->detach_all();
 
 	if (navigation_controller!=NULL)
 	{	delete navigation_controller;	}
-
-	if (user_dataModel_controller!=NULL)
-	{	delete user_dataModel_controller;	}
-
-	if (session_controller != NULL)
-	{	delete session_controller;		}
 
 	if (app_mainpercept!=NULL)
 	{	app_mainpercept->Delete();
@@ -75,10 +69,19 @@ Application::~Application(void)
 	if (app_maingui!=NULL)
 	{	app_maingui->Delete();
 		delete app_maingui;		}
-	
+
+	if (configuration_controller!=NULL)
+	{	delete configuration_controller;}
+
+	if (user_dataModel_controller!=NULL)
+	{	delete user_dataModel_controller;	}
+
 	if (app_mainpersistence!=NULL)
 	{	app_mainpersistence->Delete();
 		delete app_mainpersistence;		}
+
+	if (session_controller != NULL)
+	{	delete session_controller;		}
 
 	if (contentcreation_controller!=NULL)
 	{	delete contentcreation_controller;	}

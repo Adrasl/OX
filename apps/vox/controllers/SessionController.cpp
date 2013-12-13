@@ -27,6 +27,8 @@ SessionController::~SessionController()
 
 	if ( app_user != NULL )  delete app_user;
 	if ( app_world != NULL ) delete app_world;
+
+	detach_all();
 }
 
 bool SessionController::IsSessionClosed()

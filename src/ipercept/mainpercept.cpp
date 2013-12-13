@@ -36,18 +36,20 @@ MainPercept::~MainPercept()
 
 void MainPercept::Delete()
 {
-	perceptAudio_module->Delete();
-	perceptVideo_module->Delete();
+	if (perceptAudio_module)
+		perceptAudio_module->Delete();
+	if (perceptVideo_module)
+		perceptVideo_module->Delete();
 }
 
 void MainPercept::Init()
 {
-	if (perceptAudio_module == NULL)
-		perceptAudio_module = new PerceptAudio();
+	//if (perceptAudio_module == NULL)
+	//	perceptAudio_module = new PerceptAudio();
 	if (perceptVideo_module == NULL)
 		perceptVideo_module = new PerceptVideo(app_config);
 
-	perceptAudio_module->Init();
+	//perceptAudio_module->Init();
 	perceptVideo_module->Init();
 
 	DoInit();

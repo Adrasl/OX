@@ -96,6 +96,8 @@ EntityPersistence::~EntityPersistence()
 	boost::mutex::scoped_lock lock(m_mutex);
 
 	Notify(this, "DYING ENTITY", type);
+	
+	detach_all();
 }
 
 void EntityPersistence::Changed()

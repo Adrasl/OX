@@ -57,7 +57,7 @@ namespace core
 
 				boost::shared_ptr<boost::thread> m_thread;
 				boost::try_mutex m_mutex;
-				boost::try_mutex m_mutex_motion_areas;
+				boost::mutex m_mutex_motion_areas;
 				bool initialized, stop_requested, updated;
 
 				IPerceptVideo* v_perception;

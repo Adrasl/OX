@@ -71,7 +71,7 @@ void PerceptAudio::Iterate()
 
 void PerceptAudio::Capture()
 {
-	Recorder.Stop();
-	recordingBuffer = Recorder.GetBuffer();
-	Recorder.Start();
+	//Recorder.Stop();
+	//recordingBuffer = Recorder.GetBuffer();
+	//Recorder.Start();
 }

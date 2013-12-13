@@ -276,6 +276,17 @@ namespace core
 			}
 		}
 
+		void detach_all() 
+		{
+			for (std::vector< class Observer* >::iterator iter = observers.begin(); iter != observers.end();  )
+			{
+				if ( (*iter) )
+					observers.erase(iter);
+				else
+					iter++;
+			}
+		}
+
 		virtual void Notify(void* callinginstance = NULL, const std::string &tag = "", const int &flag = 0) {
 			for (std::vector< class Observer* >::iterator iter = observers.begin(); iter != observers.end(); iter++)
 			{

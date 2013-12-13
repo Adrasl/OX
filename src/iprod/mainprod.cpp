@@ -294,7 +294,7 @@ void MainProd::DoMainLoop()
 		GraphicsEngine	*ge = framework.get_graphics_engine();		//only one, global, pointers and buffers
 		GraphicsPipe	*gp = framework.get_default_pipe();			//at least one, OGL/DX
 		GraphicsWindow	*gw = pandawindows_array[1]->get_graphics_window();		//can be many
-		GraphicsWindow	*gw2 = pandawindows_array[2]->get_graphics_window();
+		//GraphicsWindow	*gw2 = pandawindows_array[1]->get_graphics_window();
 		DisplayInformation	*dp = gp->get_display_information();
 		GraphicsDevice		*gd = gp->get_device();
 		//WindowProperties win_props_fs = WindowProperties(); 
@@ -344,9 +344,8 @@ void MainProd::DoMainLoop()
 
 	while(!stop_requested)
 	{
-		float * ff = new float;
-		Iterate();
 		m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(10));
+		Iterate();
 	}
 
 	//----sound stuff----------------
@@ -1103,10 +1102,10 @@ void MainProd::DoDoStuff()
 		////pandaActor4.set_hpr(angledegrees, 0, 0);
 
 		//--------update sound----------------
-		LPoint3f cam_pos = windowcamera_array[2].get_pos();
+		LPoint3f cam_pos = windowcamera_array[1].get_pos();
 		LVector3f abs_vec_at, abs_vec_up;
-		abs_vec_at = cam_viewpoint.get_pos(pandawindows_array[2]->get_render());
-		abs_vec_up = up.get_pos(pandawindows_array[2]->get_render());
+		abs_vec_at = cam_viewpoint.get_pos(pandawindows_array[1]->get_render());
+		abs_vec_up = up.get_pos(pandawindows_array[1]->get_render());
 		//abs_vec_at =
 		LPoint3f new_pos(cam_pos.get_x()  ,    cam_pos.get_z(),    -cam_pos.get_y());
 		LPoint3f new_at(abs_vec_at.get_x(), abs_vec_at.get_z(), -abs_vec_at.get_y());
@@ -1238,7 +1237,7 @@ void MainProd::CreateDefaultWindows(int num_windows)
 	}
 
 	if (use_master_display)
-	{
+	{	win_props.set_size(400, 300); 
 		master_prod3Dwindow = new Prod3DWindow(&framework, win_props, true, true);
 		master_pandawindow = master_prod3Dwindow->GetWindowFrameWork();
 		master_pandawindow->set_background_type(WindowFramework::BackgroundType::BT_gray);
@@ -1268,25 +1267,25 @@ void MainProd::CreateDefaultWindows(int num_windows)
 	origin = pandawindows_array[1]->load_model(framework.get_models(), "panda-model");
 	origin.set_pos(0,0,0);
 	origin.set_scale(0.001);
-	origin.reparent_to(pandawindows_array[2]->get_camera_group());
+	origin.reparent_to(pandawindows_array[1]->get_camera_group());
 	origin.hide();
 
 	up = pandawindows_array[1]->load_model(framework.get_models(), "panda-model");
 	up.set_pos(0,0,10);
 	up.set_scale(0.002);
-	up.reparent_to(pandawindows_array[2]->get_camera_group());
+	up.reparent_to(pandawindows_array[1]->get_camera_group());
 	up.hide();
 
 	cam_viewpoint = pandawindows_array[1]->load_model(framework.get_models(), "panda-model");
 	cam_viewpoint.set_pos(0,10,0);
 	LPoint3f ppp = cam_viewpoint.get_pos();
 	cam_viewpoint.set_scale(0.002);
-	cam_viewpoint.reparent_to(pandawindows_array[2]->get_camera_group());
+	cam_viewpoint.reparent_to(pandawindows_array[1]->get_camera_group());
 	cam_viewpoint.hide();
 
 	LVector3f abs_vec_at, abs_vec_up;
-	abs_vec_at = cam_viewpoint.get_pos(pandawindows_array[2]->get_render());
-	abs_vec_up = up.get_pos(pandawindows_array[2]->get_render());
+	abs_vec_at = cam_viewpoint.get_pos(pandawindows_array[1]->get_render());
+	abs_vec_up = up.get_pos(pandawindows_array[1]->get_render());
 
 	last_window_id += num_windows;
 }
@@ -2641,6 +2640,8 @@ void MainProd::EnableSimpleBackgroundVolumetricLightEffect(const bool &enable)
 		{
 			if (enable && !enable_simpleVOLUMETRICLIGHTSEffect)
 			{
+				int offset = iter->second->get_graphics_window()->get_properties().get_x_size() * -1;
+				fake_background_quad->set_pos(offset, 500, 0 );
 				enable_simpleBLOOMEffect = enable;
 				CCommonFilters::SetVolumetricLightingParameters vol_params(NodePath(iter->second->get_camera(0))); //retomar, The light Object, do not use the camera 
 				vol_params.decay = 0.98f;
