@@ -80,29 +80,29 @@ ContentCreationController::ContentCreationController()
 	RTree_Entities_SpatialIndexes[NatureOfEntity::BOID]				= new RTree<int, float, 3, float>();
 	RTree_Entities_SpatialIndexes[NatureOfEntity::TREE]				= new RTree<int, float, 3, float>();
 
-	background_color[IA_Karma::GOOD].x = 0.9; 
-	background_color[IA_Karma::GOOD].y = 1.0; 
-	background_color[IA_Karma::GOOD].z = 0.95;
-	background_color[IA_Karma::NEUTRAL].x = 0.35; 
-	background_color[IA_Karma::NEUTRAL].y = 0.7; 
-	background_color[IA_Karma::NEUTRAL].z = 0.45;
-	background_color[IA_Karma::EVIL].x = 0.69; 
-	background_color[IA_Karma::EVIL].y = 0.10; 
-	background_color[IA_Karma::EVIL].z = 0.05;
+	background_color[IA_Karma::GOOD].x = 0.1; 
+	background_color[IA_Karma::GOOD].y = 0.0; 
+	background_color[IA_Karma::GOOD].z = 0.05;
+	background_color[IA_Karma::NEUTRAL].x = 0.25; 
+	background_color[IA_Karma::NEUTRAL].y = 0.6; 
+	background_color[IA_Karma::NEUTRAL].z = 0.35;
+	background_color[IA_Karma::EVIL].x = 0.31; 
+	background_color[IA_Karma::EVIL].y = 0.90; 
+	background_color[IA_Karma::EVIL].z = 0.95;
 
-	fog_color[IA_Karma::GOOD].x = 0.9; 
-	fog_color[IA_Karma::GOOD].y = 1.0; 
-	fog_color[IA_Karma::GOOD].z = 0.95;
-	fog_color[IA_Karma::NEUTRAL].x = 0.35; 
-	fog_color[IA_Karma::NEUTRAL].y = 0.7; 
-	fog_color[IA_Karma::NEUTRAL].z = 0.45;
-	fog_color[IA_Karma::EVIL].x = 0.69; 
-	fog_color[IA_Karma::EVIL].y = 0.10; 
-	fog_color[IA_Karma::EVIL].z = 0.05;
+	fog_color[IA_Karma::GOOD].x = 0.1; 
+	fog_color[IA_Karma::GOOD].y = 0.1; 
+	fog_color[IA_Karma::GOOD].z = 0.05;
+	fog_color[IA_Karma::NEUTRAL].x = 0.25; 
+	fog_color[IA_Karma::NEUTRAL].y = 0.6; 
+	fog_color[IA_Karma::NEUTRAL].z = 0.35;
+	fog_color[IA_Karma::EVIL].x = 0.21; 
+	fog_color[IA_Karma::EVIL].y = 0.80; 
+	fog_color[IA_Karma::EVIL].z = 0.85;
 
-	fog_intensity[IA_Karma::GOOD] = 0.4;
+	fog_intensity[IA_Karma::GOOD] = 0.10;
 	fog_intensity[IA_Karma::NEUTRAL] = 0.05;
-	fog_intensity[IA_Karma::EVIL] = 0.4;
+	fog_intensity[IA_Karma::EVIL] = 0.01;
 
 	//fog_intensity[IA_Karma::GOOD] = 0.0001;
 	//fog_intensity[IA_Karma::NEUTRAL] = 0.0001;
@@ -639,9 +639,9 @@ void ContentCreationController::CreatePresetOfEntities1(const double &time)
 		user_pos_x = user_pos_y =user_pos_z = 0;
 		if (current_user)
 			current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
-		candidatepdu.position.x = RandomFloat(user_pos_x - 4.0, user_pos_x + 4.0);
-		candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 20.0);
-		candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
+		candidatepdu.position.x = RandomFloat(user_pos_x - 3.5, user_pos_x + 3.5);
+		candidatepdu.position.y = RandomFloat(user_pos_y + 8.0, user_pos_y + 17.5);
+		candidatepdu.position.z = RandomFloat(user_pos_z - 0.2, user_pos_z + 2.0);
 		float scale = RandomFloat( 0.25,  0.75);
 
 		//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
@@ -693,7 +693,7 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		if (current_user)
 			current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
 		candidatepdu.position.x = RandomFloat(user_pos_x - 3.0, user_pos_x + 3.0);
-		candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 20.0);
+		candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 10.0);
 		candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
 		float scale = RandomFloat( 0.1,  0.25);
 

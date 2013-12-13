@@ -144,7 +144,7 @@ bool MainProd::enable_simpleBLUREffect = false;
 bool MainProd::enable_simpleVOLUMETRICLIGHTSEffect = false;
 bool MainProd::enable_simpleSSAOEffect = false;
 NodePath* MainProd::fake_background_quad = NULL; //As there's a panda bug that forbids changing the background color when using ImageFilters
-
+NodePath* MainProd::default_ambientLight = NULL;
 
 MainProd::MainProd(IApplicationConfiguration *app_config_, int argc, char *argv[]) : mesh_factory(NULL)
 {
@@ -418,7 +418,7 @@ void MainProd::Iterate()
 				if (fake_background_quad)
 					fake_background_quad->set_color(LColor(background_color.x, background_color.y, background_color.z, 1));
 				
-				//pandawindows_array[i]->get_render().set_shader_auto();
+				
 				//win_props.set_size(app_config->GetDisplayData(i).resolution_x, app_config->GetDisplayData(i).resolution_y);
 				//pandawindows_array[i];
 				core::DisplayData display_data = app_config->GetDisplayData(i);
@@ -1157,7 +1157,19 @@ void MainProd::CreateDefaultWindows(int num_windows)
 		windowcamera_array[i] = pandawindows_array[i]->get_camera_group();
 
 		if (!fake_background_quad)
+		{
 			fake_background_quad = CreateQuad();	
+			fake_background_quad->set_pos(0,500,0);
+			fake_background_quad->set_scale(5000.0);
+		}
+		//if (!default_ambientLight)
+		//{
+		//	default_ambientLight;
+		//	AmbientLight ambient_light("default_ambient_light");
+		//	ambient_light.set_color(LColor(0.2, 0.2, 0.2, 1));
+		//	NodePath nodepath_ambient_light = pandawindows_array[i]->get_render().attach_new_node(ambient_light);
+		//	pandawindows_array[i]->get_render().set_light(nodepath_ambient_light);
+		//}
 
 		if (enableEffects)
 		{	//It creates a quad of the size of the window for post-processing
@@ -1176,7 +1188,7 @@ void MainProd::CreateDefaultWindows(int num_windows)
 				displayregions_array[i] = region;		}
 		
 			//INVERT COLOR
-			//ccommonfilters_array[i]->set_inverted();
+			ccommonfilters_array[i]->set_inverted();
 			////ccommonfilters_array[i]->del_inverted();
 			//BLOOM
 			//Parameters: https://www.panda3d.org/manual/index.php/Common_Image_Filters
@@ -1194,12 +1206,14 @@ void MainProd::CreateDefaultWindows(int num_windows)
 			//ccommonfilters_array[i]->set_blur_sharpen(0.25f);
 			//VOLUMETRIC LIGHTING
 			//CCommonFilters::SetVolumetricLightingParameters vol_params(NodePath(pandawindows_array[i]->get_camera(0))); //retomar, The light Object, do not use the camera 
-			//CCommonFilters::SetVolumetricLightingParameters vol_params(*fake_background_quad); //retomar, The light Object, do not use the camera 
-			//vol_params.decay = 0.98f;
-			//vol_params.density = 5.0f;
-			//vol_params.exposure = 0.1f;
-			//vol_params.numsamples = 32;
-			//ccommonfilters_array[i]->set_volumetric_lighting(vol_params);
+			pandawindows_array[i]->get_render().set_shader_auto();	
+			fake_background_quad->set_pos(-200,500,20);
+			CCommonFilters::SetVolumetricLightingParameters vol_params(*fake_background_quad); //retomar, The light Object, do not use the camera 
+			vol_params.decay = 0.98f;
+			vol_params.density = 5.0f;
+			vol_params.exposure = 0.1f;
+			vol_params.numsamples = 64;
+			ccommonfilters_array[i]->set_volumetric_lighting(vol_params);
 			//////SPACE IMAGE AMBIENT OCCLUSION
 			////CCommonFilters::SetAmbientOcclusionParameters ambient_params;
 			////ambient_params.amount = 2.0f;
@@ -1274,8 +1288,7 @@ void MainProd::CreateDefaultWindows(int num_windows)
 
 	if (master_pandawindow)
 	{
-		fake_background_quad->set_pos(0,500,0);
-		fake_background_quad->set_scale(1000.0);
+
 		fake_background_quad->reparent_to(master_pandawindow->get_render());
 		//fake_background_quad->reparent_to(pandawindows_array[1]->get_camera_group());
 		std::map<int, NodePath>::iterator iter = windowcamera_array.begin();

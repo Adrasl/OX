@@ -23,7 +23,7 @@ using namespace core::ipercept;
 
 
 
-MainPercept::MainPercept(IApplicationConfiguration *app_config_) : app_config(app_config_), isReady(false), perceptAudio_module(NULL), perceptVideo_module(NULL)
+MainPercept::MainPercept(IApplicationConfiguration *app_config_) : app_config(app_config_), isReady(false), perceptAudio_module(NULL), perceptVideo_module(NULL), user_dataModel_controller(NULL)
 {
 
 }

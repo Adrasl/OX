@@ -33,6 +33,10 @@
 #include <genericAsyncTask.h>
 #include <asyncTaskManager.h>
 
+#include "ambientLight.h"
+#include "directionalLight.h"
+#include "pointLight.h"
+#include "spotlight.h"
 #include "cIntervalManager.h"
 #include "cLerpNodePathInterval.h"
 #include "cMetaInterval.h"
@@ -300,6 +304,7 @@ namespace core
 				static NodePath* fake_background_quad; //Panda won't allow changing the background color while using
 										  //post processing filters, so we create a non-illuminated quad 
 										  //relative to the cam, with that color...
+				static NodePath* default_ambientLight;
 
 		};
 
