@@ -134,25 +134,42 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 			              sound_filename_MN1, sound_filename_MN2, 
 						  sound_filename_ME1, sound_filename_ME2;
 		
+		//sound_filename_base << iapp_config->GetSoundDirectory();
+		//sound_filename_MG1 << sound_filename_base.str() << "MG0008.wav";
+		//sound_filename_MG2 << sound_filename_base.str() << "MG0010.wav";
+		//sound_filename_MN1 << sound_filename_base.str() << "MN0001.wav";
+		//sound_filename_MN2 << sound_filename_base.str() << "MN0003.wav";
+		//sound_filename_ME1 << sound_filename_base.str() << "ME0001.wav";
+		//sound_filename_ME2 << sound_filename_base.str() << "ME0002.wav";
+
+		//std::vector<std::string> good_melodies;
+		//std::vector<std::string> neutral_melodies;
+		//std::vector<std::string> evil_melodies;
+
+		//good_melodies.push_back(sound_filename_MG1.str());
+		//good_melodies.push_back(sound_filename_MG2.str());
+		//neutral_melodies.push_back(sound_filename_MN1.str());
+		//neutral_melodies.push_back(sound_filename_MN2.str());
+		//evil_melodies.push_back(sound_filename_ME1.str());
+		//evil_melodies.push_back(sound_filename_ME2.str());
+
 		sound_filename_base << iapp_config->GetSoundDirectory();
-		sound_filename_MG1 << sound_filename_base.str() << "MG0008.wav";
-		sound_filename_MG2 << sound_filename_base.str() << "MG0010.wav";
+		//sound_filename_MG1 << sound_filename_base.str() << "MG0008.wav";
+		sound_filename_MG1 << sound_filename_base.str() << "MG0009.wav";
 		sound_filename_MN1 << sound_filename_base.str() << "MN0001.wav";
-		sound_filename_MN2 << sound_filename_base.str() << "MN0003.wav";
-		sound_filename_ME1 << sound_filename_base.str() << "ME0001.wav";
-		sound_filename_ME2 << sound_filename_base.str() << "ME0002.wav";
+		//sound_filename_ME1 << sound_filename_base.str() << "ME0002.wav";
+		//sound_filename_ME1 << sound_filename_base.str() << "ME0004.wav";
+		//sound_filename_ME1 << sound_filename_base.str() << "ME0005.wav";
+		sound_filename_ME1 << sound_filename_base.str() << "ME0006.wav";
 
 		std::vector<std::string> good_melodies;
 		std::vector<std::string> neutral_melodies;
 		std::vector<std::string> evil_melodies;
 
 		good_melodies.push_back(sound_filename_MG1.str());
-		good_melodies.push_back(sound_filename_MG2.str());
 		neutral_melodies.push_back(sound_filename_MN1.str());
-		neutral_melodies.push_back(sound_filename_MN2.str());
 		evil_melodies.push_back(sound_filename_ME1.str());
-		evil_melodies.push_back(sound_filename_ME2.str());
-		
+				
 		psique_melody[IA_Karma::GOOD]	= good_melodies;
 		psique_melody[IA_Karma::NEUTRAL]= neutral_melodies;
 		psique_melody[IA_Karma::EVIL]	= evil_melodies;

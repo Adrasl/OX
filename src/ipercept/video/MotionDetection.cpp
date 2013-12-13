@@ -35,8 +35,8 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 	if (lock)
 	{
 
-		{	boost::mutex::scoped_lock lock2(m_mutex_motion_areas);
-				motion_elements.clear();	}
+		boost::mutex::scoped_lock lock2(m_mutex_motion_areas);
+		motion_elements.clear();
 
 		double timestamp = (double)clock()/CLOCKS_PER_SEC; // get current time in seconds
 		CvSize size = cvSize(img->width,img->height); // get current frame size
@@ -213,7 +213,7 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 			cvCircle( dst, center, cvRound(magnitude*1.2), color, 3, CV_AA, 0 );
 			cvLine( dst, center, cvPoint( cvRound( center.x + magnitude*cos(angle*CV_PI/180)), cvRound( center.y - magnitude*sin(angle*CV_PI/180))), color, 3, CV_AA, 0 );
 
-			{	boost::mutex::scoped_lock lock2(m_mutex_motion_areas);
+			//{	boost::mutex::scoped_lock lock2(m_mutex_motion_areas);
 					MotionElement me;
 					me.magnitude = magnitude;
 					me.rect.min[0] = comp_rect.x;
@@ -222,7 +222,7 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 					me.rect.max[1] = comp_rect.y + comp_rect.height;
 					me.direction = vector3F(magnitude*cos(angle*CV_PI/180), -1 * magnitude*sin(angle*CV_PI/180), 0);
 					motion_elements.push_back(me);
-			}
+			//}
 		}
 	}
 }
@@ -243,6 +243,8 @@ MotionDetection::MotionDetection(IPerceptVideo* video_perception, const int came
 	  N(4), buf(NULL), last(0), mhi(NULL), orient(NULL), mask(NULL), segmask(NULL), storage(NULL), motion(NULL), las_time(0), updated(false),
 	  previous_frame(NULL), current_frame(NULL), velx(NULL), vely(NULL), show_frame(NULL), velx_Mat(NULL), vely_Mat(NULL)
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	faceRec_a.x = -1; faceRec_a.y = -1;
 	faceRec_b.x = -1; faceRec_b.y = -1;
 	faceCenterPos.x = -1;
@@ -251,6 +253,8 @@ MotionDetection::MotionDetection(IPerceptVideo* video_perception, const int came
 
 MotionDetection::~MotionDetection()
 {
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	cvReleaseImage(&image);
 	cvReleaseImage(&current_frame);
 	cvReleaseImage(&previous_frame);
