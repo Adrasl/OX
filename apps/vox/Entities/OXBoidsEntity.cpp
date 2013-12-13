@@ -9,7 +9,21 @@ using namespace core::iprod;
 #define USER_HIT_THRESHOLD_STRENGHT 40.f
 #define BOID_THINKTIMELAPSE 0.1f
 
-OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent, const float &pitch, const float &amplitude)
+OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent, 
+							 const int &type_,
+ 							 const float &max_acceleration_,
+							 const float &max_velocity_,
+							 const float &perception_distance_,
+							 const float &separation_distance_,
+							 const float &avoidance_distance_,
+							 const float &randomness_factor_,
+							 const float &separation_factor_,
+							 const float &alignment_factor_,
+							 const float &cohesion_factor_,
+							 const float &attraction_factor_,
+							 const float &avoidance_factor_,
+							 const float &worldlimits_factor_,
+							 const float &pitch, const float &amplitude)
 {
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
@@ -47,7 +61,7 @@ OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent, const float &pitch, 
 		if (entity != NULL )
 		{
 			entity->SetPsique(NatureOfEntity::BOID);
-			entity->SetType(Species::SPECIES1);
+			entity->SetType(type_);
 			data		= entity->GetModelData();
 			collidable	= entity->IsCollidable();
 			time_to_live = entity->GetTimeToLive();
@@ -73,6 +87,7 @@ OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent, const float &pitch, 
 	world_max_coords.x = world_max_coords.y = world_max_coords.z = 10.0f;
 	world_min_coords.x = world_min_coords.y = world_min_coords.z = -10.0f;
 	world_max_coords.y = 25.0f; world_min_coords.y = 5.0f; 
+	world_min_coords.z = -5.0f;
 	//world_max_coords.y = 8.0f; world_min_coords.y = 5.0f;
 	{	
 		boost::mutex::scoped_lock lock(csi_mutex);
@@ -101,21 +116,21 @@ OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent, const float &pitch, 
 		//attraction_factor	= 1.0f;
 		//avoidance_factor	= 2.0f;
 		//worldlimits_factor	= 2.0f;
-		max_acceleration	= 0.05f;
-		max_velocity		= 0.05f;
-		perception_distance = 4.0f;
-		separation_distance = 2.0f;
-		avoidance_distance	= 2.0f; 
+		max_acceleration	= max_acceleration_;
+		max_velocity		= max_velocity_;
+		perception_distance = perception_distance_;
+		separation_distance = separation_distance_;
+		avoidance_distance	= avoidance_distance_; 
 		use_world_limits	= true;
 		world_max			= world_max_coords;
 		world_min			= world_min_coords;
-		randomness_factor	= 1.0f;
-		separation_factor	= 1.5f;
-		alignment_factor	= 0.25f;
-		cohesion_factor		= 0.5f;
-		attraction_factor	= 1.0f;
-		avoidance_factor	= 1.5f;
-		worldlimits_factor	= 1.5f;
+		randomness_factor	= randomness_factor_;
+		separation_factor	= separation_factor_;
+		alignment_factor	= alignment_factor_;
+		cohesion_factor		= cohesion_factor_;
+		attraction_factor	= attraction_factor_;
+		avoidance_factor	= avoidance_factor_;
+		worldlimits_factor	= worldlimits_factor_;
 		separation.x = separation.y = separation.z = 0.0f;
 		alignment.x = alignment.y = alignment.z = 0.0f;
 		cohesion.x = cohesion.y = cohesion.z = 0.0f;

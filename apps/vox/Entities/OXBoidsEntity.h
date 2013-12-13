@@ -59,7 +59,21 @@ namespace core
 			public:
 
 				OXBoidsEntity(){};
-				OXBoidsEntity(core::IEntityPersistence* ent, const float &pitch=1.0f, const float &amplitude=100.0f);
+				OXBoidsEntity(core::IEntityPersistence* ent, 
+							  const int &type_ = Species::SPECIES1,
+ 							  const float &max_acceleration_	= 0.05f,
+							  const float &max_velocity_		= 0.05f,
+							  const float &perception_distance_	= 3.5f,
+							  const float &separation_distance_	= 2.0f,
+							  const float &avoidance_distance_	= 2.0f,
+							  const float &randomness_factor_	= 1.0f,
+							  const float &separation_factor_	= 1.5f,
+							  const float &alignment_factor_	= 0.25f,
+							  const float &cohesion_factor_		= 0.5f,
+							  const float &attraction_factor_	= 1.0f,
+							  const float &avoidance_factor_	= 1.5f,
+							  const float &worldlimits_factor_	= 2.5f,
+							  const float &pitch=1.0f, const float &amplitude=100.0f);
 				virtual ~OXBoidsEntity();
 				virtual void DeletePersistence();
 

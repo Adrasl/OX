@@ -2280,7 +2280,7 @@ void MainProd::SetUpUser(void *graphic_node)
 		if (avatar_current_graphicNodePath)
 			avatar_current_graphicNodePath->remove_node();
 		avatar_current_graphicNodePath = (NodePath*) graphic_node;
-		((NodePath*) graphic_node)->reparent_to(*user_nodepath); //MEMORY LEAK SOSPECHOSO
+		((NodePath*) graphic_node)->reparent_to(*user_nodepath); 
 	}
 
 	user_entity->SetNodePath(user_nodepath);

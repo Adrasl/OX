@@ -10,7 +10,7 @@
 #define CC_MIN_PITCH 1.0f
 #define CC_GOOD_STEP 0.003f
 #define CC_EVIL_STEP 0.03f
-#define CC_RECOVERCOL_EVAL 1.0f
+#define CC_RECOVERCOL_EVAL 0.5f
 #define CC_RECOVER_CREATESWARM1_TIME 10.0f
 #define CC_RECOVER_CREATESWARM2_TIME 10.0f
 
@@ -80,9 +80,9 @@ ContentCreationController::ContentCreationController()
 	RTree_Entities_SpatialIndexes[NatureOfEntity::BOID]				= new RTree<int, float, 3, float>();
 	RTree_Entities_SpatialIndexes[NatureOfEntity::TREE]				= new RTree<int, float, 3, float>();
 
-	background_color[IA_Karma::GOOD].x = 0.1; 
-	background_color[IA_Karma::GOOD].y = 0.0; 
-	background_color[IA_Karma::GOOD].z = 0.05;
+	background_color[IA_Karma::GOOD].x = 0.2; 
+	background_color[IA_Karma::GOOD].y = 0.1; 
+	background_color[IA_Karma::GOOD].z = 0.15;
 	background_color[IA_Karma::NEUTRAL].x = 0.25; 
 	background_color[IA_Karma::NEUTRAL].y = 0.6; 
 	background_color[IA_Karma::NEUTRAL].z = 0.35;
@@ -90,9 +90,9 @@ ContentCreationController::ContentCreationController()
 	background_color[IA_Karma::EVIL].y = 0.90; 
 	background_color[IA_Karma::EVIL].z = 0.95;
 
-	fog_color[IA_Karma::GOOD].x = 0.1; 
-	fog_color[IA_Karma::GOOD].y = 0.1; 
-	fog_color[IA_Karma::GOOD].z = 0.05;
+	fog_color[IA_Karma::GOOD].x = 0.2; 
+	fog_color[IA_Karma::GOOD].y = 0.2; 
+	fog_color[IA_Karma::GOOD].z = 0.15;
 	fog_color[IA_Karma::NEUTRAL].x = 0.25; 
 	fog_color[IA_Karma::NEUTRAL].y = 0.6; 
 	fog_color[IA_Karma::NEUTRAL].z = 0.35;
@@ -100,7 +100,7 @@ ContentCreationController::ContentCreationController()
 	fog_color[IA_Karma::EVIL].y = 0.80; 
 	fog_color[IA_Karma::EVIL].z = 0.85;
 
-	fog_intensity[IA_Karma::GOOD] = 0.10;
+	fog_intensity[IA_Karma::GOOD] = 0.08;
 	fog_intensity[IA_Karma::NEUTRAL] = 0.05;
 	fog_intensity[IA_Karma::EVIL] = 0.01;
 
@@ -134,41 +134,41 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 			              sound_filename_MN1, sound_filename_MN2, 
 						  sound_filename_ME1, sound_filename_ME2;
 		
-		//sound_filename_base << iapp_config->GetSoundDirectory();
-		//sound_filename_MG1 << sound_filename_base.str() << "MG0008.wav";
-		//sound_filename_MG2 << sound_filename_base.str() << "MG0010.wav";
-		//sound_filename_MN1 << sound_filename_base.str() << "MN0001.wav";
-		//sound_filename_MN2 << sound_filename_base.str() << "MN0003.wav";
-		//sound_filename_ME1 << sound_filename_base.str() << "ME0001.wav";
-		//sound_filename_ME2 << sound_filename_base.str() << "ME0002.wav";
-
-		//std::vector<std::string> good_melodies;
-		//std::vector<std::string> neutral_melodies;
-		//std::vector<std::string> evil_melodies;
-
-		//good_melodies.push_back(sound_filename_MG1.str());
-		//good_melodies.push_back(sound_filename_MG2.str());
-		//neutral_melodies.push_back(sound_filename_MN1.str());
-		//neutral_melodies.push_back(sound_filename_MN2.str());
-		//evil_melodies.push_back(sound_filename_ME1.str());
-		//evil_melodies.push_back(sound_filename_ME2.str());
-
 		sound_filename_base << iapp_config->GetSoundDirectory();
-		//sound_filename_MG1 << sound_filename_base.str() << "MG0008.wav";
-		sound_filename_MG1 << sound_filename_base.str() << "MG0009.wav";
+		sound_filename_MG1 << sound_filename_base.str() << "MG0008.wav";
+		sound_filename_MG2 << sound_filename_base.str() << "MG0010.wav";
 		sound_filename_MN1 << sound_filename_base.str() << "MN0001.wav";
-		//sound_filename_ME1 << sound_filename_base.str() << "ME0002.wav";
-		//sound_filename_ME1 << sound_filename_base.str() << "ME0004.wav";
-		//sound_filename_ME1 << sound_filename_base.str() << "ME0005.wav";
-		sound_filename_ME1 << sound_filename_base.str() << "ME0006.wav";
+		sound_filename_MN2 << sound_filename_base.str() << "MN0003.wav";
+		sound_filename_ME1 << sound_filename_base.str() << "ME0001.wav";
+		sound_filename_ME2 << sound_filename_base.str() << "ME0002.wav";
 
 		std::vector<std::string> good_melodies;
 		std::vector<std::string> neutral_melodies;
 		std::vector<std::string> evil_melodies;
 
 		good_melodies.push_back(sound_filename_MG1.str());
+		good_melodies.push_back(sound_filename_MG2.str());
 		neutral_melodies.push_back(sound_filename_MN1.str());
+		neutral_melodies.push_back(sound_filename_MN2.str());
 		evil_melodies.push_back(sound_filename_ME1.str());
+		evil_melodies.push_back(sound_filename_ME2.str());
+
+		////////sound_filename_base << iapp_config->GetSoundDirectory();
+		//////////sound_filename_MG1 << sound_filename_base.str() << "MG0008.wav";
+		////////sound_filename_MG1 << sound_filename_base.str() << "MG0009.wav";
+		////////sound_filename_MN1 << sound_filename_base.str() << "MN0001.wav";
+		//////////sound_filename_ME1 << sound_filename_base.str() << "ME0002.wav";
+		//////////sound_filename_ME1 << sound_filename_base.str() << "ME0004.wav";
+		//////////sound_filename_ME1 << sound_filename_base.str() << "ME0005.wav";
+		////////sound_filename_ME1 << sound_filename_base.str() << "ME0006.wav";
+
+		////////std::vector<std::string> good_melodies;
+		////////std::vector<std::string> neutral_melodies;
+		////////std::vector<std::string> evil_melodies;
+
+		////////good_melodies.push_back(sound_filename_MG1.str());
+		////////neutral_melodies.push_back(sound_filename_MN1.str());
+		////////evil_melodies.push_back(sound_filename_ME1.str());
 				
 		psique_melody[IA_Karma::GOOD]	= good_melodies;
 		psique_melody[IA_Karma::NEUTRAL]= neutral_melodies;
@@ -555,15 +555,15 @@ void ContentCreationController::EntityHadAGoodUserFeedback(core::IEntityPersiste
 			accumulators_motion_GOODorEVIL((float)IA_Karma::GOOD);
 			if (!(recover_createswarm1_afterseconds - current_timestamp > 0))
 			{	CreatePresetOfSwarm1AtCoords(spawn_point,  CC_RECOVER_CREATESWARM1_TIME );
-				recover_createswarm1_afterseconds = current_timestamp + CC_RECOVER_CREATESWARM1_TIME;
+				recover_createswarm1_afterseconds = current_timestamp + CC_RECOVER_CREATESWARM1_TIME *0.5f;
 			}}
 		else
 		{	psique = (psique + CC_EVIL_STEP >= 2.0f) ? 2.0f : psique + CC_EVIL_STEP;
 			i_am_being = IA_Karma::EVIL;		
 			accumulators_motion_GOODorEVIL((float)IA_Karma::EVIL);
-			if (!(recover_createswarm1_afterseconds - current_timestamp > 0))
-			{	//retomar //descomentar CreatePresetOfSwarm2(CC_RECOVER_CREATESWARM2_TIME);
-				recover_createswarm2_afterseconds = current_timestamp + CC_RECOVER_CREATESWARM2_TIME;
+			if (!(recover_createswarm2_afterseconds - current_timestamp > 0))
+			{	CreatePresetOfSwarm2AtCoords(spawn_point,  CC_RECOVER_CREATESWARM2_TIME * 0.5f);
+				recover_createswarm2_afterseconds = current_timestamp + CC_RECOVER_CREATESWARM2_TIME * 0.2f;
 			}}
 
 		cout << "NUEVA PSIQUE TRAS COLISION: " << psique << "\n";
@@ -778,9 +778,9 @@ void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> 
 			//candidatepdu.position.x = RandomFloat(0.4f, 0.8f);
 			//candidatepdu.position.y = RandomFloat( 6.0f, 6.4f);
 			//candidatepdu.position.z = RandomFloat(0.5f, 1.0f);
-			candidatepdu.position.x = RandomFloat(spawn_point.x-0.15f, spawn_point.x+0.15f);
-			candidatepdu.position.y = RandomFloat(spawn_point.y-0.15f, spawn_point.y+0.15f);
-			candidatepdu.position.z = RandomFloat(spawn_point.z-0.15f, spawn_point.z+0.15f);
+			candidatepdu.position.x = RandomFloat(spawn_point.x-0.20f, spawn_point.x+0.20f);
+			candidatepdu.position.y = RandomFloat(spawn_point.y-0.20f, spawn_point.y+0.20f);
+			candidatepdu.position.z = RandomFloat(spawn_point.z-0.20f, spawn_point.z+0.20f);
 			candidatepdu.velocity.x = RandomFloat(-0.05f, 0.05f);
 			candidatepdu.velocity.y = RandomFloat(-0.05f, 0.05f);
 			candidatepdu.velocity.z = RandomFloat(-0.05f, 0.05f);
@@ -808,7 +808,80 @@ void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> 
 
 void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> spawn_point, const double &time)
 {
-	int i = 666;
+	if (current_world)
+	{
+		std::stringstream model_url;
+		if ( iapp_config )
+			model_url << iapp_config->GetModelDirectory() << "tricube_003";	 
+		std::string modelpath = model_url.str();
+		Filename pandafile = Filename::from_os_specific(modelpath);
+
+		for (int i = 0; i < 7; i++)
+		{
+			entity_id++;
+			z_step++;
+			std::stringstream wop_newEntity;
+			wop_newEntity << "Boid_SwarmEntity_2_" << z_step;
+			core::ipersistence::EntityPersistence *genesis = new core::ipersistence::EntityPersistence(wop_newEntity.str());
+
+			genesis->SetPsique(NatureOfEntity::STANDALONE);
+			genesis->SetModelData(pandafile);			
+			genesis->SetCollidable(false);
+			genesis->SetTimeToLive(RandomFloat(time*0.01, time));
+			//genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
+			//genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
+			//genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
+
+			corePDU3D<double> candidatepdu;
+			float user_pos_x, user_pos_y, user_pos_z;
+			user_pos_x = user_pos_y =user_pos_z = 0;
+			if (current_user)
+				current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
+			////candidatepdu.position.x = RandomFloat(user_pos_x - 1.0, user_pos_x + 1.0);
+			////candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 6.0);
+			////candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 1.0);
+			//candidatepdu.position.x = RandomFloat(0.4f, 0.8f);
+			//candidatepdu.position.y = RandomFloat( 6.0f, 6.4f);
+			//candidatepdu.position.z = RandomFloat(0.5f, 1.0f);
+			candidatepdu.position.x = RandomFloat(spawn_point.x-0.35f, spawn_point.x+0.35f);
+			candidatepdu.position.y = RandomFloat(spawn_point.y-0.35f, spawn_point.y+0.35f);
+			candidatepdu.position.z = RandomFloat(spawn_point.z-0.35f, spawn_point.z+0.35f);
+			candidatepdu.velocity.x = RandomFloat(-0.1f, 0.1f);
+			candidatepdu.velocity.y = RandomFloat(-0.1f, 0.1f);
+			candidatepdu.velocity.z = RandomFloat(-0.1f, 0.1f);
+			candidatepdu.acceleration.x = 0.0f;
+			candidatepdu.acceleration.y = 0.0f;
+			candidatepdu.acceleration.z = 0.0f;
+			float scale = RandomFloat(0.08f, 0.08f);
+
+			//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
+			genesis->SetPositionVelocityAcceleration(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z,
+													 candidatepdu.velocity.x, candidatepdu.velocity.y, candidatepdu.velocity.z,
+													 candidatepdu.acceleration.x, candidatepdu.acceleration.y, candidatepdu.acceleration.z);
+			genesis->SetScale(scale);
+			genesis->attach(instance);
+
+			core::iprod::OXBoidsEntity *new_entity = new core::iprod::OXBoidsEntity((core::IEntityPersistence *)genesis,
+																					 /*type				   */ core::iprod::Species::SPECIES2,
+																					 /*max_acceleration_   */ 0.10f,
+																					 /*max_velocity_       */ 0.10f,
+																					 /*perception_distance_*/ 1.0f,
+																					 /*separation_distance_*/ 4.0f,
+																					 /*avoidance_distance_ */ 0.01f,
+																					 /*randomness_factor_  */ 1.5f,
+																					 /*separation_factor_  */ 0.025f,
+																					 /*alignment_factor_   */ 0.025f,
+																					 /*cohesion_factor_    */ 0.05f,
+																					 /*attraction_factor_  */ 0.0f,
+																					 /*avoidance_factor_   */ 0.0f,
+																					 /*worldlimits_factor_ */ 1.5f); //retomar descomentar (float)z_step/5.0 );
+			current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+			current_world->Save();
+
+			//createdEntity_timesptamp = current_timestamp;
+			new_timed_entities[(core::IEntity *)new_entity] = 0.1f;
+		}
+	}	
 }
 
 void ContentCreationController::ResetStatisticalAccumulators()

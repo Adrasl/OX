@@ -2038,7 +2038,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		//for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); (iter != presence_detectors.end()) && !(has_x && has_y && has_z); iter++)
 		for (int iter = 0; iter < presence_detectors.size() && !(has_x && has_y && has_z); iter++)
 		{
-			if (!(presence_detectors[iter]->PresenceDetected())) //MEMORYLEAK SOSPECHOSO
+			if (!(presence_detectors[iter]->PresenceDetected())) 
 			{	index++;
 				continue;	}
 
