@@ -8,11 +8,13 @@
 #define CC_MIN_HEADPOS -10.0f
 #define CC_MAX_PITCH 2.0f
 #define CC_MIN_PITCH 1.0f
-#define CC_GOOD_STEP 0.003f
-#define CC_EVIL_STEP 0.03f
+#define CC_GOOD_STEP 0.01f
+#define CC_EVIL_STEP 0.34f
 #define CC_RECOVERCOL_EVAL 0.5f
 #define CC_RECOVER_CREATESWARM1_TIME 10.0f
 #define CC_RECOVER_CREATESWARM2_TIME 10.0f
+#define CC_RECOVER_CALMDECOTARION_TIME 13.5f
+#define CC_RECOVER_EXITEDDECOTARION_TIME 7.5f
 
 IApplication* ContentCreationController::app = NULL;
 IApplicationConfiguration* ContentCreationController::iapp_config=NULL;
@@ -22,20 +24,22 @@ IUserPersistence* ContentCreationController::current_user=NULL;
 IWorldPersistence* ContentCreationController::current_world=NULL;
 ContentCreationController *ContentCreationController::instance = NULL;
 
-int ContentCreationController::entity_id = 0;
-double ContentCreationController::start_timestamp = 0;
-double ContentCreationController::latest_timestamp = 0;
-double ContentCreationController::current_timestamp = 0;
-double ContentCreationController::music_timestamp = 0;
-double ContentCreationController::createdEntity_timesptamp = 0;
+int ContentCreationController::entity_id								= 0;
+double ContentCreationController::start_timestamp						= 0;
+double ContentCreationController::latest_timestamp						= 0;
+double ContentCreationController::current_timestamp						= 0;
+double ContentCreationController::music_timestamp						= 0;
+double ContentCreationController::createdEntity_timesptamp				= 0;
 double ContentCreationController::recover_collisionevaluation_aftertime = 0;
-double ContentCreationController::recover_createswarm1_afterseconds = 0;
-double ContentCreationController::recover_createswarm2_afterseconds = 0;
+double ContentCreationController::recover_createswarm1_afterseconds		= 0;
+double ContentCreationController::recover_createswarm2_afterseconds		= 0;
+double ContentCreationController::recover_decorationCalm_afterseconds	= 0;
+double ContentCreationController::recover_decorationExited_afterseconds = 0;
 
-int ContentCreationController::z_step = 0;
-int ContentCreationController::background_sound = 0;
-float ContentCreationController::psique=1.0f; //0-1-2 good-neutral-evil
-float ContentCreationController::energy=0.5f; //0-1 calm-energetic
+int ContentCreationController::z_step			= 0;
+std::string ContentCreationController::background_sound = "";
+float ContentCreationController::psique			= 1.0f; //0-1-2 good-neutral-evil
+float ContentCreationController::energy			=0.5f; //0-1 calm-energetic
 
 std::map<int, std::vector<core::IEntityPersistence*>> ContentCreationController::ccc_ecosystem;
 std::map<int, core::IEntityPersistence*> ContentCreationController::RTree_Entities_by_entityIDs;
@@ -43,6 +47,7 @@ std::map<NatureOfEntity, RTree<int, float, 3, float> *> ContentCreationControlle
 std::map<NatureOfEntity, std::vector<core::IEntityPersistence*>> ContentCreationController::RTree_Entities_by_Psique;
 RTree<int, float, 3, float> ContentCreationController::RTree_Everything_spatialIndexes;
 std::map<int, std::vector<std::string>> ContentCreationController::psique_melody;
+std::map<int, std::map<int, std::vector<std::string>>> ContentCreationController::psique_energy_decoration;
 std::string ContentCreationController::current_melody = "";
 
 boost::mutex ContentCreationController::m_mutex;
@@ -139,7 +144,7 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		sound_filename_MG2 << sound_filename_base.str() << "MG0010.wav";
 		sound_filename_MN1 << sound_filename_base.str() << "MN0001.wav";
 		sound_filename_MN2 << sound_filename_base.str() << "MN0003.wav";
-		sound_filename_ME1 << sound_filename_base.str() << "ME0001.wav";
+		sound_filename_ME1 << sound_filename_base.str() << "ME0004.wav";
 		sound_filename_ME2 << sound_filename_base.str() << "ME0002.wav";
 
 		std::vector<std::string> good_melodies;
@@ -173,6 +178,47 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		psique_melody[IA_Karma::GOOD]	= good_melodies;
 		psique_melody[IA_Karma::NEUTRAL]= neutral_melodies;
 		psique_melody[IA_Karma::EVIL]	= evil_melodies;
+
+		//DECORATIONS
+		std::stringstream sound_filename_DCG1, sound_filename_DEG1, 
+			              sound_filename_DCN1, sound_filename_DEN1, 
+						  sound_filename_DCE1, sound_filename_DEE1;
+
+		sound_filename_DCG1 << sound_filename_base.str() << "DG0006.wav";
+		sound_filename_DEG1 << sound_filename_base.str() << "DG0009.wav"; //
+		sound_filename_DCN1 << sound_filename_base.str() << "DC0004.wav"; //DN0001.wav
+		sound_filename_DEN1 << sound_filename_base.str() << "DN0002.wav";
+		sound_filename_DCE1 << sound_filename_base.str() << "DE0006.wav";
+		sound_filename_DEE1 << sound_filename_base.str() << "DE0005.wav";
+
+		std::vector<std::string> good_calm_decorations;
+		std::vector<std::string> good_energetic_decorations;
+		std::vector<std::string> neutral_calm_decorations;
+		std::vector<std::string> neutral_energetic_decorations;
+		std::vector<std::string> evil_calm_decorations;
+		std::vector<std::string> evil_energetic_decorations;
+
+		good_calm_decorations.push_back(sound_filename_DCG1.str());
+		good_energetic_decorations.push_back(sound_filename_DEG1.str());
+		neutral_calm_decorations.push_back(sound_filename_DCN1.str());
+		neutral_energetic_decorations.push_back(sound_filename_DEN1.str());
+		evil_calm_decorations.push_back(sound_filename_DCE1.str());
+		evil_energetic_decorations.push_back(sound_filename_DEE1.str());
+
+		std::map<int, std::vector<std::string>> by_energy_good_decorations;
+		std::map<int, std::vector<std::string>> by_energy_neutral_decorations;
+		std::map<int, std::vector<std::string>> by_energy_evil_decorations;
+
+		by_energy_good_decorations[IA_Energy::CALM]			= good_calm_decorations;
+		by_energy_good_decorations[IA_Energy::EXITED]		= good_energetic_decorations;
+		by_energy_neutral_decorations[IA_Energy::CALM]		= neutral_calm_decorations;
+		by_energy_neutral_decorations[IA_Energy::EXITED]	= neutral_energetic_decorations;
+		by_energy_evil_decorations[IA_Energy::CALM]			= evil_calm_decorations;
+		by_energy_evil_decorations[IA_Energy::EXITED]		= evil_energetic_decorations;
+
+		psique_energy_decoration[IA_Karma::GOOD]	= by_energy_good_decorations;
+		psique_energy_decoration[IA_Karma::NEUTRAL]	= by_energy_neutral_decorations;
+		psique_energy_decoration[IA_Karma::EVIL]	= by_energy_evil_decorations;
 	}
 
 	DoNotifiedBySessionController();
@@ -303,7 +349,7 @@ void ContentCreationController::Update()
 
 	bool animate_background = false;
 	core::iprod::OXStandAloneEntity *new_entityx = NULL;
-	std::vector<int> background_sounds = app_mainprod->GetBackgroundSounds();
+	std::vector<std::string> background_sounds = app_mainprod->GetBackgroundSounds();
 	bool change_music = false;
 
 	{	boost::mutex::scoped_lock lock(m_mutex);
@@ -321,12 +367,20 @@ void ContentCreationController::Update()
 	if ( change_music )
 	{
 			app_mainprod->RemoveAllBackgroundSound(5.0f);
-			int music_id = app_mainprod->AddBackgroundSound(current_melody, 5.0f);
+			std::string music_id = app_mainprod->AddBackgroundSound(current_melody, 5.0f);
 			{	
 				boost::mutex::scoped_lock lock(m_mutex);
 				background_sound = music_id;
 				music_timestamp = current_timestamp;
 				must_change_music = false;
+
+				std::string decoration_sound_filename;
+				if (false)//((int)psique < psique_energy_decoration.size())
+				{	int decorations_size = psique_energy_decoration[(int)floor(psique+0.5f)][(int)floor(energy+0.5f)].size();
+					decoration_sound_filename = (*((psique_energy_decoration[(int)floor(psique+0.5f)][(int)floor(energy+0.5f)].begin())+(rand()%(psique_energy_decoration[(int)floor(psique+0.5f)][(int)floor(energy+0.5f)].size()))));
+					app_mainprod->AddBackgroundSound(decoration_sound_filename, 5.0f);
+				}
+				ResetStatisticalAccumulators();
 			}
 	}
 
@@ -493,7 +547,7 @@ void ContentCreationController::Update()
 			{
 				CreatePresetOfEntities1(1.0f);
 				//CreatePresetOfEntities2(1.25f);
-				//CreatePresetOfEntities2(1.5f);
+				CreatePresetOfEntities2(1.5f);
 			}
 		}
 	}
@@ -709,7 +763,7 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
 		genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
 		genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
-		genesis->SetCollidable(true);
+		genesis->SetCollidable(false);
 		genesis->SetTimeToLive(0.5f);
 		corePDU3D<double> candidatepdu;
 
@@ -717,9 +771,9 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		user_pos_x = user_pos_y =user_pos_z = 0;
 		if (current_user)
 			current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
-		candidatepdu.position.x = RandomFloat(user_pos_x - 3.0, user_pos_x + 3.0);
+		candidatepdu.position.x = RandomFloat(user_pos_x - 1.5, user_pos_x + 1.5);
 		candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 10.0);
-		candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 2.0);
+		candidatepdu.position.z = RandomFloat(user_pos_z - 0.1, user_pos_z + 1.0);
 		float scale = RandomFloat( 0.1,  0.25);
 
 		//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
@@ -751,6 +805,13 @@ void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> 
 		std::string modelpath = model_url.str();
 		Filename pandafile = Filename::from_os_specific(modelpath);
 
+		//SpecialSound, only one of them will be so special
+		std::string decoration_sound_filename;
+		if (false)//((int)psique < psique_energy_decoration.size())
+		{	int decorations_size = psique_energy_decoration[0][0].size();
+			decoration_sound_filename = (*((psique_energy_decoration[(int)floor(psique+0.5f)][0].begin())+(rand()%(psique_energy_decoration[(int)floor(psique+0.5f)][0].size()))));
+		}
+
 		for (int i = 0; i < 20; i++)
 		{
 			entity_id++;
@@ -762,7 +823,15 @@ void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> 
 			genesis->SetPsique(NatureOfEntity::STANDALONE);
 			genesis->SetModelData(pandafile);			
 			genesis->SetCollidable(false);
-			genesis->SetTimeToLive(RandomFloat(time*0.8, time));
+			if (false)//((i == 0) && !(recover_decorationCalm_afterseconds - current_timestamp > 0))
+			{
+				genesis->SetSoundDataCreate(decoration_sound_filename);
+				genesis->SetTimeToLive(time);
+				recover_decorationCalm_afterseconds = current_timestamp + CC_RECOVER_CALMDECOTARION_TIME;
+				//recover_decorationExited_afterseconds = current_timestamp + CC_RECOVER_EXITEDDECOTARION_TIME;
+			}
+			else
+				genesis->SetTimeToLive(RandomFloat(time*0.8, time));
 			//genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
 			//genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
 			//genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
@@ -816,6 +885,13 @@ void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> 
 		std::string modelpath = model_url.str();
 		Filename pandafile = Filename::from_os_specific(modelpath);
 
+		//SpecialSound, only one of them will be so special
+		std::string decoration_sound_filename;
+		if (false)//((int)psique < psique_energy_decoration.size())
+		{	int decorations_size = psique_energy_decoration[0][1].size();
+			decoration_sound_filename = (*((psique_energy_decoration[(int)floor(psique+0.5f)][1].begin())+(rand()%(psique_energy_decoration[(int)floor(psique+0.5f)][1].size()))));
+		}
+
 		for (int i = 0; i < 7; i++)
 		{
 			entity_id++;
@@ -827,22 +903,27 @@ void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> 
 			genesis->SetPsique(NatureOfEntity::STANDALONE);
 			genesis->SetModelData(pandafile);			
 			genesis->SetCollidable(false);
-			genesis->SetTimeToLive(RandomFloat(time*0.01, time));
+			if (false)//((i == 0) && !(recover_decorationExited_afterseconds - current_timestamp > 0)) // I am special
+			{
+				genesis->SetSoundDataCreate(decoration_sound_filename);
+				genesis->SetTimeToLive(time);
+				recover_decorationExited_afterseconds = current_timestamp + CC_RECOVER_EXITEDDECOTARION_TIME;
+				recover_decorationCalm_afterseconds = current_timestamp + CC_RECOVER_CALMDECOTARION_TIME;
+			}
+			else
+				genesis->SetTimeToLive(RandomFloat(time*0.01, time));
 			//genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
 			//genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
 			//genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
+			
+			//int n_decorations = 0;
+			//int random_index = 0;
 
 			corePDU3D<double> candidatepdu;
 			float user_pos_x, user_pos_y, user_pos_z;
 			user_pos_x = user_pos_y =user_pos_z = 0;
 			if (current_user)
 				current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
-			////candidatepdu.position.x = RandomFloat(user_pos_x - 1.0, user_pos_x + 1.0);
-			////candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 6.0);
-			////candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 1.0);
-			//candidatepdu.position.x = RandomFloat(0.4f, 0.8f);
-			//candidatepdu.position.y = RandomFloat( 6.0f, 6.4f);
-			//candidatepdu.position.z = RandomFloat(0.5f, 1.0f);
 			candidatepdu.position.x = RandomFloat(spawn_point.x-0.35f, spawn_point.x+0.35f);
 			candidatepdu.position.y = RandomFloat(spawn_point.y-0.35f, spawn_point.y+0.35f);
 			candidatepdu.position.z = RandomFloat(spawn_point.z-0.35f, spawn_point.z+0.35f);

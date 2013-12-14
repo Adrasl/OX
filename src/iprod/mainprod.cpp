@@ -126,7 +126,7 @@ std::map< Prod3DEntity *, double > MainProd::entity_array_to_be_loaded_afterseco
 std::vector<NodePath*> MainProd::testnodepaths;
 bool MainProd::insert_now = false;
 
-std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> > MainProd::music_melody_samples; 
+std::map< std::string, core::coreSound<sf::Sound, sf::SoundBuffer> > MainProd::music_melody_samples; 
 std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > MainProd::music_base_samples;
 std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > MainProd::music_decoration_samples;
 
@@ -2405,21 +2405,24 @@ void MainProd::CreateAndRegisterEntity(std::map< int, std::vector<corePDU3D<doub
 {}
 
 
-std::vector<int>  MainProd::GetBackgroundSounds()
+std::vector<std::string>  MainProd::GetBackgroundSounds()
 {
 	boost::mutex::scoped_lock lock(m_mutex);
-	vector<int> result;
+	vector<std::string> result;
 
-	for (std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.begin(); iter != music_melody_samples.end(); iter++)
+	for (std::map< std::string, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.begin(); iter != music_melody_samples.end(); iter++)
 		result.push_back(iter->first);
 
 	return result;
 }
 
-int  MainProd::AddBackgroundSound(const std::string &file_name, const double &time_lerp)
+std::string  MainProd::AddBackgroundSound(const std::string &file_name, const double &time_lerp)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
-	if (file_name != "")
+
+	std::map< std::string, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iterator_sounds = music_melody_samples.find(file_name);
+
+	if ( (file_name != "") && (iterator_sounds == music_melody_samples.end()))
 	{
 		//Buffer
 		bool error_loadfromfile = false;
@@ -2446,40 +2449,40 @@ int  MainProd::AddBackgroundSound(const std::string &file_name, const double &ti
 
 			//RESULT
 			core::coreSound<sf::Sound, sf::SoundBuffer> new_background_melody(position, new_sound, new_buffer,true, false, 1.0, 100, 10.0, 0.75);
-			music_melody_samples[(int)&new_background_melody] = new_background_melody;
+			music_melody_samples[file_name] = new_background_melody;
 
 			new_sound->Play();
 
-			return (int)&new_background_melody;
+			return file_name;
 		} 
 	}
-	return -1;
+	return "";
 }
 
-void MainProd::SetPitchBackgroundSound(const int &id, const float &value, const double &time_lerp)
+void MainProd::SetPitchBackgroundSound(const std::string &id, const float &value, const double &time_lerp)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
-	std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.find(id);
+	std::map< std::string, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.find(id);
 	if ((music_melody_samples.size() > 0) && (iter != music_melody_samples.end()))
 	{
 		iter->second.pitch = value;
 		iter->second.sound_data->SetPitch(value);
 	}
 }
-void MainProd::SetAmplitudeBackgroundSound(const int &id, const float &value, const double &time_lerp)
+void MainProd::SetAmplitudeBackgroundSound(const std::string &id, const float &value, const double &time_lerp)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
-	std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.find(id);
+	std::map< std::string, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.find(id);
 	if ((music_melody_samples.size() > 0) && (iter != music_melody_samples.end()))
 	{
 		iter->second.amplitude = value;
 		iter->second.sound_data->SetVolume(value);
 	}
 }
-void MainProd::RemoveBackgroundSound(const int &id, const double &time_lerp)
+void MainProd::RemoveBackgroundSound(const std::string &id, const double &time_lerp)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
-	std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.find(id);
+	std::map< std::string, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.find(id);
 	if ((music_melody_samples.size() > 0) && (iter != music_melody_samples.end()))	
 	{
 		if (iter->second.sound_data != NULL)
@@ -2497,7 +2500,7 @@ void MainProd::RemoveAllBackgroundSound(const double &time_lerp)
 
 void MainProd::InternalRemoveAllBackgroundSound(const double &time_lerp)
 {
-	for (std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.begin(); music_melody_samples.size() > 0; )
+	for (std::map< std::string, core::coreSound<sf::Sound, sf::SoundBuffer> >::iterator iter = music_melody_samples.begin(); music_melody_samples.size() > 0; )
 	{
 		if ( (iter != music_melody_samples.end()) && (iter->second.sound_data != NULL) )
 			iter->second.sound_data->Stop();

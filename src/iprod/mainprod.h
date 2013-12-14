@@ -139,11 +139,11 @@ namespace core
 				virtual void RegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data); //retomar regiter entity
 				virtual void CreateAndRegisterEntity(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data); //retomar regiter entity
 
-				virtual std::vector<int> GetBackgroundSounds();
-				virtual int  AddBackgroundSound(const std::string &file_name, const double &time_lerp=0.0);
-				virtual void SetPitchBackgroundSound(const int &id, const float &value, const double &time_lerp=0.0);
-				virtual void SetAmplitudeBackgroundSound(const int &id, const float &value, const double &time_lerp=0.0);
-				virtual void RemoveBackgroundSound(const int &id, const double &time_lerp=0.0);
+				virtual std::vector<std::string> GetBackgroundSounds();
+				virtual std::string  AddBackgroundSound(const std::string &file_name, const double &time_lerp=0.0);
+				virtual void SetPitchBackgroundSound(const std::string &id, const float &value, const double &time_lerp=0.0);
+				virtual void SetAmplitudeBackgroundSound(const std::string &id, const float &value, const double &time_lerp=0.0);
+				virtual void RemoveBackgroundSound(const std::string &id, const double &time_lerp=0.0);
 				virtual void RemoveAllBackgroundSound(const double &time_lerp=0.0);
 
 				virtual void SetBackgroundColor(const float &R, const float &G, const float &B);
@@ -297,7 +297,7 @@ namespace core
 				static NodePath master_camera;
 
 				//music stuff
-				static std::map< int, core::coreSound<sf::Sound, sf::SoundBuffer> > music_melody_samples; //background sound tracks
+				static std::map< std::string, core::coreSound<sf::Sound, sf::SoundBuffer> > music_melody_samples; //background sound tracks
 				static std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_base_samples;
 				static std::map< Prod3DEntity*, std::vector<core::coreSound<sf::Sound, sf::SoundBuffer>> > music_decoration_samples;
 

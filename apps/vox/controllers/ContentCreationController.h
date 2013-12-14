@@ -120,7 +120,9 @@ class ContentCreationController : public core::Observer
 					  createdEntity_timesptamp,
 					  recover_collisionevaluation_aftertime,
 					  recover_createswarm1_afterseconds,
-					  recover_createswarm2_afterseconds;
+					  recover_createswarm2_afterseconds, 
+					  recover_decorationCalm_afterseconds,
+					  recover_decorationExited_afterseconds;
 		static bool must_change_background, must_change_music;
 		static int z_step;
 
@@ -129,9 +131,10 @@ class ContentCreationController : public core::Observer
 		static float energy; //0-1 calm-energetic
 
 		static std::map<int, std::vector<std::string>> psique_melody;
+		static std::map<int, std::map<int, std::vector<std::string>>> psique_energy_decoration;
 		static std::string current_melody;
 
-		static int background_sound;
+		static std::string background_sound;
 		void * ambient_soundsample;
 
 		static std::map<IA_Karma, corePoint3D<float>> background_color;
