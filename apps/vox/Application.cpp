@@ -26,7 +26,7 @@
 //#include <crtdbg.h>
 
 #define MAINLOOP_EVT 12345
-#define BENEFIT_OF_THE_DOUBT 200
+#define BENEFIT_OF_THE_DOUBT 100
 
 BEGIN_EVENT_TABLE(Application, wxApp)
 	EVT_IDLE	(Application::OnIdle)
@@ -216,7 +216,9 @@ void Application::OnIdle(wxIdleEvent &event)
 						}
 					}
 					benefit_of_the_doubt = 0;
-				} else { //unknown face //in order to reset delete bin/facedata.com and the content of bin/data/recon/eigenface bin/data/recon/eigenface
+				} 
+				else 
+				{ //unknown face //in order to reset delete bin/facedata.com and the content of bin/data/recon/eigenface bin/data/recon/eigenface
 					std::string name, passwd;
 					name = passwd = "anonymous";
 					app_maingui->FillNewUserGUI(name, passwd);
@@ -241,6 +243,8 @@ void Application::OnIdle(wxIdleEvent &event)
 					benefit_of_the_doubt++;
 				}
 			}
+			else
+				benefit_of_the_doubt = 0;
 		}
 	}
 }

@@ -49,7 +49,7 @@ dba::SQL UserPersistence::schema(
 boost::mutex UserPersistence::m_mutex;
 
 UserPersistence::UserPersistence(const std::string &name_, const std::string &password_, const int &permissions_) 
-				: name(name_), password(password_), model(""), permissions(permissions_), psique(0),
+				: name(name_), password(password_), model(""), permissions(permissions_), psique(1),
 				  position_x(0.0f), position_y(0.0f), position_z(0.0f), 
 				  orientation_x(0.0f), orientation_y(0.0f), orientation_z(0.0f),
 				  up_x(0.0f), up_y(0.0f), up_z(1.0f),
