@@ -774,7 +774,7 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		candidatepdu.position.x = RandomFloat(user_pos_x - 1.5, user_pos_x + 1.5);
 		candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 10.0);
 		candidatepdu.position.z = RandomFloat(user_pos_z - 0.1, user_pos_z + 1.0);
-		float scale = RandomFloat( 0.1,  0.25);
+		float scale = RandomFloat( 0.05,  0.1);
 
 		//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
 		genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
