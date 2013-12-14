@@ -39,9 +39,9 @@ namespace core
 
 				virtual void GetPresenceCenterOfMass(corePoint2D<int> &pos);
 				virtual void GetPresenceRec(corePoint2D<int> &corner_a, corePoint2D<int> &corner_b);
-				virtual void GetPresenceArea(double &area_inpixel_units) {boost::try_mutex::scoped_lock lock(m_mutex); area_inpixel_units = presence_area; }
-				virtual void GetPresenceOrientation(double &radians_counterclockwise) {boost::try_mutex::scoped_lock lock(m_mutex); radians_counterclockwise = presence_orientation; }
-				virtual void GetPresenceEccentricity(double &cero_means_round) {boost::try_mutex::scoped_lock lock(m_mutex); cero_means_round = presence_eccentricity; }
+				virtual void GetPresenceArea(double &area_inpixel_units) {boost::mutex::scoped_lock lock(m_mutex); area_inpixel_units = presence_area; }
+				virtual void GetPresenceOrientation(double &radians_counterclockwise) {boost::mutex::scoped_lock lock(m_mutex); radians_counterclockwise = presence_orientation; }
+				virtual void GetPresenceEccentricity(double &cero_means_round) {boost::mutex::scoped_lock lock(m_mutex); cero_means_round = presence_eccentricity; }
 				virtual bool PresenceDetected();
 				virtual void TrainBackground();
 

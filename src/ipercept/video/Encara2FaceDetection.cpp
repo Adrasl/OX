@@ -124,7 +124,7 @@ void Encara2FaceDetection::Process()
 
 bool Encara2FaceDetection::FaceDetected() 
 {
-	boost::try_mutex::scoped_lock lock(m_mutex);
+	boost::mutex::scoped_lock lock(m_mutex);
 	return face_detected; 
 }
 
@@ -277,13 +277,13 @@ char * Encara2FaceDetection::GetCopyOfAreaOfInterest(int &size_x, int &size_y, i
 
 void Encara2FaceDetection::GetFaceCenterPos(corePoint2D<int> &pos)
 {
-	boost::try_mutex::scoped_lock lock(face_data_mutex);
+	boost::mutex::scoped_lock lock(face_data_mutex);
 	pos.x = faceCenterPos.x;
 	pos.y = faceCenterPos.y;
 }
 void Encara2FaceDetection::GetFaceRec(corePoint2D<int> &corner_a, corePoint2D<int> &corner_b)
 {
-	boost::try_mutex::scoped_lock lock(face_data_mutex);
+	boost::mutex::scoped_lock lock(face_data_mutex);
 	corner_a.x = faceRec_a.x;
 	corner_a.y = faceRec_a.y;
 	corner_b.x = faceRec_b.x;

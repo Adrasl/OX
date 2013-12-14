@@ -15,6 +15,9 @@ bool SessionController::LoadDefaultData()
 	default_world  = new core::ipersistence::WorldPersistence(); 
 	bool successu = default_user->Load(std::string("default_user"));
 	bool successw = default_world->Load(std::string("default_world"));
+	
+	Notify(this, "RUN WORLD");
+
 	return (successu && successw);
 }
 
@@ -142,17 +145,19 @@ bool SessionController::OpenSession(const std::string &user_name, const std::str
 
 bool SessionController::CloseSession()
 {
-	boost::mutex::scoped_lock lock(m_mutex);
+	Notify(this, "CLOSE WORLD");
 
-	session_permissions = -1;
-	if ( app_user != NULL )
-	{	app_user->Save();
-		delete app_user;
-		app_user = NULL;		}
-	if ( app_world != NULL )
-	{	app_world->Save();
-		delete app_world;
-		app_world = NULL;		}
+	{	boost::mutex::scoped_lock lock(m_mutex);
+		session_permissions = -1;
+		if ( app_user != NULL )
+		{	app_user->Save();
+			delete app_user;
+			app_user = NULL;		}
+		if ( app_world != NULL )
+		{	app_world->Save();
+			delete app_world;
+			app_world = NULL;		}
+	}
 
 	return true;
 }

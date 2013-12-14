@@ -60,7 +60,8 @@ corePoint3D<float> ContentCreationController::current_fog_color;
 float			   ContentCreationController::current_fog_intensity = 0.0f;
 ContentCreationController::IA_Karma ContentCreationController::i_am_being = ContentCreationController::IA_Karma::NEUTRAL;
 bool ContentCreationController::must_change_background = false;
-bool ContentCreationController::must_change_music = false;
+bool ContentCreationController::must_change_music  = false;
+bool ContentCreationController::sesion_is_prepared = false;
 
 std::map<core::IEntity *, double> ContentCreationController::new_timed_entities;
 
@@ -221,8 +222,10 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		psique_energy_decoration[IA_Karma::EVIL]	= by_energy_evil_decorations;
 	}
 
-	DoNotifiedBySessionController();
-
+	//current_world = app->GetDefaultWorld();
+	//current_user = app->GetDefaultUser();
+	//RestartCurrentUserBackgroundAndFog();
+	//DoNotifiedBySessionController("RUN WORLD");
 	//if (app_mainprod)
 	//	app_mainprod->SetBackgroundAndFog(current_background_color.x, current_background_color.y, current_background_color.z,
 	//							  current_fog_color.x, current_fog_color.y, current_fog_color.z,
@@ -292,15 +295,15 @@ void ContentCreationController::Reset()
 
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
-		current_world = app->GetCurrentWorld();
-		current_user  = app->GetCurrentUser();
+		//current_world = app->GetCurrentWorld();
+		//current_user  = app->GetCurrentUser();
 
-		if (!current_world && !current_user)
-		{
-			current_world = app->GetDefaultWorld();
-			current_user = app->GetDefaultUser();
-			RestartCurrentUserBackgroundAndFog();
-		}
+		//if (!current_world && !current_user)
+		//{
+		//	//current_world = app->GetDefaultWorld();
+		//	//current_user = app->GetDefaultUser();
+		//	RestartCurrentUserBackgroundAndFog();
+		//}
 
 		if (current_world)
 		{	int num_entities = current_world->GetNumEntities();
@@ -340,6 +343,13 @@ void ContentCreationController::Reset()
 
 void ContentCreationController::Update()
 {
+	if (!sesion_is_prepared)		//return;
+	{		boost::mutex::scoped_lock lock(m_mutex);
+			current_world = app->GetDefaultWorld();
+			current_user = app->GetDefaultUser();
+			RestartCurrentUserBackgroundAndFog();
+	}
+
 	if (app_mainprod)
 	{	//app_mainprod->PrepareSimpleEffects();
 		app_mainprod->EnableSimpleInverEffect();
@@ -634,7 +644,7 @@ void ContentCreationController::EntityHadAGoodUserFeedback(core::IEntityPersiste
 void ContentCreationController::Notified(void* callinginstance, const std::string &tag, const int &flag)
 {
 	//boost::mutex::scoped_lock lock(m_mutex); 
-	if (tag == "RUN WORLD")
+	if ((tag == "RUN WORLD") || (tag == "CLOSE WORLD"))
 	{	boost::mutex::scoped_lock lock(m_mutex);
 		DoNotifiedBySessionController(tag);
 	}
@@ -650,10 +660,20 @@ void ContentCreationController::DoNotifiedBySessionController(const std::string 
 		psique = (float)IA_Karma::NEUTRAL;
 		energy = (float)IA_Energy::EXITED/2.0f;
 
-		current_world = app->GetCurrentWorld();
-		current_user  = app->GetCurrentUser();
+		if (tag == "RUN WORLD")
+		{
+			current_world = app->GetCurrentWorld();
+			current_user  = app->GetCurrentUser();
+			sesion_is_prepared = true;
 
-		RestartCurrentUserBackgroundAndFog();
+			RestartCurrentUserBackgroundAndFog();
+		}
+		else if (tag == "CLOSE WORLD")
+		{
+			current_user  = NULL;
+			current_world = NULL;
+			sesion_is_prepared = false;
+		}
 		ResetStatisticalAccumulators();
 	}
 }

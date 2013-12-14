@@ -82,7 +82,7 @@ void MainPercept::DoMainLoop()
 void MainPercept::Iterate()
 {	
 	boost::try_mutex::scoped_lock lock(m_mutex);
-	if (user_dataModel_controller && perceptVideo_module)
+	if (lock && user_dataModel_controller && perceptVideo_module)
 	{
 		corePoint3D<double> head_position, presence_center_of_mass, com_to_head;
 

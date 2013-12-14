@@ -111,6 +111,7 @@ class ContentCreationController : public core::Observer
 		static IApplicationConfiguration* iapp_config;
 		static IPercept		*app_mainpercept;
 		static IProd		*app_mainprod;
+		static bool			sesion_is_prepared;
 
 		static ContentCreationController *instance;
 		static double start_timestamp, 

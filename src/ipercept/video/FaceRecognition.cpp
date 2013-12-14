@@ -278,7 +278,7 @@ int  FaceRecognition::FindBestCandidate(float *projected_test_face_, float &like
 	}
 
 	likeness = 1.0f - sqrt( min_distance / (float)(face_vector.size() * eigen_vector_size) ) / 255.0f;
-	return ((likeness > 0.35f) ? candidate : -1);
+	return ((likeness > 0.65f) ? candidate : -1);
 }
 
 bool FaceRecognition::LoadTrainningData()

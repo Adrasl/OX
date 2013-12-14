@@ -299,19 +299,22 @@ void PresenceDetection::detect_and_draw()
 
 bool PresenceDetection::PresenceDetected() 
 {
-	boost::try_mutex::scoped_lock lock(m_mutex);
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	return ( ( presence_area > PRESENCE_MIN_AREA ) 
 		  && ( presence_area < PRESENCE_MAX_AREA ) );
 }
 void PresenceDetection::GetPresenceCenterOfMass(corePoint2D<int> &pos)
 {
-	boost::try_mutex::scoped_lock lock(m_mutex);
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	pos.x = presenceCenterPos.x;
 	pos.y = presenceCenterPos.y;
 }
 void PresenceDetection::GetPresenceRec(corePoint2D<int> &corner_a, corePoint2D<int> &corner_b)
 {
-	boost::try_mutex::scoped_lock lock(m_mutex);
+	boost::mutex::scoped_lock lock(m_mutex);
+
 	corner_a.x = presenceRec_a.x;
 	corner_a.y = presenceRec_a.y;
 	corner_b.x = presenceRec_b.x;
@@ -335,7 +338,7 @@ void PresenceDetection::DoTrainBackground()
 
 void PresenceDetection::TrainBackground()
 {
-	boost::try_mutex::scoped_lock lock(m_mutex);
+	boost::mutex::scoped_lock lock(m_mutex);
 	if (lock)
 	{
 		background_is_trained = 0;

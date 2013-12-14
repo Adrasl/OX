@@ -71,7 +71,7 @@ void SimpleFaceDetection::DoMainLoop()
 
 void SimpleFaceDetection::Iterate()
 {
-	boost::try_mutex::scoped_try_lock lock(m_mutex);
+	boost::mutex::scoped_try_lock lock(m_mutex);
 	if (lock)
 	{
 		//Capture();
@@ -87,13 +87,13 @@ void SimpleFaceDetection::Process()
 
 bool SimpleFaceDetection::FaceDetected() 
 {
-	boost::try_mutex::scoped_lock lock(m_mutex);
+	boost::mutex::scoped_lock lock(m_mutex);
 	return face_detected; 
 }
 
 void SimpleFaceDetection::SetCurrentImage(const int &size_x, const int &size_y, const int &n_channels, const int &depth, const int &width_step, char * data)
 {
-	boost::try_mutex::scoped_try_lock lock(m_mutex);
+	boost::mutex::scoped_try_lock lock(m_mutex);
 	if ((lock)&&(data))
 	{
 		char *old_image = (image) ? image->imageData : NULL;
@@ -182,7 +182,7 @@ bool SimpleFaceDetection::Apply()
 
 char * SimpleFaceDetection::GetCopyOfCurrentImage(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb)
 {
-	boost::try_mutex::scoped_try_lock lock(m_mutex);
+	boost::mutex::scoped_try_lock lock(m_mutex);
 	if ((lock)&&(image))
 	{
 		char *source = image->imageData;
@@ -213,7 +213,7 @@ char * SimpleFaceDetection::GetCopyOfCurrentImage(int &size_x, int &size_y, int 
 
 char * SimpleFaceDetection::GetCopyOfAreaOfInterest(int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb)
 {
-	boost::try_mutex::scoped_try_lock lock(m_mutex);
+	boost::mutex::scoped_try_lock lock(m_mutex);
 	if ((lock)&&(face_img))
 	{
 		char *source = face_img->imageData;
@@ -326,13 +326,13 @@ bool SimpleFaceDetection::detect_and_draw()
 
 void SimpleFaceDetection::GetFaceCenterPos(corePoint2D<int> &pos)
 {
-	boost::try_mutex::scoped_lock lock(face_data_mutex);
+	boost::mutex::scoped_lock lock(face_data_mutex);
 	pos.x = faceCenterPos.x;
 	pos.y = faceCenterPos.y;
 }
 void SimpleFaceDetection::GetFaceRec(corePoint2D<int> &corner_a, corePoint2D<int> &corner_b)
 {
-	boost::try_mutex::scoped_lock lock(face_data_mutex);
+	boost::mutex::scoped_lock lock(face_data_mutex);
 	corner_a.x = faceRec_a.x;
 	corner_a.y = faceRec_a.y;
 	corner_b.x = faceRec_b.x;
