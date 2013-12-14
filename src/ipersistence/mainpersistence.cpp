@@ -193,34 +193,34 @@ MainPersistence::MainPersistence(IApplicationConfiguration *app_config_) : app(N
 
 		//---- ON BOOT DEFAULT SCENE---
 		core::ipersistence::UserPersistence default_user("default_user", "this_is_the_default_scene");
-		core::ipersistence::EntityPersistence flower("flower");
-		core::ipersistence::EntityPersistence teapot("teapot");
-		core::ipersistence::EntityPersistence field("field");
-		core::ipersistence::EntityPersistence panda("panda");
-		flower.SetModelData("flower/flower");
-		teapot.SetModelData("teapot");
-		field.SetModelData("environment");
-		panda.SetModelData("panda-model");
+		//core::ipersistence::EntityPersistence flower("flower");
+		//core::ipersistence::EntityPersistence teapot("teapot");
+		//core::ipersistence::EntityPersistence field("field");
+		//core::ipersistence::EntityPersistence panda("panda");
+		//flower.SetModelData("flower/flower");
+		//teapot.SetModelData("teapot");
+		//field.SetModelData("environment");
+		//panda.SetModelData("panda-model");
 		core::ipersistence::WorldPersistence default_world("default_world", "default_user", 127);
 		default_user.SetModel("teapot");
 		default_user.SetScale(1.0);
 		default_user.Save();
-		flower.SetPosition(10,0,0);
-		flower.SetScale(0.01);
-		teapot.SetPosition(0,20,0);
-		teapot.SetScale(1.5);
-		field.SetPosition(-8,42.05,0);
-		field.SetScale(0.25);
-		panda.SetPosition(20,20,0);
-		panda.SetScale(0.005);
-		flower.Save();
-		teapot.Save();
-		field.Save();
-		panda.Save();
-		default_world.AddEntity( (*(core::IEntityPersistence*)&flower) );
-		default_world.AddEntity( (*(core::IEntityPersistence*)&teapot) );
-		default_world.AddEntity( (*(core::IEntityPersistence*)&field ) );
-		default_world.AddEntity( (*(core::IEntityPersistence*)&panda ) );
+		//flower.SetPosition(10,0,0);
+		//flower.SetScale(0.01);
+		//teapot.SetPosition(0,20,0);
+		//teapot.SetScale(1.5);
+		//field.SetPosition(-8,42.05,0);
+		//field.SetScale(0.25);
+		//panda.SetPosition(20,20,0);
+		//panda.SetScale(0.005);
+		//flower.Save();
+		//teapot.Save();
+		//field.Save();
+		//panda.Save();
+		//default_world.AddEntity( (*(core::IEntityPersistence*)&flower) );
+		//default_world.AddEntity( (*(core::IEntityPersistence*)&teapot) );
+		//default_world.AddEntity( (*(core::IEntityPersistence*)&field ) );
+		//default_world.AddEntity( (*(core::IEntityPersistence*)&panda ) );
 		default_world.Save();
 		//-----------------------------
 

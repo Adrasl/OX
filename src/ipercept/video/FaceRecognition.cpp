@@ -80,8 +80,8 @@ int FaceRecognition::RecognizeFromImage(char* data, const int &size_x, const int
 	if(equalized && (eigen_vector.size() > 0))
 	{
 		cvEigenDecomposite( equalized, eigen_vector.size(), eigen_vector_pp, 0, 0, average_image, projected_test_face);
-		candidate		= FindBestCandidate(projected_test_face, likeness);
-		candidate_index	= (candidate != -1) ? facepic_to_person_indexes->data.i[candidate] : -1;
+		candidate		= FindBestCandidate(projected_test_face, likeness);// encuentra una cara aquí
+		candidate_index	= (candidate != -1) ? facepic_to_person_indexes->data.i[candidate] : -1; //pero no está registrada aquí
 	}
 
 	zimage->imageData = default_data;
