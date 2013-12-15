@@ -161,13 +161,13 @@ MainPersistence::MainPersistence(IApplicationConfiguration *app_config_) : app(N
 		ent_3.Save();
 		ent_4.Save();
 		ent_5.Save();
-		mundo1.AddEntity( (*(core::IEntityPersistence*)&ent_1) );//duplicates entities :S
-		mundo1.AddEntity( (*(core::IEntityPersistence*)&ent_2) );
-		mundo1.AddEntity( (*(core::IEntityPersistence*)&ent_3) );
-		mundo3.AddEntity( (*(core::IEntityPersistence*)&ent_1) );
-		mundo3.AddEntity( (*(core::IEntityPersistence*)&ent_3) );
-		mundo3.AddEntity( (*(core::IEntityPersistence*)&ent_4) );
-		mundo3.AddEntity( (*(core::IEntityPersistence*)&ent_5) );
+		mundo1.AddEntity( ((core::IEntityPersistence*)&ent_1) );//duplicates entities :S
+		mundo1.AddEntity( ((core::IEntityPersistence*)&ent_2) );
+		mundo1.AddEntity( ((core::IEntityPersistence*)&ent_3) );
+		mundo3.AddEntity( ((core::IEntityPersistence*)&ent_1) );
+		mundo3.AddEntity( ((core::IEntityPersistence*)&ent_3) );
+		mundo3.AddEntity( ((core::IEntityPersistence*)&ent_4) );
+		mundo3.AddEntity( ((core::IEntityPersistence*)&ent_5) );
 		mundo1.Save();
 		mundo3.Save();
 		mundo1.Load();

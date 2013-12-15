@@ -125,22 +125,31 @@ void WorldPersistence::ProcessException(const dba::Exception& pEx)
 	error = wop.str();
 }
 
-void WorldPersistence::AddEntity(core::IEntityPersistence &entity)
+void WorldPersistence::AddEntity(core::IEntityPersistence *entity)
 {	
-	entity.Save();
+	entity->Save();
 	{	boost::mutex::scoped_lock lock(m_mutex);
+
+		core::ipersistence::EntityPersistence* entity_to_add = (core::ipersistence::EntityPersistence*)entity;
 		//core::ipersistence::EntityPersistence new_entity(entity.GetName());
-		entities.push_back((*(core::ipersistence::EntityPersistence*)&entity)); 
+		entities.push_back((*(core::ipersistence::EntityPersistence*)entity));
+		int entity_toAdd_id = entity_to_add->getId();
+		std::map<int, EntityPersistence*>::iterator entity_to_add_iterator = actual_entities.find(entity_toAdd_id);
+		if (entity_to_add_iterator == actual_entities.end())
+			actual_entities[entity_toAdd_id] = entity_to_add;
 	}
 	Changed();	
 }
 
-void WorldPersistence::RemoveEntity(core::IEntityPersistence &entity)
+void WorldPersistence::RemoveEntity(core::IEntityPersistence *entity)
 {	
-	entity.Save();
+	entity->Save();
 	{	boost::mutex::scoped_lock lock(m_mutex);
+		
 		std::list<core::ipersistence::EntityPersistence>::iterator iter = entities.begin();
-		core::ipersistence::EntityPersistence* entity_to_delete = (core::ipersistence::EntityPersistence*)&entity;
+		core::ipersistence::EntityPersistence* entity_to_delete = (core::ipersistence::EntityPersistence*)entity;
+		int entity_toDelete_id = entity_to_delete->getId();
+		
 		unsigned int index = 0;
 		bool found = false;
 		for ( ; ( entities.size() > 0 ) && (index < entities.size()) && !found ; index++)
@@ -150,12 +159,33 @@ void WorldPersistence::RemoveEntity(core::IEntityPersistence &entity)
 		}
 		if ( iter != entities.end() ) 
 			entities.erase(iter); 
+
+		actual_entities;
+		std::map<int, EntityPersistence*>::iterator entity_to_delete_iterator = actual_entities.find(entity_toDelete_id);
+		if (entity_to_delete_iterator != actual_entities.end())
+			actual_entities.erase(entity_to_delete_iterator);
+
 	}
 	Changed();	
 }
 
 core::IEntityPersistence* WorldPersistence::GetEntity(const int &i)		
-{	boost::mutex::scoped_lock lock(m_mutex);
+{	
+	boost::mutex::scoped_lock lock(m_mutex);
+
+	core::IEntityPersistence* result = NULL;
+	if (i < actual_entities.size())
+	{
+		int index = 0;
+		for (std::map<int, EntityPersistence*>::iterator iter = actual_entities.begin(); (result == NULL) && (iter != actual_entities.end()); iter++)
+		{
+			if (index == i)
+				result = ((core::IEntityPersistence*)(iter->second));
+		}
+	}
+	return result;
+
+	/*boost::mutex::scoped_lock lock(m_mutex);
 	core::IEntityPersistence* result = NULL;
 	std::list<core::ipersistence::EntityPersistence>::iterator iter = entities.begin();
 	unsigned int index = 0;
@@ -163,5 +193,5 @@ core::IEntityPersistence* WorldPersistence::GetEntity(const int &i)
 		iter++;
 	if (index == i)
 		result = (core::IEntityPersistence*)&(*iter);
-	return result;
+	return result;*/
 }

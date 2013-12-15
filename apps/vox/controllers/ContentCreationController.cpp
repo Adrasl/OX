@@ -556,8 +556,8 @@ void ContentCreationController::Update()
 			if (current_world && (current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE)) 
 			{
 				CreatePresetOfEntities1(1.0f);
-				//CreatePresetOfEntities2(1.25f);
-				CreatePresetOfEntities2(1.5f);
+				////CreatePresetOfEntities2(1.25f);
+				//CreatePresetOfEntities2(1.5f);
 			}
 		}
 	}
@@ -749,7 +749,7 @@ void ContentCreationController::CreatePresetOfEntities1(const double &time)
 		genesis->attach(instance);
 
 		core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
-		current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+		current_world->AddEntity(((core::IEntityPersistence *)genesis));
 		current_world->Save();
 
 		createdEntity_timesptamp = current_timestamp;
@@ -802,7 +802,7 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		genesis->attach(instance);
 
 		core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
-		current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+		current_world->AddEntity(((core::IEntityPersistence *)genesis));
 		current_world->Save();
 
 		createdEntity_timesptamp = current_timestamp;
@@ -825,12 +825,12 @@ void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> 
 		std::string modelpath = model_url.str();
 		Filename pandafile = Filename::from_os_specific(modelpath);
 
-		//SpecialSound, only one of them will be so special
-		std::string decoration_sound_filename;
-		if (false)//((int)psique < psique_energy_decoration.size())
-		{	int decorations_size = psique_energy_decoration[0][0].size();
-			decoration_sound_filename = (*((psique_energy_decoration[(int)floor(psique+0.5f)][0].begin())+(rand()%(psique_energy_decoration[(int)floor(psique+0.5f)][0].size()))));
-		}
+		////SpecialSound, only one of them will be so special
+		//std::string decoration_sound_filename;
+		//if (false)//((int)psique < psique_energy_decoration.size())
+		//{	int decorations_size = psique_energy_decoration[0][0].size();
+		//	decoration_sound_filename = (*((psique_energy_decoration[(int)floor(psique+0.5f)][0].begin())+(rand()%(psique_energy_decoration[(int)floor(psique+0.5f)][0].size()))));
+		//}
 
 		for (int i = 0; i < 20; i++)
 		{
@@ -845,10 +845,10 @@ void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> 
 			genesis->SetCollidable(false);
 			if (false)//((i == 0) && !(recover_decorationCalm_afterseconds - current_timestamp > 0))
 			{
-				genesis->SetSoundDataCreate(decoration_sound_filename);
-				genesis->SetTimeToLive(time);
-				recover_decorationCalm_afterseconds = current_timestamp + CC_RECOVER_CALMDECOTARION_TIME;
-				//recover_decorationExited_afterseconds = current_timestamp + CC_RECOVER_EXITEDDECOTARION_TIME;
+				//genesis->SetSoundDataCreate(decoration_sound_filename);
+				//genesis->SetTimeToLive(time);
+				//recover_decorationCalm_afterseconds = current_timestamp + CC_RECOVER_CALMDECOTARION_TIME;
+				////recover_decorationExited_afterseconds = current_timestamp + CC_RECOVER_EXITEDDECOTARION_TIME;
 			}
 			else
 				genesis->SetTimeToLive(RandomFloat(time*0.8, time));
@@ -886,7 +886,7 @@ void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> 
 			genesis->attach(instance);
 
 			core::iprod::OXBoidsEntity *new_entity = new core::iprod::OXBoidsEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
-			current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+			current_world->AddEntity(((core::IEntityPersistence *)genesis));
 			current_world->Save();
 
 			//createdEntity_timesptamp = current_timestamp;
@@ -905,12 +905,12 @@ void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> 
 		std::string modelpath = model_url.str();
 		Filename pandafile = Filename::from_os_specific(modelpath);
 
-		//SpecialSound, only one of them will be so special
-		std::string decoration_sound_filename;
-		if (false)//((int)psique < psique_energy_decoration.size())
-		{	int decorations_size = psique_energy_decoration[0][1].size();
-			decoration_sound_filename = (*((psique_energy_decoration[(int)floor(psique+0.5f)][1].begin())+(rand()%(psique_energy_decoration[(int)floor(psique+0.5f)][1].size()))));
-		}
+		////SpecialSound, only one of them will be so special
+		//std::string decoration_sound_filename;
+		//if (false)//((int)psique < psique_energy_decoration.size())
+		//{	int decorations_size = psique_energy_decoration[0][1].size();
+		//	decoration_sound_filename = (*((psique_energy_decoration[(int)floor(psique+0.5f)][1].begin())+(rand()%(psique_energy_decoration[(int)floor(psique+0.5f)][1].size()))));
+		//}
 
 		for (int i = 0; i < 7; i++)
 		{
@@ -925,10 +925,10 @@ void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> 
 			genesis->SetCollidable(false);
 			if (false)//((i == 0) && !(recover_decorationExited_afterseconds - current_timestamp > 0)) // I am special
 			{
-				genesis->SetSoundDataCreate(decoration_sound_filename);
-				genesis->SetTimeToLive(time);
-				recover_decorationExited_afterseconds = current_timestamp + CC_RECOVER_EXITEDDECOTARION_TIME;
-				recover_decorationCalm_afterseconds = current_timestamp + CC_RECOVER_CALMDECOTARION_TIME;
+				//genesis->SetSoundDataCreate(decoration_sound_filename);
+				//genesis->SetTimeToLive(time);
+				//recover_decorationExited_afterseconds = current_timestamp + CC_RECOVER_EXITEDDECOTARION_TIME;
+				//recover_decorationCalm_afterseconds = current_timestamp + CC_RECOVER_CALMDECOTARION_TIME;
 			}
 			else
 				genesis->SetTimeToLive(RandomFloat(time*0.01, time));
@@ -976,7 +976,7 @@ void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> 
 																					 /*attraction_factor_  */ 0.0f,
 																					 /*avoidance_factor_   */ 0.0f,
 																					 /*worldlimits_factor_ */ 1.5f); //retomar descomentar (float)z_step/5.0 );
-			current_world->AddEntity(*((core::IEntityPersistence *)genesis));
+			current_world->AddEntity(((core::IEntityPersistence *)genesis));
 			current_world->Save();
 
 			//createdEntity_timesptamp = current_timestamp;

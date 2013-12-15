@@ -2042,7 +2042,7 @@ void MainProd::PrivateRemoveEntityFromCurrentWorld(core::IEntity * ent)
 {
 	Prod3DEntity *prod3d_ent = (Prod3DEntity *) ent;
 	if (prod3d_ent && current_world)
-	{	current_world->RemoveEntity(*(prod3d_ent->GetEntity()));
+	{	current_world->RemoveEntity((prod3d_ent->GetEntity()));
 		current_world->Save();
 		//double desired_timestamp = (double)clock()/CLOCKS_PER_SEC + after_seconds;
 		RemoveEntityFromScene(prod3d_ent);
@@ -2082,7 +2082,7 @@ void MainProd::InsertEntityIntoScene(core::IEntityPersistence* ent) //Retomar, r
 {
 	if (ent)
 	{	boost::mutex::scoped_lock lock(m_mutex);
-		current_world->AddEntity(*ent);
+		current_world->AddEntity(ent);
 		current_world->Save();
 		Prod3DEntity *new_entity = new Prod3DEntity(ent);
 		//scene_entities.push_back(new_entity);
@@ -2094,7 +2094,7 @@ void MainProd::InsertEntityIntoScene(core::IEntityPersistence* ent, std::vector<
 {
 	if (ent)
 	{	boost::mutex::scoped_lock lock(m_mutex);
-		current_world->AddEntity(*ent);
+		current_world->AddEntity(ent);
 		current_world->Save();
 		Prod3DEntity *new_entity = new Prod3DEntity(ent);
 		//scene_entities.push_back(new_entity);

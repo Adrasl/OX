@@ -34,13 +34,13 @@ namespace core
 				virtual void SetName(const std::string &name_)					{ name = name_; Changed();					}
 				virtual void SetOwner(const std::string &user_owner)			{ owner = user_owner; Changed();			}
 				virtual void SetPermissions(const int &permissions_)			{ permissions = permissions_; Changed();	}
-				virtual void AddEntity(core::IEntityPersistence &entity);
-				virtual void RemoveEntity(core::IEntityPersistence &entity);
+				virtual void AddEntity(core::IEntityPersistence *entity);
+				virtual void RemoveEntity(core::IEntityPersistence *entity);
 				virtual std::string GetName()									{ return name;								}
 				virtual std::string GetOwner()									{ return owner;								}
 				virtual int			GetPermissions()							{ return permissions;						}
 				virtual core::IEntityPersistence* GetEntity(const int &i);
-				virtual int GetNumEntities()									{ return entities.size();					}
+				virtual int GetNumEntities()									{ return actual_entities.size();			}
 				virtual void GetId(int &value)									{ value = this->getId();					}
 				
 				static dba::SQL *GetSchema()									{ return &schema;							}
@@ -50,7 +50,8 @@ namespace core
 
 				std::string name, owner;
 				int permissions;
-				std::list<EntityPersistence> entities;
+				std::map<int, EntityPersistence*> actual_entities;
+				std::list<EntityPersistence>  entities;
 				//std::map<int, EntityPersistence*> indexed_entities;
 
 			private:
