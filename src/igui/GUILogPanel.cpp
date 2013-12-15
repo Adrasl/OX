@@ -22,8 +22,7 @@ GUILogPanel::GUILogPanel(IApplicationConfiguration *app_config_, wxWindow *paren
 {
 	std::stringstream s_image;
 	if ( app_config != NULL )
-		s_image << app_config->GetUIResourceDirectory() << "default_backgr.png";
-	//background_image = wxBitmap("c:/etc/default_backgr.png", wxBITMAP_TYPE_ANY);
+		s_image << app_config->GetUIResourceDirectory() << "background.png";
 	background_image = wxBitmap(s_image.str(), wxBITMAP_TYPE_ANY);
 	
 	wxBoxSizer *top_sizer = new wxBoxSizer( wxVERTICAL );

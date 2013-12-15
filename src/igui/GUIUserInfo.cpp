@@ -34,7 +34,7 @@ GUIUserInfo::GUIUserInfo(IApplicationConfiguration *app_config_, wxWindow *paren
 {
 	std::stringstream s_image;
 	if ( app_config != NULL )
-		s_image << app_config->GetUIResourceDirectory() << "default_backgr.png";
+		s_image << app_config->GetUIResourceDirectory() << "background.png";
 	background_image = wxBitmap(s_image.str(), wxBITMAP_TYPE_ANY);
 
 	int col, row;
@@ -42,17 +42,17 @@ GUIUserInfo::GUIUserInfo(IApplicationConfiguration *app_config_, wxWindow *paren
 	world_list = new wxListBox(this, wxID_WORLD_LIST, wxPoint(col, row+25), wxSize(150, 200), wx_world_names, wxLB_SINGLE | wxLB_SORT);
 
 	col = 20, row = 260;
-
 	run_button = new wxButton(this, wxID_RUN, _("RUN"), wxPoint(col,row), wxSize(70, 19));
 	logout_button  = new wxButton(this, wxID_LOGOUT, _("Log out"), wxPoint(col+80,row), wxSize(70, 19));
 	delete_world_button  = new wxButton(this, wxID_DELETE_WORLD, _("Delete world"), wxPoint(col+160,row), wxSize(70, 19));
 	delete_user_button  = new wxButton(this, wxID_DELETE_USER, _("Delete user"), wxPoint(col+240,row), wxSize(70, 19));
+	world_name	 = new wxTextCtrl(this, wxID_ANY, "", wxPoint(col+340,row-20), wxSize(70, 19));
+	newworld_button  = new wxButton(this, wxID_NEWWORLD, _("New world"), wxPoint(col+340,row), wxSize(70, 19));
 	
-	col = 350; row = 180;
+	col = 20; row = 180;
 	save_permissions_to_selected_world_button  = new wxButton(this, wxID_SAVE_W_PERM, _("Save Current"), wxPoint(col,row), wxSize(70, 19));
-	world_name	 = new wxTextCtrl(this, wxID_ANY, "", wxPoint(col,row+30), wxSize(70, 19));
-	newworld_button  = new wxButton(this, wxID_NEWWORLD, _("New world"), wxPoint(col,row+50), wxSize(70, 19));
-
+	save_permissions_to_selected_world_button->Hide();
+	
 	col = 480; row = 25;
 	userflag_itself_modify_psi			= new wxCheckBox(this, wxID_ANY, _("Automodify psique"), wxPoint(col, row));
 	userflag_owner_actions_modify_psi	= new wxCheckBox(this, wxID_ANY, _("Actions mod. psique"), wxPoint(col, row+20));
@@ -72,6 +72,25 @@ GUIUserInfo::GUIUserInfo(IApplicationConfiguration *app_config_, wxWindow *paren
 	worldflag_owner_pick		= new wxCheckBox(this, wxID_ANY, _("Owner can pick"), wxPoint(col, row+100));
 	worldflag_owner_create	= new wxCheckBox(this, wxID_ANY, _("Owner can create"), wxPoint(col, row+120));
 	worldflag_owner_destroy	= new wxCheckBox(this, wxID_ANY, _("Owner can destroy"), wxPoint(col, row+140));
+
+	userflag_itself_modify_psi->Hide();
+	userflag_owner_actions_modify_psi->Hide();
+	userflag_owner_see->Hide();
+	userflag_owner_listen->Hide();
+	userflag_owner_touch->Hide();
+	userflag_owner_pick->Hide();
+	userflag_owner_create->Hide();
+	userflag_owner_destroy->Hide();
+
+	col = 350; row = 25;
+	worldflag_itself_modify_psi->Hide();
+	worldflag_owner_actions_modify_psi->Hide();
+	worldflag_owner_see->Hide();
+	worldflag_owner_listen->Hide();
+	worldflag_owner_touch->Hide();
+	worldflag_owner_pick->Hide();
+	worldflag_owner_create->Hide();
+	worldflag_owner_destroy->Hide();
 
 }
 
@@ -154,11 +173,12 @@ void GUIUserInfo::OnPaint(wxPaintEvent & evt)
 
 void GUIUserInfo::render(wxDC& dc)
 {
+	dc.SetTextForeground(wxColour(255,255,255));
 	dc.DrawBitmap(background_image, 0, -20, false );
 	dc.DrawRotatedText(_("User:"), 20, 10, 0); dc.DrawRotatedText(user_name, 60, 10, 0);
 	dc.DrawRotatedText(_("Worlds"), 20, 30, 0);
-	dc.DrawRotatedText(_("User flags"), 480, 10, 0);
-	dc.DrawRotatedText(_("World flags"), 370, 10, 0);
+	//dc.DrawRotatedText(_("User flags"), 480, 10, 0);
+	//dc.DrawRotatedText(_("World flags"), 370, 10, 0);
 }
 
 void GUIUserInfo::OnRunButton(wxCommandEvent& WXUNUSED(event))

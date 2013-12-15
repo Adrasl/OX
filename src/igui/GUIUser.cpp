@@ -30,20 +30,25 @@ GUIUser::GUIUser(IApplicationConfiguration *app_config_, wxWindow *parent, wxWin
 	if ( app_config != NULL )
 		uiresource_dir = app_config->GetUIResourceDirectory();
 	
-	std::stringstream ss_image, ss_no_face_bitmap;
-	ss_image << uiresource_dir << "default_backgr.png";
+	std::stringstream ss_no_face_bitmap;
 	ss_no_face_bitmap << uiresource_dir << "no_face.png";
-	background_image = wxBitmap(ss_image.str(), wxBITMAP_TYPE_ANY);
+
+	std::stringstream s_image;
+	if ( app_config != NULL )
+		s_image << app_config->GetUIResourceDirectory() << "background.png";
+	background_image = wxBitmap(s_image.str(), wxBITMAP_TYPE_ANY);
+
+
 	no_face_bitmap   = new wxBitmap(ss_no_face_bitmap.str(), wxBITMAP_TYPE_ANY);
 
 	int col, row;
-	col = 80, row = 40;
+	col = 120, row = 40;
 	user_name	 = new wxTextCtrl(this, wxID_ANY, "test1", wxPoint(col,row), wxDefaultSize);
 	user_passwd  = new wxTextCtrl(this, wxID_ANY, "111", wxPoint(col,row+25), wxDefaultSize, wxTE_PASSWORD);
 	login_button = new wxButton(this, wxID_LOGIN, "Log in", wxPoint(col,row+50), wxSize(70, 19));
 	//delete_button = new wxButton(this, wxID_DELETE, "Delete", wxPoint(col,row+70), wxSize(70, 19));
 
-	col = 320, row = 40;
+	col = 360, row = 40;
 	new_user_name	 = new wxTextCtrl(this, wxID_ANY, "", wxPoint(col,row), wxDefaultSize);
 	new_user_passwd  = new wxTextCtrl(this, wxID_ANY, "", wxPoint(col,row+25), wxDefaultSize, wxTE_PASSWORD);	
 	new_user_passwd2 = new wxTextCtrl(this, wxID_ANY, "", wxPoint(col,row+50), wxDefaultSize, wxTE_PASSWORD);
@@ -80,19 +85,20 @@ void GUIUser::OnPaint(wxPaintEvent & evt)
 
 void GUIUser::render(wxDC& dc)
 {
+	dc.SetTextForeground(wxColour(255,255,255));
 	dc.DrawBitmap(background_image, 0, -20, false );
-	dc.DrawRotatedText("Login", 80, 20, 0);
-	dc.DrawRotatedText("Name", 20, 45, 0);
-	dc.DrawRotatedText("Password", 20, 70, 0);
-	dc.DrawRotatedText("New User", 320, 20, 0);
-	dc.DrawRotatedText("Name", 220, 45, 0);
-	dc.DrawRotatedText("Password", 220, 70, 0);
-	dc.DrawRotatedText("Retype password", 220, 95, 0);
+	dc.DrawRotatedText("Login", 120, 20, 0);
+	dc.DrawRotatedText("Name", 60, 45, 0);
+	dc.DrawRotatedText("Password", 60, 70, 0);
+	dc.DrawRotatedText("New User", 360, 20, 0);
+	dc.DrawRotatedText("Name", 260, 45, 0);
+	dc.DrawRotatedText("Password", 260, 70, 0);
+	dc.DrawRotatedText("Retype password", 260, 95, 0);
 
 	if (!face_detected)
-		dc.DrawBitmap( (*no_face_bitmap), 200, 150 );
+		dc.DrawBitmap( (*no_face_bitmap), 240, 150 );
 	else
-		dc.DrawBitmap( face_bitmap, 200, 150 );
+		dc.DrawBitmap( face_bitmap, 240, 150 );
 }
 void GUIUser::DoLogout()
 {

@@ -100,11 +100,9 @@ END_EVENT_TABLE()
 GUIConfiguration::GUIConfiguration(IApplicationConfiguration *app_config_, wxWindow *parent, wxWindowID id, const wxPoint &pos, const wxSize &size, long style, const wxString &name) 
 : wxPanel(parent, id, pos, size, style, name), needs_restarting(false), isRecording(false), app_config(app_config_)
 {
-
 	std::stringstream s_image;
 	if ( app_config != NULL )
-		s_image << app_config->GetUIResourceDirectory() << "default_backgr.png";
-	//background_image = wxBitmap("c:/etc/default_backgr.png", wxBITMAP_TYPE_ANY);
+		s_image << app_config->GetUIResourceDirectory() << "background.png";
 	background_image = wxBitmap(s_image.str(), wxBITMAP_TYPE_ANY);
 
 	int width, height;
@@ -198,6 +196,7 @@ void GUIConfiguration::OnPaint(wxPaintEvent & evt)
 
 void GUIConfiguration::render(wxDC& dc)
 {
+	dc.SetTextForeground(wxColour(255,255,255));
 	dc.DrawBitmap(background_image, 0, -20, false );
 	dc.DrawRotatedText("Configuration", 20, 10, 0);
 }

@@ -38,7 +38,12 @@ void GUIHelp::OnPaint(wxPaintEvent & evt)
 void GUIHelp::render(wxDC& dc)
 {
 	dc.DrawBitmap(background_image, 0, -20, false );
-	dc.DrawRotatedText("ProjectVOX", 250, 30, 0);
-	dc.DrawRotatedText("Code Name ::TheElectricGOAT::", 250, 50, 0);
-	dc.DrawRotatedText("Version 0.1", 250, 70, 0);
+	dc.SetTextForeground(wxColour(255,255,255));
+	dc.DrawRotatedText("Project OX", 250, 30, 0);
+	dc.DrawRotatedText("www._______________.com", 250, 50, 0);
+	dc.DrawRotatedText("Antonio José Sánchez López", 250, 70, 0);
+	dc.DrawRotatedText("Facultad de Informática", 250, 90, 0);
+	dc.DrawRotatedText("Universidad de Las Palmas de Gran Canaria", 250, 110, 0);
+	dc.DrawRotatedText("Version 0.1", 250, 130, 0);
+	dc.DrawRotatedText("@antoniojotasl", 250, 150, 0);
 }

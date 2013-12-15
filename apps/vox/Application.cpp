@@ -114,7 +114,7 @@ bool Application::OnInit()
 
 	core::IApplicationConfiguration* iapp_config = (core::IApplicationConfiguration*)app_config;
 
-	app_maingui		    =  core::igui::MainGui::GetInstance(iapp_config, "VOX");
+	app_maingui		    =  core::igui::MainGui::GetInstance(iapp_config, "OX");
 	app_mainprod	    = (core::IProd *) new core::iprod::MainProd(iapp_config, argc, argv, true); 
 	app_mainpercept     = (core::IPercept *) new core::ipercept::MainPercept(iapp_config); 
 	app_mainpersistence	= (core::IPersistence *) new core::ipersistence::MainPersistence(iapp_config); 

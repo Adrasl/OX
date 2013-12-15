@@ -1138,6 +1138,7 @@ void MainProd::CreateDefaultWindows(int num_windows)
 {
 	WindowProperties win_props = WindowProperties(); 
 	win_props.set_size(800, 600); 
+	win_props.set_title("OX Emptiness");
 	//------------
 	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	//------------

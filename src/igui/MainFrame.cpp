@@ -59,7 +59,7 @@ MainFrame::MainFrame(MainGui *maingui, wxWindow *parent, wxWindowID id, const wx
 	item_file_login = new wxMenuItem(file_menu,FILE_LOGIN, wxString("Log in"),wxString("Log in"),false);
 	item_file_logout= new wxMenuItem(file_menu,FILE_LOGOUT,wxString("Log out"),wxString("Log out"),false);
 	item_file_close = new wxMenuItem(file_menu,FILE_CLOSE, wxString("Close"),wxString("Close"),false);
-	file_menu->Append(item_file_auto);
+	//file_menu->Append(item_file_auto);
 	file_menu->Append(item_file_login);
 	file_menu->Append(item_file_logout);
 	file_menu->Append(item_file_close);
@@ -73,7 +73,7 @@ MainFrame::MainFrame(MainGui *maingui, wxWindow *parent, wxWindowID id, const wx
 	view_menu->Append(item_view_start);
 	view_menu->Append(item_view_user);
 	//view_menu->Append(item_view_log_panel);
-	view_menu->Append(item_view_fullscreen);
+	//view_menu->Append(item_view_fullscreen);
 	view_menu->UpdateUI();
 
 	tools_menu = new wxMenu;
