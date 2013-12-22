@@ -208,10 +208,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\controllers\NavigationController.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Entities\OXBoidsEntity.cpp"
 				>
 			</File>
@@ -221,6 +217,10 @@
 			</File>
 			<File
 				RelativePath=".\Entities\OXTreeEntity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\controllers\RunningSceneController.cpp"
 				>
 			</File>
 			<File
@@ -254,10 +254,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\controllers\NavigationController.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Entities\OXBoidsEntity.h"
 				>
 			</File>
@@ -271,6 +267,10 @@
 			</File>
 			<File
 				RelativePath=".\Entities\OXTreeEntity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\controllers\RunningSceneController.h"
 				>
 			</File>
 			<File

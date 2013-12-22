@@ -867,9 +867,9 @@ void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> 
 			//candidatepdu.position.x = RandomFloat(0.4f, 0.8f);
 			//candidatepdu.position.y = RandomFloat( 6.0f, 6.4f);
 			//candidatepdu.position.z = RandomFloat(0.5f, 1.0f);
-			candidatepdu.position.x = RandomFloat(spawn_point.x-0.20f, spawn_point.x+0.20f);
-			candidatepdu.position.y = RandomFloat(spawn_point.y-0.20f, spawn_point.y+0.20f);
-			candidatepdu.position.z = RandomFloat(spawn_point.z-0.20f, spawn_point.z+0.20f);
+			candidatepdu.position.x = RandomFloat(spawn_point.x-0.20f, spawn_point.x-0.05f);
+			candidatepdu.position.y = RandomFloat(spawn_point.y-0.20f, spawn_point.y-0.05f);
+			candidatepdu.position.z = RandomFloat(spawn_point.z-0.20f, spawn_point.z-0.05f);
 			candidatepdu.velocity.x = RandomFloat(-0.05f, 0.05f);
 			candidatepdu.velocity.y = RandomFloat(-0.05f, 0.05f);
 			candidatepdu.velocity.z = RandomFloat(-0.05f, 0.05f);

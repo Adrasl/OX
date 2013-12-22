@@ -541,14 +541,14 @@ Se distribuye bajo licencia zlib/png, de la Open Source Initiative, por lo que e
 
 Tiene varios defectos. Por un lado, en el paquete de sonido la documentación es errónea, y puede llevar a confusiones importantes. Además la definición de la API, aunque más simple, limita la funcionalidad real de OpenAL hasta el punto de que no puede orientarse correctamente la escucha en 3D, por lo que sólo puede usarse en 2D o 3D en el plano horizontal. Sin embargo, pequeñas modificaciones en la libería permitirían recuperar esa funcionalidad sin problemas.
 
-\subsubsection{Chuck: Strongly-timed, Concurrent, and On-the-fly Audio Programming Language}
+\subsubsection{Chuck: Strongly-timed, Concurrent, and On-the-fly Audio Programming Language}\label{SUBSUBSEC_CHUCK}
 
 Chuck es un lenguaje de programación para el análisis, síntesis, composición y producción de audio. La librería es multiplataforma y presenta un modelo de programación concurrente basado en tiempo, altamente preciso (strongly-timed) y con la habilidad de añadir y moficar código en tiempo de ejecución. Chuck soporta dispositivos MIDI, OSC, HID y audio multicanal.
 \\
 
 (completar, scripts, etc y estudiar más a fondo junto con Tapestrea, en comparación con Marsyas)
 
-\subsubsection{Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals}
+\subsubsection{Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals}\label{SUBSUBSEC_MARSYAS}
 Librería y framework para C++ para el procesado de audio con especial énfasis en aplicaciones de extracción de información en música, creada principalmente por George Tzanetakis y desarrollada de forma abierta. Está enfocado hacia el prototipado rápido y la experimentación en el análisis y síntesis de audio, procurando un alto rendimiento. 
 
 Bla bla bla...
@@ -3659,51 +3659,44 @@ A lo largo de las demos anteriores se perseguía el objetivo de ofrecer las herra
 Primero, separaremos el trabajo a realizar en dos campos: Interacción avanzada y Creación de contenidos.
 \\
 
-Interacción Avanzada: Se añaden nuevos mecanismos de interacción que vaya más allá de la navegación. Ya no se usará sólo la posición del usuario, sino también información relativa a sus movimientos, de forma que pueda interactuar con los elementos existentes en la escena. Se éstudiará la Excentricidad de su cuerpo (si mantiene posturas compactas o con extremidades muy abiertas) y también se construirá una malla 3D de su cuerpo para detectar colisiones con los objetos del Mundo. La velocidad de la colisión determinará qué tipo de acción se realizará. Estas acciones afectarán a qué tipo de contenidos se crean en el mundo.
+Interacción Avanzada: Se añaden nuevos mecanismos de interacción que vaya más allá de la navegación. Ya no se usará sólo la posición del usuario, sino también información relativa a sus movimientos, de forma que pueda interactuar con los elementos existentes en la escena. Se estudiará la colisión de su cuerpo con los objetos de la escena, así como se recopilará la información obtenida por el módulo de percepción para realizar cálculos estadísticos en relación a su actividad. Excentricidad de su cuerpo (si mantiene una postura muy redondeada o más recta de pie). También se estudia cómo construir una malla 3D de su cuerpo, así como otras representaciones que nos permitan calcular colisiones y obtener datos con ese punto de la colisión como velocidad o dirección de movimiento. Estas acciones afectarán a qué tipo de contenidos se crean en el mundo.
 \\
 
-Creación de contenidos: Hasta el momento se han usado escenas de prueba para comprobar el funcionamiento de la aplicación y sus capacidades. Sin embargo, la intención de la aplicación que se desea construir es que el usuario genere este entorno a partir de sus acciones. De esta forma, se habilitarán mecanismos para crear, modificar o destruir elementos del entorno. Además según su comportamiento se creará un perfil del Mundo, que llamaremos 'Psique' que servirá como punto principal para la composición. Afectará al audio y a los objetos que se crean. 
+Creación de contenidos: Hasta el momento se han usado escenas de prueba para comprobar el funcionamiento de la aplicación y sus capacidades. Sin embargo, la intención de la aplicación que se desea construir es crear el contenido en tiempo de ejecución, a partir de las acciones del usuario. De esta forma, se habilitarán mecanismos para crear, modificar o destruir elementos del entorno. Además según su comportamiento se creará un perfil, que llamaremos 'Psique' que servirá como punto principal para la composición. Afectará al audio y a los objetos que se crean. 
 \\
 
-Un punto de especial interés en la creación de contenidos, es que se desea crear elementos de vida artificial. No todos los objetos creados serán entidades pasivas, esperando la interacción del usuario. Algunos de ellos tendrán un comportamiento propio, siendo capaces de moverse, perseguir sus propios objetivos, influir en la creación de nuevos contenidos, reproducirse y evolucionar.
+Un punto de especial interés en la creación de contenidos, es que se desea crear elementos de vida artificial. No todos los objetos creados serán entidades pasivas, esperando la interacción del usuario. Algunos de ellos tendrán un comportamiento propio, siendo capaces de moverse y perseguir sus propios objetivos.
 \\
 
-Se incluye también en la creación de contenidos, el apartado de la composición musical. La composición procedimental es un campo de gran interés. Aunque no es el objetivo realizar un estudio profundo sobre la misma, se ha decidido añadir ciertas componentes. Se plantea el uso de una gramática para la composición. Basándose en la psique, que refleja el histórico de las acciones realizadas, se establece la estructura armónica de la composición, su ritmo y estilo. El conjunto de elementos creados en el entorno, también en base a la psique y en sus acciones, crearán el acompañamiento. Finalmente, las acciones inmediatas del usuario crearán la melodía.
+Se incluye también en la creación de contenidos el apartado de la composición musical. La composición procedimental es un campo de gran interés. Aunque no es el objetivo realizar un estudio profundo sobre la misma, se ha decidido añadir ciertas componentes. Basándose en la psique, que refleja el histórico de las acciones realizadas, se establece la estructura armónica de la composición, su ritmo y estilo. Se definen tres elementos que conformarán la composición: una base rítmica, una melodía de fondo y unas decoraciones. 
 \\
 
-Con la finalización de esta fase, la aplicación ya se puede considerar como terminada, de cara a los objetivos que se querían conseguir, cerrando el ciclo de las técnicas que se deseaban explorar en el desarrollo del trabajo. Sin duda, existen diversas líneas de trabajo futuro muy interesantes. Por ejemplo, la posibilidad de conectar varios sistemas entre sí o, con la reciente aparición del dispositivo XBOX Kinect, sería interesante implementar un nuevo módulo de percepción que use esta tecnología, y comprobar su integración en el sistema.
+Con la finalización de esta fase, el SDK y la aplicación se pueden considerar terminada, de cara a los objetivos que se querían conseguir, cerrando el ciclo de las técnicas que se deseaban explorar en el desarrollo del trabajo. Sin duda, tanto el SDK como la aplicación pueden enriquecerse y existen diversas líneas de trabajo futuro muy interesantes. Por ejemplo: crear composiciones musicales procedurales más complejas, hacer uso de análisis y síntesis de audio o extender la interfaz con el motor gráfico para añadir más capacidades. Con la aparición del dispositivo XBOX Kinect, sería interesante implementar un nuevo módulo de percepción que use esta tecnología, y comprobar su integración en el sistema. En cualquier caso, nos detendremos en este apartado al llegar a la sección de trabajo futuro.
 
 \section{Consideraciones Previas}
 
-Debido a motivos personales y profesionales el proyecto ha sufrido un paréntesis en el que el desarrollo se ha detenido. 
+El proyecto ha sufrido un paréntesis en el que el desarrollo se ha detenido. 
 \\
 
-Debido a esto y al reconocimiento de que posiblemente el alcance ideado inicialmente podía ser demasiado extenso, se han tomado decisiones para acotar la dimensión del mismo. De esta forma, se ha planteado simplificar tanto los mecanismos de interacción avanzada como de creación de contenidos, y las mejoras se añaden como posible trabajo futuro. Aunque la arquitectura del SDK soporta un número indeterminado de cámaras y displays, se relajará la exigencia y concentración sobre este apartado para la consecución de la propuesta de instalación, centrándonos en el uso de una única cámara.
-\\
-
-También ha sido necesario el cambio y actualización de algunas de las librerías de terceros utilizadas.
-\\
-
-Panda3D: Se actualiza a la versión 1.8.1, aporta la mayor ventaja de que han mejorado la estabilidad, corrigiendo algunos módulos que no eran thread-safe al compilar en Release.
-
-
+Debido a esto y al reconocimiento de que el alcance ideado inicialmente podía ser demasiado extenso, se han tomado decisiones para acotar la dimensión del mismo. De esta forma, se ha planteado simplificar tanto los mecanismos de interacción avanzada como de creación de contenidos, y las mejoras se añaden como posible trabajo futuro. También se relajará la exigencia y concentración sobre el estudio de múltiples fuentes y salidas para esta propuesta de instalación, centrándonos en el uso de una única cámara y display.
 
 \section{Análisis}
+\subsection{Análisis de Requisitos Hardware}
+Aunque la arquitectura del SDK soporta un número indeterminado de cámaras y displays, se relajará la exigencia y concentración sobre este apartado para la consecución de la propuesta de instalación, centrándonos en el uso de una única cámara y display.
+
 \subsection{Análisis de Requisitos de Usuario}
+A partir de ahora el usuario no sólo se moverá por el entorno, sino que interactuará con el mismo. Para ello, será necesario obtener, además de los datos generales como su posición absoluta o movimiento global, estudiar su cuerpo. El usuario tendrá una representación dentro de la escena, no necesariamente visible, dentro del entorno 3D que reflejará sus acciones. \\
 
-A partir de ahora el usuario no sólo se moverá por el entorno, sino que interactuará con el mismo. Para ello, será necesario obtener, además de los datos generales como su posición absoluta o movimiento global, estudiar su cuerpo. El usuario tendrá un avatar, no necesariamente visible, dentro del entorno 3D que refleje sus acciones. 
+Aunque es realmente interesante el estudio del reconocimiento postural, se ha optado por una solución más simple. Crearemos una representación del usuario basada en una nube de puntos simplificada, nos permitirá representar al usuario así y proyectar su interacción con la escena.\\
+
+Se usará la sustracción de fondo para obtener un modelo del usuario. Añadiendo los datos de detección de movimiento obtendremos la velocidad de movimiento de un punto concreto del avatar. Sin embargo, no habrá distinción explícita de miembros ni postura. Aunque se considera un apartado muy interesante para trabajo futuro. \\
+
+La interacción del usuario se puede clasificar en dos secciones:\\
+
+Interacción basada en colisión: A partir del modelo del usuario podemos proyectar su presencia en profundidad. Cada elemento del modelo del avatar del usuario conserva datos de forma que es posible conocer, por ejemplo, la dirección y velocidad de ese segmento. Si la velocidad de esa colisión tiene una magnitud baja se considerará que el avatar está en contacto con la Entidad que toca y, en nuestra instalación, decidiremos que esa acción provocará una reacción y creará un enjambre de entidades. Sin enbargo, la intensidad del movimiento es elevada lo consideraremos un golpe, la entidad reaccionará de una forma más enérgica, creará otro tipo de enjambre diferente y morirá. 
 \\
 
-Aunque es realmente interesante el estudio del reconocimiento postural, se ha optado por usar un modelo más sencillo aunque suficientemente. Se usará la sustracción de fondo para obtener un modelo 3D del usuario. De forma adicional, se puede obtener la velocidad de movimiento de un punto concreto del avatar utilizando la detección de movimiento. Sin embargo, no habrá distinción explícita de miembros ni postura. Aunque se considera un apartado muy interesante para trabajo futuro. En caso de que se desee ampliar conocimiento a este respecto se recomiendan las lecturas BIBIITEMS.
-\\
-
-La interacción del usuario se puede clasificar en dos secciones:
-\\
-
-Interacción: crear, modificar y destruir Entidades. Dependiendo de la situación del entorno y del elemento con el que interactúe en cada caso, esto provocará efectos personalizados. Afectará a la parte de la Psique que aumentará las componentes de Bondad o Maldad.
-\\
-
-Clasificación del movimiento: A través de los momentos es muy fácil obtener un valor de excentricidad de la forma de su cuerpo, lo que indica si mantiene una pose muy compacta o con las extremidades extendidas. Afectará a las componentes de Calma o Energía.
+Interacción basada en comportamiento: Las acciones del usuario provocarán efectos personalizados. Se utilizan para ellos dos conceptos nombrados como "psique" y "Energía". El valor de "psique" puede moverse entre 0-Bondad, 1-Neutral y 2-Maldad. Crear entidades moverá al usuario hacia el valor 0-Bondad, golpearlas para destruirlas la moverá hacia el valor 2-Maldad. Por otro lado, se prepara un esquema para poder obtener valores estadísticos del comportamiento del usuario a partir de la información obtenida por el módulo de percepción. Algunos de estos datos como el centro de masas, volumen, excentricidad de la forma de su cuerpo, o número de segmentos de su cuerpo, pueden permitir clasificar el tipo actividad que realiza el usuario durante una sesión dentro de la instalación. En este caso usaremos la excentricidad y el número de segmentos móviles para calcular un valor de "Energía" que irá entre el valor 0-Calma y 1-Exitado.
 
 \begin{figure} [H]
 \begin{center}
@@ -3714,15 +3707,101 @@ Clasificación del movimiento: A través de los momentos es muy fácil obtener un v
 
 
 \subsection{Selección de Herramientas}
-Audio Masryas Chuck
-\section{Diseño}
-\subsection{Diseño de la Aplicación}
-\subsubsection{Breve descripción de los módulos}
 
-Durante esta Etapa se trabajará en los módulos de Producción para añadir la capacidad de crear un modelo 3D a partir de la sustracción del usuario (Presencia) obtenida del módulo de Percepción. También se añadirá un esquema de colisiones Avatar-Entidades y, dado un punto de colisión sobre la malla del avatar obtener la velocidad de movimiento del jugador en ese segmento de su cuerpo.
+Un cambio de interés ha sido el de la herramienta de gestión de proyectos. Para esta fase final se ha utilizado la herramienta MOOVIA. MOOVIA es una red social y gestor de proyectos ágiles online que permite la gestión colaborativa de proyectos, muy integrada con el uso de documentos compartidos de Google Drive. Permite crear componentes, etapas, fases o sprints de desarrollo, y crear listas de tareas que planificar y sobre las que realizar su seguimiento. Tiene un acercamiento importante a las metodologías de desarrollo ágiles ofreciendo interfaces de tipo kanban donde ver el estado actual de una tarea (ToDo, Doing, Issue, Done), así como diagramas de BurnDown (gráfica de quemado de trabajo que muestra el trabajo pendiente por realizar) o diagramas de Gantt basados en las etapas.
 \\
 
-El propio motor de juego nos da herramientas para la detección de colisiones, y el módulo de percepción es capaz de darnos la segmentación del usuario y la velocidad en cada pixel de la imagen, como ya se ha descrito en los apartados anteriores. De esta forma, el apartado más interesante de esta sección es la contrucción de una malla 3D que represente al usuario, a partir de una nube de puntos. Para ello se ha usado el algoritmo de Marching Cubes que, dado un punto y una vecindad crea primitivas predefinidas (vértices, aristas y caras) o las descarta. Este problema es muy costoso en cómputo y muy sensible a la resolución, por ello requiere una simplificación. 
+Como se ha usado sólo en la etapa final del proyecto, su uso se ha centrado en la manipulación de tareas. En cualquier caso se trata de una herramienta muy potente y flexible, por lo que su uso es muy recomendado.
+\\
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/moovia_gestionproyectos.png}
+\end{center}
+\caption{ \label{F_MOOVIA_Etapa5} MOOVIA. Herramienta online para la gestión de proyectos www.moovia.com}
+\end{figure}
+
+Por otro lado, se revisita el módulo de Percepción para extender la detección de movimientos. El análisis que se añade es el cálculo de flujo óptico entre dos imágenes con el que poder estimar la dirección e intensidad de movimiento de un segmento del cuerpo del usuario dado un punto de su cuerpo.
+\\
+
+También se visita el módulo de Producción para añadir la capacidad de gestionar colas para añadir y retirar entidades a la escena, así como para llamar a sus métodos de actualización (cuya implementación es desconocida para este módulo), crear un mecanismo de colisiones entre entidades y contra el usuario, así como algunos ejemplos sencillos de postproceso.
+\\
+
+En el Módulo de Producción se actualiza la librería de terceros Panda3D a la versión 1.8.1, que aporta la mayor ventaja de haber mejorado la estabilidad, corrigiendo algunos módulos que no eran thread-safe al compilar en Release. Por suerte, los cambios remitidos durante la versión 1.6.1 que evitaban conflictos durante el lincado fueron aceptados en revisión en su momento y forman parte ya de la distribución actual, por lo que no fue necesario volver modificarlos para recompilarlos.
+\\
+
+Antes de terminar este apartado se considera de interés recordar algunas herramientas para el análisis y síntesis de audio. Aunque no se usan en este proyecto se proponen al lector como herramientas destacadas para trabajos futuros o proyectos de similar estilo. Estas herramientas destacadas son Marsyas \ref{SUBSUBSEC_MARSYAS}, página \pageref{SUBSUBSEC_MARSYAS} y Chuck \ref{SUBSUBSEC_CHUCK}, página \pageref{SUBSUBSEC_CHUCK}.
+\\
+
+En resumen:
+\\
+
+\begin{itemize}
+\item Gestión de Proyectos: MOOVIA
+\item Visión por Computador - Flujo Óptico: OpenCV
+\item Motor gráfico - Gestión de entidades: Colas de gestión.
+\item Motor gráfico - Gestión de colisiones: Panda3D
+\item Motor gráfico - Postproceso: Panda3D
+\item Creación de una malla 3D a partir de una nube de puntos: Marching Cubes.
+\item Acumuladores estadísticos: Boost accumulators
+\end{itemize}
+
+
+\section{Diseño}
+\subsection{Diseño de la Aplicación}
+
+Se añaden elementos al módulo iPercept, IProd, ICog y se hacen modificaciones en IApplicacion, IPersistence. También se añaden elementos a la aplicación.
+
+\begin{itemize}
+\item Core: Conjunto de interfaces de la aplicación.
+\begin{itemize}
+\item IPercept: Interfaz para el módulo de Percepción. Se añaden métodos para acceder al análisis de la forma de la presencia del usuario.
+\begin{itemize}
+\item IPerceptVideo: Ajustes en la interfaz para acceder a las funcionalidades de grabación y carga de videos, así como funcionalidades nuevas ofrecidas por los detectores añadidos. 
+\item IPresenceDetection: Interfaz para ofrecer más información sobre la detección de presencia de área, orientación y excentricidad.
+\item IMotionDetection: Interfaz para añadir información de flujo óptico a la detección de movimiento.
+\end{itemize}
+\item IProd: Interfaz para el módulo de Poducción. Se añaden métodos para añadir y retirar entidades a la escena actual. Se añaden métodos para crear y actualizar la presencia del usuario en la escena. Se añaden métodos para detectar colisiones entre entidades y de entidades contra el usuario. Se añaden métodos para añadir o quitar audios a la escena (absolutos) o a las entidades (relativos), y modificar su tono y amplitud. Se añaden métodos para cambiar el color de fondo y la intensidad y color de la niebla de la escena. Se añaden métodos para añadir ejemplos de postproceso tras el render de la imagen.
+\begin{itemize}
+\item IEntity: Interfaz abstracta para poder manipular entidades sin necesidad de conocer su implementación.
+\end{itemize}
+\end{itemize}
+\item igui: Ajustes para añadir opciones de configuración de las cámaras que permitan grabar y cargar videos grabados, así como cambios estéticos de las interfaces.
+\item ipercept: Se realizan cambios para implementar las capacidades comentadas en IPercept. 
+\begin{itemize}
+\item PerceptVideo: Grabación y carga sincronizada de múltiples cámaras. Acceso a las funcionalidades añadidas en PresenceDetection y MotionDetection. Creación y simplificación de una nube de puntos que represente al usuario, donde cada punto guarda además información sobre el mismo como posición, tamaño y velocidad de movimiento.
+\item PresenceDetection: Uso del cálculo de momentos de orden 1 y 2 para obtener área, orientación y excentricidad.
+\item MotionDetection: Uso de flujo óptico para calcular intensidad y dirección de movimiento sucedido en la imagen.
+\end{itemize}
+\item iprod: Se realizan cambios para implementar las capacidades comentadas en IProd. Para mantener un pipeline coherente y consistente se hace uso de colas para, sus casos más destacados son las colas de actualización de entidades, detección de colisiones, y las usadas para añadir y borrar entidades a la escena.
+\begin{itemize}
+\item MeshFactory: Creación de un modelo3D a partir de una nube de puntos basado en Marching Cubes y Metaballs.
+\item Prod3DEntity: Se extiende para heredar de IEntity y se añaden elementos como fuentes de Audio, animaciones del modelo, así como los métodos OnStart, OnUpdate y OnCollision para que el pipeline de producción permita, de forma agnóstica, que las entidades actualicen su estado.
+\end{itemize}
+\item vox: 
+\begin{itemize}
+\item ApplicationConfiguration: Ajustes necesarios para guardar las opciones de reconocimiento y autologin.
+\item NavigatorController: Extendemos su responsabilidad y lo renombarmos a RunningSceneController. Mantiene la responsabilidad de navegar dentro de la escena y añade la responsabilidad de crear y mantener la representación del usuario así como la de ejecutar la creación de contenidos.
+\item ContentCreationController: Controlador que implementa la creación de contenidos durante una sesión en curso teniendo en cuenta información sobre la interacción del usuario.
+\item OXStandAloneEntity: Extensión de IEntity que implementa un tipo de entidad que se muestra por sí misma e independiente. Representa un tipo de entidad básica.
+\item OXBoidsEntity: Extensión de IEntity que implementa un tipo de entidad que pertenece a una especie gregaria y cuyo comportamiento se define por su conocimiento del entorno y del de los integrantes de su propia especie.
+\item Application: Ajustes para automatizar el inicio de sesión haciendo uso del módulo de percepción.
+\end{itemize}
+\item icog:
+\begin{itemize}
+\item CommonSwarmIndividual: Se ofrece en el módulo de icog una implementación de una IA genérica que puede servir para crear comportamientos de indivuos de una especie, que contiene los componentes básicos de Boids (separación, cohesión y alineamiento) y extiende algunos componentes adicionales (límites, aleatoriedad, evasión y atracción). Con esta IA puede representarse comportamientos como el de una nube de moscas, como un banco de peces o bandada de aves.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Breve descripción de los módulos}
+
+Durante esta Etapa se trabajará principalmente en los módulos de Producción y Percepción de SDK, así como en la Aplicación en sí para crear la propuesta de instalación. 
+\\
+
+Se añade la capacidad de crear un modelo 3D a partir de la sustracción del usuario (Presencia) obtenida del módulo de Percepción. También se añadirá un esquema de colisiones Entidad-Entidad y Avatar-Entidad, donde para el usuario además se añade información sobre la velocidad de movimiento del jugador en ese punto de su cuerpo.
+\\
+
+El propio motor de juego nos da herramientas para la detección de colisiones, y el módulo de percepción es capaz de darnos la segmentación del usuario y la velocidad en cada pixel de la imagen, como ya se ha descrito en los apartados anteriores. De esta forma, el apartado más interesante de esta sección es la contrucción de una malla 3D que represente al usuario, a partir de una nube de puntos. Para ello se ha usado el algoritmo de Marching Cubes que, dado un punto y una vecindad crea primitivas geométricas predefinidas o las descarta. Este problema es muy costoso en cómputo y muy sensible a la resolución, por ello se propone una simplificación. 
 \\
 
 El primer paso es definir un grid, una rejilla tridimensional que definirá el tamaño y posiciones de los posibles puntos en el espacio del modelo 3D. El siguiente punto a acotar son los datos a estudiar, la nube de puntos, con el fin de acelerar y obtener una cantidad mayor de mallas por segundo. Para ello se ha usado un clasificador espacial R-Tree y un algoritmo de deconstrucción, de forma que dado un punto de la nube se sustraerá un volumen del mismo, como si diéramos bocados. De esta forma es posible reducir la nube de puntos original a una colección de elementos más reducida, sin afectar en exceso a la resolución de la forma o pérdida de detalles (dependiendo siempre de la configuración de los parámetros y la configuración del grid en el Marching Cubes). Una de las debilidades de este algoritmo de deconstrucción es que los puntos internos de la forma se siguen teniendo en cuenta. Se conoce la posibilidad de mejorar este algoritmo usando uno de esculpido en su lugar, de forma que sólo se tenga en cuenta los puntos de la superficie. Se estima que esto aceleraría sensiblemente la simplificación de la nube de puntos. Esta alternativa se plantea como mejora futura.
@@ -3739,33 +3818,100 @@ Ambientación y Creación de Contenidos: Se trata de apartados de la escena 3D que
 Interacción con los Elementos: Para simplificar sólo existirá un tipo de interacción, la colisión usuario-elemento. Se realizará una colisión contra la malla 3D del usuario. Al estar creando continuamente una malla con la forma del usuario esta colisión no será de tipo Curpo-Rígido, sino que las geometrías serán capaces de atravesarse y lo que se desea detecctar es si una geometría se superpone a otra. A partir de esta colisión se calculará la velocidad de movimiento de ese segmento y, según esa velocidad, concluiremos si el usuario está en contacto estático, moviendo suavemente o golpeando un Elemento. Con este lenguaje de tres elementos (contacto, mover, golpear) y el valor de la velocidad cada Elemento definirá un comportamiento propio. Por defecto, golpear destruirá el Elemento, contacto y mover podrán disparar una acción del elemento o crear otros nuevos.
 
 \subsubsection{Diseño en UML - Resumen}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_CuartaDemo} Diagrama de Clases UML, Cuarta Demo. Resumen.}
+\end{figure}
+
+Se revisan algunas secciones generales. Sin embargo, el trabajo de esta fase se centra en el módulo de Producción y en la aplicación principal. 
+
 \subsubsection{Diseño en UML - Núcleo de la Interfaz}
 
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_core.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_CuartaDemo_core} Diagrama de Clases UML, Cuarta Demo. Core.}
+\end{figure}
+
 Se añaden las secciones en la configuración de las cámaras para permitir usar imagen de cámara real o cargar un fichero de video. También se activa la capacidad de grabar las cámaras actuales, para poder reutilizar dicha secuencia.
+\\
+
+Por otro lado, se crea la clase IEntity para poder manipular diferentes implementaciones de entidades, añadiendo métodos para actualización de estado durante su ejecución en el pipeline de producción, así como métodos para acceder a los nuevos atributos de audio y colisiones.
+\\
+
+Para terminar a la percepción de video métodos para obtener información más enriquecida sobre área, orientación, excentricidad, y dirección e intensidad de velocidad en la detección de movimiento.
 
 \subsubsection{Diseño en UML - Módulo de Persistencia}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_ipersistence.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_CuartaDemo_ipersistence} Diagrama de Clases UML, Cuarta Demo. Persistencia.}
+\end{figure}
+
+Por considerarse básicos y muy útiles se añaden atributos de velocidad y aceleración a la persistencia de la entidad. También se añaden métodos para obtener el ID que identifica a cada instancia.
+
 \subsubsection{Diseño en UML - Módulo de GUI}
-\subsubsection{Diseño en UML - Módulo de Producción}
 
-Modelo 3D del avatar con Marching Cubes.
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_igui.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_CuartaDemo_igui} Diagrama de Clases UML, Cuarta Demo. GUI.}
+\end{figure}
 
-Deconstrucción de la nube de puntos.
-
-Sistema de colisiones.
-
-WorldController.
-
-ElementController.
+No hay cambios, mencionar en todo caso que retoramos la gestión de permisos y fullscreen.
 
 \subsubsection{Diseño en UML - Módulo de Aplicación}
 
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_vox.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_CuartaDemo_vox} Diagrama de Clases UML, Cuarta Demo. Aplicación.}
+\end{figure}
+
 Pool de contenidos: audios, imágenes, primitivas 3D, Elementos.
 
-WorldCreator, Psique.
+ContentCreationController
 
 \subsubsection{Diseño en UML - Módulo de Percepción}
 
-Dado que el uso será extensivo se añade la capacidad de que, en lugar de tomar la imagen de una cámara en vivo, el sistema se alimente con un fichero de video.
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_ipercept.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_CuartaDemo_perception} Diagrama de Clases UML, Cuarta Demo. Percepción.}
+\end{figure}
+
+GetMotionElements y GetMotionAtCoords. Record and use video, eccentricity, orientation.
+
+Dado que el uso será extensivo se añade la capacidad de que, en lugar de tomar la imagen de una cámara en vivo, el sistema se alimente con un fichero de video.\\
+
+\subsubsection{Diseño en UML - Módulo de Producción}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_iprod.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_CuartaDemo_production} Diagrama de Clases UML, Cuarta Demo. Producción.}
+\end{figure}
+
+\subsubsection{Diseño en UML - Módulo de IA (Cog)}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_icog.png}
+\end{center}
+\caption{ \label{F_DiagramadeClasesUML_CuartaDemo_icog} Diagrama de Clases UML, Cuarta Demo. IA (Cog).}
+\end{figure}
+
+Boids, Swarm: separación, cohesión, alineación, atracción, evasión, randomicidad, límites.
 
 \section{Implementación}
 \subsubsection{Núcleo de la Interfaz}
@@ -3774,6 +3920,19 @@ Dado que el uso será extensivo se añade la capacidad de que, en lugar de tomar l
 \subsubsection{Módulo de GUI}
 \subsubsection{Módulo de Producción}
 \subsubsection{Módulo de Percepción}
+Aunque es realmente interesante el estudio del reconocimiento postural, se ha optado por una solución más simple. Sin embargo, me gustaría resaltar artículos como el estudio de un modelo de voxels del usuario obtenido a partir de mútiples cámaras, como puede leerse en el trabajo "Articulated Body Posture Estimation from Multi-Camera Voxel Data" de Ivana Mikic \cite{IVANAM} o la detección de articulaciones para estimar la pose del esqueleto del usuario como puede leerse en "Estimating Human Body configurations using Shape Context Matching" de Greg Mori \cite{GREGMJM}. \\
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/postural.png}
+\end{center}
+\caption{ \label{F_ReconocimientoPostural_Etapa5} Ilustraciones de los trabajos mencionados sobre reconocimiento postural de Ivana Mikic et al.\cite{IVANAM} (izquierda) y Greg Mori et al.\cite{GREGMJM} (derecha)}
+\end{figure}
+
+En nuestro caso crearemos una representación del usuario basada en una nube de puntos que, simplificada, nos permitirá representar al usuario así como proyectar su interacción con la escena y obtener información del usuarios sobre esas interacciones.\\
+
+Se usará la sustracción de fondo para obtener un modelo del usuario. Añadiendo los datos de detección de movimiento obtendremos la velocidad de movimiento de un punto concreto del avatar. Sin embargo, no habrá distinción explícita de miembros ni postura. Aunque se considera un apartado muy interesante para trabajo futuro. \\
+
 \section{Validación y Publicidad}
 \subsection{Validación}
 \subsection{Publicidad}
@@ -5135,7 +5294,7 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 
 \bibitem{IVANAM} Ivana Mikic, Edward Hunter, Pamela Cosman. {\em  } Articulated Body Posture Estimation from Multi-Camera Voxel Data 
 
-\bibitem{GREGMJM} Greg Mori, Jitendra Malik {\em  } Estimating Human Body configurations using Shape Context Matching oyo2 chacho hazme caso
+\bibitem{GREGMJM} Greg Mori, Jitendra Malik {\em  } Estimating Human Body configurations using Shape Context Matching 
 
 añadir sdk de windows, sdk de directx
 

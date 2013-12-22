@@ -35,7 +35,7 @@ END_EVENT_TABLE()
 
 core::IApplication* Application::app = NULL;
 
-Application::Application(void) : app_maingui(NULL), app_mainpercept(NULL), app_mainprod(NULL), session_controller(NULL), configuration_controller(NULL), navigation_controller(NULL), user_dataModel_controller(NULL), app_mainpersistence(NULL), benefit_of_the_doubt(0), avatar_entity(NULL), contentcreation_controller(NULL)
+Application::Application(void) : app_maingui(NULL), app_mainpercept(NULL), app_mainprod(NULL), session_controller(NULL), configuration_controller(NULL), runningscene_controller(NULL), user_dataModel_controller(NULL), app_mainpersistence(NULL), benefit_of_the_doubt(0), avatar_entity(NULL), contentcreation_controller(NULL)
 {
 	//_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 
@@ -55,8 +55,8 @@ Application::~Application(void)
 	if (session_controller)
 		session_controller->detach_all();
 
-	if (navigation_controller!=NULL)
-	{	delete navigation_controller;	}
+	if (runningscene_controller!=NULL)
+	{	delete runningscene_controller;	}
 
 	if (app_mainpercept!=NULL)
 	{	app_mainpercept->Delete();
@@ -142,7 +142,7 @@ bool Application::OnInit()
 	if(app_mainprod && app_mainpercept)
 	{
 		user_dataModel_controller = new UserDataModelController();
-		navigation_controller = new NavigationController((IApplication *)this, user_dataModel_controller, app_mainpercept, app_mainprod);
+		runningscene_controller = new RunningSceneController((IApplication *)this, user_dataModel_controller, app_mainpercept, app_mainprod);
 		contentcreation_controller = ContentCreationController::Instance();
 		if (contentcreation_controller)
 		{

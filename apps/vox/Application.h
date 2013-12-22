@@ -24,7 +24,7 @@
 #include <controllers/SessionController.h>
 #include <controllers/ConfigurationController.h>
 #include <controllers/ContentCreationController.h>
-#include <controllers/NavigationController.h>
+#include <controllers/RunningSceneController.h>
 #include <controllers/UserDataModelController.h>
 
 #include <ipercept/mainpercept.h>
@@ -32,7 +32,7 @@
 class MainPercept;
 class SessionController;
 class ConfigurationController;
-class NavigationController;
+class RunningSceneController;
 
 class Application : public wxApp, public core::IApplication
 {
@@ -96,7 +96,7 @@ class Application : public wxApp, public core::IApplication
 		SessionController *session_controller;
 		ApplicationConfiguration *app_config;
 		ConfigurationController *configuration_controller;
-		NavigationController *navigation_controller;
+		RunningSceneController *runningscene_controller;
 		UserDataModelController *user_dataModel_controller;
 		ContentCreationController *contentcreation_controller;
 
