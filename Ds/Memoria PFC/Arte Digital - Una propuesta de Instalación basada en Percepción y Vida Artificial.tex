@@ -3826,24 +3826,19 @@ Interacción con los Elementos: Para simplificar sólo existirá un tipo de interac
 \caption{ \label{F_DiagramadeClasesUML_CuartaDemo} Diagrama de Clases UML, Cuarta Demo. Resumen.}
 \end{figure}
 
-Se revisan algunas secciones generales. Sin embargo, el trabajo de esta fase se centra en el módulo de Producción y en la aplicación principal. 
+Se revisan algunas secciones generales para extender las interfaces con nuevos métodos. En IProd se crea la interfaz IEntity que servirá para manipular entidades a alto nivel sin necesidad de conocer su implementación. En la aplicación se renombra NavigationController a RunningSceneController, ya que no se dedicará sólo a la navegación sino al control de la escena actualmente en curso. También se crea ContentCreationController, encargado de crear el contenido de la escena según la interacción observada del usuario y las Entidades OXStandAloneEntity y OXBoidEntity. Se detallan algunos de los tipos generales creados de uso común para la herramienta, como Observer y Subject para ofrecer el patrón Observador-Observable, corePoint3D, coreSound o Image, representaciones de estos datos de uso común entre módulos pero cuyos detalles de implementación queremos mantener ajenos.
+\\
+
+A este nivel no se observan más cambios, la mayor parte del trabajo se ha centrado en el módulo de Producción y en la aplicación principal, detallados en las secciones siguientes. 
 
 \subsubsection{Diseño en UML - Núcleo de la Interfaz}
-
 \begin{figure} [H]
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_core.png}
 \end{center}
 \caption{ \label{F_DiagramadeClasesUML_CuartaDemo_core} Diagrama de Clases UML, Cuarta Demo. Core.}
 \end{figure}
-
-Se añaden las secciones en la configuración de las cámaras para permitir usar imagen de cámara real o cargar un fichero de video. También se activa la capacidad de grabar las cámaras actuales, para poder reutilizar dicha secuencia.
-\\
-
-Por otro lado, se crea la clase IEntity para poder manipular diferentes implementaciones de entidades, añadiendo métodos para actualización de estado durante su ejecución en el pipeline de producción, así como métodos para acceder a los nuevos atributos de audio y colisiones.
-\\
-
-Para terminar a la percepción de video métodos para obtener información más enriquecida sobre área, orientación, excentricidad, y dirección e intensidad de velocidad en la detección de movimiento.
+En IPerceptVideo se añaden los métodos SetCameraRecording que activa o desactiva la grabación de forma sincronizada de todas las cámaras y SetUseRecording, que activa o desactiva el uso de de los ficheros de video grabados para alimentar al sistema. También se añaden métodos para obtener información sobre área, orientación, excentricidad de la forma observada, o cantidad de segmentos, dirección o intensidad de velocidad en la detección de movimiento. Se crea la interfaz IEntity para poder manipular diferentes implementaciones de entidades, destacando los métodos OnStart y OnUpdate para la actualización de estado durante su ejecución en el pipeline de producción. 
 
 \subsubsection{Diseño en UML - Módulo de Persistencia}
 
@@ -3854,8 +3849,17 @@ Para terminar a la percepción de video métodos para obtener información más enri
 \caption{ \label{F_DiagramadeClasesUML_CuartaDemo_ipersistence} Diagrama de Clases UML, Cuarta Demo. Persistencia.}
 \end{figure}
 
-Por considerarse básicos y muy útiles se añaden atributos de velocidad y aceleración a la persistencia de la entidad. También se añaden métodos para obtener el ID que identifica a cada instancia.
+Por considerarse de interés general se añaden atributos a la clase IEntityPersistence. Algunos de estos datos son el tiempo de vida de la entidad, si es una entidad que hace uso de colisiones o por el contrario no interviene en ellas. 
+\\
 
+También se añaden junto con las coordeanas de su posición, los atributos de velocidad y aceleración. Por último se añaden métodos que permitan cambiar varios atributos a la vez, que típicamente son actualizados en conjunto, lo que ahorran accesos e interrupciones entre hilos al hacer las asignaciones juntas en un único bloque. 
+\\
+
+Antes de pasar al siguiente apartado, comentar que aunque la mayor parte de la aplicación usa el propio puntero a una entidad como identificador único, también se ha considerado añadir un método para obtener el ID que identifica a cada instancia en todas las clases. Éste es un mecanismo más explícito y puede evitar confusiones al trabajar a diferentes niveles.
+\\
+ 
+\vspace{140 mm}
+ 
 \subsubsection{Diseño en UML - Módulo de GUI}
 
 \begin{figure} [H]
@@ -3865,10 +3869,9 @@ Por considerarse básicos y muy útiles se añaden atributos de velocidad y acelera
 \caption{ \label{F_DiagramadeClasesUML_CuartaDemo_igui} Diagrama de Clases UML, Cuarta Demo. GUI.}
 \end{figure}
 
-No hay cambios, mencionar en todo caso que retoramos la gestión de permisos y fullscreen.
+En este sección, los cambios en la interfaz se reducen a añadir los métodos SetCameraRecording y SetUseRecording en GUIGenericController, para indicar que se desea grabar de las cámaras o utilizar los videos grabados.
 
 \subsubsection{Diseño en UML - Módulo de Aplicación}
-
 \begin{figure} [H]
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_vox.png}
@@ -3876,25 +3879,31 @@ No hay cambios, mencionar en todo caso que retoramos la gestión de permisos y fu
 \caption{ \label{F_DiagramadeClasesUML_CuartaDemo_vox} Diagrama de Clases UML, Cuarta Demo. Aplicación.}
 \end{figure}
 
-Pool de contenidos: audios, imágenes, primitivas 3D, Elementos.
+Éste es el componente donde más elementos se han añadido. Teniendo gran parte de las herramientas disponibles este componente hará uso de ellas para crear una propuesta de instalación que sirva como ejemplo.
+\\
 
-ContentCreationController
+\begin{itemize}
+\item Application: Añadimos los métodos SetCameraRecording y SetUseREcording para indicar que deseamos grabar de forma sincronizada de todas las cámaras o por lo contrario alimentar al sistema con imágenes obtenidas de ficheros de video en lugar de usar las imágenes en vivo de las cámaras. También añadimos los métodos AddNewentityIntoCurrentWorld y RemoveEntityFromCurrentWorld para indicar que deseamos añadir una nueva entidad a la escena actual o que queremos eliminarla.
+\item NavigatorController: Extendemos su responsabilidad y lo renombarmos a RunningSceneController. Mantiene la responsabilidad de navegar dentro de la escena y añade la responsabilidad de crear y mantener la representación del usuario, extrayendo esta tarea del hilo de ejecución del render de la escena mejorando así el rendimiento gráfico, así como es el encargado de ejecutar y actualizar la creación de contenidos haciendo uso del controlador ContentCreationController.
+\item ContentCreationController: Controlador que implementa la creación de contenidos durante una sesión en curso teniendo en cuenta información sobre la interacción del usuario. Mantiene un registro de las entidades que existen actualmente en la escena, tiene acceso a la información obtenida por percepción y decide qué contenidos crear en consecuencia. Cabe destacar que como debe estar actualizado con los cambios sucedidos en la escena se trata de un observador que observa dos objetos: El controllador de sesión que indicará cuándo hay un cambio de escena, y las Entidades que le indicarán cuando mueren o son destruídas. Como Observador tiene un método Notified donde recibe un punto a la entidad notificadora, así como varios algunos atributos indicadores, para que los Observables puedan comunicar mensajes usando esta misma interfaz.
+\item OXStandAloneEntity: Esta clase es una implementación de Prod3dEntity (que a su vez lo es de IEntity). Implementa un tipo de entidad que se muestra por sí misma y de forma independiente. Representa un tipo de entidad básica. Cabe destacar sus métodos OnStart y OnUpdate llamados al comienzo de cada ciclo del pipeline de producción y que permite que cada entidad sea capaz de actualizar su estado según indique su implementación. También tiene los métodos OnCollisionCall y OnUserCollisionCall, llamadas cuando se detecta una colisión de esta entidad contra otra entidad o contra la representación del usuario. Por último mencionar que conserva datos como tiempo de vida, métodos para cambiar el tono o volúmen de los audios que reproduce, etc.
+\item OXBoidsEntity: Igualmente es una implementación de Prod3DEntity (que a su vez lo es de IEntity). Implementa un tipo de entidad que pertenece a una especie gregaria y cuyo comportamiento se define por su conocimiento del entorno y del de los integrantes de su propia especie. Hereda también de CommonSwarmIndividual, una implementación básica que se ofrece en el módulo iCog del SDK.
+\end{itemize}
 
 \subsubsection{Diseño en UML - Módulo de Percepción}
-
 \begin{figure} [H]
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_ipercept.png}
 \end{center}
 \caption{ \label{F_DiagramadeClasesUML_CuartaDemo_perception} Diagrama de Clases UML, Cuarta Demo. Percepción.}
 \end{figure}
-
-GetMotionElements y GetMotionAtCoords. Record and use video, eccentricity, orientation.
-
-Dado que el uso será extensivo se añade la capacidad de que, en lugar de tomar la imagen de una cámara en vivo, el sistema se alimente con un fichero de video.\\
+\begin{itemize}
+\item PerceptVideo: Se añaden los métodos SetCameraRecording y SetUseRecording para grabar o usar video y métodos para obtener datos como dominancia lateral (en qué vista tiene mayor área), orientación (inclinación) o excentricidad (si la forma es más lineal o redondeada).
+\item PresenceDetection: GetPresenceArea, GetPresenceOrientation y GetPresenceEccentricity.
+\item MotionDetection: Destacan GetMotionElements que devuelve los segmentos de imagen donde se ha detectado movimiento, y GetMotionAtCoords que dada unas coordenadas ofrece una velocidad de movimiento.
+\end{itemize}
 
 \subsubsection{Diseño en UML - Módulo de Producción}
-
 \begin{figure} [H]
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_iprod.png}
@@ -3902,8 +3911,33 @@ Dado que el uso será extensivo se añade la capacidad de que, en lugar de tomar l
 \caption{ \label{F_DiagramadeClasesUML_CuartaDemo_production} Diagrama de Clases UML, Cuarta Demo. Producción.}
 \end{figure}
 
-\subsubsection{Diseño en UML - Módulo de IA (Cog)}
+Este es otro apartado donde más trabajo se ha realizado durante esta fase, aunque su reflejo en el diseño de la interfaz es menor en comparación.
+\\
 
+Se destacan los siguientes apartados:
+\\
+
+\begin{itemize}
+\item MeshFactory: Esta clase se ha creado con el fin de crear una malla3D a partir de una nube de puntos. Para ello se ha hecho uso del algoritmo de Marching cubes que predefine un espacio discretizado en vóxeles (unidad espacial con forma de cubo) y un catálogo de primitivas geométricas. Dada una configuración de vecindad de los puntos de la nube de puntos se crea una malla 3D combinando estas primitivas. 
+\\
+
+Destacar que se usa una modificación a la hora de asignar las primitivas usando un cálculo de distancia que nos permita conseguir un acabado de metabola, de forma que si dos puntos están los suficientemente cerca (o son lo suficientemente grandes) se crea una superficie más suavizada que los conecta). 
+\\
+
+También comentar que la creación de esta malla no se realiza en el hilo del render, sino que es el hilo del controllador RunningSceneController el encargado de crear la representación gráfica del usuario para evitar interrupciones y pérdida de rendimiento en el render.
+
+\item Prod3DEntity: Destacar que extiende de la clase Subject, ya que será observada por ContentCreationController a quién notificará de sus cambios. Se añaden también atributos como fuentes de audio, tiempo de vida, controladores de animación y se extiende la interfaz para añadir más métodos para obtener o asignar valores a sus atributos. 
+\\
+
+Se añaden especialmente métodos para obtener o asignar atributos en bloque que suelen ser accedidos juntos, de forma que pueden hacerse en una sóla llamada, lo que permite reducir el número de peticiones y bloqueos de la entidad.
+
+\item MainProd: Finalmente se añade a MainProd una serie de atributos y métodos para dar cabida a las nuevas funcionalidades que se van a desarrollar. Los más destacados son los controladores de animación de la escena para permitir que los objetos3D que tengan asociados una animación sean capaces de reproducirlo.
+\\
+
+También se añade acceso para cambiar el color de fondo de la escena o el color e intensidad de la niebla, un contenedor de audios no relativos para reproducir sonidos de fondo que siempre se escuchen a igual intensidad, independientemente de la posición del usuario, y, finalmente, una serie de efectos de postproceso predefinidos como Invert, Bloom, Blur o Cartoon para añadir de forma simple un acabado diferente al render.
+\end{itemize}
+
+\subsubsection{Diseño en UML - Módulo de IA (Cog)}
 \begin{figure} [H]
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_icog.png}
@@ -3911,11 +3945,24 @@ Dado que el uso será extensivo se añade la capacidad de que, en lugar de tomar l
 \caption{ \label{F_DiagramadeClasesUML_CuartaDemo_icog} Diagrama de Clases UML, Cuarta Demo. IA (Cog).}
 \end{figure}
 
-Boids, Swarm: separación, cohesión, alineación, atracción, evasión, randomicidad, límites.
+Este módulo tiene la intención de ofrecer componentes de IA básicos que el desarrollador pueda usar directamente o extender. En este caso añadimos una implementación básica del comportamiento de un individuo que forma parte de un enjambre. Está inspirado en la implementación clásica del Boids, un programa creado por Craig Reynolds \cite{CRAIGREYN}.
+
+\begin{itemize}
+\item CommonSwarmIndividual: Se ofrece en el módulo de icog una implementación de una IA genérica que puede servir para crear comportamientos de indivuos de una especie, que contiene los componentes básicos de Boids (separación, cohesión y alineamiento) y extiende algunos componentes adicionales (límites, aleatoriedad, evasión y atracción). 
+\\
+
+Cada individuo tiene conocimiento de su entorno, aunque para evaluar su estado actual usará sólo información que esté dentro de campo de visión. Teniendo en cuenta todas sus necesidades (separación, cohesión, alineación, límites, evasión, atracción y randomicidad) y el factor de peso de cada una de ellas, el individuo modificará su comportamiento expresado como posición, velocidad y aceleración para cumplir esos objetivos. 
+\\
+
+Con esta IA pueden representarse comportamientos como el de una nube de moscas, un banco de peces o una bandada de aves. También puede extenderse o combinarse para crear otros tipos de comportamientos o ejemplos de inteligencias articiales más complejas como los agentes inteligentes.
+
+\end{itemize}
 
 \section{Implementación}
 \subsubsection{Núcleo de la Interfaz}
 \subsubsection{Módulo de Aplicación}
+Pool de contenidos: audios, imágenes, primitivas 3D, Elementos.
+ContentCreationController
 \subsubsection{Módulo de Persistencia}
 \subsubsection{Módulo de GUI}
 \subsubsection{Módulo de Producción}
@@ -5295,6 +5342,8 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 \bibitem{IVANAM} Ivana Mikic, Edward Hunter, Pamela Cosman. {\em  } Articulated Body Posture Estimation from Multi-Camera Voxel Data 
 
 \bibitem{GREGMJM} Greg Mori, Jitendra Malik {\em  } Estimating Human Body configurations using Shape Context Matching 
+
+\bibitem{CRAIGREYN} Craig Reynolds, {\em Boids Background and Update} http://www.red3d.com/cwr/boids/
 
 añadir sdk de windows, sdk de directx
 

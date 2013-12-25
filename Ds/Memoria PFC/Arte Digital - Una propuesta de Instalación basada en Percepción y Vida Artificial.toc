@@ -122,22 +122,22 @@
 \contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{164}
 \contentsline {subsubsection}{Dise\~no en UML - Resumen}{166}
 \contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{167}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Persistencia}{169}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{171}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Aplicaci\'on}{172}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Persistencia}{168}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{170}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Aplicaci\'on}{171}
 \contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{173}
 \contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{174}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de IA (Cog)}{175}
-\contentsline {section}{\numberline {10.4}Implementaci\'on}{176}
-\contentsline {subsubsection}{N\'ucleo de la Interfaz}{176}
-\contentsline {subsubsection}{M\'odulo de Aplicaci\'on}{176}
-\contentsline {subsubsection}{M\'odulo de Persistencia}{176}
-\contentsline {subsubsection}{M\'odulo de GUI}{176}
-\contentsline {subsubsection}{M\'odulo de Producci\'on}{176}
-\contentsline {subsubsection}{M\'odulo de Percepci\'on}{176}
-\contentsline {section}{\numberline {10.5}Validaci\'on y Publicidad}{177}
-\contentsline {subsection}{\numberline {10.5.1}Validaci\'on}{177}
-\contentsline {subsection}{\numberline {10.5.2}Publicidad}{177}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de IA (Cog)}{176}
+\contentsline {section}{\numberline {10.4}Implementaci\'on}{177}
+\contentsline {subsubsection}{N\'ucleo de la Interfaz}{177}
+\contentsline {subsubsection}{M\'odulo de Aplicaci\'on}{177}
+\contentsline {subsubsection}{M\'odulo de Persistencia}{177}
+\contentsline {subsubsection}{M\'odulo de GUI}{177}
+\contentsline {subsubsection}{M\'odulo de Producci\'on}{177}
+\contentsline {subsubsection}{M\'odulo de Percepci\'on}{177}
+\contentsline {section}{\numberline {10.5}Validaci\'on y Publicidad}{178}
+\contentsline {subsection}{\numberline {10.5.1}Validaci\'on}{178}
+\contentsline {subsection}{\numberline {10.5.2}Publicidad}{178}
 \contentsline {chapter}{\numberline {11}Etapa i: Funcionalidades A\~nadidas}{179}
 \contentsline {section}{\numberline {11.1}An\'alisis}{180}
 \contentsline {subsection}{\numberline {11.1.1}An\'alisis de Requisitos de Usuario}{180}
