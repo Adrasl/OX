@@ -265,14 +265,14 @@ Finalmente, para el caso del Diseño de la Base de Datos cabe destacar que se usa
 
 
 \chapter{Plan de trabajo y temporización}
-Desarrollo del plan de trabajo desglosado en etapas, con una estimación en cada etapa del tiempo de ejecución
+A continuación se muestra el plan de trabajo para el presente proyecto desglosado en etapas, con una estimación en cada etapa del tiempo de ejecución. Siguiendo un proceso iterativo, donde se construirán versiones cada vez más completas, se definen las siguientes cinco etapas:
+
 \begin{itemize}
 \item Etapa 1: Acercamiento
-\item Etapa 2: Primera Demo
-\item Etapa 3: Funcionalidades Añadidas
-\item Etapa 3+i: Funcionalidades Añadidas
-\item Etapa n: Revisión Final
-\item Etapa n+1: Publicidad
+\item Etapa 2: Primera Demo: Bases de la interfaz entre módulos, Aplicación principal, GUI, Percepción y Producción
+\item Etapa 3: Segunda Demo: Usuario, Entorno, Configuración y Persistencia
+\item Etapa 4: Tercera Demo: Detección, Navegación e Interacción Básica
+\item Etapa 5: Cuarta Demo: Interacción Avanzada y Creación de Contenidos
 \end{itemize}
 
 \begin{figure} [h]
@@ -282,7 +282,6 @@ Desarrollo del plan de trabajo desglosado en etapas, con una estimación en cada 
 \caption{ \label{Temporizacion} Plan de trabajo y temporización}
 \end{figure}
 
-A continuación vendrán las secciones donde se desarrollan cada una de las etapas del proyecto
 
 
 \chapter{Etapa 1: Acercamiento}
@@ -1722,7 +1721,7 @@ std::string ConfigurationController::ParseDisplayConfig()
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Módulo de Persistencia}
+\subsubsection{Módulo de Persistencia}\label{Etapa3detallesImp:ModuloPersistencia}
 $\backslash$src$\backslash$ipersistence\\
 
 La clase principal del Módulo de Persistencia y que implementa la interfaz IPersistence es MainPersistence. Esta clase se encarga de la inicialización del módulo y del dispositivo de almacenamiento. La verdadera intención era hacer uso de una libería que permitiera hacer uso de un esquema de persistencia Orientado a Objetos. Sin embargo, no fue posible encontrar una que cumpliera los requisitos software de la aplicación. Por ello, se decidió adoptar una solución intermedia. De esta forma se decide utilizar una base de datos relacional, PostGreSQL, y un mapper objeto-relacional, Debea. Para ver los detalles de implementación necesarios para configurar el módulo con estas librerías se puede consultar la sección ?? página ??. De esta forma, el mapper permite fusionar el modelo de objeto y el modelo de persistencia en uno. Sin embargo, es interesante saber que, en el fondo, al tratarse el dispositivo de almacenamiento de una base de datos SQL, también se permiten realizar consultas de forma manual.
@@ -2960,7 +2959,7 @@ void MainProd::CheckCollisions()
 \end{lstlisting}
 \end{itemize}
 
-\subsubsection{Módulo de Percepción}
+\subsubsection{Módulo de Percepción}\label{Etapa4_Impl:Percepcion}
 
 Llegamos al último módulo en que se han realizado cambios durante esta fase. Derivado de los cambios realizados en el apartado de implementación de las interfaces, se implementarán los  métodos correspondientes tanto a nivel de MainPercept como de PerceptVideo. El objetivo de estos métodos es dar acceso a las nuevas funcionalidades que aportarán los detectores que se desarrollarán. 
 
@@ -3959,14 +3958,222 @@ Con esta IA pueden representarse comportamientos como el de una nube de moscas, 
 \end{itemize}
 
 \section{Implementación}
+
+Los módulos afectados en la presente fase son los siguiente:
+
+\begin{itemize}
+\item core: Añadida la clase IEntity, modificadas las interfaces de IPerceptVideo.
+\item igui: añadidas interfaces gráficas para grabar la captura de imagen en video o cargar video en lugar d e usar imagen en vivo. Cambios estético y ocultación de interfaces de elementos que se dejan como trabajo futuro.
+\item ipercept: Se implementa la captura sincronizada de múltiples pantalla o la arga de múltiples videos. Se añade flujo óptico al detector de movimiento, y se añade cálculo de área, orientación y excentricidad al detector de presencia.
+\item ipersistence: Se añaden campos a los objetos usuario, mundo y entidad y se añaden algunos métodos para mejorar su uso.
+\item iprod: Se añade capacidad para crear una malla 3d a partir de una nube de puntos, se plantea un esquema de proyección de la representación del usuario para interactuar con objetos de la escena. Se prepara esquema para la carga, destrucción y actualiazación de entidades en la escena. Se añade algunos elementos de personalización de la escena como música de fondo, color de fondo, color e intensidad de niebla y efectos de postproceso.
+\item vox: Se convierte el NavigatorController en RunningSceneController. Se crea el ContentCreationController. Se crean dos implementaciones de entidades y se crea de esta forma una propuesta de instalación a partir del kit de desarrollo creado.
+\item icog: implementación de un modelo de IA que simula el comportamiento de enjambres.
+\end{itemize}
+
 \subsubsection{Núcleo de la Interfaz}
-\subsubsection{Módulo de Aplicación}
-Pool de contenidos: audios, imágenes, primitivas 3D, Elementos.
-ContentCreationController
+
+En esta ocación los cambios realizados en el núcleo de la Interfaz son menores, añadiendo principalmente algunos métodos a clases ya existentes para acceder a más información. Al tratarse sólo de una interfaz podrá verse información de mayor interés en los apartados correspondientes, donde se implementan estas funcionalidades. Se listan los cambios a continuación:
+\\
+
+src$\backslash$core$\backslash$IPercept$\backslash$IPerceptVideo\\
+
+Como se ha comentado en los apartados anteriores, se añaden los métodos SetCameraRecording destinada a activar o desactivar la grabación de forma sincronizada de todas las cámaras y SetUseRecording, para activar o desactivar el uso de de los ficheros de video grabados para alimentar al sistema. Así como métodos para obtener información sobre dominancia, orientación, excentricidad, número de elementos móviles, velocidad, o la nube de puntos que representa al usuario.
+
+\begin{lstlisting}[language=C++]
+...
+ virtual bool SetCameraRecording(const bool &value)
+ virtual bool SetUseRecording(const bool &value, const std::string &url)
+ virtual void GetMainLateralDominance(corePoint3D<double> &result)
+ virtual void GetMainOrientation(corePoint3D<double> &result)
+ virtual void GetMainEccentricity(corePoint3D<double> &zero_means_round)
+ virtual void GetFeatureWeightedPositions(const std::string &feature, 
+              std::map<int, std::vector<corePDU3D<double>>> &result, 
+              const float &scale=1)
+ virtual std::vector<MotionElement> GetMotionElements()
+...
+\end{lstlisting}
+
+src$\backslash$core$\backslash$IPercept$\backslash$video$\backslash$IPresenceDetection\\
+
+Se añaden métodos para obtener información sobre área, orientación, excentricidad de la forma observada a partir de la imagen de sustracción de fondo. El área está medido en píxeles, la orientación en radianes (partiendo del eje de ordenadas, en sentido contrario a las agujas del reloj) y la excentricidad es un valor que variará entre 0.0, que indica una forma circular, y 1.0m que indica una forma de línea.
+
+\begin{lstlisting}[language=C++]
+...
+ virtual void GetPresenceArea(double &area_inpixel_units)
+ virtual void GetPresenceOrientation(double &radians_counterclockwise)
+ virtual void GetPresenceEccentricity(double &cero_means_round)
+...
+\end{lstlisting}
+
+src$\backslash$core$\backslash$IPercept$\backslash$video$\backslash$IMotionDetection\\
+Más información añadida es la cantidad de segmentos en movimiento, y la dirección e intensidad de movimiento dadas unas coordenadas.
+
+\begin{lstlisting}[language=C++]
+...
+ virtual std::vector<MotionElement> GetMotionElements()
+ virtual corePoint3D<float> GetMotionAtCoords(corePoint2D<int> coords)
+...
+\end{lstlisting}
+
+src$\backslash$core$\backslash$IProd$\backslash$IEntity\\
+
+Se crea la interfaz IEntity para poder manipular diferentes implementaciones de entidades. A partir de ahora Prod3DEntity implementará esta interfaz. Igualmente, cuando la aplicación desee crear entidades más complejas que Prod3DEntity (que contiene sólo elementos básicos para su representación), heredarán e esta última para extender sus capacidades. Destacan los métodos OnStart y OnUpdate, para la actualización de estado durante su ejecución en el pipeline de producción. También se añaden métodos que permiten acceder a varios atributos en bloque, lo que reduce el número de interrupciones necesarias en la sincronización de hilos. Se comentan algunos de los métodos:
+
+\begin{itemize}
+\item OnStart(): Llamado una única vez tras cargar la entidad en la escena.
+\item OnUpdate(): Llamado cada vez, al comienzo de la ejecución de un nuevo render de imagen. Es el lugar adecuado para evaluar el comportamiento que debe realizar como la gestión de sus animaciones, trasladarla, o aplicar los cambios que una IA asociada quisiera hacer.
+\item OnCollisionCall: Llamado cada vez, al comienzo de la ejecución de un nuevo render, antes de que se llame a ningún Update de ninguna entidad, sólo si el motor gráfico indica que dicha entidad ha incurrido en una colisión con otra entidad.
+\item OnUserCollisionCall: Actúa de igual manera que el caso anterior, pero en la situación especial de que se trate de la representación del usuario, indicando en este caso la posición y velocidad del elemento del avatar con el que colisionó.
+\item IsReadyToDie: Las entidades no pueden retirarse en cualquier momento ya que el motor gráfico puede seguir usándola y provocar fallos si la entidad es destruída de imprevisto. Todas las tareas que añadan o eliminen objetos en la escena se realizan a través de unas colas de carga y borrado, que añaden o borran las entidades en el momento adecuado. Con este método una entidad puede indicar que debe evitarse su uso y que ya puede ser retirada del grafo de la escena, así ésta será retirada de forma segura al comienzo del próximo render.
+\end{itemize}
+
+\begin{lstlisting}[language=C++]
+class _COREEXPORT_ IEntity
+{public:
+  virtual ~IEntity(){}
+  virtual void DeletePersistence()
+  ...
+  virtual void SetPositionVelocityAcceleration(...)
+  virtual void GetPositionVelocityAcceleration(...)
+  virtual void OnStart()
+  virtual void OnUpdate();
+  virtual void OnCollisionCall(IEntity *otherEntity) 
+  virtual void OnUserCollisionCall(core::corePDU3D<double>collisionInfo)
+  virtual bool IsReadyToDie()
+  virtual bool IsCollidable()
+  virtual void SetCollidable(const bool &value)
+};
+\end{lstlisting}
+
+src$\backslash$core$\backslash$types\\
+
+Lo más destacado de los cambios realizados en esta sección son las clases Subject y Observer, que aportan una implementación muy básica del patrón de diseño Observador-Observable. El problema que resuelve este patrón es el de mantener notificada a una entidad de los cambios sufridos por otra entidad, sin necesidad de que consulte continuamente por ella.
+
+\begin{itemize}
+\item Subject: Se trata de la entidad observable. Contiene un lista de Observadores. Cuando esta entidad es actualizada basta con llamar a su método Notify(), donde recorrerá su listado de observadores para notificarles de que ha sufrido un cambio. Como extensión al patrón de diseño básico, se añaden algunos campos de información que sirvan como intercambio de mensajes.
+
+\begin{lstlisting}[language=C++]
+class Subject {
+ std::vector< class Observer* > observers;
+ public:
+ int ObserversCount() 
+ void attach(Observer *observer) 
+ void detach(Observer *observer) 
+ void detach_all() 
+ virtual void Notify(void* callinginstance=NULL, 
+                     const std::string &tag="", 
+                     const int &flag=0) 
+ { ... (*iter)->Notified(callinginstance, tag, flag); }
+}
+\end{lstlisting}
+
+\item Observer: Se trata de la entidad Observadora. Debe implementar el método Notified(), y una vez conectada a la entidad Observable será notificada cada vez que la Entidad Observable lo indique. Qué código implementa la clase Observadora es completamente transparente para la Observable. En este caso, la clase base no ejecuta ningún código al ser Notificada.
+
+\begin{lstlisting}[language=C++]
+class Observer {
+ public:
+  virtual void Notified(void* callinginstance=NULL, 
+                        const std::string &tag="", 
+                        const int &flag=0) {}
+};
+\end{lstlisting}
+
+
+\end{itemize}
+
 \subsubsection{Módulo de Persistencia}
+Se han añadido modificaciones que añaden nuevos campos a los objetos. También se han añadido métodos que permiten leer o escribir varios campos en una sola llamada. Finalmente, se añade un método GetID() que nos devuelve el ID asignado al objeto en la base de datos. Estos cambios son muy simples y no aporta mayor detalle que lo visto en secciones anteriores. En cualquier caso, a modo de ilustración sobre este apartado, puede consultarse la sección equivalente en la página \pageref{Etapa3detallesImp:ModuloPersistencia}.
+
 \subsubsection{Módulo de GUI}
-\subsubsection{Módulo de Producción}
+
+Como añadido en la vista de Configuración, sección Cámaras, se añaden un botón que permite iniciar o detener la grabación sincronizada de múltiples cámaras. 
+\\
+
+Igualmente se añade un campo de texto donde podemos escribir el nombre de un fichero de video que será usado como prefijo, al que el sistema añadirá el texto "cam" y el número que indica un índice de cámara comenzando a partir de 1. Este "basename" es usado a la hora de cargar ficheros de video, uno por cada cámara para alimentar al sistema, que deben estar en el mismo directorio de la aplicación donde se generan. 
+\\
+
+Finalmente, hay un radio button que permite alternar entre el uso de la captura en vivo desde las cámaras o la carga de dichos ficheros para usar la imagen de video en su lugar.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_grabarousarvideo_gui.png}
+\end{center}
+\caption{ \label{F_GUIEsteticos_Etapa5} Cambios en la sección de configuración que permiten grabar la captura de imagen en vivo en un video por cada cámara o usar videos ya grabados en lugar de la captura en vivo}
+\end{figure}
+
+Aparte de lo comentado, los cambios realizados en esta sección están limitados a la sustitución de elementos estéticos como son las imágenes de fondo de las diferentes vistas. Para ello ha bastado con sustituir la imagen de fondo en el directorio de recursos gráficos de GUI. 
+\\
+
+También se ocultan algunos elementos de la interfaz que inicialmente fueron añadidos pero que pretendían dar acceso a funcionalidades que han quedado fuera del alcance del proyecto. 
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_captura_gui.png}
+\end{center}
+\caption{ \label{F_GUIEsteticos_Etapa5} Retoques gráficos en las vistas de la aplicación}
+\end{figure}
+
 \subsubsection{Módulo de Percepción}
+Durante esta fase se extienden las capacidades de Percepción definidas durante el desarrollo de la Etapa4 "Detección, Navegación e Interacción", que puede consultarse a partir de la página \pageref{Etapa4_Impl:Percepcion}. 
+\\
+
+De esta forma, se revisitan los componentes PresenceDetection y MotionDetection para añadir más elementos a su estudio.
+\\
+
+src$\backslash$ipercept$\backslash$video$\backslash$PresenceDetection\\
+
+Este componente obtenía, mediante sustracción de fondo una imagen que representaba la presencia de un usuario en el interior de la zona de estudio. Como puede verse en la etapa anterior, hacíamos uso del cálculo de los momentos de orden cero y uno para obtener el área y centro de masas de la imagen obtenida por el módulo de detección de presencia. 
+\\
+
+Siguiendo la misma línea, en esta ocasión, usaremos además los momentos de orden dos, para obtener la orientación y la excentricidad de la forma detectada como presencia. La orientación está medida en radianes (tomando el sentido como contrarreloj y resolviendo la ambigüedad de la cabeza o cola de la elipse, partiendo del eje de ordenadas y tomando el semieje mayor de la elipse). Para un mejor entendimiento del uso de los momentos para obtener este tipo de información se recomienda leer el artículo "Simple Image Analysis by Moments" de Johannes Kilian \cite{JOHANNESK}, del que se han obtenido los cálculos necesarios para obtener los cálculos que se muestran.
+\\
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_momentosorientacion_percepcion.png}
+\end{center}
+\caption{ \label{F_GUIEsteticos_Etapa5} Cálculo de la orientación de un blob a partir de los momentos}
+\end{figure}
+
+
+\begin{lstlisting}[language=C++]
+presence_orientation = 0.0;
+double mu20_minus_mu02 = (*foreground_moments).mu20 - (*foreground_moments).mu02;
+double mu11 =(*foreground_moments).mu11;
+double base_presence_orientation=0.5*atan(2*mu11/mu20_minus_mu02);
+if (mu20_minus_mu02==0.0)
+{ if (mu11>0) presence_orientation = M_PI * 0.25;
+  if (mu11<0) presence_orientation = M_PI * -0.25;			
+} else if (mu20_minus_mu02>0.0)
+{ if ((mu11>0)||(mu11<0))presence_orientation=base_presence_orientation;
+} else
+{ if (mu11>0) presence_orientation=base_presence_orientation+(M_PI*0.5);
+  if (mu11<0) presence_orientation=base_presence_orientation-(M_PI*0.5);
+}
+\end{lstlisting}
+
+La excentricidad es un valor que variará entre 0.0 y 1.0. Un valor cercano a cero indica que la forma estudiada es similar a una circunferencia. Por el contrario un valor cercano a 1.0 indica una forma de línea. En  nuestro caso, un ejemplo claro que da un valor cercano a 1.0 es cuando la presencia se encuentra en una pose recta de pie o acostada. 
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_momentosexcentricidad_percepcion.png}
+\end{center}
+\caption{ \label{F_GUIEsteticos_Etapa5} Cálculo de la excentricidad de un blob a partir de los momentos}
+\end{figure}
+
+\begin{lstlisting}[language=C++]
+presence_eccentricity = 1.0;
+double mA=pow((*foreground_moments).mu20-(*foreground_moments).mu02,2);
+double mB=pow((*foreground_moments).mu11, 2)*4.0;
+double mC=pow((*foreground_moments).mu20+(*foreground_moments).mu02,2);
+if (mC>0.0) presence_eccentricity=(mA-mB)/mC ;
+\end{lstlisting}
+
+src$\backslash$ipercept$\backslash$video$\backslash$MotionDetection\\
+
+src$\backslash$ipercept$\backslash$PerceptVideo\\
+
 Aunque es realmente interesante el estudio del reconocimiento postural, se ha optado por una solución más simple. Sin embargo, me gustaría resaltar artículos como el estudio de un modelo de voxels del usuario obtenido a partir de mútiples cámaras, como puede leerse en el trabajo "Articulated Body Posture Estimation from Multi-Camera Voxel Data" de Ivana Mikic \cite{IVANAM} o la detección de articulaciones para estimar la pose del esqueleto del usuario como puede leerse en "Estimating Human Body configurations using Shape Context Matching" de Greg Mori \cite{GREGMJM}. \\
 
 \begin{figure} [H]
@@ -3979,6 +4186,14 @@ Aunque es realmente interesante el estudio del reconocimiento postural, se ha op
 En nuestro caso crearemos una representación del usuario basada en una nube de puntos que, simplificada, nos permitirá representar al usuario así como proyectar su interacción con la escena y obtener información del usuarios sobre esas interacciones.\\
 
 Se usará la sustracción de fondo para obtener un modelo del usuario. Añadiendo los datos de detección de movimiento obtendremos la velocidad de movimiento de un punto concreto del avatar. Sin embargo, no habrá distinción explícita de miembros ni postura. Aunque se considera un apartado muy interesante para trabajo futuro. \\
+
+\subsubsection{Módulo de Producción}
+\subsubsection{Módulo de Inteligenia Artificial}
+\subsubsection{Módulo de Aplicación}
+Pool de contenidos: audios, imágenes, primitivas 3D, Elementos.
+ContentCreationController
+
+
 
 \section{Validación y Publicidad}
 \subsection{Validación}
@@ -5344,6 +5559,8 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 \bibitem{GREGMJM} Greg Mori, Jitendra Malik {\em  } Estimating Human Body configurations using Shape Context Matching 
 
 \bibitem{CRAIGREYN} Craig Reynolds, {\em Boids Background and Update} http://www.red3d.com/cwr/boids/
+
+\bibitem{JOHANNESK} Johannes Kilian, {\em Simple Image Analysis By Moments} March 15, 2001
 
 añadir sdk de windows, sdk de directx
 
