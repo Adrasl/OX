@@ -2102,7 +2102,7 @@ Se recuerda que puede hacerse uso de cualquier cantidad de cámaras para la captu
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/typical_assumptions.png}
 \end{center}
-\caption{ \label{F_Typical_Assumptions_Etapa4} Cuadro de supuestos considerados. Detección, Navegación e Interacción}
+\caption{ \label{F_Typical_Assumptions_Etapa4} Cuadro de supuestos considerados. Detección, Navegación e Interacción \cite{THOMASB00}}
 \end{figure}
 
 \subsection{Análisis de Requisitos de Usuario}
@@ -3138,7 +3138,7 @@ Una homografia es una matriz de transformación invertible que nos permite conver
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/homography_diagram.png}
 \end{center}
-\caption{ \label{F_IPercept_Calibrate_Homography_Diagram} PerceptVideo: Homografía }
+\caption{ \label{F_IPercept_Calibrate_Homography_Diagram} PerceptVideo: Homografía \cite{HOMOGF}}
 \end{figure}
 
 Mediante el uso de homografías es posible estudiar la situación de un objeto en planos no frontales a la cámara corrigiendo la deformación de la perspectiva de la vista. Sin embargo, hay que tener en cuenta que deformará la imagen capturada y que debe usarse teniendo en cuenta esta consideración. \\
@@ -3720,6 +3720,9 @@ Como se ha usado sólo en la etapa final del proyecto, su uso se ha centrado en l
 \caption{ \label{F_MOOVIA_Etapa5} MOOVIA. Herramienta online para la gestión de proyectos www.moovia.com}
 \end{figure}
 
+Otra herramienta que ha sido sustituída ha sido el software de control de versiones. Para la última Etapa se ha creado un repositorio público de Github que puede accederse desde esta url: https://github.com/Adrasl/OX/
+\\
+
 Por otro lado, se revisita el módulo de Percepción para extender la detección de movimientos. El análisis que se añade es el cálculo de flujo óptico entre dos imágenes con el que poder estimar la dirección e intensidad de movimiento de un segmento del cuerpo del usuario dado un punto de su cuerpo.
 \\
 
@@ -3737,6 +3740,7 @@ En resumen:
 
 \begin{itemize}
 \item Gestión de Proyectos: MOOVIA
+\item Control de versiones: Github (https://github.com/Adrasl/OX/)
 \item Visión por Computador - Flujo Óptico: OpenCV
 \item Motor gráfico - Gestión de entidades: Colas de gestión.
 \item Motor gráfico - Gestión de colisiones: Panda3D
@@ -3774,7 +3778,7 @@ Se añaden elementos al módulo iPercept, IProd, ICog y se hacen modificaciones en
 \end{itemize}
 \item iprod: Se realizan cambios para implementar las capacidades comentadas en IProd. Para mantener un pipeline coherente y consistente se hace uso de colas para, sus casos más destacados son las colas de actualización de entidades, detección de colisiones, y las usadas para añadir y borrar entidades a la escena.
 \begin{itemize}
-\item MeshFactory: Creación de un modelo3D a partir de una nube de puntos basado en Marching Cubes y Metaballs.
+\item MeshFactory: Creación de un modelo3D a partir de una nube de puntos basado en Marching Cubes (Metaballs).
 \item Prod3DEntity: Se extiende para heredar de IEntity y se añaden elementos como fuentes de Audio, animaciones del modelo, así como los métodos OnStart, OnUpdate y OnCollision para que el pipeline de producción permita, de forma agnóstica, que las entidades actualicen su estado.
 \end{itemize}
 \item vox: 
@@ -3815,6 +3819,8 @@ Ambientación y Creación de Contenidos: Se trata de apartados de la escena 3D que
 \\
 
 Interacción con los Elementos: Para simplificar sólo existirá un tipo de interacción, la colisión usuario-elemento. Se realizará una colisión contra la malla 3D del usuario. Al estar creando continuamente una malla con la forma del usuario esta colisión no será de tipo Curpo-Rígido, sino que las geometrías serán capaces de atravesarse y lo que se desea detecctar es si una geometría se superpone a otra. A partir de esta colisión se calculará la velocidad de movimiento de ese segmento y, según esa velocidad, concluiremos si el usuario está en contacto estático, moviendo suavemente o golpeando un Elemento. Con este lenguaje de tres elementos (contacto, mover, golpear) y el valor de la velocidad cada Elemento definirá un comportamiento propio. Por defecto, golpear destruirá el Elemento, contacto y mover podrán disparar una acción del elemento o crear otros nuevos.
+
+\vspace{100 mm}
 
 \subsubsection{Diseño en UML - Resumen}
 
@@ -3920,7 +3926,7 @@ Se destacan los siguientes apartados:
 \item MeshFactory: Esta clase se ha creado con el fin de crear una malla3D a partir de una nube de puntos. Para ello se ha hecho uso del algoritmo de Marching cubes que predefine un espacio discretizado en vóxeles (unidad espacial con forma de cubo) y un catálogo de primitivas geométricas. Dada una configuración de vecindad de los puntos de la nube de puntos se crea una malla 3D combinando estas primitivas. 
 \\
 
-Destacar que se usa una modificación a la hora de asignar las primitivas usando un cálculo de distancia que nos permita conseguir un acabado de metabola, de forma que si dos puntos están los suficientemente cerca (o son lo suficientemente grandes) se crea una superficie más suavizada que los conecta). 
+Destacar que este algoritmos es uno de los clásicos y más extensamente utilizados para reconstrucción de superficies a partir de datos volumétricos, usado especialmente para representaciones 3D de metabolas o metasuperficies. En este caso se hacen modificaciones en el cálculo de la distancia para conseguir un acabado más destacado o exagerado de metabola, de forma que si dos puntos alejados están lo suficientemente cerca, teniendo en cuenta sus tamaños, se crea una superficie más suavizada que los conecta, en lugar de dejar el hueco que existe entre ellos.
 \\
 
 También comentar que la creación de esta malla no se realiza en el hilo del render, sino que es el hilo del controllador RunningSceneController el encargado de crear la representación gráfica del usuario para evitar interrupciones y pérdida de rendimiento en el render.
@@ -4170,11 +4176,69 @@ double mC=pow((*foreground_moments).mu20+(*foreground_moments).mu02,2);
 if (mC>0.0) presence_eccentricity=(mA-mB)/mC ;
 \end{lstlisting}
 
+\vspace{5 mm}
+
 src$\backslash$ipercept$\backslash$video$\backslash$MotionDetection\\
 
+El cambio realizado en este detector es que se añade cálculo de flujo óptico para ofrecer más información de movimiento. 
+\\
+
+El Flujo Óptico es una técnica que nos indica el movimiento aparente de un objeto en una imagen. Como puede verse en la figura \ref{F_FlujoOptico_Etapa5} se trata de encontrar la distancia h que hace que F(x)=G(x)=F(x+h), o que lleva a una diferencia mínima entre G(x) y F(x+h). A la izquierda se muestra este problema de forma esquemática, a la derecha se ilustra el cálculo de un caso simple de una muestra monodimensional (si nos centramos en el estudio del eje x). En nuestro caso utilizamos una implementación que ofrece  OpenCV basada en el algoritmo de Lucas Kanade \cite{LUKASK81}. 
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_problemofopticalflow_perception.png}
+\end{center}
+\caption{ \label{F_FlujoOptico_Etapa5} Ilustración del problema del flujo óptico, Lukas Kaneda \cite{LUKASK81}}
+\end{figure}
+
+Una de las mejoras que aportaba el algoritmo de Lukas Kanade era que permitía realizar menos comparaciones de imágenes para ofrecer una correspondencia, utilizando información extrínseca, en este caso discriminar por la proximidad lineal en las transformaciones del patrón que se busca, que frecuentemente son cercanas y permiten acelerar el cálculo.
+
+\begin{lstlisting}[language=C++]
+...
+ velx = cvCreateImage(size,IPL_DEPTH_32F,1);
+ vely = cvCreateImage(size,IPL_DEPTH_32F,1);	
+if (previous_frame == NULL)
+{ previous_frame = cvCreateImage(size,IPL_DEPTH_8U,1);
+  cvCvtColor(img,previous_frame,CV_RGB2GRAY);
+} else
+{ cvReleaseImage(&previous_frame);
+  previous_frame = current_frame;
+}
+current_frame = cvCreateImage(size,IPL_DEPTH_8U,1);
+cvCvtColor(capture, current_frame, CV_RGB2GRAY);		
+...
+ velx_Mat = cvCreateMat(size.height, size.width, CV_32FC1); 
+ vely_Mat = cvCreateMat(size.height, size.width, CV_32FC1);
+
+//Calculating dense Optical Flow (Lucas Kanade)
+block_size.height = block_size.width = 3;
+if (previous_frame && current_frame)
+ cvCalcOpticalFlowLK(previous_frame,current_frame,block_size,velx,vely);
+cvConvert(velx, velx_Mat);
+cvConvert(vely, vely_Mat);
+\end{lstlisting}
+\vspace{5 mm}
+
+De esta forma, dadas dos imágenes (actual y previa) y un tamaño de ventana para agrupar píxeles para la búsqueda de patrones similares, esta función nos ofrece, por cada píxel dos matrices, una dando el desplazamiento estimado en el eje de ordenadas y otra para el eje de abscisas.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_opticalflow_perception.png}
+\end{center}
+\caption{ \label{F_FlujoOptico_Etapa5} Detección de Movimiento: mostrando la imagen de histórico de movimientos a la derecha, y una muestra de flujo óptico tomada cada 50 píxeles a la izquierda, donde un punto implica que no hay movimiento y una línea refleja el movimiento detectado.}
+\end{figure}
+
+\vspace{7 mm}
 src$\backslash$ipercept$\backslash$PerceptVideo\\
 
-Aunque es realmente interesante el estudio del reconocimiento postural, se ha optado por una solución más simple. Sin embargo, me gustaría resaltar artículos como el estudio de un modelo de voxels del usuario obtenido a partir de mútiples cámaras, como puede leerse en el trabajo "Articulated Body Posture Estimation from Multi-Camera Voxel Data" de Ivana Mikic \cite{IVANAM} o la detección de articulaciones para estimar la pose del esqueleto del usuario como puede leerse en "Estimating Human Body configurations using Shape Context Matching" de Greg Mori \cite{GREGMJM}. \\
+Llegados a este punto tenemos una colección de detectores que estudian imágenes y son capaces de ofrecer una información enriquecida. El principal objetivo que queremos conseguir con ella, es que una aplicación pueda obtener, además de esa información de forma puntual, una representación de la presencia del usuario con sus datos. Para terminar este apartado, veremos cómo creamos un modelo del usuario a partir del cual poder crear una malla3D para su visualización en producción, o una representación a modo de proyección para colisionar con objetos que se encuentren delante.
+\\
+
+Desde este punto de vista, y aunque es realmente interesante el estudio del reconocimiento postural, se ha optado por una solución más simple que cubran los objetivos del presente proyecto y que entren dentro de su alcance.En cualquier caso, me gustaría hacer referencia a algunos artículos sobre esta materia muy interesantes. Sería muy interesante poder continuar estas líneas de estudio como posible trabajo futuro.
+\\
+
+Algunos de los trabajos analizados se basan en el estudio de un modelo de voxels del usuario obtenido a partir de mútiples cámaras como puede leerse en el trabajo "Articulated Body Posture Estimation from Multi-Camera Voxel Data" de Ivana Mikic \cite{IVANAM}. Otros en o la detección de partes del cuerpo centrando el estudio en las articulaciones del mismo para estimar la pose del esqueleto del usuario como puede leerse en " Estimating Human Body configurations using Shape Context Matching" de Greg Mori \cite{GREGMJM}. 
 
 \begin{figure} [H]
 \begin{center}
@@ -4183,11 +4247,167 @@ Aunque es realmente interesante el estudio del reconocimiento postural, se ha op
 \caption{ \label{F_ReconocimientoPostural_Etapa5} Ilustraciones de los trabajos mencionados sobre reconocimiento postural de Ivana Mikic et al.\cite{IVANAM} (izquierda) y Greg Mori et al.\cite{GREGMJM} (derecha)}
 \end{figure}
 
+En la misma línea, no quisiera dejar atrás hacer referencia al trabajo de Juergen Gall, Carsten Stoll, Edilson de Aguiar et al. que puede leerse en el artículo "Motion Capture Using Joint Skeleton Tracking and Surface Estimation" donde proponen un método para adaptar una plantilla de una malla3D y un esqueleto predefinidos a la captura en vivo de una imagen y con la que parecen conseguir resultados excelentes incluso en acciones que suceden a gran velocidad \cite{JUERGEN}.
+\\
+
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_postural_percepcion.png}
+\end{center}
+\caption{ \label{F_ReconocimientoPosturalJuergen_Etapa5} Ajuste de una malla3D dada y esqueleto a modo de plantilla sobre una captura de imagen \cite{JUERGEN}}
+\end{figure}
+
 En nuestro caso crearemos una representación del usuario basada en una nube de puntos que, simplificada, nos permitirá representar al usuario así como proyectar su interacción con la escena y obtener información del usuarios sobre esas interacciones.\\
 
-Se usará la sustracción de fondo para obtener un modelo del usuario. Añadiendo los datos de detección de movimiento obtendremos la velocidad de movimiento de un punto concreto del avatar. Sin embargo, no habrá distinción explícita de miembros ni postura. Aunque se considera un apartado muy interesante para trabajo futuro. \\
+Se usará la sustracción de fondo para obtener un modelo del usuario. Añadiendo los datos de detección de movimiento obtendremos la velocidad de movimiento de un punto concreto del avatar. Sin embargo, no habrá distinción explícita de miembros ni postura. Aunque se considera un apartado muy interesante para trabajo futuro. 
+\\
+
+Uno de los principales puntos a resolver es conseguir una representación lo bastante ligera como para generar una alta tasa de resultados por segundo. Para ello obtenenos la intersección proyectada entre los blobs de las diferentes fuentes de video. Aún así, el mayor problema de trabajar con nubes de puntos es la gran candidad de datos que hay que manejar. A modo ilustrativo si tuviéramos un blob de 10x10 píxeles tendríamos 100 elementos para estudiar, si llevamos esto a 500x500 píxeles la cuenta sube a 250.000 elementos.
+\\
+
+Por este motivo, dada una nube de puntos en bruto a partir del blob de presencia obtenido por el detector de presencia, la simplificación de la nube de puntos sigue los siguientes pasos:
+
+\begin{itemize}
+\item Bajar la resolución: El primer paso consiste en escalar la imagen. No necesitamos una representación a resolución completa.
+\item Reducción de la nube de puntos original: Se ha planteado una posible solución que ofrecería una representación en forma de nube de puntos con pesos asignados, similar a la original, donde cada punto puede tener un tamaño mayor a los otros. 
+\\
+
+Para conseguir esto se siguen los siguientes pasos:
+\begin{itemize}
+\item Clasificación espacial de la nubes de puntos mediante un árbol de búsqueda R-Tree. 
+\\
+
+Este árbol balanceado da especial importancia a la agrupación de sus nodos en bounding boxes (envolturas rectangulares) mínimos que engloben las dispersiones locales de objetos. Permite realizar búsquedas rápidas dentro de una colección de elementos a los que se les puede asignar un tamaño, y sobre la que se pueden realizar consultas mediante vecindades usando radios de distancia. 
+\\
+
+R-Tree no garantiza buenos rendimientos en los peores casos, pero demuestra ser muy eficiente en situaciones reales y es muy usado actualmente en las extensiones para búsquedas eficientes de entidades geolocalizadas dada una localización y una vecindad.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_rtree.png}
+\end{center}
+\caption{ \label{F_RTree_Etapa5} Representaciones en forma de árbol de nodos, 2D y 3D de un R-Tree \cite{RTREE}.}
+\end{figure}
+
+\item Simplificación mediante escarbado: Dada esta representación se toma un nodo aleatorio y se calcula un porcentaje de llenado para vecindades, empezando por un tamaño mayor y escalando hacia tamaños más pequeños hasta encontrar uno que satisfaga la condición de llenado. Si no satisface la condición con un tamaño mínimo el nodo es descartado. De esta forma podemos pasar de una representación del usuario que, como en el caso de la fingura \ref{F_Escarbado_Etapa5} puede contener contiene miles de puntos a una representación simplificada que para una forma similar a la mostrada puede estar alrededor de 30 puntos de diferentes tamaños.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_simplificacionnubepuntos_perception.png}
+\end{center}
+\caption{ \label{F_Escarbado_Etapa5} Simplificación de una nube de puntos mediante escarbado.}
+\end{figure}
+
+\end{itemize}
+\end{itemize}
+
+\begin{lstlisting}[language=C++]
+void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map<int, 
+  std::vector<corePDU3D<double>>>&weighted_points, 
+  const float &scale)
+...
+for (int i = n_steps; i >= 0; )
+{ bool candidate_step_found = false;
+  Rect3F search_rect(new_point.position.x-search_delta_window,
+    new_point.position.y-search_delta_window,
+    new_point.position.z-search_delta_window, 
+    new_point.position.x+search_delta_window,
+    new_point.position.y+search_delta_window,
+    new_point.position.z+search_delta_window);
+  search_results.clear();
+  int overlapping_size=spatial_index.Search(search_rect.min,
+    search_rect.max,RegisterPointIDIntoSearchResults,NULL);
+  float n_deltas=search_delta/delta;
+  third_delta=(is3D)?n_deltas:1.0;
+  float success_criteria = 0.95;
+  
+  if((overlapping_size>(success_criteria*pow(n_deltas,((is3D)?3:2))))&&
+    (overlapping_size>1)) 
+  { new_point = relative_points[iter_isp->first];
+    image_space_points[iter_isp->first].y;
+    if (weighted_points.find(search_delta)!= weighted_points.end())
+      weighted_points[search_delta].push_back(new_point);
+    else
+    { std::vector<corePDU3D<double>> new_vector;
+      new_vector.push_back(new_point);
+      weighted_points[search_delta] = new_vector;
+    }
+    for (std::vector<int>::iterator diter = search_results.begin();
+         diter != search_results.end(); diter++)
+    { spatial_index.Remove(search_rect.min, search_rect.max, *diter);
+      image_space_points.erase(*diter);
+      candidate_step_found = true;
+    }
+  }
+  else if (( i==0 ) || overlapping_size == 1 )
+  { spatial_index.Remove(search_rect.min,search_rect.max,iter_isp_id);
+    image_space_points.erase(iter_isp_id); 
+  } ...
+\end{lstlisting}
+
+Recordar que PerceptVideo actúa como controlador principal del análisis de video. También recordar que, aunque la arquitectura está preparada para trabajar con múltiples fuentes (creando los detectores necesarios que funcionarán en paralelo por cada fuente), en el alcance de este proyecto nos centraremos en el uso de una única fuente.\\
+
+Se recuerda también que la solución adoptada para la orientación y combinación de múltiples cámaras consiste en una orientación predefinida de tipo Cave (un cubo, con sus seis lados: derecha, izquierda, frontal, trasero, superior, inferior). Para coordinar los datos se alinean los centros de cada imagen y se proyecta la información en profundidad, utilizando (por normal general) la intersección, unión o promedio de ambos. Igualmente se plantea revisitar esta sección como trabajo futuro, tanto para mejorar la eficiencia de la solución actual como para extenderla y permitir combinar fuentes de video en cualquier orientación.
+\vspace{20 mm}
 
 \subsubsection{Módulo de Producción}
+
+Este es una de las secciones donde más trabajo se ha realizado durante esta fase. Podemos distinguir tres apartados: Representación del Avatar, Extensión de funcionalidades asociadas a la gestión de entidades en la escena y extensión de capacidades del controlador principal de producción para personalizar el entorno.
+\\
+
+Se destacan los cambios realizados en las siguientes clases:
+\\
+
+\begin{itemize}
+\item MeshFactory: Como comentábamos en la sección de diseño, esta clase se ha creado con el fin de crear una malla3D a partir de una nube de puntos. Para ello se ha hecho uso del algoritmo de Marching cubes que predefine un espacio discretizado en vóxeles (unidad espacial con forma de cubo) y un catálogo de primitivas geométricas. 
+\\
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_marchingcubesprimitives_production.png}
+\end{center}
+\caption{ \label{F_MarchingCubesPrimitives_Etapa5} Marching Cubes: Primitivas geométricas (facets) \cite{MCUBESW}}
+\end{figure}
+
+Dada una configuración de vecindad de los puntos de la nube de puntos se crea una malla 3D combinando estas primitivas. 
+\\
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_marchingcubessamples_production.png}
+\end{center}
+\caption{ \label{F_MarchingCubesSampless_Etapa5} Marching Cubes, construcción de metasuperficies y Voxelización del espacio \cite{PAULB94}}
+\end{figure}
+
+En la figura \ref{F_MarchingCubesSampless_Etapa5} puede verse en gis, la construcción de un mismo modelo, con mayor o menor resolución según el número de pasos en los que se subdivide el espacio. El modelo de datos es exactamente el mismo en los cinco casos, es la misma nube de puntos. Subdividiendo el espacio en más o menos vóxeles se puede conseguir una representación con mayor o menor resolución. Notar también que en estas muestras de render no se usan técnicas de shading como Phong para interpolar la iluminación dentro de una cara. Dicho de otra forma, el color en estas imágenes es exactamente igual para todos los píxeles que caen dentro de una misma cara, en todos los casos. En esta figura, las formas más suavizadas se ven así porque la geometría del mallado 3D tiene una cantidad muy elevada de caras.
+
+
+Destacar que este algoritmos es uno de los clásicos y más extensamente utilizados para reconstrucción de superficies a partir de datos volumétricos, usado especialmente para representaciones 3D de metabolas o metasuperficies. En este caso se hacen modificaciones en el cálculo de la distancia para conseguir un acabado más destacado o exagerado de metabola, de forma que si dos puntos alejados están lo suficientemente cerca, teniendo en cuenta sus tamaños, se crea una superficie más suavizada que los conecta, en lugar de dejar el hueco que existe entre ellos.
+\\
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_marchingcubesavatar_production.png}
+\end{center}
+\caption{ \label{F_MarchingCubesAvatar_Etapa5} Marching Cubes para construir una representación 3D del avatar a partir de una nube de puntos simplificada con aproximadamente 30 puntos con pesos asignados.}
+\end{figure}
+
+
+También comentar que la creación de esta malla no se realiza en el hilo del render, sino que es el hilo del controllador RunningSceneController el encargado de crear la representación gráfica del usuario para evitar interrupciones y pérdida de rendimiento en el render.
+
+\item Prod3DEntity: Destacar que extiende de la clase Subject, ya que será observada por ContentCreationController a quién notificará de sus cambios. Se añaden también atributos como fuentes de audio, tiempo de vida, controladores de animación y se extiende la interfaz para añadir más métodos para obtener o asignar valores a sus atributos. 
+\\
+
+Se añaden especialmente métodos para obtener o asignar atributos en bloque que suelen ser accedidos juntos, de forma que pueden hacerse en una sóla llamada, lo que permite reducir el número de peticiones y bloqueos de la entidad.
+
+\item MainProd: Finalmente se añade a MainProd una serie de atributos y métodos para dar cabida a las nuevas funcionalidades que se van a desarrollar. Los más destacados son los controladores de animación de la escena para permitir que los objetos3D que tengan asociados una animación sean capaces de reproducirlo.
+\\
+
+También se añade acceso para cambiar el color de fondo de la escena o el color e intensidad de la niebla, un contenedor de audios no relativos para reproducir sonidos de fondo que siempre se escuchen a igual intensidad, independientemente de la posición del usuario, y, finalmente, una serie de efectos de postproceso predefinidos como Invert, Bloom, Blur o Cartoon para añadir de forma simple un acabado diferente al render.
+\end{itemize}
+
+
 \subsubsection{Módulo de Inteligenia Artificial}
 \subsubsection{Módulo de Aplicación}
 Pool de contenidos: audios, imágenes, primitivas 3D, Elementos.
@@ -5480,6 +5700,8 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 
 \bibitem{Castrillon05} M. Castrillón Santana, C. Guerra Artal and M. Hernández Tejera {\em Real"=time Detection of Faces in Video.} Face Processing in Video 2005, Victoria, Canada.
 
+\bibitem{CastrillonSchmidt} M. Castrillón Santana, Joachim Schmidt {\em AUTOMATIC INITIALIZATION FOR BODY TRACKING: Using Appearance to Learn a Model for Tracking Human Upper Body Motions}
+
 
 \bibitem{Chellappa95} R. Chellappa et al. {\em Human and machine recognition of faces: A survey.} Proceedings IEEE, vol. 83(5), 705~-740, 1995.
 
@@ -5543,6 +5765,8 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 
 \bibitem{LIYUAN03} Liyuan Li, Weimin Huang et al. {\em Foreground Object Segmentation } Foreground Object Detection from Videos Containing Complex Background 2003
 
+\bibitem{HOMOGF} Homography at the Wikipedia http://en.wikipedia.org/wiki/Homography\_(computer\_vision)
+
 \bibitem{CALIBCV} OpenCV Documentation {\em Camera Calibration and 3D Reconstruction } http://opencv.willowgarage.com/documentation/camera\_calibration\_and\_3d\_reconstruction.html/ 2010
 
 \bibitem{JKAGG} J.K. Aggarwal, Q. Cai {\em Motion Analysis of Human Body Parts } Human Motion Analysis: A Review 
@@ -5558,9 +5782,25 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 
 \bibitem{GREGMJM} Greg Mori, Jitendra Malik {\em  } Estimating Human Body configurations using Shape Context Matching 
 
+\bibitem{JUERGEN} Juergen Gall, Carsten Stoll et al {\em Motion Capture Using Joint Skeleton Tracking and Surface Estimation}
+
 \bibitem{CRAIGREYN} Craig Reynolds, {\em Boids Background and Update} http://www.red3d.com/cwr/boids/
 
 \bibitem{JOHANNESK} Johannes Kilian, {\em Simple Image Analysis By Moments} March 15, 2001
+
+\bibitem{LUKASK81} Bruce D. Lukas, Takeo KAnade,  {\em An Iterative Image Registration Technique with an Application to Stereo Vision} 1981
+
+\bibitem{RTREE} R-Tree description at the Wikipedia http://en.wikipedia.org/wiki/R-tree
+
+\bibitem{STEVES00} Steve Seitz, {\em From Images to Voxels} SIGGRAPH 2000 Course on 3D Photography
+
+\bibitem{CHUCKD} Chuck Dyer, {\em Volumetric Scene Reconstruction from Multiple Views}
+
+\bibitem{PAULB94} Paul Bourke, {\em Polygonising a scalar field: Also known as 3D Contouring, Marching Cubes, Surface Reconstruction} 1994
+
+\bibitem{MCUBESW} Marching Cubes at the Wikipedia http://en.wikipedia.org/wiki/Marching\_cubes
+
+\bibitem{BELKIN99} Alan Belkin, {\em A Practical Guide to Musical Composition} 1995-1999
 
 añadir sdk de windows, sdk de directx
 
