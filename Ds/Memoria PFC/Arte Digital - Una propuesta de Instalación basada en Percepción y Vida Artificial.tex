@@ -3942,7 +3942,7 @@ Se añaden especialmente métodos para obtener o asignar atributos en bloque que s
 También se añade acceso para cambiar el color de fondo de la escena o el color e intensidad de la niebla, un contenedor de audios no relativos para reproducir sonidos de fondo que siempre se escuchen a igual intensidad, independientemente de la posición del usuario, y, finalmente, una serie de efectos de postproceso predefinidos como Invert, Bloom, Blur o Cartoon para añadir de forma simple un acabado diferente al render.
 \end{itemize}
 
-\subsubsection{Diseño en UML - Módulo de IA (Cog)}
+\subsubsection{Diseño en UML - Módulo de Inteligencia Artificial}
 \begin{figure} [H]
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/DiagramadeclasesUML_CuartaDemo_icog.png}
@@ -4260,7 +4260,7 @@ En la misma línea, no quisiera dejar atrás hacer referencia al trabajo de Juerge
 
 En nuestro caso crearemos una representación del usuario basada en una nube de puntos que, simplificada, nos permitirá representar al usuario así como proyectar su interacción con la escena y obtener información del usuarios sobre esas interacciones.\\
 
-Se usará la sustracción de fondo para obtener un modelo del usuario. Añadiendo los datos de detección de movimiento obtendremos la velocidad de movimiento de un punto concreto del avatar. Sin embargo, no habrá distinción explícita de miembros ni postura. Aunque se considera un apartado muy interesante para trabajo futuro. 
+Se usará la sustracción de fondo para obtener un modelo del usuario. Añadiendo los datos de detección de movimiento obtendremos la velocidad de movimiento de un punto concreto del avatar. Es decir, aunque hablemos de puntos, cada punto es una estructura de datos que contiene más información que su posición, como, por ejemplo, su velocidad. En cualquier caso, con la solución planteada, no habrá distinción explícita de miembros ni postura. Aunque se considera un apartado muy interesante para trabajo futuro. 
 \\
 
 Uno de los principales puntos a resolver es conseguir una representación lo bastante ligera como para generar una alta tasa de resultados por segundo. Para ello obtenenos la intersección proyectada entre los blobs de las diferentes fuentes de video. Aún así, el mayor problema de trabajar con nubes de puntos es la gran candidad de datos que hay que manejar. A modo ilustrativo si tuviéramos un blob de 10x10 píxeles tendríamos 100 elementos para estudiar, si llevamos esto a 500x500 píxeles la cuenta sube a 250.000 elementos.
@@ -4360,17 +4360,19 @@ Se destacan los cambios realizados en las siguientes clases:
 \\
 
 \begin{itemize}
-\item MeshFactory: Como comentábamos en la sección de diseño, esta clase se ha creado con el fin de crear una malla3D a partir de una nube de puntos. Para ello se ha hecho uso del algoritmo de Marching cubes que predefine un espacio discretizado en vóxeles (unidad espacial con forma de cubo) y un catálogo de primitivas geométricas. 
+\item MeshFactory: Como comentábamos en la sección de diseño, esta clase se ha creado con el fin de crear una malla3D a partir de una nube de puntos. Para ello se ha hecho uso del algoritmo de Marching cubes que predefine un espacio discretizado en vóxeles (unidad espacial con forma de cubo) y un catálogo de primitivas geométricas. Con esta técnica pueden conseguirse resultados como metabolas o meta superficies, o incluso (simplificándolo con menos primitivas) construir terrenos virtuales procedurales modificables en tiempo de ejecución como en el juego Minecraft \cite{MINECRAFT}.
 \\
+
+En Marching Cubes \cite{MCUBESW} se discretiza el espacio en un número de vóxeles, a mayor cantidad de divisiones mayor resolución tendrá la malla resultante. Para cada voxel se estudian sus ocho esquinas, para evaluar si deben contribuir a que exista una superficie o no, mediante un valor definido por el usuario, donde generalmente se usa un valor por vecindad o por distancia con los puntos cercanos de la nube de puntos que se estudia. En la figura \ref{F_MarchingCubesPrimitives_Etapa5} se muestran algunos ejemplos de primitivas, donde se ve la configuración de caras y, resaltadas, las esquinas del voxel que cumplen con esa condición y por lo tanto las que determinan qué primitiva se crea. Estudiando las diferentes configuraciones posibles de un cubo, variando sus 8 esquinas, tenemos 256 posibles primitivas. Muchas de las 256 en realidad son iguales, sólo que en un orientación diferente.
 
 \begin{figure} [H]
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/etapa5_marchingcubesprimitives_production.png}
 \end{center}
-\caption{ \label{F_MarchingCubesPrimitives_Etapa5} Marching Cubes: Primitivas geométricas (facets) \cite{MCUBESW}}
+\caption{ \label{F_MarchingCubesPrimitives_Etapa5} Marching Cubes: Primitivas geométricas y las esquinas que las definen \cite{MCUBESW}.}
 \end{figure}
 
-Dada una configuración de vecindad de los puntos de la nube de puntos se crea una malla 3D combinando estas primitivas. 
+De esta forma, dada la configuración de una nube de puntos, definido un número de divisiones para discretizar el espacio, y una función de evaluación para considerar si una esquina de un vóxel debe contribuir o no a que esxista una superficie, se crea una malla 3D combinando las primitivas mencionadas. En la siguiente figura \ref{F_MarchingCubesSampless_Etapa5} vemos dos representaciones. A la izquierda, vemos un ejemplo muy simple de una malla3D creada a partir de estas primitivas y de los vóxeles involucrados donde encaja. En la secuencia de la derecha, al estilo de unas metabolas, vemos una misma entidad, definida por una una nube de puntos en la que podemos ver cómo, sólo variando la cantidad de subdivisiones del espacio, el modelo resultante tiene mayor o menor detalle.
 \\
 
 \begin{figure} [H]
@@ -4380,35 +4382,309 @@ Dada una configuración de vecindad de los puntos de la nube de puntos se crea un
 \caption{ \label{F_MarchingCubesSampless_Etapa5} Marching Cubes, construcción de metasuperficies y Voxelización del espacio \cite{PAULB94}}
 \end{figure}
 
-En la figura \ref{F_MarchingCubesSampless_Etapa5} puede verse en gis, la construcción de un mismo modelo, con mayor o menor resolución según el número de pasos en los que se subdivide el espacio. El modelo de datos es exactamente el mismo en los cinco casos, es la misma nube de puntos. Subdividiendo el espacio en más o menos vóxeles se puede conseguir una representación con mayor o menor resolución. Notar también que en estas muestras de render no se usan técnicas de shading como Phong para interpolar la iluminación dentro de una cara. Dicho de otra forma, el color en estas imágenes es exactamente igual para todos los píxeles que caen dentro de una misma cara, en todos los casos. En esta figura, las formas más suavizadas se ven así porque la geometría del mallado 3D tiene una cantidad muy elevada de caras.
+El modelo de datos es exactamente el mismo en los cinco casos, es la misma nube de puntos. Subdividiendo el espacio en más o menos vóxeles se puede conseguir una representación con mayor o menor resolución. Notar también que en estas muestras de render no se usan técnicas de shading como Phong para interpolar la iluminación dentro de una cara. Dicho de otra forma, el color en estas imágenes es exactamente igual para todos los píxeles que caen dentro de una misma cara, en todos los casos. En esta figura, las formas más suavizadas se ven así porque la geometría del mallado 3D tiene una cantidad muy elevada de caras.
 
 
-Destacar que este algoritmos es uno de los clásicos y más extensamente utilizados para reconstrucción de superficies a partir de datos volumétricos, usado especialmente para representaciones 3D de metabolas o metasuperficies. En este caso se hacen modificaciones en el cálculo de la distancia para conseguir un acabado más destacado o exagerado de metabola, de forma que si dos puntos alejados están lo suficientemente cerca, teniendo en cuenta sus tamaños, se crea una superficie más suavizada que los conecta, en lugar de dejar el hueco que existe entre ellos.
+Destacar que este algoritmos es uno de los clásicos y más extensamente utilizados para reconstrucción de superficies a partir de datos volumétricos, usado especialmente para representaciones 3D de metabolas o metasuperficies. 
+\\
+
+En este proyecto se hacen modificaciones en la función de evaluación de cada vértice, para tener en cuenta un cálculo de distancia y el tamaño (o peso) de la representación simplificada de la nube de puntos del avatar del usuario. 
+\\
+
+Se ajustan los valores para conseguir un acabado de metabola mejor conectado, de forma que si dos puntos están alejados pero según sus tamaños lo suficientemente cerca, se crea una superficie que los conecta, en lugar de dejar el hueco que existe entre ellos. 
+\\
+
+El código asociado a este algoritmo es extenso. Si se desea estudiar en detalle cómo resolver una implementación de este algoritmo, se recomienda la lectura de Paul Bourke,"Polygonising a scalar field: Also known as 3D Contouring, Marching Cubes, Surface Reconstruction" \cite{PAULB94}. En el siguiente bloque sólo se pretende mostrar algunos de sus elementos principales.
+
+\begin{lstlisting}[language=C++]
+NodePath* MeshFactory::CreateVoxelized(source_weighted_data)
+{ 
+ int grid_overlapping_size_whole=aux_spatial_grid_index.Search(grid_search_rect_whole.min, grid_search_rect_whole.max,
+    RegisterGridPointIDIntoSearchResults_callback);              
+ GeomVertexWriter vertex, normal, color, texcoord;
+ vertex = GeomVertexWriter(vdata, "vertex");
+ normal = GeomVertexWriter(vdata, "normal");
+ color = GeomVertexWriter(vdata, "color");
+ texcoord = GeomVertexWriter(vdata, "texcoord"); 
+ for (iter=global_rTree_search_results.begin(); 
+      iter!=global_rTree_search_results.end();iter++)
+ {for (jX = jXini; jX <= jXend; jX++)
+  for (jY = jYini; jY <= jYend; jY++)
+  for (jZ = jZini; jZ <= jZend; jZ++)
+  { 
+    point_str << jX << ":" << jY << ":" << jZ;
+    v_iter=visited.find(point_str.str());
+    if (v_iter == visited.end())
+    { //OBTAIN THE TRIANGLES OF THE VOXEL PRIMITIVE
+      int nTriangles=(this->*vMarchCube)(jX*fStepSize,jY*fStepSize,
+                                         jZ*fStepSize,fStepSize,
+                                         v_vertex,v_color,
+                                         v_edge_normal);
+      for ( int i = 0; i < nTriangles; i++)
+      {vertex.add_data3f(vert[i*3].x,  vert[i*3].y,  vert[i*3].z  );
+       vertex.add_data3f(vert[i*3+1].x,vert[i*3+1].y,vert[i*3+1].z);
+       vertex.add_data3f(vert[i*3+2].x,vert[i*3+2].y,vert[i*3+2].z);
+      }
+      nVertices+=nTriangles*3;
+    }
+  }
+  PT(GeomTriangles) tris;
+  tris = new GeomTriangles(Geom::UH_static);
+  for (int i = 0; i<nVertices; i = i+3)
+  { tris->add_vertex(i+0);
+    tris->add_vertex(i+1);
+    tris->add_vertex(i+2);
+    tris->close_primitive();
+  }
+}	
+//DISTANCE
+float MeshFactory::DistanceToWeightedPointsInRange(...)
+{ for (int i=0;i<RTree_search_results.size();i++)
+  { iter =source_weighted_points_indexed.find(search_results[i]);
+    iter2=weight_index.find(iter->first);
+    fResult+=(metaball_weightfactor*(float(iter2->second)))/
+             (fDx*fDx+fDy*fDy+fDz*fDz);
+}
+//MARCHINGCUBES on a single cube
+int  MeshFactory::vMarchCube1(...)
+{ for(iVertex=0;iVertex<8;iVertex++)
+  CubeValue[iVertex]=(this->*DistanceToWeightedPointsInRange)(...);
+ //Find if vertices are inside or outside the surface
+ for(iVertexTest=0;iVertexTest<8;iVertexTest++)
+  if(CubeValue[iVertexTest]<=fTargetValue)
+   iFlagIndex|=1<<iVertexTest;
+ //If entirely inside or outside, ignore it
+ iEdgeFlags = CubeEdgeFlags[iFlagIndex];
+ if(iEdgeFlags==0) return 0;
+ //Triangles
+ for(iTriangle=0;iTriangle<5;iTriangle++)
+ {if(TriangleConnectionTable[iFlagIndex][3*iTriangle]<0) break;
+  for(iCorner=0;iCorner<3;iCorner++)
+  {iVertex=TriangleConnectionTable[iFlagIndex][3*iTriangle+iCorner];
+   vertex[nTriangles*3+iCorner].x=asEdgeVertex[iVertex].x;
+   vertex[nTriangles*3+iCorner].y=asEdgeVertex[iVertex].y;
+   vertex[nTriangles*3+iCorner].z=asEdgeVertex[iVertex].z;
+  }
+ }
+}
+\end{lstlisting}
+\vspace{5 mm}
+
+Comentar que, para mejorar el rendimiento, la creación de esta malla3D no se realiza en el hilo del render. En su lugar se realiza en el hilo del controllador RunningSceneController, que es el encargado de gestionar la escena actualmente en curso. Este controlador obtiene la nube de puntos pesada, crea un mallado3D y sólo una vez creado le pide al hilo de render que actualice el modelo del usuario. De esta forma conseguimos evitar interrupciones innecesarias y pérdida de rendimiento en el hilo de render.
+\\
+
+Como resultado, en la figura \ref{F_MarchingCubesAvatar_Etapa5} se muestra a modo de ejemplo la malla3D construída para la silueta detectada. La nube de puntos simplificada que representa esa figura y con la que se ha creado la malla3D tiene apenas 30 puntos aproximadamente.
 \\
 
 \begin{figure} [H]
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/etapa5_marchingcubesavatar_production.png}
 \end{center}
-\caption{ \label{F_MarchingCubesAvatar_Etapa5} Marching Cubes para construir una representación 3D del avatar a partir de una nube de puntos simplificada con aproximadamente 30 puntos con pesos asignados.}
+\caption{ \label{F_MarchingCubesAvatar_Etapa5} Marching Cubes para construir una representación 3D del avatar.}
 \end{figure}
 
-
-También comentar que la creación de esta malla no se realiza en el hilo del render, sino que es el hilo del controllador RunningSceneController el encargado de crear la representación gráfica del usuario para evitar interrupciones y pérdida de rendimiento en el render.
-
-\item Prod3DEntity: Destacar que extiende de la clase Subject, ya que será observada por ContentCreationController a quién notificará de sus cambios. Se añaden también atributos como fuentes de audio, tiempo de vida, controladores de animación y se extiende la interfaz para añadir más métodos para obtener o asignar valores a sus atributos. 
+\item Prod3DEntity: Las modificaciones que se han añadido en Prod3DEntity persiguen dos objetivos. Por un lado, añadir riqueza a la representación de una entidad, añadiendo atributos como velocidad, fuentes de audio, tiempo de vida, etc. Por otro lado, extender sus capacidades de gestión dentro del kit de desarrollo. 
 \\
 
-Se añaden especialmente métodos para obtener o asignar atributos en bloque que suelen ser accedidos juntos, de forma que pueden hacerse en una sóla llamada, lo que permite reducir el número de peticiones y bloqueos de la entidad.
-
-\item MainProd: Finalmente se añade a MainProd una serie de atributos y métodos para dar cabida a las nuevas funcionalidades que se van a desarrollar. Los más destacados son los controladores de animación de la escena para permitir que los objetos3D que tengan asociados una animación sean capaces de reproducirlo.
+Para ello, el primer cambio ha sido hacer que Prod3DEntity herede de la clase abstracta IEntity, de forma que la entidad pueda ser manipulada por otros componente con idependencia de su implementación. También se añaden métodos para obtener o asignar atributos en bloque que suelen ser accedidos juntos, de forma que pueden hacerse en una sóla llamada, lo que permite reducir el número de peticiones y bloqueos de la entidad.
 \\
 
-También se añade acceso para cambiar el color de fondo de la escena o el color e intensidad de la niebla, un contenedor de audios no relativos para reproducir sonidos de fondo que siempre se escuchen a igual intensidad, independientemente de la posición del usuario, y, finalmente, una serie de efectos de postproceso predefinidos como Invert, Bloom, Blur o Cartoon para añadir de forma simple un acabado diferente al render.
+Finalmente, se añaden métodos pensando en el flujo de ejecución y actualización de las entidades, destacando el método virtual OnStart() pensado para que el desarrollador pueda redenir el comportamiento que va a tener una entidad nada más ser introducida en la escena, e igualmente OnUpdate() para personalizar su comportamiento permitiendo evaluar o a hacer modificaciones al comienzo de cada ciclo de ejecución de cada render, o los métodos OnCollisionCall() y OnUSerCollisionCall(), que le permitirán reaccionar a las colisiones contra otras entidades o contra el usuario, llamados durante la evaluación de colisiones.
+
+\begin{lstlisting}[language=C++]
+class Prod3DEntity : public core::IEntity
+{...
+  virtual bool IsCollidable(){boost::mutex::scoped_lock lock(m_mutex);return collidable;}
+  virtual bool IsReadyToDie();
+  virtual void SetCollidable(const bool &value)
+  virtual float GetTimeToLive()
+  virtual void  SetTimeToLive(const float &value)
+  virtual void SetPositionVelocityAcceleration(...,...,...);
+  virtual void GetPositionVelocityAcceleration(...,...,...);
+  void SetPositionOrientationScale(...,...,...);
+  void GetPositionOrientationScale(...,...,...);
+  virtual void DeletePersistence();
+
+  virtual void OnStart(){};
+  virtual void OnUpdate(){};
+  virtual void OnCollisionCall(IEntity *otherEntity){}; 
+  virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo){};
+  virtual void StartAnimations();
+...
+};  
+\end{lstlisting}
+
+\item MainProd: 
+Por un lado, se añaden métodos para al gestión de las entidades, por ejemplo para poder solicitar la carga y eliminación de entidades de la escena actual de forma segura. Estas acciones no se resuelven en el momento de la petición, ya que para poder realizarse de forma segura deben ejecutarse en un punto concreto del ciclo de render. 
+\\
+
+Por ejemplo, la carga de nuevas entidades se resuelve mediante el encolado de las peticiones, durante la cual también se añaden modificaciones para reproducir animaciones del modelo3D o añadir sonido como extensión a la implementación anterior. Para el caso de retirar las entidades no se usa una cola en sí, ya que el motivo para eliminar una entidad puede tener diferentes orígenes. En su lugar, cuando se visitan las entidades para ejecutar sus Updates, se comprueba primero si tiene activado un atributo que indica que la entidad está lista para ser retirada. Así en lugar de actualizarla se procede a su eliminación. También se añaden métodos para gestionar su ejecución durante el tiempo que existan dentro de la escena, y sus reacciones al colisionar con otras entidades.
+\\
+
+En relación a la representación del avatar, aunque la representación del usuario como una figura3D representación es muy interesante y se conserva en el kit de desarrollo, si lo que se desea es proyectar una presencia en profundidad de forma que al moverse el usuario colisione con objetos que se encuentran delante suyo a una distancia, es más conveniente usar otras soluciones.
+\\
+
+Así, partiendo de la misma nube de puntos de simplificada, para esta instalación en lugar de crear una representación de su superficie en forma de malla3D creamos, por cada punto, un colisionador con forma de cápsula proyectada en profundidad cuyo radio es proporcional al tamaño del punto.
+\\
+
+Estos colisionadores se crean de la misma forma que fue comentada en la sección \ref{etapa4Implementacion:produccion}, página \pageref{etapa4Implementacion:produccion}. La solución en este caso puede ser mejorada tiendo en cuenta la proyección de perspectiva, pero para la aplicación que se desea y con una configuración estándar de la cámara, y limitando las colisiones a un distancia no muy alejada los resultados conseguidos son satisfactorios. Mejoras en este campo se plantean como trabajo futuro. A modo de ejemplo, en la siguiente figura \ref{F_ColisionadoresAvatar_Etapa5} se muestra la proyección de los colisionadores a partir de los puntos que forman la representación del avatar del usuario.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_colisionesavatar_production.png}
+\end{center}
+\caption{ \label{F_ColisionadoresAvatar_Etapa5} Proyección de la representación del avatar.}
+\end{figure}
+
+En el cuadro siguiente pueden verse las modificaciones necesarias:
+
+\begin{lstlisting}[language=C++]
+void MainProd::Iterate()
+{current_timestamp = (double)clock()/CLOCKS_PER_SEC;
+ CheckCollisions(); 
+ UpdateEntities(); 
+ ProcessProd3DEntitiesToBeLoadedQueue();
+ for (unsigned int i=1; lock&&(i<=num_windows); i++)
+  CheckDesiredBackgroundAndFogRanges()) 
+ framework.do_frame(graphic_thread);				 
+}
+
+void MainProd::CheckCollisions() 
+{for (int i=0;i<collision_handler_queue->get_num_entries();i++)
+ {collision_entry=collision_handler_queue->get_entry(i);
+  if(collision_entry)
+  {into_object=collision_entry->get_into();
+   from_object=collision_entry->get_from();
+   if(into_object&&from_object)
+   { found=avatar_collider_array.find(into_collision_node);
+     if (found!=avatar_collider_array.end()) 
+     {avatar_collision_info=avatar_colliders[into_collision_node];
+      entities_colliders[from_object]->OnUserCollisionCall(
+                                       avatar_collision_info);
+     }else
+      entities_colliders[from_object]->OnCollisionCall(
+                                       entities_colliders[
+                                       into_object]);
+}
+
+void MainProd::UpdateEntities() 
+{for (iter=scene_entities.begin();iter!=scene_entities.end();)
+ if((*iter)&&((*iter)->IsReadyToDie()))
+ {entity_to_remove=(IEntity*)(*iter);
+  PrivateRemoveEntityFromCurrentWorld(entity_to_remove);
+ }else (*iter)->OnUpdate();
+}
+
+void MainProd::AddNewEntitiesIntoCurrentWorld(new_entities_after_seconds)
+{for (iter=new_entities_after_seconds.begin();...)
+  if((iter->first)&&(current_world))
+  {prod3d_ent=(Prod3DEntity *)(iter->first);
+   desired_timestamp=(double)clock()/CLOCKS_PER_SEC+iter->second;
+   entity_array_to_be_loaded_afterseconds[prod3d_ent]=desired_timestamp;
+}}   
+
+void MainProd::LoadEntityIntoScene(Prod3DEntity * entity)
+{scene_entities.push_back(entity);
+ scene_entities_nodepaths[entity]=new_model;
+ scene_nodepaths_entities[new_model]=entity;
+ entity->SetNodePath(scene_entities_nodepaths[entity]);
+ entity->StartAnimations();
+ if (entity->IsCollidable())
+ entity_collidable_array_to_register.push_back(entity);
+}
+\end{lstlisting}
+
+La otra línea de trabajo, desde este apartado, es la de ofrecer algunos mecanismos en el módulo de Producción para la personalización de la escena. Se añaden métodos para cambiar el color de fondo, el color o la intensidad de la niebla, los audios de ambiente que deben sonar de forma absoluta (no relativos al usuario) o algunos ejemplos simples de postproceso. El motor gráfico ofrece una serie de efectos de postproceso predefinidos básicos y con poca capacidad de personalización como Invert, Bloom, Blur o Cartoon para añadir de forma simple un acabado diferente al render. Es posible definir efectos propios o incluso shaders específicos para cada tipo de entidad. Este es un apartado muy interesante dentro del mundo de los gráficos por computador. Sería interesante ahondar en este apartado en el futuro.
+\\
+
+En el siguiente bloque puede verse un ejemplo de estos cambios:
+
+\begin{lstlisting}[language=C++]
+void MainProd::EnableSimpleBloomEffect(const bool &enable)
+{for (iter=pandawindows_array.begin();...)
+  if (enable && !enable_simpleBLOOMEffect)
+  {CCommonFilters::SetBloomParameters bloom_paramns; 
+   bloom_paramns.blend=LVector4f(0.33,0.34,0.33,0.0);
+   bloom_paramns.mintrigger=0.90f;
+   bloom_paramns.maxtrigger=1.0f;
+   bloom_paramns.desat     =0.8f;
+   bloom_paramns.intensity =0.9f;
+   bloom_paramns.size      ="medium";
+   ccommonfilters_array[iter->first]->set_bloom(bloom_paramns);
+   }else if(!enable)ccommonfilters_array[iter->first]->del_bloom();}
+
+std::string  MainProd::AddBackgroundSound(file_name)
+{ new_buffer->LoadFromFile(file_name)
+ core::corePoint3D<double> position;
+ position.x = 0; position.y = 0; position.z = 0;
+ sf::Sound *new_sound = new sf::Sound();
+ new_sound->SetBuffer(*new_buffer);
+ new_sound->SetLoop(true);
+ new_sound->SetPosition(position.x, position.y, position.z);
+ new_sound->SetRelativeToListener(false);
+ new_sound->SetMinDistance(10.f);
+ new_sound->SetAttenuation(0.75f);
+ new_sound->SetPitch(1.0f);
+ new_sound->SetVolume(100.f);
+ new_background_melody(position,new_sound,new_buffer,...);
+ music_melody_samples[file_name]=new_background_melody;
+ new_sound->Play();
+}
+void SetPitchBackgroundSound(id,value);
+void SetAmplitudeBackgroundSound(id,value);
+std::vector<std::string> GetBackgroundSounds();
+void RemoveBackgroundSound(id);
+void RemoveAllBackgroundSound();
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{Módulo de Inteligencia Artificial}
+
+\begin{itemize}
+\item CommonSwarmIndividual: 
+Se ofrece en el módulo de icog una implementación de una IA genérica que puede servir para crear comportamientos de indivuos de una especie, que contiene los componentes básicos de Boids (separación, cohesión y alineamiento) y extiende algunos componentes adicionales (límites, aleatoriedad, evasión y atracción). 
+\\
+
+La solución adoptada está inspirada en la implementación clásica del Boids, un programa creado por Craig Reynolds \cite{CRAIGREYN}. En este modelo todas las entidades tienen conocimiento del mundo en el que se encuentran, aunque la cantidad de datos que usan estará limitada por su campo de visión. Según la información del mundo que tienen, su comportamiento se centra en evaluar tres componentes que definirán el siguiente cambio de posición del individuo.
+\\
+
+Estos componentes clásicos son los siguientes:
+
+\begin{itemize}
+\item Cohesión: Los individuos tienden a acercarse entre sí.
+\item Separación: Los individuos tienden a mantener una distancia mínima entre ellos.
+\item Alineación: Los individuos tienen a moverse en la misma dirección y velocidad.
+\end{itemize}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_boids_icog.png}
+\end{center}
+\caption{ \label{F_Boids_Etapa5} De izquierda a derecha: Cohesión, Separación y Alineación \cite{CRAIGREYN}.}
+\end{figure}
+
+Se extiende el módulo básico con los siguientes componentes:
+
+\begin{itemize}
+\item Randomicidad: Los individuos tienden a moverse de forma aleatoria.
+\item Evasión: Los individuos tienden a evadir algún elemento.
+\item Atracción: Los individuos tienen a sentirse atraídos por algún elemento.
+\item Límites: Los individuos tienden a no traspasar ciertos límites del espacio.
 \end{itemize}
 
 
-\subsubsection{Módulo de Inteligenia Artificial}
+
+Según se asigne mayor o menor peso la especie definida por este comportamiento tenderá a darle más importancia a una componente o a otra. 
+\\
+
+Cada individuo tiene conocimiento de su entorno, aunque para evaluar su estado actual usará sólo información que esté dentro de campo de visión. Teniendo en cuenta todas sus necesidades (separación, cohesión, alineación, límites, evasión, atracción y randomicidad) y el factor de peso de cada una de ellas, el individuo modificará su comportamiento expresado como posición, velocidad y aceleración para cumplir esos objetivos. 
+\\
+
+Con esta IA pueden representarse comportamientos como el de una nube de moscas, un banco de peces o una bandada de aves. También puede extenderse o combinarse para crear otros tipos de comportamientos o ejemplos de inteligencias articiales más complejas como los agentes inteligentes.
+
+\end{itemize}
+
 \subsubsection{Módulo de Aplicación}
 Pool de contenidos: audios, imágenes, primitivas 3D, Elementos.
 ContentCreationController
@@ -5784,7 +6060,7 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 
 \bibitem{JUERGEN} Juergen Gall, Carsten Stoll et al {\em Motion Capture Using Joint Skeleton Tracking and Surface Estimation}
 
-\bibitem{CRAIGREYN} Craig Reynolds, {\em Boids Background and Update} http://www.red3d.com/cwr/boids/
+\bibitem{CRAIGREYN} Craig Reynolds, {\em Boids (Flocks, Herds and Schools: A Distributed Behavioural Model)} http://www.red3d.com/cwr/boids/
 
 \bibitem{JOHANNESK} Johannes Kilian, {\em Simple Image Analysis By Moments} March 15, 2001
 
@@ -5799,6 +6075,8 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 \bibitem{PAULB94} Paul Bourke, {\em Polygonising a scalar field: Also known as 3D Contouring, Marching Cubes, Surface Reconstruction} 1994
 
 \bibitem{MCUBESW} Marching Cubes at the Wikipedia http://en.wikipedia.org/wiki/Marching\_cubes
+
+\bibitem{MINECRAFT} Minecraft, Notch Development AB 2011
 
 \bibitem{BELKIN99} Alan Belkin, {\em A Practical Guide to Musical Composition} 1995-1999
 
