@@ -4639,11 +4639,11 @@ void RemoveAllBackgroundSound();
 
 \end{itemize}
 
-\subsubsection{Módulo de Inteligencia Artificial}
+\subsubsection{Módulo de Inteligencia Artificial}\label{Section_IACommonSwarmIndividual_Etapa5}
 
 \begin{itemize}
 \item CommonSwarmIndividual: 
-Se ofrece en el módulo de icog una implementación de una IA genérica que puede servir para crear comportamientos de indivuos de una especie, que contiene los componentes básicos de Boids (separación, cohesión y alineamiento) y extiende algunos componentes adicionales (límites, aleatoriedad, evasión y atracción). 
+Se ofrece en el módulo de icog una implementación de una IA genérica que puede servir para crear comportamientos de individuos de una especie, que contiene los componentes básicos de Boids (separación, cohesión y alineamiento) y extiende algunos componentes adicionales (límites, aleatoriedad, evasión y atracción). 
 \\
 
 La solución adoptada está inspirada en la implementación clásica del Boids, un programa creado por Craig Reynolds \cite{CRAIGREYN}. En este modelo todas las entidades tienen conocimiento del mundo en el que se encuentran, aunque la cantidad de datos que usan estará limitada por su campo de visión. Según la información del mundo que tienen, su comportamiento se centra en evaluar tres componentes que definirán el siguiente cambio de posición del individuo.
@@ -4652,7 +4652,7 @@ La solución adoptada está inspirada en la implementación clásica del Boids, un p
 Estos componentes clásicos son los siguientes:
 
 \begin{itemize}
-\item Cohesión: Los individuos tienden a acercarse entre sí.
+\item Cohesión: Los individuos tienden a acercarse entre sí. 
 \item Separación: Los individuos tienden a mantener una distancia mínima entre ellos.
 \item Alineación: Los individuos tienen a moverse en la misma dirección y velocidad.
 \end{itemize}
@@ -4673,26 +4673,421 @@ Se extiende el módulo básico con los siguientes componentes:
 \item Límites: Los individuos tienden a no traspasar ciertos límites del espacio.
 \end{itemize}
 
-
-
 Según se asigne mayor o menor peso la especie definida por este comportamiento tenderá a darle más importancia a una componente o a otra. 
 \\
 
-Cada individuo tiene conocimiento de su entorno, aunque para evaluar su estado actual usará sólo información que esté dentro de campo de visión. Teniendo en cuenta todas sus necesidades (separación, cohesión, alineación, límites, evasión, atracción y randomicidad) y el factor de peso de cada una de ellas, el individuo modificará su comportamiento expresado como posición, velocidad y aceleración para cumplir esos objetivos. 
+Cada individuo tiene conocimiento de su entorno, aunque para evaluar su estado actual usará sólo información que esté dentro de campo de visión. Teniendo en cuenta todas sus necesidades (separación, cohesión, alineación, límites, evasión, atracción y randomicidad) y el factor de peso de cada una de ellas, el individuo modificará su comportamiento expresado como posición, velocidad y aceleración para cumplir esos objetivos. Para ello cada componente definirá un vetor de fuerza, que se será multiplicado por su peso y sumado con el resto para promediar.
 \\
 
-Con esta IA pueden representarse comportamientos como el de una nube de moscas, un banco de peces o una bandada de aves. También puede extenderse o combinarse para crear otros tipos de comportamientos o ejemplos de inteligencias articiales más complejas como los agentes inteligentes.
+Cada vector de fuerza se calcula de la siguiente forma:
+\begin{itemize}
+\item Randomicidad: un vector con valores aleatorios en los tres ejes, limitando a la aceleración máxima permitida.
+\item Cohesión: El vector de fuerza se calcula como la diferencia entre la media de las posiciones de mis vecinos y el propio vector de posición del individuo. 
+\item Separación: Por cada vecino del que se encuentre más cerca que una distancia umbral, se suman cada vector de diferencia, normalizados y multiplicados por la distancia deseada.
+\item Alineación: El vector de fuerza se calcula como la media de las velocidades de los vecinos.
+\item Evasión: Se calcula como la Separación, sólo con los objetos correspientes (por defecto, cualquier entidad que no sea de su propia especie).
+\item Atracción: Se calcula como la media de las diferencias de la posición del individuo y los objetos atractores que estén cerca.
+\item Límites: Se calcula como la separación pero estableciendo las contantes que limitan la parte de la escena donde se desea mantener a la población.
+\end{itemize}
+
+Para acelerar los cálculos de medias se usan acumuladores estadísticos que van construyendo los valores de forma incremental a medida que se introducen muestras en la colección.
+\\
+
+Por otro lado, ContentCreationController mantiene una estructura de datos llamada Ecosistema, que agrupa todas las entidades actualmente presentes en la escena en curso, y es el encargado de coordinar los cambios para estas entidades. En cada iteración actualizará dicho catálogo. En la sección de Aplicación se verá cómo se mantiene actualizado y coherente. 
+\\
+
+Otro punto interesante a comentar es que no es necesario evaluar estas condiciones en todos y cada uno de los frames. Aprovechando la proximidad temporal, al implementar una Entidad que incluya esta IA, dicha entidad podría llamar al método de evaluación cada cierto intervalo de tiempo, por ejemplo cada 0.1 segundos. De esta forma se consigue un comportamiento igualmente satisfactorio sin necesidad de evaluar el estado de todas las entidades en todos los frames.
+\\
+
+Para resumir, con esta IA, variando las distancias y factores de peso, pueden representarse comportamientos como el de una nube de moscas, un banco de peces o una bandada de aves. También puede extenderse o combinarse para formar parte de otros tipos de comportamientos o ejemplos de inteligencias articiales más complejas como agentes inteligentes.
+
+En el siguiente bloque puede verse a modo de ilustración las secciones principales de este componente:
+
+\begin{lstlisting}[language=C++]
+void CommonSwarmIndividual::Think()
+{overlapping_size=RTree_spatialIndexes.Search(search_rect.min,
+                  search_rect.max,Register_SearchResults_callback);
+ ResetAccumulators();
+ for (result_iter=RTree_search_results.begin()...)
+ {if(other_id!=me_id)
+  //SAME SPECIES
+  {if (other_type==me_type)
+   {if (use_world_limits&&outlimits) worldlimits=world_max-distance;
+    if (std::abs(distance_separation)<separation_distance)
+    {separation_position=(distance_separation>0.0f)?
+                         other_position-separation_distance:
+                         other_position+separation_distance;
+    accumulators_separation(separation_position); }
+    accumulators_cohesion(other_position); 
+    accumulators_alignment(other_velocity);
+   //DIFFERENT SPECIES 
+   } else 
+   {if(std::abs(distance_separation)<avoidance_distance)
+    {separation_position=other_position-avoidance_distance;
+     accumulators_avoidance(separation_position);}
+    if(attraction)
+     accumulators_attraction(other_position);
+ }}}
+ separation=CalculateSeparation();
+ alignment=CalculateAlignment();
+ cohesion=CalculateCohesion();
+ attraction=CalculateAttraction();
+ avoidance=CalculateAvoidance();
+ randomness=RandomFloat(-1.0f*max_acceleration,max_acceleration);
+ separation*=separation_factor;
+ alignment*=alignment_factor; 
+ cohesion*=cohesion_factor; 
+ attraction*=attraction_factor; 
+ avoidance*=avoidance_factor; 
+ worldlimits*=worldlimits_factor;
+ AddForce(randomness);
+ AddForce(separation);
+ AddForce(alignment);
+ AddForce(cohesion);
+ AddForce(attraction);
+ AddForce(avoidance);
+ AddForce(worldlimits);
+ CheckPDULimits();
+ csi_pdu.velocity+=csi_pdu.acceleration;
+ csi_pdu.acceleration=0.0f;
+ CheckPDULimits();
+ csi_pdu.position+=csi_pdu.velocity;
+}
+
+void CommonSwarmIndividual::AddForce(force)
+{csi_pdu.acceleration+=force;CheckPDULimits();}   
+ 
+core::corePoint3D<float>CommonSwarmIndividual::CalculateSeparation()
+{corePoint3D<float> result,position;
+ int n_datum=extract_result<tag::count>(accumulators_separation);
+ if((n_datum>0)&&csi_entity)
+ {double mean=extract_result<tag::mean>(accumulators_separation);
+  csi_entity->GetPosition(position.x,position.y,position.z);
+  result=mean-position;}
+ return result; }
+\end{lstlisting}
 
 \end{itemize}
 
 \subsubsection{Módulo de Aplicación}
-Pool de contenidos: audios, imágenes, primitivas 3D, Elementos.
-ContentCreationController
+
+Finalmente, en el componente aplicación hacemos una muestra de creación de contenidos usando el kit de desarrollo, utilizando las nuevas funcionalidades.
+\\
+
+\begin{itemize}
+\item Pool de contenidos: Con la Aplicación Blender \cite{BLENDER} se crean algunas figuras geométricas básicas, a las que se añaden una animación por defecto mediando el uso de key-shapes. Key-shapes son deformaciones clavees de la malla 3D, de forma que pueden usarse para interpolar o mezclar deformaciones durante una animación. Esta técnica es muy usada, por ejemplo lipsynching (sincronizar labios con una voz) o en animación facial para representar las diferenctes posiciones de cejas, párpados, mofletes, labios, etc. Para el caso de los Audios se ha recopilado desde FreeSound \cite{FREESOUND} una colección de samples cuya licencia permitiera el uso de forma gratuita. Se han clasificado en Melodía, BaseRítmica y Decoraciones, una segunda clasificación por GOOD, NEUTRAL e EVIL, y una tercera por CALM y EXITED. Para editar los samples de Audio se usado la Aplicación Audacity \cite{AUDACITY}, un editor y grabador de audio libre.
+\\
+
+Para esta aplicación se han definidos las siguientes primitivas:
+\begin{itemize}
+\item Variación de un cubo que se convierte en una estrella.
+\item Variación de un cubo que se convierte en una superficie plana.
+\item Variación de un cubo que se convierte en una superficie plana.
+\end{itemize}
+
+Los audios:
+\begin{itemize}
+\item Base: Un clip de audio usado como base rítmica principal.
+\item Melodías: dos melodías por cada valor de psique: dos agradables, dos neutrales y dos más fuertes y agresivas.
+\item Decoraciones: Un sonido de sónar para las acciones positivas y un sonido electrónico discordante para las negativas.
+\end{itemize}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_aplicaciones_app.png}
+\end{center}
+\caption{ \label{F_Aplicaciones_Etapa5} Blender \cite{BLENDER}, FreeSound \cite{FREESOUND} y Audacity \cite{AUDACITY}.}
+\end{figure}
+
+\item Application: Añadimos los métodos SetCameraRecording y SetUseREcording para indicar que deseamos grabar de forma sincronizada de todas las cámaras o por lo contrario alimentar al sistema con imágenes obtenidas de ficheros de video en lugar de usar las imágenes en vivo de las cámaras.  
+\\
+
+Se trata únicamente de conectar las peticiones realizadas por los controladores de GUI al componente de Percepción de Video para que active o desactive la grabación, o active o desactive el video de la captura de video.
+\\
+
+También ofrecemos los métodos AddNewentityIntoCurrentWorld y RemoveEntityFromCurrentWorld que conectan con MainProd para indicar que deseamos añadir una nueva entidad a la escena actual o que queremos eliminarla.
+
+\item RunningSceneController: Anteriormente llamado NavigatorController, extendemos su responsabilidad. De esta forma, el controlador mantiene la responsabilidad de navegar dentro de la escena y añade la de crear y mantener la representación del usuario, y actualizar y crear contenidos, haciendo uso del controlador ContentCreationController. 
+\\
+
+Los cambios realizados en este componente son menores y pueden verse a modo de resumen en este bloque:
+
+\begin{lstlisting}[language=C++]
+void RunningSceneController::Iterate()
+{...
+ perception->GetFeatureWeightedPositions("PRESENCE VOLUME",presence_volume,scale);
+ if (app&&perception&&production)
+ {if (presence_volume.size()>0) 
+  {graphic_node=production->CreateGraphicNode(presence_volume);
+   production->SetAvatar(graphic_node);}
+  production->SetUserPosition(final_cam_pos); }
+ ...
+ if (contentCreationController)
+  contentCreationController->Update();
+}
+\end{lstlisting}
 
 
+\item ContentCreationController: Este controlador implementa la creación de contenidos durante una sesión en curso teniendo en cuenta información sobre la interacción del usuario. Mantiene un registro de las entidades que existen actualmente en la escena y tiene acceso a la información obtenida por percepción y decide qué contenidos crear en consecuencia. 
+\\
+
+Una de sus primeras tareas al iniciar la ejecución es crear el catálogo de recursos de audio.
+
+\begin{lstlisting}[language=C++]
+sound_filename_base << iapp_config->GetSoundDirectory();
+sound_filename_MG1 << sound_filename_base.str() << "MG0008.wav";
+sound_filename_MG2 << sound_filename_base.str() << "MG0010.wav";
+sound_filename_MN1 << sound_filename_base.str() << "MN0001.wav";
+sound_filename_MN2 << sound_filename_base.str() << "MN0003.wav";
+sound_filename_ME1 << sound_filename_base.str() << "ME0004.wav";
+sound_filename_ME2 << sound_filename_base.str() << "ME0002.wav";
+
+std::vector<std::string> good_melodies;
+std::vector<std::string> neutral_melodies;
+std::vector<std::string> evil_melodies;
+
+good_melodies.push_back(sound_filename_MG1.str());
+good_melodies.push_back(sound_filename_MG2.str());
+neutral_melodies.push_back(sound_filename_MN1.str());
+neutral_melodies.push_back(sound_filename_MN2.str());
+evil_melodies.push_back(sound_filename_ME1.str());
+evil_melodies.push_back(sound_filename_ME2.str());
+
+psique_melody[IA_Karma::GOOD]   = good_melodies;
+psique_melody[IA_Karma::NEUTRAL]= neutral_melodies;
+psique_melody[IA_Karma::EVIL]   = evil_melodies;
+\end{lstlisting}
+
+Otro de sus cometidos principales, durante toda la ejecución, es estudiar el comportamiento del usuario. Para ello se hace uso de una implementación de acumuladores estadísticos ofrecida por la librería Boost. Estos acumuladores permiten añadir muestras y extraer datos estadísticos de forma eficiente, construyendo soluciones de forma incremental. 
+\\
+
+Como puede verse en el siguiente bloque algunos de los datos que acumulamos son el número de muestras, media, mediana y varianza de la posición de la cabeza, centro de masas, dominancia lateral, orientación, excentricidad, cantidad en cada instante de segmentos móviles, colisiones positivas (tocar entidades) e interacciones negativas (golpear entidades). Para la implementación actual se hace uso de las interacción positivas y negativas para definir el color de fondos, y junto a este valor, la media del número de segmentos en movimiento, junto con la dispersión media de la excentricidad para calcular un valor de energía, que junto con el valor anterior decidirán los audio de la melodía principal que se reproducen.
+
+\begin{lstlisting}[language=C++]
+void ContentCreationController::Update()
+{...
+ //Feed accumulators
+ accumulators_head_pos(head_pos);
+ accumulators_presence_center_of_mass(head_pos);
+ accumulators_main_lateraldominance(main_lateraldominance);
+ accumulators_main_orientation(main_orientation);
+ accumulators_main_eccentricity(main_eccentricity);
+ accumulators_main_eccentricity.y(main_eccentricity);
+ accumulators_main_eccentricity.z(main_eccentricity);
+ accumulators_motion_NumElements(motion_elements.size());
+ ...
+ factor=0.8f*(n_motionElements/max_motion_mean_value)+
+        0.2f*(dispersion_eccentricity/max_eccentricity_dispersion);	
+ energy= factor*((float)IA_Energy::EXITED); 
+ ...
+ if (change_music)
+ {app_mainprod->RemoveAllBackgroundSound(5.0f);
+  music_id=app_mainprod->AddBackgroundSound(current_melody, 5.0f);
+  {boost::mutex::scoped_lock lock(m_mutex);
+   background_sound=music_id;
+   music_timestamp=current_timestamp;
+   must_change_music=false;
+   std::string decoration_sound_filename;
+   if ((int)psique<psique_energy_decoration.size())
+   {decorations_size=psique_energy_decoration
+      [(int)floor(psique+0.5f)][(int)floor(energy+0.5f)].size();
+    decoration_sound_filename=(*((psique_energy_decoration
+      [(int)floor(psique+0.5f)][(int)floor(energy+0.5f)].begin())
+      +(rand()%(psique_energy_decoration[(int)floor(psique+0.5f)]
+      [(int)floor(energy+0.5f)].size()))));
+   app_mainprod->AddBackgroundSound(decoration_sound_filename,5.0f);
+   }ResetStatisticalAccumulators();}}
+\end{lstlisting}
+
+Por otro lado, es responsable de mantener actualizado el catálogo de entidades actualmente presentes en la escena. Para ello, en cada iteración consulta todas las entidades de la escena actualmente abiertas. Sin embargo, para permanecer actualizado ante cambios que peuden suceden entre iteraciones, hacemos que esta clase herede de la clase genérica Observer, y hacemos que observe a los dos tipos de objetos que peuden provocar cambios entre iteraciones, que son: 
+
+\begin{itemize}
+\item El controlador de sesión que indicará cuándo hay un cambio de escena. Cuando esto sucede, se debe reiniciar el estado actual, así como actualizar la escena y usuario actual.
+\item Las propias Entidades, que le indicarán cuándo mueren o son destruídas, evento que puede ocurrir entre interaciones del bucle principal de este controlador.
+\end{itemize}
+
+Como Observador, ContentCreationController sobreescribe el método Notified para atender las notificaciones enviadas por cada uno de estos objetos. Algunos de los parámetros opcionales que se reciben son un puntero a la propia entidad notificadora, así como varios algunos atributos indicadores, con los que los Observables puedan comunicar mensajes. 
+
+\begin{lstlisting}[language=C++]
+void ContentCreationController::Notified(callinginstance,tag,flag)
+{if ((tag=="RUN WORLD")||(tag=="CLOSE WORLD"))
+ {boost::mutex::scoped_lock lock(m_mutex);
+  DoNotifiedBySessionController(tag);
+ }else if (tag=="DYING ENTITY")
+  DoNotifiedByDyingEntity(callinginstance,tag,flag);}
+
+void ContentCreationController::DoNotifiedBySessionController(tag)
+{if (tag=="RUN WORLD")
+ {current_world=app->GetCurrentWorld();
+  current_user=app->GetCurrentUser();
+  sesion_is_prepared=true;
+  RestartCurrentUserBackgroundAndFog();
+ }else if (tag=="CLOSE WORLD")
+ {current_user=current_world=NULL;
+  sesion_is_prepared=false; }
+ ResetStatisticalAccumulators();}}
+
+void ContentCreationController::DoNotifiedByDyingEntity(callinginstance,tag, flag)
+{ ExtractFromEcosystem(flag,callinginstance);}
+\end{lstlisting}
+
+Para terminar, su último cometido es el de crear nuevas entidades. PAra esta instalación se creará una Entidad de tipo StandAlone que será la creadora de la base rítmica de la composición musical, creándose una entidad cada segundo, que al ancer, reproduce un audio de un sample de persión.
+\\
+
+Por otro lado, se crearán dos tipos de enjambres de entidades de tipo Boid Entities. Tras una colisión de tipo positiva se creará un enjambre de entidades con una configuración determinada (una gran cantidad de individuos, menos dispersos y con tendencia a agruparse). Tras una colisión de tipo negativa se creará un enjambre de entidades de menor número, más veloces y de mayor dispersión.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/etapa5_secuenciaEntidadesBoids_app.png}
+\end{center}
+\caption{ \label{F_SecuenciaBoids_Etapa5} Secuencias: Sobre azul un tipo de emjambre tendiendo a juntarse, sobre rojo un tipo de enjambre de movimiento más veloz y errático.}
+\end{figure}
+
+\begin{lstlisting}[language=C++]
+void ContentCreationController::Update()
+{//CREATE STANDALONE ENTITIES
+ if (current_timestamp-CreatedEntity_timesptamp>=CREATIONTIMELAPSE)) 
+  CreatePresetOfEntities1(1.0f);}
+  
+void ContentCreationController::EntityHadAGoodUserFeedback(...)
+{//CREATE SWARM ENTITIES
+ if (was_good)
+ {if(!(recover_createswarm1_afterseconds-current_timestamp>0))
+   {CreatePresetOfSwarm1AtCoords(spawn_point,CREATESWARM1_AFTERSECONDS);
+ }else
+ {if(!(recover_createswarm2_afterseconds-current_timestamp>0))
+   {CreatePresetOfSwarm2AtCoords(spawn_point,CREATESWARM2_AFTERSECONDS);}}
+\end{lstlisting}
+
+\item OXStandAloneEntity: Esta clase es una implementación de Prod3dEntity (que a su vez lo es de IEntity). Implementa un tipo de entidad que se muestra por sí misma y de forma independiente. 
+\\
+
+Representa un tipo de entidad básica. Cabe destacar sus métodos OnStart y OnUpdate llamados al comienzo de cada ciclo del pipeline de producción y que permite que cada entidad sea capaz de actualizar su estado según indique su implementación. También tiene los métodos OnCollisionCall y OnUserCollisionCall, llamadas cuando se detecta una colisión de esta entidad contra otra entidad o contra la representación del usuario. Por último mencionar que conserva datos como tiempo de vida, métodos para cambiar el tono o volúmen de los audios que reproduce, etc.
+\\
+
+Sus métodos más distintivos son OnStart() y OnUpdate(). En el primero se inicializan todos sus atributos, especialmente las marcas de tiempo, y se reproduce el sonido de creación. En el segundo se actualizan todos los atributos que definen su comportamiento a lo largo del tiempo, frame a frame.
+\\
+
+\begin{lstlisting}[language=C++]
+void OXStandAloneEntity::OnStart()
+{boost::mutex::scoped_lock lock(m_mutex);
+ start_timestamp=(double)clock()/CLOCKS_PER_SEC;
+ if (!already_loaded_in_scene)
+ { already_loaded_in_scene = true;
+   if (sound_create.sound_data)
+   sound_create.sound_data->Play();}}
+
+void OXStandAloneEntity::OnUpdate()
+{{boost::mutex::scoped_lock lock(m_mutex);
+  current_timestamp=(double)clock()/CLOCKS_PER_SEC;
+  lived_time=current_timestamp-start_timestamp;
+  delta_time=current_timestamp-latestupdate_timestamp;
+  if ((lived_time>time_to_live)||((killme_afterseconds>0)&&
+              (killme_afterseconds-current_timestamp<0.0f)))
+  {KillMyself();}
+  latestupdate_timestamp = current_timestamp;
+  //Animate if touched
+  float rotation_speed_touchingfactor=1.0;
+  bool animate_touching=recovercollisions_afterseconds-current_timestamp>0.0;
+  if (animate_touching)
+   rotation_speed_touchingfactor=1.75*(recovercollisions_afterseconds-current_timestamp);
+  //Update entity
+  this->GetPositionOrientationScale(x, y, z,
+                                    h, p, r, 
+                                    scale);
+  scale=(killme_afterseconds-current_timestamp>0.0) ?
+        scale*0.5*(killme_afterseconds-current_timestamp):scale;
+  pdu.position.y-=delta_time*3.0f;
+  this->SetPositionOrientationScale(
+                  pdu.position.x, pdu.position.y, pdu.position.z,
+                  h+delta_time*12.0f*rotation_speed_touchingfactor,
+                  p+delta_time*60.0f*rotation_speed_touchingfactor,
+                  r+delta_time*120.0f*rotation_speed_touchingfactor,
+                  scale+0.0001f);
+  this->SetPositionVelocityAcceleration(...);
+}
+\end{lstlisting}
+
+
+\item OXBoidsEntity: Igualmente es una implementación de Prod3DEntity (que a su vez lo es de IEntity). 
+\\
+
+Implementa un tipo de entidad que pertenece a una especie gregaria y cuyo comportamiento se define por su conocimiento del entorno y del de los integrantes de su propia especie. Para conseguir esto, hereda de CommonSwarmIndividual, una implementación básica de una IA gregaria que se ofrece en el módulo iCog del SDK.
+\\
+
+La primera modificación notable está en el constructor, donde podemos pasar por párametro todos los atributos que definen el comportamiento de la entidad como miembro de una especie.
+
+\begin{lstlisting}[language=C++]
+OXBoidsEntity::OXBoidsEntity(core::IEntityPersistence* ent,
+                             const int &type_,
+                             const float &max_acceleration_,
+                             const float &max_velocity_,
+                             const float &perception_distance_,
+                             const float &separation_distance_,
+                             const float &avoidance_distance_,
+                             const float &randomness_factor_,
+                             const float &separation_factor_,
+                             const float &alignment_factor_,
+                             const float &cohesion_factor_,
+                             const float &attraction_factor_,
+                             const float &avoidance_factor_,
+                             const float &worldlimits_factor_,
+                             const float &pitch, 
+                             const float &amplitude)
+{...}
+\end{lstlisting}
+
+La segunda se encuentra en la redefinición del método OnUpdate(), donde en esta ocasión ejecutaremos el método Think() de la IA, estudiado anteriormente en el componente \"CommonSwarmIndividual", visto en la página  \pageref{Section_IACommonSwarmIndividual_Etapa5}. 
+\\
+
+Think() evaluará el estado actual de la entidad y el de su entorno, para aplicar los cambios en correspondencia con la definición de su comportamiento como individuo de una especie. 
+\\
+
+Mencionar que como medidad de mejora de rendimiento, la IA no esvaluada en cada frame. Para los comportamientos que queremos ofrecer no es necesaria una precisión tan elevada sobre la evaluación de su entorno. Establecemos pues una frecuencia para esta actualización, de forma que sólo se volverá a evaluar la IA si ha pasado más de una cantidad de tiempo usada como umbral. Para el resto de iteraciones se interpolará con los últimos datos obtenidos.
+\\
+
+En el siguiente cuadro se reflejan las principales diferencias en la redefinición del método OnUpdate().
+\\
+
+\begin{lstlisting}[language=C++]
+void OXBoidsEntity::OnUpdate()
+{
+ bool interpolate_pdu=true;
+ if (think_time-current_timestamp<0.0f ) 
+ { Think();
+   interpolate_pdu=false;}
+  ...
+  //Update entity
+  if (interpolate_pdu)
+  {csi_pdu.velocity+=csi_pdu.acceleration;
+   csi_pdu.acceleration=0.0f;
+   csi_pdu.position+=csi_pdu.velocity;
+   pdu=csi_pdu;}
+  this->SetPositionOrientationScale(...);
+  this->SetPositionVelocityAcceleration(...);
+\end{lstlisting}
+\end{itemize}
 
 \section{Validación y Publicidad}
 \subsection{Validación}
+\begin{itemize}
+\item Comprobación de uso de recursos de la máquina mediante las herramientas del sistema. En la máquina en la que se desarrolla la aplicación muestra consumir una media de un 21\% de CPU, con 27 subprocesos asociados y una media de 350Mb de memoria con el escenario por defecto de prueba. En esta ocasión se aprecian variaciones al cambiar los contenidos multimedia, lo que se nota especialmente con la carga de audios más pesados, lo cual es esperado. Como a lo largo del desarollo del proyecto, se aprecia que la carga de trabajo se mantiene balanceada entre las CPUs del equipo. 
+
+\item Respecto a a la comprobración de la ejecución y cierre correctos, así como memory leaks, se detectaron a lo largo del desarrollo de esta fase varios bugs de importancia. 
+\\
+
+El más grave de ellos se trataba de varios memory leaks que oscilaban en 10Kb y los 100Kb, pero que al producirse en un bucle a muy alta frecuencia provocaban un consumo muy elevado de memoria. En apenas 5 minutes consumía 1.5Gb de memoria. El segundo conjunto de bugs importantes eran cierres inesperados durante el arranque y cierre de sesión.\\
+\\
+
+En el momento actual se han corregido los memory leaks durante la ejecución que se han detectado. Se sigue detectando una acumulación de memoria, localizada en una sección de código donde no debería ocurrir asignaciones dinámicas de memoria. Se sospecha que la estructura de datos utilizada acumula memoria con el tiempo. En cualquier caso la acumulación de memoria debería permitir sesiones de uso de más de un día de ejecución, por lo que se considera asumible y no se da prioridad a su solución. Para resolverlo se propone estudiar en mayor profundidad la estructura de datos ofrecida por la librería Boost, y en su caso corregir su uso, corregir la librería, sustituirla por otra o hacer una implementación propia.
+\\
+
+En relación al segundo conjunto de bugs, los cierres inesperados durante el arranque y el cierre de la aplicación estaban debidos a un problema de coordinación de hilos, de fácil solución. Permanece un cierre inesperado que sucede inmediatamente tras ejecutar. Se sospecha que peude estar relacionado con el controlador de audio que en ocasiones anteriores provocaba fallos similares. No se ha conseguido resolver, pero su frecuencia de aparición parece baja (1/15 arranques), sucede antes de que se muestre ninguna interfaz de la aplicación, e inmediatamente después es posible volver a ejecutar. 
+
+\item Uso de herramientas para medición de frames por segundo para comprobar el rendimiento de la ventana de render. No se aprecian cambios en la tasa de frames por segundo que se mantiene a 60fps para dos ventanas de render. En ocasiones donde aparece una cantidad elevada de entidades, sí han podido apreciarse picos puntuales que bajan a 50 o 45 frames por segundo. Por lo general, no suelen ser apreciables)
+
+\end{itemize}
+
 \subsection{Publicidad}
 
 \chapter{Etapa i: Funcionalidades Añadidas}
@@ -6079,6 +6474,12 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 \bibitem{MINECRAFT} Minecraft, Notch Development AB 2011
 
 \bibitem{BELKIN99} Alan Belkin, {\em A Practical Guide to Musical Composition} 1995-1999
+
+\bibitem{FREESOUND} FreeSound, Collaborative database of Creative Commons Licensed sounds http://www.freesound.org/
+
+\bibitem{AUDACITY} Audacity, Editor y grabador de Audio libre http://audacity.sourceforge.net/
+
+\bibitem{BLENDER} Blender, A a Free and Open Source 3D Animation Suite http://www.blender.org/
 
 añadir sdk de windows, sdk de directx
 

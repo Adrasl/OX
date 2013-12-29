@@ -135,81 +135,81 @@
 \contentsline {subsubsection}{M\'odulo de Percepci\'on}{182}
 \contentsline {subsubsection}{M\'odulo de Producci\'on}{191}
 \contentsline {subsubsection}{M\'odulo de Inteligencia Artificial}{200}
-\contentsline {subsubsection}{M\'odulo de Aplicaci\'on}{201}
-\contentsline {section}{\numberline {10.5}Validaci\'on y Publicidad}{201}
-\contentsline {subsection}{\numberline {10.5.1}Validaci\'on}{201}
-\contentsline {subsection}{\numberline {10.5.2}Publicidad}{201}
-\contentsline {chapter}{\numberline {11}Etapa i: Funcionalidades A\~nadidas}{203}
-\contentsline {section}{\numberline {11.1}An\'alisis}{204}
-\contentsline {subsection}{\numberline {11.1.1}An\'alisis de Requisitos de Usuario}{204}
-\contentsline {subsection}{\numberline {11.1.2}Selecci\'on de Herramientas}{204}
-\contentsline {section}{\numberline {11.2}Dise\~no}{204}
-\contentsline {subsection}{\numberline {11.2.1}Dise\~no de la Aplicaci\'on}{204}
-\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{204}
-\contentsline {subsubsection}{Dise\~no en UML - Resumen}{204}
-\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{204}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Aplicaci\'on}{204}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Persistencia}{204}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{204}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{204}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{204}
-\contentsline {section}{\numberline {11.3}Implementaci\'on}{204}
-\contentsline {subsubsection}{N\'ucleo de la Interfaz}{204}
-\contentsline {subsubsection}{M\'odulo de Aplicaci\'on}{204}
-\contentsline {subsubsection}{M\'odulo de Persistencia}{204}
-\contentsline {subsubsection}{M\'odulo de GUI}{204}
-\contentsline {subsubsection}{M\'odulo de Producci\'on}{204}
-\contentsline {subsubsection}{M\'odulo de Percepci\'on}{204}
-\contentsline {section}{\numberline {11.4}Validaci\'on y Publicidad}{204}
-\contentsline {subsection}{\numberline {11.4.1}Validaci\'on}{204}
-\contentsline {subsection}{\numberline {11.4.2}Publicidad}{204}
-\contentsline {chapter}{\numberline {12}Etapa n: Revisi\'on Final}{205}
-\contentsline {section}{\numberline {12.1}Implementaci\'on}{205}
-\contentsline {section}{\numberline {12.2}Validaci\'on y Publicidad}{205}
-\contentsline {chapter}{\numberline {13}Etapa n+1: Publicidad}{207}
-\contentsline {section}{\numberline {13.1}An\'alisis}{207}
-\contentsline {section}{\numberline {13.2}Dise\~no}{207}
-\contentsline {section}{\numberline {13.3}Implementaci\'on}{207}
-\contentsline {section}{\numberline {13.4}Validaci\'on y Publicidad}{207}
-\contentsline {chapter}{\numberline {14}Etapa n+2: Implantaci\'on Final}{209}
-\contentsline {section}{\numberline {14.1}An\'alisis}{209}
-\contentsline {section}{\numberline {14.2}Dise\~no}{209}
-\contentsline {section}{\numberline {14.3}Implementaci\'on}{209}
-\contentsline {section}{\numberline {14.4}Validaci\'on y Publicidad}{209}
-\contentsline {chapter}{\numberline {15}Resultados y conclusiones}{211}
-\contentsline {chapter}{\numberline {16}Trabajo Futuro}{213}
-\contentsline {chapter}{\numberline {A}Manuales de usuario}{215}
-\contentsline {chapter}{\numberline {B}Detalles Implementaci\'on}{217}
-\contentsline {section}{\numberline {B.1}Incompatibilidades}{217}
-\contentsline {subsection}{\numberline {B.1.1}winsock}{217}
-\contentsline {subsection}{\numberline {B.1.2}CLR}{218}
-\contentsline {subsection}{\numberline {B.1.3}NDEBUG}{218}
-\contentsline {section}{\numberline {B.2}Third Parties}{218}
-\contentsline {subsection}{\numberline {B.2.1}wxWidgets}{218}
-\contentsline {subsection}{\numberline {B.2.2}Boost}{218}
-\contentsline {subsection}{\numberline {B.2.3}SFML}{218}
-\contentsline {subsection}{\numberline {B.2.4}OpenCV, Open Source Computer Vision}{220}
-\contentsline {subsection}{\numberline {B.2.5}Panda3D}{221}
-\contentsline {subsection}{\numberline {B.2.6}PostgreSQL}{221}
-\contentsline {subsection}{\numberline {B.2.7}Debea}{221}
-\contentsline {subsection}{\numberline {B.2.8}DynDNS}{222}
-\contentsline {subsection}{\numberline {B.2.9}VisualSVN}{222}
-\contentsline {subsection}{\numberline {B.2.10}Tortoise SVN}{222}
-\contentsline {section}{\numberline {B.3}Interfaces core}{222}
-\contentsline {subsection}{\numberline {B.3.1}IApplicationConfiguration}{223}
-\contentsline {section}{\numberline {B.4}M\'odulo de GUI}{224}
-\contentsline {subsection}{\numberline {B.4.1}MainGui}{225}
-\contentsline {subsection}{\numberline {B.4.2}MainFrame}{226}
-\contentsline {subsection}{\numberline {B.4.3}GUIStart}{226}
-\contentsline {subsection}{\numberline {B.4.4}GUIHelp}{227}
-\contentsline {section}{\numberline {B.5}M\'odulo de Percepci\'on}{227}
-\contentsline {subsection}{\numberline {B.5.1}MainPercept}{228}
-\contentsline {subsection}{\numberline {B.5.2}PerceptAudio}{229}
-\contentsline {subsection}{\numberline {B.5.3}PerceptVideo}{231}
-\contentsline {section}{\numberline {B.6}M\'odulo de Producci\'on}{233}
-\contentsline {subsection}{\numberline {B.6.1}Prod3dWindow}{234}
-\contentsline {subsection}{\numberline {B.6.2}MainProd}{235}
-\contentsline {section}{\numberline {B.7}Aplicaci\'on Principal}{240}
-\contentsline {subsection}{\numberline {B.7.1}Application}{242}
-\contentsline {subsection}{\numberline {B.7.2}main}{243}
-\contentsline {chapter}{\numberline {C}Redacci\'on de Proyectos}{245}
+\contentsline {subsubsection}{M\'odulo de Aplicaci\'on}{203}
+\contentsline {section}{\numberline {10.5}Validaci\'on y Publicidad}{212}
+\contentsline {subsection}{\numberline {10.5.1}Validaci\'on}{212}
+\contentsline {subsection}{\numberline {10.5.2}Publicidad}{213}
+\contentsline {chapter}{\numberline {11}Etapa i: Funcionalidades A\~nadidas}{215}
+\contentsline {section}{\numberline {11.1}An\'alisis}{216}
+\contentsline {subsection}{\numberline {11.1.1}An\'alisis de Requisitos de Usuario}{216}
+\contentsline {subsection}{\numberline {11.1.2}Selecci\'on de Herramientas}{216}
+\contentsline {section}{\numberline {11.2}Dise\~no}{216}
+\contentsline {subsection}{\numberline {11.2.1}Dise\~no de la Aplicaci\'on}{216}
+\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{216}
+\contentsline {subsubsection}{Dise\~no en UML - Resumen}{216}
+\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{216}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Aplicaci\'on}{216}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Persistencia}{216}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{216}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{216}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{216}
+\contentsline {section}{\numberline {11.3}Implementaci\'on}{216}
+\contentsline {subsubsection}{N\'ucleo de la Interfaz}{216}
+\contentsline {subsubsection}{M\'odulo de Aplicaci\'on}{216}
+\contentsline {subsubsection}{M\'odulo de Persistencia}{216}
+\contentsline {subsubsection}{M\'odulo de GUI}{216}
+\contentsline {subsubsection}{M\'odulo de Producci\'on}{216}
+\contentsline {subsubsection}{M\'odulo de Percepci\'on}{216}
+\contentsline {section}{\numberline {11.4}Validaci\'on y Publicidad}{216}
+\contentsline {subsection}{\numberline {11.4.1}Validaci\'on}{216}
+\contentsline {subsection}{\numberline {11.4.2}Publicidad}{216}
+\contentsline {chapter}{\numberline {12}Etapa n: Revisi\'on Final}{217}
+\contentsline {section}{\numberline {12.1}Implementaci\'on}{217}
+\contentsline {section}{\numberline {12.2}Validaci\'on y Publicidad}{217}
+\contentsline {chapter}{\numberline {13}Etapa n+1: Publicidad}{219}
+\contentsline {section}{\numberline {13.1}An\'alisis}{219}
+\contentsline {section}{\numberline {13.2}Dise\~no}{219}
+\contentsline {section}{\numberline {13.3}Implementaci\'on}{219}
+\contentsline {section}{\numberline {13.4}Validaci\'on y Publicidad}{219}
+\contentsline {chapter}{\numberline {14}Etapa n+2: Implantaci\'on Final}{221}
+\contentsline {section}{\numberline {14.1}An\'alisis}{221}
+\contentsline {section}{\numberline {14.2}Dise\~no}{221}
+\contentsline {section}{\numberline {14.3}Implementaci\'on}{221}
+\contentsline {section}{\numberline {14.4}Validaci\'on y Publicidad}{221}
+\contentsline {chapter}{\numberline {15}Resultados y conclusiones}{223}
+\contentsline {chapter}{\numberline {16}Trabajo Futuro}{225}
+\contentsline {chapter}{\numberline {A}Manuales de usuario}{227}
+\contentsline {chapter}{\numberline {B}Detalles Implementaci\'on}{229}
+\contentsline {section}{\numberline {B.1}Incompatibilidades}{229}
+\contentsline {subsection}{\numberline {B.1.1}winsock}{229}
+\contentsline {subsection}{\numberline {B.1.2}CLR}{230}
+\contentsline {subsection}{\numberline {B.1.3}NDEBUG}{230}
+\contentsline {section}{\numberline {B.2}Third Parties}{230}
+\contentsline {subsection}{\numberline {B.2.1}wxWidgets}{230}
+\contentsline {subsection}{\numberline {B.2.2}Boost}{230}
+\contentsline {subsection}{\numberline {B.2.3}SFML}{230}
+\contentsline {subsection}{\numberline {B.2.4}OpenCV, Open Source Computer Vision}{232}
+\contentsline {subsection}{\numberline {B.2.5}Panda3D}{233}
+\contentsline {subsection}{\numberline {B.2.6}PostgreSQL}{233}
+\contentsline {subsection}{\numberline {B.2.7}Debea}{233}
+\contentsline {subsection}{\numberline {B.2.8}DynDNS}{234}
+\contentsline {subsection}{\numberline {B.2.9}VisualSVN}{234}
+\contentsline {subsection}{\numberline {B.2.10}Tortoise SVN}{234}
+\contentsline {section}{\numberline {B.3}Interfaces core}{234}
+\contentsline {subsection}{\numberline {B.3.1}IApplicationConfiguration}{235}
+\contentsline {section}{\numberline {B.4}M\'odulo de GUI}{236}
+\contentsline {subsection}{\numberline {B.4.1}MainGui}{237}
+\contentsline {subsection}{\numberline {B.4.2}MainFrame}{238}
+\contentsline {subsection}{\numberline {B.4.3}GUIStart}{238}
+\contentsline {subsection}{\numberline {B.4.4}GUIHelp}{239}
+\contentsline {section}{\numberline {B.5}M\'odulo de Percepci\'on}{239}
+\contentsline {subsection}{\numberline {B.5.1}MainPercept}{240}
+\contentsline {subsection}{\numberline {B.5.2}PerceptAudio}{241}
+\contentsline {subsection}{\numberline {B.5.3}PerceptVideo}{243}
+\contentsline {section}{\numberline {B.6}M\'odulo de Producci\'on}{245}
+\contentsline {subsection}{\numberline {B.6.1}Prod3dWindow}{246}
+\contentsline {subsection}{\numberline {B.6.2}MainProd}{247}
+\contentsline {section}{\numberline {B.7}Aplicaci\'on Principal}{252}
+\contentsline {subsection}{\numberline {B.7.1}Application}{254}
+\contentsline {subsection}{\numberline {B.7.2}main}{255}
+\contentsline {chapter}{\numberline {C}Redacci\'on de Proyectos}{257}
