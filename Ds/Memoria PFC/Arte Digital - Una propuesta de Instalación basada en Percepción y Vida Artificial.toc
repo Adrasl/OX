@@ -177,39 +177,39 @@
 \contentsline {section}{\numberline {14.3}Implementaci\'on}{221}
 \contentsline {section}{\numberline {14.4}Validaci\'on y Publicidad}{221}
 \contentsline {chapter}{\numberline {15}Resultados y conclusiones}{223}
-\contentsline {chapter}{\numberline {16}Trabajo Futuro}{225}
-\contentsline {chapter}{\numberline {A}Manuales de usuario}{227}
-\contentsline {chapter}{\numberline {B}Detalles Implementaci\'on}{229}
-\contentsline {section}{\numberline {B.1}Incompatibilidades}{229}
-\contentsline {subsection}{\numberline {B.1.1}winsock}{229}
-\contentsline {subsection}{\numberline {B.1.2}CLR}{230}
-\contentsline {subsection}{\numberline {B.1.3}NDEBUG}{230}
-\contentsline {section}{\numberline {B.2}Third Parties}{230}
-\contentsline {subsection}{\numberline {B.2.1}wxWidgets}{230}
-\contentsline {subsection}{\numberline {B.2.2}Boost}{230}
-\contentsline {subsection}{\numberline {B.2.3}SFML}{230}
-\contentsline {subsection}{\numberline {B.2.4}OpenCV, Open Source Computer Vision}{232}
-\contentsline {subsection}{\numberline {B.2.5}Panda3D}{233}
-\contentsline {subsection}{\numberline {B.2.6}PostgreSQL}{233}
-\contentsline {subsection}{\numberline {B.2.7}Debea}{233}
-\contentsline {subsection}{\numberline {B.2.8}DynDNS}{234}
-\contentsline {subsection}{\numberline {B.2.9}VisualSVN}{234}
-\contentsline {subsection}{\numberline {B.2.10}Tortoise SVN}{234}
-\contentsline {section}{\numberline {B.3}Interfaces core}{234}
-\contentsline {subsection}{\numberline {B.3.1}IApplicationConfiguration}{235}
-\contentsline {section}{\numberline {B.4}M\'odulo de GUI}{236}
-\contentsline {subsection}{\numberline {B.4.1}MainGui}{237}
-\contentsline {subsection}{\numberline {B.4.2}MainFrame}{238}
-\contentsline {subsection}{\numberline {B.4.3}GUIStart}{238}
-\contentsline {subsection}{\numberline {B.4.4}GUIHelp}{239}
-\contentsline {section}{\numberline {B.5}M\'odulo de Percepci\'on}{239}
-\contentsline {subsection}{\numberline {B.5.1}MainPercept}{240}
-\contentsline {subsection}{\numberline {B.5.2}PerceptAudio}{241}
-\contentsline {subsection}{\numberline {B.5.3}PerceptVideo}{243}
-\contentsline {section}{\numberline {B.6}M\'odulo de Producci\'on}{245}
-\contentsline {subsection}{\numberline {B.6.1}Prod3dWindow}{246}
-\contentsline {subsection}{\numberline {B.6.2}MainProd}{247}
-\contentsline {section}{\numberline {B.7}Aplicaci\'on Principal}{252}
-\contentsline {subsection}{\numberline {B.7.1}Application}{254}
-\contentsline {subsection}{\numberline {B.7.2}main}{255}
-\contentsline {chapter}{\numberline {C}Redacci\'on de Proyectos}{257}
+\contentsline {chapter}{\numberline {16}Trabajo Futuro}{227}
+\contentsline {chapter}{\numberline {A}Manuales de usuario}{229}
+\contentsline {chapter}{\numberline {B}Detalles Implementaci\'on}{231}
+\contentsline {section}{\numberline {B.1}Incompatibilidades}{231}
+\contentsline {subsection}{\numberline {B.1.1}winsock}{231}
+\contentsline {subsection}{\numberline {B.1.2}CLR}{232}
+\contentsline {subsection}{\numberline {B.1.3}NDEBUG}{232}
+\contentsline {section}{\numberline {B.2}Third Parties}{232}
+\contentsline {subsection}{\numberline {B.2.1}wxWidgets}{232}
+\contentsline {subsection}{\numberline {B.2.2}Boost}{232}
+\contentsline {subsection}{\numberline {B.2.3}SFML}{232}
+\contentsline {subsection}{\numberline {B.2.4}OpenCV, Open Source Computer Vision}{234}
+\contentsline {subsection}{\numberline {B.2.5}Panda3D}{235}
+\contentsline {subsection}{\numberline {B.2.6}PostgreSQL}{235}
+\contentsline {subsection}{\numberline {B.2.7}Debea}{235}
+\contentsline {subsection}{\numberline {B.2.8}DynDNS}{236}
+\contentsline {subsection}{\numberline {B.2.9}VisualSVN}{236}
+\contentsline {subsection}{\numberline {B.2.10}Tortoise SVN}{236}
+\contentsline {section}{\numberline {B.3}Interfaces core}{236}
+\contentsline {subsection}{\numberline {B.3.1}IApplicationConfiguration}{237}
+\contentsline {section}{\numberline {B.4}M\'odulo de GUI}{238}
+\contentsline {subsection}{\numberline {B.4.1}MainGui}{239}
+\contentsline {subsection}{\numberline {B.4.2}MainFrame}{240}
+\contentsline {subsection}{\numberline {B.4.3}GUIStart}{240}
+\contentsline {subsection}{\numberline {B.4.4}GUIHelp}{241}
+\contentsline {section}{\numberline {B.5}M\'odulo de Percepci\'on}{241}
+\contentsline {subsection}{\numberline {B.5.1}MainPercept}{242}
+\contentsline {subsection}{\numberline {B.5.2}PerceptAudio}{243}
+\contentsline {subsection}{\numberline {B.5.3}PerceptVideo}{245}
+\contentsline {section}{\numberline {B.6}M\'odulo de Producci\'on}{247}
+\contentsline {subsection}{\numberline {B.6.1}Prod3dWindow}{248}
+\contentsline {subsection}{\numberline {B.6.2}MainProd}{249}
+\contentsline {section}{\numberline {B.7}Aplicaci\'on Principal}{254}
+\contentsline {subsection}{\numberline {B.7.1}Application}{256}
+\contentsline {subsection}{\numberline {B.7.2}main}{257}
+\contentsline {chapter}{\numberline {C}Redacci\'on de Proyectos}{259}

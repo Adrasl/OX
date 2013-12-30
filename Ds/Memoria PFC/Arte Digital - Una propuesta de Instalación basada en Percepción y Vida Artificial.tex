@@ -3969,7 +3969,7 @@ Los módulos afectados en la presente fase son los siguiente:
 
 \begin{itemize}
 \item core: Añadida la clase IEntity, modificadas las interfaces de IPerceptVideo.
-\item igui: añadidas interfaces gráficas para grabar la captura de imagen en video o cargar video en lugar d e usar imagen en vivo. Cambios estético y ocultación de interfaces de elementos que se dejan como trabajo futuro.
+\item igui: añadidas interfaces gráficas para grabar la captura de imagen en video o cargar video en lugar de usar imagen en vivo. Cambios estéticos y ocultación de interfaces de elementos que se dejan como trabajo futuro.
 \item ipercept: Se implementa la captura sincronizada de múltiples pantalla o la arga de múltiples videos. Se añade flujo óptico al detector de movimiento, y se añade cálculo de área, orientación y excentricidad al detector de presencia.
 \item ipersistence: Se añaden campos a los objetos usuario, mundo y entidad y se añaden algunos métodos para mejorar su uso.
 \item iprod: Se añade capacidad para crear una malla 3d a partir de una nube de puntos, se plantea un esquema de proyección de la representación del usuario para interactuar con objetos de la escena. Se prepara esquema para la carga, destrucción y actualiazación de entidades en la escena. Se añade algunos elementos de personalización de la escena como música de fondo, color de fondo, color e intensidad de niebla y efectos de postproceso.
@@ -4931,7 +4931,7 @@ void ContentCreationController::DoNotifiedByDyingEntity(callinginstance,tag, fla
 { ExtractFromEcosystem(flag,callinginstance);}
 \end{lstlisting}
 
-Para terminar, su último cometido es el de crear nuevas entidades. PAra esta instalación se creará una Entidad de tipo StandAlone que será la creadora de la base rítmica de la composición musical, creándose una entidad cada segundo, que al ancer, reproduce un audio de un sample de persión.
+Para terminar, su último cometido es el de crear nuevas entidades. Para esta instalación se creará una Entidad de tipo StandAlone que será la creadora de la base rítmica de la composición musical, creándose una entidad cada segundo, que al ancer, reproduce un audio de un sample de persión.
 \\
 
 Por otro lado, se crearán dos tipos de enjambres de entidades de tipo Boid Entities. Tras una colisión de tipo positiva se creará un enjambre de entidades con una configuración determinada (una gran cantidad de individuos, menos dispersos y con tendencia a agruparse). Tras una colisión de tipo negativa se creará un enjambre de entidades de menor número, más veloces y de mayor dispersión.
@@ -5087,8 +5087,24 @@ En relación al segundo conjunto de bugs, los cierres inesperados durante el arra
 \item Uso de herramientas para medición de frames por segundo para comprobar el rendimiento de la ventana de render. No se aprecian cambios en la tasa de frames por segundo que se mantiene a 60fps para dos ventanas de render. En ocasiones donde aparece una cantidad elevada de entidades, sí han podido apreciarse picos puntuales que bajan a 50 o 45 frames por segundo. Por lo general, no suelen ser apreciables)
 
 \end{itemize}
+\vspace{5 mm}
 
 \subsection{Publicidad}
+
+Se plantea a dos compañeros y amigos la creación de prototipo de instalación para la grabación de un video de muestra. 
+\\
+
+Para ello se cuenta con la ayuda de Óscar Rodríguez Vila, Director Creativo en Oquio, escultor y con experiencia en el montaje de instalaciones, y con Gloria Godínez, profesora de filosofía, bailarina, coreógrafa y también con experiencia en el montaje escénico.
+\\
+
+El propósito de esta acción es:
+\begin{itemize}
+\item Contrastar ideas y ver la mejor forma de montar un espacio físico que pudiera exponerse en un futuro.
+\item Conocer mejor la escena artística desde el punto de vista de personas que han creado y expuesto trabajos.
+\item Aunque la instalación está pensada para ser visitada por público de calle, ponerla en manos de una profesional de la escena artística y conocer su opinión sobre el potencial para crear instalaciones orientadas a performances.
+\item Hacer una grabación a modo de ejemplo que permita mostrar la aplicación.
+\end{itemize}
+
 
 \chapter{Etapa i: Funcionalidades Añadidas}
 \section{Análisis}
@@ -5132,29 +5148,78 @@ En relación al segundo conjunto de bugs, los cierres inesperados durante el arra
 \section{Validación y Publicidad}
 
 \chapter{Resultados y conclusiones}
- Desarrollo de los resultados y conclusiones del proyecto. Se debe intentar resaltar el interés del proyecto
- y la calidad del trabajo realizado. Ha llegado el momento de "vender" nuestro trabajo. Se deben incluir aspectos como:
+
+Ha llegado el momento de echar un vistazo atrás y ver el trabajo realizado.
+\\
+
+La creación de este proyecto me ha dado la oportunidad de explorar y aprender conceptos y técnicas que no quería dejar pasar y que para mí representan el eje central de mi pasión por la informática: la resolución de problemas complejos buscando soluciones creativas; uniendo, además, dos campos que son el motor de mi vida, Ciencia y Arte. Es de esta forma como deseaba dar el cierre a esta etapa de formación académica como Ingeniero Informático, estudiando problemas complejos, evaluando herramientas y construyendo una solución.
+\\
+
+Puedo decir que el desarrollo de este trabajo ha tenido un gran impacto en la calidad del trabajo que realizo y que me ha aportado la capacidad de desarrollar herramientas de gran valor tanto a nivel personal como profesional.
+\\
+
+A modo de resumen se listan algunos de los hitos más representativos:
 
 \begin{itemize}
-\item Calidad, dificultad y amplitud del trabajo desarrollado que justifique el tiempo de dedicación al proyecto.
-\item Aspectos integradores de las disciplinas de la titulación de Ingeniero en Informática.
-\item Impacto social. Utilidad del proyecto en el ámbito social
-\item Facilidad de utilización de los resultados del proyecto por terceras personas.
-\item Publicidad de los resultados del proyecto a través de páginas web, etc.. Cuando de los resultados del proyecto 
- se derive un prototipo o programa de utilización se debe poner a disposición del público en general una versión 
- de demostración de dicho prototipo.
-\item Cualquier otro mérito.
+\item Se ha creado un kit de desarrollo software con el que se pueden crear instalaciones artísticas basadas en técnicas de percepción e incluir componentes de vida artifial, con el que además de ha creado una propuesta de instalación a modo de ejemplo.
+\item Este kit se ha desarrollado de forma que la implementación de sus componentes es desconocida para el resto de componentes, que se comunican mediante una interfaz que otorga independencia y la capacidad de, llegado el momento en el que se desee, cambiar la tecnología con la que ha implementado uno de ellos, sin que afecte a los demás.
+\item Como resultado tenemos siete proyectos. Uno principal que genera un ejecutable, y otros seis que aportan interfaces o generan librerías que pueden ser consumidas por terceros, en este caso, la aplicación principal.
+\item Al comienzo de este proyecto era extraño ver computadores de más de dos núcleos, pero era evidente que la tendencia indicaría que tenderían a popularizarse. Ésta era una de las capacidades que más querían explotarse. Hasta el momento no había desarrollado aplicaciones que explotaran, en esta medida, esta capacidad. A modo de anécdota, una de las primeras sorpresas fue ver que preparar una aplicación como multihilo no implicaba que se usaran todas las CPUs, por defecto todos los hilos creados se ejecutaban en la misma CPU física. 
+\item Tanto el kit como la aplicación pretende explotar en la medida de lo posible la concurrencia de procesos. La cantidad de hilos en ejecución dependerá del número de componentes activos. A modo de ejemplo, cada detector sobre cada fuente, es ejecutado y procesado en un hilo independiente. A modo ilustrativo durante una ejecución podemos tener entre alrededor de 20 hilos de ejecución en paralelo.
+\item Aunque se han acortado las intenciones iniciales, se ha podido estudiar diferentes técnicas de percepción y los conceptos sobre los que se basan: sustracción de fondo, detectores de presencia, entrenamiento de clasificadores, uso de detectores y reconocedores, cálculo de información enriquecida a partir de una imagen.
+\item Aunque es un campo en el que me habría gustado profundizar más, ha sido muy interesante evaluar y desarrollar un plantemiento sobre la composición de contenidos usando elementos gráficos y musicales.
+\item Otro de los apartados que ha resultado de gran interés ha sido la búsqueda, análisis y estudio de herramientas, siendo un elemento curioso ver cómo algunas de esas herramientas han comenzando a popularizarse recientemente. Otras en cambio, que parecían estar a la vanguardia, han caído o empeorado de forma notable.
+\item Sin duda, una de las tareas que más he disfrutado ha sido analizar los problemas e idear soluciones, aspecto que personal y profesionalmente me resulta especialmente atractivo en la informática.
+\item Otro punto que me gustaría resaltar es la ausencia de dispositivos con capacidad de ser usados de forma abierta por desarrolladores como la Kinect de Microsoft, conocido primero como Project Natal \cite{KINECT09} para el momento de este desarrollo. La Kinect fue anunciada por primera vez en 2009 y comenzó a poder usarse en PCs oficialmente en 2011. Cuando fue anunciada en el proyecto ya se había desarrollado por completo todo el módulo de percepción (salvo los añadidos de la Etapa 5). De todas formas, OpenCV ha sido igualmente interesante e instructivo, y en cualquier caso sería muy interesante como trabajo futuro evaluar la capacidades de la Kinect para sustituir el actual módulo de percepción por una reimplementación que la utilice.
+\item Una de las mayores dificultades ha sido la integración de tecnologías muy diferentes, especialmente cuando hacían uso de librerías de sistema o de terceros que eran incompatibles. En algunas ocasiones se han hecho correcciones y modificaciones en esas mismas librerías, algunas enviadas y admitidas en revisión.
+\item Otro punto a mencionar es sobre la planificación y seguimiento del proyecto. Antes de comenzar a trabajar en este proyecto ya llevaba varios años trabajando. Con poca experiencia, pero con una dedicación completa. De esta forma, se inició una planificación de dos años usando exclusivamente los tiempos libres. Esta planificación consiguió cumplirse y mantenerse correctamente, haciendo ajustes necesarios durante su ejecución pero manteniéndose razonablemente en plazos. Sin embargo, por motivos personales y profesionales el proyecto ha sufrido una pausa importante en su etapa final. Al retomar el trabajo, se volvió a planificar para completar el desarrollo de esta última etapa en tres meses, y así se ha hecho. 
+\item Este proyecto se entrega bajo licencia Creative Commons BY 1.0 \cite{CCBY10}. No pretende ser una solución universal y, sin duda, puede ser mejorada y extendida. Sin embargo, se tiene el convencimiento de haber creado una librería lo bastante completa y flexible que puede ser una base interesante para otros desarrolladores que quieran crear sus propias instalaciones, teniendo una gran parte de trabajo realizado, y pudiéndose centrar más en la parte creativa. Para ello, el proyecto ha sido subido en Github y puede accederse desde esta url: https://github.com/Adrasl/OX/ - Hay que tener en cuenta, que por motivos de espacio y guía de uso de Github, no se han subido las librerías precompiladas de las librerías de terceros. En el anexo de esta memoria se detallen qué librerías se han usado y las referencias oficiales a las instrucciones para su compilación.
+\item Se ha creado una página web para dar una presencia pública y facilitar la visibilidad. Para ello se ha creado una página gratuita en WIX a partir de una plantilla simple que permita mostrar como elemento principal un video de presentación, algunas imágenes y enlaces. Se añaden algunos elementos de SEO pero por el momento no se plantea establecer un dominio propio ni eliminar la promoción propia de WIX. La página puede accederse desde la dirección https://garionsl.wix.com/projectOX/
+\item Para acompañar esta presentación se ha creado un video de demostración donde se graba una performance mostrando su uso durante una sesión. Puede encontrarse igualmente en la página web del proyecto en https://garionsl.wix.com/projectOX/
 \end{itemize}
 
 \chapter{Trabajo Futuro}
- Continuidad del trabajo realizado a través de una implementación, o utilidad real del proyecto,
- o a través de otros proyectos fin de carrera.
- \\
- -Esquema multiusuario online.
- -Usar dispositivo XBox Kinect.
- -Reconocimiento postural.
- -Base de Datos Orientada a Objetos, Tiempo Real.
- 
+
+Aunque se ha procurado ofrecer una librería lo más completa posible, no hay duda de que hay lugar para realizar muchas mejoras y para extender sus capacidades. Especialmente por ello se ha querido ofrecer la librería bajo la licencia Creative Commons BY 1.0 \cite{CCBY10}. En este apartado se hace una relación de las posibles líneas de trabajo futuro a partir del ya realizado.
+
+\begin{itemize}
+\item OX Instalación:
+\begin{itemize}
+\item Crear una instalación física que pueda ser montada y expuesta.
+\item Mejorar la propuesta de instalación enriqueciendo sus contenidos.
+\end{itemize}
+\item OX SDK: 
+\begin{itemize}
+\item Promoción y visibilidad: Dar a conocer la librería mediante promoción online y referencias desde sitios de terceros. Participar en eventos de sectores relacionados. Contactar con museos, universidades, salas de exposición, etc.
+\item Puesta al día: Revisión de todos los componentes y librerías de terceros utilizados para actualizar a las versiones más recientes, en la medida de lo posible. Preparar el proyecto igualmente para IDEs más recientes.
+\item Ports: Aunque el código desarrollado es C++, se han usado librerías disponibles para multiplataforma (al menos Windows y Linux), y se ha procurado implementar las soluciones de forma independiente al sistema operativo, el proyecto puede contener referencias explícitas al SO. Interesaría realizar una revisión del proyecto y preparar un port testeado para Linux y Mac.
+\item Persistencia: 
+\begin{itemize} 
+\item Crear una implementación de persistencia que conecte con un webservice en lugar de conectar directamente con una base de datos.
+\item Estudiar el uso de Bases de Datos Orientadas a Objetos y Bases de Datos  para Tiempo Real.
+\end{itemize}
+\item Conectividad: Crear un esquema multiusuario online, que permita que varias instalaciones en diferentes localizaciones del mundo puedan estar conectadas entre sí, pudiendo incluso en ocasiones, entrar en los mismos espacios de otros usuarios y poder ver sus respectivas representaciones e interacciones. Añadir un esquema de permisos que permita personalizar las capacidades de interacción.
+\item Percepción: 
+\begin{itemize}
+\item Estudiar alternativas y mejoras en los algoritmos y técnicas empleadas.
+\item Estudiar las posibilidades de añadir el dispositivo XBox Kinect de Microsoft.
+\item Incluir reconocimiento postural, de género, sexo y edad.
+\item Incluir reconocimiento de expresiones faciales.
+\item Estudiar la posibilidad de conseguir un sistema parallax que a partir de head tracking y del estudio del point of gaze consiga una navegación más cercana a la navegación de realidad virtual.
+\item Incluir análisis de señales de audio, para lo cual se recomiendo revisar Marsyas, una librería open source en C++ orientada al análisis y síntesis de audio \cite{MARSYAS}.
+\item Mejorar las capacidades para combinar múltiples fuentes de video y audio.
+\end{itemize}
+\item Producción:
+\begin{itemize}
+\item Sustituir el motor gráfico Panda3D por Ogre3D. En su momento, dentro de los motores gráficos Panda3D era un motor de vanguardia con un buen diseño de API. Con el tiempo ha ido decayendo y no tiene un buen mantenimiento. Revisitando los posibles motores gráficos se propone Ogre3D como mejor alternativa.
+\item Añadir más capacidades de personalización de contenidos: luces, tipos de objetos, creación procedural de objetos y texturas, texturas dinámicas y volumétricas, sistemas de partículas, luces, personalización del tipo de cámara o proyección, efectos de postproceso y shaders.
+\item Mejorar el esquema de interacción usuario-escena. En esta línea una de los posibles trabajros sería la creación de un esquema de colisiones proyectando la representación del usuario en correspondencia con la proyección de la cámara.
+\item Continuar el estudio e implementar una solución para creación procedural de composiciones musicales, mediante la creación de una gramática. Para lo se recomenienda profundizar en conceptos de composición musical. Igual que para el análisis podría usarse Marsyas \cite{MARSYAS} como herramienta para el desarrollo de este apartado. Por si el lector sintiera especial interés en esta línea, me gustaría hacer referencia a algunas lecturas como "A Practical Guide to Musical Composition" de Alan Belkin \cite{BELKIN99}, \"AI and Music: From Composition to Expressive Performance" de Ramón López et al.\cite{RLOPEZ02} y otros \cite{MCCORMACK}, \cite{CURTISR}, \cite{LOYABBOT}.
+\item Mejorar las capacidades para combinar múltiples destinos de video y audio. 
+\item Sería especialmente interesante plantear una combimación de técnicas de percepción para el estudio de un sujeto junto con Realidad Virtual o Aumentada. En esta línea es interesante revisar las siguientes referencias a Oculus Rift \cite{OCULUSR} y vrASE \cite{VRASE}.
+\end{itemize}
+\end{itemize}
+\end{itemize}
 
 
 % EMPIEZAN LOS APENDICES DEL PROYECTO
@@ -5162,8 +5227,16 @@ En relación al segundo conjunto de bugs, los cierres inesperados durante el arra
 
 \chapter{Manuales de usuario}
 
- En el caso de que el desarrollo (y/o naturaleza del proyecto haya dado lugar a la creación de manuales
- de usuario, habrá que ponerlo aquí).
+La instalación está pensada para ser un espacio que se comunica con la persona que se encuentra en ella. El sujeto que entra dentro de la instalación no ve en ningún momento ninguna interfaz y no existe ninguna guía de uso. Será su comportamiento dentro del espacio el que definirá el contenido que se cree.
+\\
+
+Desde el punto de vista del desarrollador que desee utilizar la aplicación desarrollada o la librería, se necesita tener en cuenta varios aspectos que son comentados en el Apéndice B que se encuentra a continuación, al final de esta misma memoria. Hay que tener en cuenta que junto con los fuentes del proyecto no-se-distribuyen los binarios de las librerías third parties. 
+\\
+
+Se recomienda usar versiones recientes de las mismas, pero es importante tener en cuenta que este tipo de actividad pueden dar problemas de compatibilidad. Si se diera el caso se recomienda usar la misma versión comentada en el anexo. Igualmente se recuerda al desarrollador que pueden surgir problemas de compatilidad durante la ejecución o durante el linkado si se usan librerías ya precompiladas con compiladores diferentes o con opciones de compilación diferentes al usado para compilar el proyecto. 
+\\
+
+También se recuerda al desarrollador que el código de este proyecto se ofrece "como es" (As-is) sin ninguna garantía explícita o implícita. El proyecto ha sido desarrollado con propósito académico y se ofrece bajo licencia Creative Commons BY 1.0 \cite{CCBY10}, pero en los fuentes que pueden descargarse del repositorio puede contener elementos de terceros que se encuentran bajo una licencia diferente. Se recomienda al desarrollador que revise la documentación de los mismos. El desarrollador es responsable del uso adecuado de dicho contenido.
 
 \chapter[Detalles Implementación]{Detalles técnicos sobre la implementación del proyecto}
 
@@ -6473,15 +6546,31 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 
 \bibitem{MINECRAFT} Minecraft, Notch Development AB 2011
 
-\bibitem{BELKIN99} Alan Belkin, {\em A Practical Guide to Musical Composition} 1995-1999
-
 \bibitem{FREESOUND} FreeSound, Collaborative database of Creative Commons Licensed sounds http://www.freesound.org/
 
 \bibitem{AUDACITY} Audacity, Editor y grabador de Audio libre http://audacity.sourceforge.net/
 
 \bibitem{BLENDER} Blender, A a Free and Open Source 3D Animation Suite http://www.blender.org/
 
-añadir sdk de windows, sdk de directx
+\bibitem{KINECT09} Artículo sobre la historia de Kinect en la Wikipedia http://es.wikipedia.org/wiki/Kinect
+
+\bibitem{MARSYAS} Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals http://marsyas.info/
+
+\bibitem{BELKIN99} Alan Belkin, {\em A Practical Guide to Musical Composition} 1995-1999
+
+\bibitem{RLOPEZ02} Ramón López de Mantaras, Josep Lluis Arcos, {\em AI and Music: From Composition to Expressive Performance} 2002
+
+\bibitem{MCCORMACK} Jon McCormack, {\em Grammar Based Music Composition}
+
+\bibitem{CURTISR} Curtis Roads, {\em Research in Music and Artificial Intelligence}
+
+\bibitem{LOYABBOT} Gareth Loy, Curtis Abbot {\em Programming Languages for Computer Music Synthesis, Performance, and Composition}
+
+\bibitem{OCULUSR} Oculus Rift {\em Virtual Reality Headset for 3D Gaming}
+
+\bibitem{VRASE} vrASE {\em The Smartphone Virtual Reality Case}
+
+\bibitem{CCBY10} Creative Commons BY 1.0 http://creativecommons.org/licenses/by/1.0/
 
 
 \end{thebibliography}
