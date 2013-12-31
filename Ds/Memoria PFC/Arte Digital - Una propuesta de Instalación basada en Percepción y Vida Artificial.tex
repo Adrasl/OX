@@ -95,11 +95,15 @@ Universidad de Las Palmas de G.C.}
 \section*{Proyecto fin de carrera}
 
 \bigskip
-\noindent {\bf Título: } Arte Digital: Una Propuesta de Instalación basada en Percepción y Vida Artificial mediante la creación de un SDK para la creación de Instalaciones\\
-{\bf Apellidos y nombre del alumno: } Sánchez López, Antonio José\\
-{\bf Fecha : } Octubre 2011 \\
+\noindent {\bf Título: } Arte Digital: Una Propuesta de Instalación basada en Percepción y Vida Artificial mediante la creación de un SDK para la creación de Instalaciones
+\\
 
-\vspace{2cm}
+\noindent{\bf Apellidos y nombre del alumno: } Sánchez López, Antonio José
+\\
+
+\noindent{\bf Fecha : } Enero 2014 \\
+
+\vspace{7 mm}
 \noindent{\bf Tutor: } Castrillón Santana, Modesto \\
 
 % Definimos página posterior 
@@ -133,10 +137,6 @@ Universidad de Las Palmas de G.C.}
 
 \chapter{Introducci\'on}
 
- La introducción es lo primero que se lee, pero habitualmente lo último que se escribe. Pues su redacción
- depende de cómo se hayan escrito todas las otras secciones. Normalmente la introducción incluye una
- descripción muy general del proyecto y termina con un desglose del contenido de la memoria.
-
 A lo largo de la historia, diversas disciplinas han hecho uso de la representación bidimensional para mostrar propuestas creativas. El ordenador es en la actualidad una herramienta de enorme potencial para el arte visual \cite{Spalter99}, tanto en el marco de la imagen estática, como en el contexto donde el factor tiempo se introduce en el proceso expresivo.
 \\
 
@@ -155,17 +155,152 @@ La motivación de este proyecto es investigar el uso de capacidades actuales de V
 La exploración puede plantear y profundizar en nuevas posibilidades de interfaces y formas de interacción hombre-máquina.
 \\
 
-Abordar cuando tenga paciencia para repasar documentación y referencias e inspiración para escribir bonito... 
-\chapter{Estado actual del tema}
- Descripción del estado actual del tema con referencia a trabajos anteriores en el caso de proyectos que
- sean continuación o relacionados con otros proyectos.
+Esta memoria hará una revisión de las técnicas estudiadas e implementadas de forma incremental. De esta forma, su contenido está dividido en 5 Etapas de Desarrollo, donde, salvo en el primer caso, al final de cada una se pretende conseguir una Demo funcional que se irá enriqueciendo en las siguientes Etapas hasta conseguir el resultado final con la Cuarta Demo. 
 \\
- 
-Abordar cuando tenga paciencia para repasar documentación y referencias e inspiración para escribir bonito... 
+
+A lo largo de esta memoria podremos ver una progresión del proyecto, extendiendo sus funcinalidades y abordando problemas que requieren de la solución de los anteriores.
+\\
+
+Finalmente, el lector podrá encontrar un apartado de conclusiones y una referencia a las posibles líneas de trabajo futuro que podrían ser interesantes y que podrían extender la continuidad del mismo.
+
+
+\chapter{Estado del arte}
+
+Sería bueno introducir la relación existente entre las expresiones artísticas y la informática, aunque no es el objetivo de este proyecto estudiar la historia del arte. 
+\\
+
+La relación entre ambas sucede, como en todos los casos, desde su origen. Esto es así porque el arte no es sino una expresión de un individuo, de un momento, sociedad o época. Y como como manifestación de esa expresión puede estar presente en todos los aspectos de la vida, desde la pintura, la escultura, arquitectura, escritura, la ilustración, el cine, las líneas de código de un programa, un planto de comida o incluso un partido de fútbol. 
+\\
+
+En el caso de la Informática frente al Arte, y en concreto las Instalaciones, podríamos hablar de dos pilares: por un lado el concepto de transportar a un usuario a un entorno diferente, y por otro tecnológicas para la producción visual y sonora.
+\\
+
+De esta forma, en primer lugar podemos hablar del arte virtual. Aquí podemos destacar intentos de construir entornos que envuelven al individuo para que asemeje estar en otro lugar. Podemos hablar de las cuevas de Altamira o del Domus Aurea de Nerón \cite{OLIVERGRAU}, con su salón de banquetes giratorio gracias al agua de una cascada, o a los tejados de madreperla que dejaban caer pétalos y perfume sobre los invitados. Construcciones de este estilo existen a lo largo de la historia, especialmente ejemplos de casas paisaje, en cuyo interior, distribuídas incluso en varias plantas, se representaba un panorama completo y por el que el usuario se podía mover como si estuviera en un jardín o en el campo. La construcción del Panorama Rotunda de Robert Barker s.XIX \cite{BARKERXIX}, fue un gran ejemplo de esto, aunque este mismo concepto de cúpula lo tenemos bastante presente y podríamos considerar como su evolución el caso de los cines IMAX \cite{IMAXDOMET}.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/estadoarte_inicios_realidadvirtual.png}
+\end{center}
+\caption{ \label{F_DomusAurea_PanoramaRotunda} Izquierda: Interpretación del Domus Aurea por Type-MOON\cite{TYPEMOONDA}, Derecha: Sección de la construcción Panorama Rotunda de Robert Barker \cite{BARKERXIX}}
+\end{figure}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/estadoarte_inicios_domoIMAX.png}
+\end{center}
+\caption{ \label{F_DomoIMAX_Tijuana} Izquierda: Domo IMAX, Centro Cultural de Tijuana \cite{IMAXDOMET}, Derecha: Esquema de sección de un Domo IMAX por HowStuffWorks \cite{IMAXDOMEHSW}.}
+\end{figure}
+
+
+Pero sin duda, en relación a la informática las expresiones artísticas surgieron con mayor rapidez y expansión a partir de las capacidades que iban obteniendo los computadores para la representación gráfica. Desde este punto de vista caben destacar los experimentos de Ben F. Laposky y sus Abstracciones electrónicas, en la década de los 50. PAra conseguir los disñeos gráficos que peuden verse en la figura \ref{F_Oscillon_Laposky}, Laposky  " manipuló transmisiones electrónicas a través de la superficie fluorescente de un tubo de rayos catódicos de un osciloscopio (similar a un tubo de televisión) y entonces grabó los patrones abstractos usando película de alta velocidad, filtros de color, y lentes de cámara especiales" \cite{LAPOSKY}.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/estadoarte_laposky.png}
+\end{center}
+\caption{ \label{F_Oscillon_Laposky} Serie Oscillon de Ben F. Laposky \cite{LAPOSKY}}
+\end{figure}
+
+Sin embargo, aunque es posterior cronológicamente, interesaría destacar antes aproximaciones menos electrónicas, para entender mejor la evolución del arte cibernético. Veinte años después de las Abstracciones de Laposky, surge en plena década de los 70, el movimiento conocido como Vanguardia Tecnológica \cite{CASTROM09}.
+\\
+
+En este movimiento se agrupan diferentes corrientes artísticas que aplican un enfoce más material y técnico a las obras que crean, formulando esquemas, programas o usando objetos tecnológicos punteros de la época, aunque también cotidianos, para crear obras con ellos. Dentro de este movimiento de Vanguardia Tecnológica, es interesante mencionar las siguientes corrientes:
+\\
+
+\begin{itemize}
+\item Arte óptico: Mezclando ilusión y pintura, se centra en la interpretación del lo que el ojo ve y lo que la retina y el cerebro interpretan. Dentro de este movimiento, se considera a Víctor Vasarely \cite{VASARELY} como el padre y máximo exponente de este movimiento artístico.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/estadoarte_vvasarely.png}
+\end{center}
+\caption{ \label{F_DomoIMAX_Tijuana} Arte Optico: Víctor Vasarely \cite{VASARELY}}
+\end{figure}
+\vspace{10 mm}
+
+\item Arte cinético: Se trata de otra de la corrientes de la Vanguarda Tecnológica, donde comenzaron a incluirse objetos industriales o cotidianos en las propias obras y cuyo eje gira entorno a la movilidad o la sensación de movilidad de las mismas. Existe en todos los soportes, pero destaca especialmente en instalaciones y en escultura. Esta corriente fue muy prolífica y dentro de ella destacan artistas como Marcel Duchamp \cite{MDUCHAMP}, Alexander Calder \cite{ACALDER} o César Manrique \cite{CMANRIQUE}.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/estadoarte_cieticoduchampcaldermanrique.png}
+\end{center}
+\caption{ \label{F_DomoIMAX_Tijuana} Arte Cinético: De izquierda a derecha: Rotary Glass Plates y Fountain de Marcel Duchamp \cite{MDUCHAMP}, Standing Mobile de Alexander Calder \cite{ACALDER} y Fobos de César Manrique \cite{CMANRIQUE} }
+\end{figure}
+
+
+\item Arte cibernético: En esta corriente se da gran importancia a los procesos cognitivos, en cualquiera de sus representaciones. Ya sea la forma en que cómo funciona la retina humana o los procesos automáticos para la interpretación o manipulación de la información con el fin de crear obras estéticas. En el origen de esta corriente destaca una gran importacia de las descripciones matemáticas formales, lingüisticas y el uso de sistemas computacionales. 
+\\
+
+Dentro de este este apartado me gustaría hacer mención a Norvert Wiener quién acuñó el término cibernética, e igualmente me gustaría hacer mención a su cita " The nervous system and the automatic machine are fundamentally alike in that they are devices, which make decisions on the basis of decisions they made in the past." \cite{NWIENER}. Dentro de esta línea podríamos incluir a científicos, matemáticos o músicos, como a Ben F. Laposky con sus Abstracciones Electrónicas o Jhon Cage, uno de los primeros en usar computadores para la composición musical y en creación de dibujos interpretables como composiciones \cite{JCAGEMKN}. 
+\vspace{35 mm}
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/estadoarte_johncage.png}
+\end{center}
+\caption{ \label{F_JhonCage} Fontana Mix de John Cage, que puede verse y escucharse en \cite{JCAGEMKN} }
+\end{figure}
+
+\end{itemize}
+
+
+Más adelante surgiría el pop-art y muchas líneas más inspiradas en el arte tecnológico. En cualquier caso, este es un campo muy extenso, y sólo se desea hacer una introducción a la historia de la relación entre el mundo artístico, las instalaciones y la tecnología.
+\\
+
+Para acercarnos al final de este estudio, abordaremos el mundo de la demoscene y de las instalaciones, conociendo algunas aplicaciones recientes.
+
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/estadoarte_demoscene.png}
+\end{center}
+\caption{ \label{F_Demoscene} Demoscene: a la izquierda cdak de Quite and Orange \cite{CDAKQO}, a al derecha Chaos Theory del grupo Conspiracy \cite{CHAOSTC}, y debajo Ellectric Bullet de a n d r o m e d a \cite{EBANDROMEDA}}
+\end{figure}
+
+Como comentaba, no puede evitarse hacer una referencia a la Demoscene y sus demos \cite{DEMOSCENE}. La demo escena es un movimiento surgido en los años 70-80s, originada por crackers que querían dejar su firma. Este movimiento se centra en la representación de composiciones de audio y escenas gráficas llamativas, que cada vez más, intentaban explotar al máximo las capacidades de la máquina sobre la que trabajaban para crear expresiones gráficas impactantes. Hay que tener en cuenta que no se tratan de videos, sino de aplicaciones que se ejecutan en dichas máquinas, principalmente consolas o PCs, en tiempo real. En la figura \ref{F_Demoscene} pueden verse algunos ejemplos, aunque los estilos visuales varían mucho de una escena a otra.
+\\
+
+Llegados a este punto, estamos en el momento adecuado para acercanos a la corriente de instalaciones basadas en técnicas de computación. Hay que recordar que una instalación es un espacio que dialoga con la persona que se encutra dentro o a su alrededor. Este movimiento es muy extenso. También, como hemos podido ver, el uso de la tecnología y la creación artística siempre han estado vinculados. No por nada, arte, ciencia y tecnología han estaban profundamente vinculadas en el origen de las culturas. De esta forma, en la corriente artística de las instalaciones basadas en técnicas de computación, podríamos destacar a creadores y artistas como Ole Kristensen \cite{OKRISTENSEN}, Golan Levin  \cite{FLONG} o Frieder Weiss (Mortal Engine) entre muchos otros.
+\\
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/estadoarte_instalciones_performances.png}
+\end{center}
+\caption{ \label{F_Demoscene} Izquierda: Body Bavigation - Pong Duet de O. Kristensen\cite{OKRISTENSEN}, Derecha: Mesa di voce de G. Levin \cite{FLONG}, Inferior: Mortal Engine de F. Weiss \cite{FWEISS}}
+\end{figure}
+
+
+Teniendo esto en cuenta, el proyecto que se presenta pretende ser dos cosas: Por un lado, una propuesta de instalación que conjugue elementos de Percepción y otros elementos de Inteligencia Articial, que presentará mediante un proyector, una vista de un entorno en el cual entrará el usuario. Una vez dentro, tanto su presencia como sus acciones irán definiendo el propio entorno creando una experiencia personalizada con la que podrá interactuar. Por otro lado, o mejor dicho, durante el camino, se creará una librería con la que será posible crear nuevas instalaciones o aplicaciones de este estilo. Se pretende que cada módulo de la misma sea completamente independiente de la implementación de las demás, mediante el uso de interfaces, para que de esta forma, sea sencillo hacer cambios o sustituir tecnologías. 
+\\
+
+Como cierre de esta sección, y dando un paso más allá de las instalaciones, me gustaría mencionar algunas convergencias de este campo con la creación de productos en la industria audiovisual y del entretenimineto. 
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/estadoarte_miziguchi.png}
+\end{center}
+\caption{ \label{F_Mizuguchi} Izquierda: Juego Rez para PS2, Derecha: Concepto usado en el video de promoción de Child of Eden \cite{TMIZUGICHI}, Inferior: Captura in game del juego Chils of Eden\cite{TMIZUGICHI} para Xbox con Kinect.}
+\end{figure}
+
+Esta combinación de interacción y producción visual y sonora proporciona un nicho muy interesante en el ámbito de la definición de interfaces hombre máquina, y sin duda en la producción de elementos artísticos. Empieza a ser frecuente ver algunos de estos ejemplos de uso tanto en el mundo de los videojuegos como en la producción audiovisual.
+\\
+
+Como puede verse en la figura \ref{F_Mizuguchi}, en el campo de los juegos, me gustaría destacar el caso de Tetsuya Mizuguchi\cite{TMIZUGICHI}, con el juego Child of Eden. Un título que como su antecesor, Rez, hace uso del concepto de sinestesia, mezclando los sentidos de vista y oído. En estos juegos, todas las acciones que hace el usuario reflejan una consecuencia visual y sonora. En el título, original Miziguchi hacía uso del mando de la consola, pero con la llegada de la consola XBox y el dispositivo Kinect, el creador hizo uso del reconocimiento postural para que el jugador pudiera interactuar con la escena usando su propio cuerpo y manos. 
+\\
+
+Otro caso interesante a modo de ilustración puede verse en video como 'Get Outta My Way' de Kylie Minogue, donde la cantante realiza su actuación dentro de una instalación realizada también por Frieder Weiss \cite{FWEISS} o Depeche Mode en 'Fragile Tension', video clip donde se usan técnicas de percepción para crear representaciones visuales de los cantantes, por Memo Akten \cite{MAKTEN}.
+
+\begin{figure} [H]
+\begin{center}
+\includegraphics[width=\textwidth]{recursos_memoria/estadoarte_videoclips.png}
+\end{center}
+\caption{ \label{F_VideoClips} Arriba: videoclip Get Out My Way de la artista pop Kilie Minoge, instalación creada por F.Weiss \cite{FWEISS}, Debajo: videoclip Fragile Tension de la banda Depeche Mode, usando uno de los experimentos visuales de Memo Akten \cite{MAKTEN}.}
+\end{figure}
+
 
 \chapter{Metodología}
- Metodología a utilizar para el desarrollo del proyecto, herramientas de análisis, etc..
-\\ 
+
 Las Metodologías de Desarrollo Ágiles son un marco de trabajo conceptual de la ingeniería del software que propone realizar iteraciones de las distintas fases a lo largo del desarrollo. Cada metodología introduce sus propias definiciones, pero en conjunto reflejan siguientes fases: Planificación, Análisis de Requerimientos, Diseño, Codificación, Revisión y Documentación. Una iteración no agrega demasiada funcionalidad en relación al producto final, pero permite tener una demo de la misma al final de cada iteración, momento en el que se evalúa de nuevo las prioridades del proyecto. Así se consigue un producto que podrá probarse desde las primeras semanas al que ir añadiendo funcionalidades \cite{RCol09}. 
 \\
 
@@ -5106,47 +5241,6 @@ El propósito de esta acción es:
 \end{itemize}
 
 
-\chapter{Etapa i: Funcionalidades Añadidas}
-\section{Análisis}
-\subsection{Análisis de Requisitos de Usuario}
-\subsection{Selección de Herramientas}
-\section{Diseño}
-\subsection{Diseño de la Aplicación}
-\subsubsection{Breve descripción de los módulos}
-\subsubsection{Diseño en UML - Resumen}
-\subsubsection{Diseño en UML - Núcleo de la Interfaz}
-\subsubsection{Diseño en UML - Módulo de Aplicación}
-\subsubsection{Diseño en UML - Módulo de Persistencia}
-\subsubsection{Diseño en UML - Módulo de GUI}
-\subsubsection{Diseño en UML - Módulo de Producción}
-\subsubsection{Diseño en UML - Módulo de Percepción}
-\section{Implementación}
-\subsubsection{Núcleo de la Interfaz}
-\subsubsection{Módulo de Aplicación}
-\subsubsection{Módulo de Persistencia}
-\subsubsection{Módulo de GUI}
-\subsubsection{Módulo de Producción}
-\subsubsection{Módulo de Percepción}
-\section{Validación y Publicidad}
-\subsection{Validación}
-\subsection{Publicidad}
-
-\chapter{Etapa n: Revisión Final}
-\section{Implementación}
-\section{Validación y Publicidad}
-
-\chapter{Etapa n+1: Publicidad}
-\section{Análisis}
-\section{Diseño}
-\section{Implementación}
-\section{Validación y Publicidad}
-
-\chapter{Etapa n+2: Implantación Final}
-\section{Análisis}
-\section{Diseño}
-\section{Implementación}
-\section{Validación y Publicidad}
-
 \chapter{Resultados y conclusiones}
 
 Ha llegado el momento de echar un vistazo atrás y ver el trabajo realizado.
@@ -6470,6 +6564,53 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 \bibitem{Yang02} M. H. Yang et al. {\em Detecting Faces in Images: A Survey.} Transactions on Pattern Analysis and Machine Intelligence, vol. 24(1), 34~-58, 2002.
 
 \bibitem{OpenCV09} Willow Garage: S. Hassan, S. Cousins, B. Gerkey et al. {\em OpenCV, Open Source Computer Vision} Official Page and Documentation: http://opencv.willowgarage.com/documentation/index.html 2009.
+
+\bibitem{OLIVERGRAU} Oliver Grau {\em Virtual Art: From Illusion to Immerison} 2003
+
+\bibitem{WILSON02} Stephen Wilson {\em Information Arts: intersections of art, science, and technology} 2002 
+
+\bibitem{TYPEMOONDA} TypeMOON, Domus Aurea {\em Interpretación de la sala principal del Domus Aurea por TYPEMOON, compañía de videojuegos y novelas gráficas} http://typemoon.wikia.com/wiki/Aestus\_Domus\_Aurea?file=Aestus.jpg
+
+\bibitem{BARKERXIX} Robert Barker, Panorama Rotunda {\em A Section of the Rotunda in Leicester Square, in which is exhibited The Panorama. Aquatint from Robert Mitchell Plans and Views in Perspective, with Descriptions, of Buildings Erected in England and Scotland (London: Wilson and Co., 1801).} The British Library.
+
+\bibitem{IMAXDOMET} Domo IMAX en el centro cultura de Tijuana, fotografía de El Randy http://en.wikipedia.org/wiki/File:Cecut.jpg
+
+\bibitem{IMAXDOMEHSW} Sección esquemática de un Domo IMAX por HowStuffWorks http://entertainment.howstuffworks.com/imax1.htm
+
+
+\bibitem{CASTROM09} Federico Castro Morales, CAAM - Centro Atlántico de Arte Moderno {\em Iniciación al Arte Contemporáneo a través de la Colección del CAAM} 2009
+
+\bibitem{VASARELY} Víctor Vasarely http://www.vasarely.com/site/site.htm
+
+\bibitem{MDUCHAMP} Marcel Duchamp, {\em Marcel Duchamp World Community} http://www.marcelduchamp.net/
+
+\bibitem{ACALDER} Alexander Calder {\em Calder Foundation} http://www.calder.org/
+
+\bibitem{CMANRIQUE} César Manrique {\em Fundación César Manrique} http://www.fcmanrique.org/
+
+\bibitem{NWIENER} Norvert Wiener at the Wikipedia http://en.wikiquote.org/wiki/Norbert\_Wiener
+
+\bibitem{LAPOSKY} Ben F. Laposky, Artículo sobre Ben Laposky en Proyecto IDIS http://proyectoidis.org/ben-laposky/
+
+\bibitem{JCAGEMKN} John Cage, Fontana Mix y más referencias en Medien Kusnt Net http://www.medienkunstnetz.de/works/fontana-mix/audio/1/ http://www.medienkunstnetz.de/search/?qt=john+cage
+
+\bibitem{DEMOSCENE} Demoscene https://www.scene.org/
+
+\bibitem{CDAKQO} cdak - Quite and Orange http://www.youtube.com/watch?v=cjSJc2eCetE
+
+\bibitem{EBANDROMEDA} Electric Bullet - a n d r o m e d a http://www.youtube.com/watch?v=g3TRZamP85c
+
+\bibitem{CHAOSTC} Chaos Theory - Conspiracy http://www.youtube.com/watch?v=ZfuierUvx1A 2009
+
+\bibitem{OKRISTENSEN} Ole Kristensen  http://ole.kristensen.name/
+
+\bibitem{FLONG} Golan Levin and Colaborators http://www.flong.com/
+
+\bibitem{FWEISS} Frieder Weiss http://www.frieder-weiss.de/
+ 
+\bibitem{TMIZUGICHI} Tetsuya Mizugichi http://www.mzgc.net/?lang=en
+
+\bibitem{MAKTEN} Memo Akten http://www.memo.tv/
 
 \bibitem{Chuck09} G. Wang, P. Cook et al. {\em Chuck, Strongly-timed, Concurrent, and On-the-fly Audio Programming Language} http://chuck.cs.princeton.edu/ 2009.
 
