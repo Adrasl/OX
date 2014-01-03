@@ -116,7 +116,7 @@ Universidad de Las Palmas de G.C.}
 \newpage
 \thispagestyle{empty}
 \section*{Agradecimientos}
- Aquí ponemos los agradecimientos
+A mi familia, amigos, compañeros y profesores que me han ayudado a lo largo de la carrera y a llevar a cabo este proyecto. Especialmente a Modesto Castrillón, por su apoyo y guía para convertir este trabajo en una realidad, y también por impartir algunas de las asignaturas más apasionantes y de las que más he disfrutado a lo largo de la carrera. También me gustaría mencionar y agradecer a algunos de los profesores que especialmente me han marcado e influenciado durante estos años, que han conseguido contagiarme no sólo de conocimientos sino también de cariño por este campo de la ciencia: Octavio Mayor, Agustín Trujillo, Antonio Falcón, Javier Santana, Luis Álvarez, Alexis Quesada, Mario Hernández, Abraham Rodríguez, Esther González, José Fortes, Roberto Moreno y Miguel Ángel y José Pérez.
 
 % Definimos página posterior 
 \newpage
@@ -155,27 +155,27 @@ La motivación de este proyecto es investigar el uso de capacidades actuales de V
 La exploración puede plantear y profundizar en nuevas posibilidades de interfaces y formas de interacción hombre-máquina.
 \\
 
-Esta memoria hará una revisión de las técnicas estudiadas e implementadas de forma incremental. De esta forma, su contenido está dividido en 5 Etapas de Desarrollo, donde, salvo en el primer caso, al final de cada una se pretende conseguir una Demo funcional que se irá enriqueciendo en las siguientes Etapas hasta conseguir el resultado final con la Cuarta Demo. 
+Esta memoria hará una revisión de las técnicas estudiadas e implementadas de forma incremental. De esta forma, su contenido está dividido en 5 Etapas de Desarrollo. En la primera etapa se estudiarán herramientas y se evaluará cómo abordar el problema. En las siguientes etapas, el objetivo es obtener una demo funcional al final de cada una de ellas, que se irá enriqueciendo hasta conseguir el resultado final. 
 \\
 
-A lo largo de esta memoria podremos ver una progresión del proyecto, extendiendo sus funcinalidades y abordando problemas que requieren de la solución de los anteriores.
+A lo largo de esta memoria podremos ver una progresión del proyecto, extendiendo sus funcionalidades y abordando problemas que requieren de la solución de los anteriores.
 \\
 
-Finalmente, el lector podrá encontrar un apartado de conclusiones y una referencia a las posibles líneas de trabajo futuro que podrían ser interesantes y que podrían extender la continuidad del mismo.
+Finalmente, el lector podrá encontrar un apartado de conclusiones donde se hará un recorrido por los resultados del proyecto. También se hará referencia a las posibles líneas de trabajo futuro que podrían ser de interés y extender la continuidad del mismo.
 
 
 \chapter{Estado del arte}
 
-Sería bueno introducir la relación existente entre las expresiones artísticas y la informática, aunque no es el objetivo de este proyecto estudiar la historia del arte. 
+Como comentábamos en la introducción, este proyecto se centrará sobre todo en la parte técnica. Sin embargo, y aunque no es el objetivo de este proyecto estudiar la historia del arte, se considera interesante introducir la relación existente entre estas manifestaciones artísticas y la informática para entender el campo en el que se mueve este proyecto y su evolución; incluso más allá, como en la industria de la producción audiovisual y del entretenimiento. 
 \\
 
-La relación entre ambas sucede, como en todos los casos, desde su origen. Esto es así porque el arte no es sino una expresión de un individuo, de un momento, sociedad o época. Y como como manifestación de esa expresión puede estar presente en todos los aspectos de la vida, desde la pintura, la escultura, arquitectura, escritura, la ilustración, el cine, las líneas de código de un programa, un planto de comida o incluso un partido de fútbol. 
+La relación entre arte e informática sucede, como en todos los casos, desde su origen. El arte no es sino una expresión de un individuo, de un momento, sociedad o época. Y como manifestación de esa expresión puede estar presente en todos los aspectos de la vida, desde la pintura, la escultura, la arquitectura, la escritura, la ilustración, el cine, las líneas de código de un programa, un plato de comida o incluso un partido de fútbol. 
 \\
 
-En el caso de la Informática frente al Arte, y en concreto las Instalaciones, podríamos hablar de dos pilares: por un lado el concepto de transportar a un usuario a un entorno diferente, y por otro tecnológicas para la producción visual y sonora.
+En el caso de la unión entre la informática y el arte, y en concreto el caso de las instalaciones, destacan dos propósitos sobre las que suelen girar las propuestas que se realizan: por un lado, la intención de transportar a un individuo a un entorno diferente del real o de hacerle partícipe de una experiencia, por otro la mera exploración de las capacidades tecnológicas viéndolas como herramientas o instrumentos para la producción creativa. De esta forma, el discurso que se plantea tiene dos capas que se superponen: cómo envolver al usuario en una experiencia, y cómo explotar las capacidades tecnológicas para conseguirlo.
 \\
 
-De esta forma, en primer lugar podemos hablar del arte virtual. Aquí podemos destacar intentos de construir entornos que envuelven al individuo para que asemeje estar en otro lugar. Podemos hablar de las cuevas de Altamira o del Domus Aurea de Nerón \cite{OLIVERGRAU}, con su salón de banquetes giratorio gracias al agua de una cascada, o a los tejados de madreperla que dejaban caer pétalos y perfume sobre los invitados. Construcciones de este estilo existen a lo largo de la historia, especialmente ejemplos de casas paisaje, en cuyo interior, distribuídas incluso en varias plantas, se representaba un panorama completo y por el que el usuario se podía mover como si estuviera en un jardín o en el campo. La construcción del Panorama Rotunda de Robert Barker s.XIX \cite{BARKERXIX}, fue un gran ejemplo de esto, aunque este mismo concepto de cúpula lo tenemos bastante presente y podríamos considerar como su evolución el caso de los cines IMAX \cite{IMAXDOMET}.
+De esta forma, podemos hablar del arte virtual, y aquí podemos destacar intentos de construir entornos que envuelven al individuo para que crea o sienta estar en otro lugar, desde los orígenes de la humanidad, a lo largo de toda la historia. Retrocediendo en el tiempo, podemos hablar de los paisajes envolventes de las cuevas de Altamira o del Domus Aurea de Nerón \cite{OLIVERGRAU}, con su salón de banquetes giratorio gracias al agua de una cascada, o a los tejados de madreperla que dejaban caer pétalos y perfume sobre los invitados. Construcciones de este estilo existen a lo largo de todas las épocas, destacando sobre todo las casas paisaje, en cuyo interior, distribuídas incluso en varias plantas, se representaba un panorama completo y por el que el usuario se podía mover como si estuviera dentro de un jardín o en el campo. Algunas construcciones tenían un carácter más revolucionario y prometía trasnportarte a ciudades o parajes lejanos. La construcción del Panorama Rotunda de Robert Barker s.XIX \cite{BARKERXIX}, fue un gran ejemplo de esto, aunque este mismo concepto de cúpula lo tenemos bastante presente y podríamos considerar como su evolución el caso de los cines IMAX \cite{IMAXDOMET}.
 
 \begin{figure} [H]
 \begin{center}
@@ -192,7 +192,7 @@ De esta forma, en primer lugar podemos hablar del arte virtual. Aquí podemos des
 \end{figure}
 
 
-Pero sin duda, en relación a la informática las expresiones artísticas surgieron con mayor rapidez y expansión a partir de las capacidades que iban obteniendo los computadores para la representación gráfica. Desde este punto de vista caben destacar los experimentos de Ben F. Laposky y sus Abstracciones electrónicas, en la década de los 50. PAra conseguir los disñeos gráficos que peuden verse en la figura \ref{F_Oscillon_Laposky}, Laposky  " manipuló transmisiones electrónicas a través de la superficie fluorescente de un tubo de rayos catódicos de un osciloscopio (similar a un tubo de televisión) y entonces grabó los patrones abstractos usando película de alta velocidad, filtros de color, y lentes de cámara especiales" \cite{LAPOSKY}.
+Pero sin duda, en relación a la informática las expresiones artísticas surgieron con mayor rapidez y expansión a partir de las capacidades que iban obteniendo los computadores para la representación gráfica. Desde este punto de vista caben destacar los experimentos de Ben F. Laposky y sus Abstracciones electrónicas, en la década de los 50. Para conseguir los diseñes gráficos que pueden verse en la figura \ref{F_Oscillon_Laposky}, Laposky  " manipuló transmisiones electrónicas a través de la superficie fluorescente de un tubo de rayos catódicos de un osciloscopio (similar a un tubo de televisión) y entonces grabó los patrones abstractos usando película de alta velocidad, filtros de color, y lentes de cámara especiales" \cite{LAPOSKY}.
 
 \begin{figure} [H]
 \begin{center}
@@ -201,14 +201,14 @@ Pero sin duda, en relación a la informática las expresiones artísticas surgieron
 \caption{ \label{F_Oscillon_Laposky} Serie Oscillon de Ben F. Laposky \cite{LAPOSKY}}
 \end{figure}
 
-Sin embargo, aunque es posterior cronológicamente, interesaría destacar antes aproximaciones menos electrónicas, para entender mejor la evolución del arte cibernético. Veinte años después de las Abstracciones de Laposky, surge en plena década de los 70, el movimiento conocido como Vanguardia Tecnológica \cite{CASTROM09}.
+Sin embargo, aunque es posterior cronológicamente, interesaría destacar antes aproximaciones menos electrónicas, para entender mejor la evolución del arte cibernético. Veinte años después de las Abstracciones de Laposky, se considera que surge en plena década de los 70, el movimiento conocido como Vanguardia Tecnológica \cite{CASTROM09}. Aunque incluye personalidades y trabajos anteriores o posteriores, está asociada mayormente a este época.
 \\
 
-En este movimiento se agrupan diferentes corrientes artísticas que aplican un enfoce más material y técnico a las obras que crean, formulando esquemas, programas o usando objetos tecnológicos punteros de la época, aunque también cotidianos, para crear obras con ellos. Dentro de este movimiento de Vanguardia Tecnológica, es interesante mencionar las siguientes corrientes:
+En este movimiento se agrupan diferentes corrientes que aplican un enfoque más material y técnico a las obras que crean, formulando esquemas, programas o incluso usando objetos tecnológicos de vanguardia de la época, o cotidianos, como herramientas o piezas de las obras. Dentro de este movimiento de Vanguardia Tecnológica, nos interesa mencionar las siguientes corrientes:
 \\
 
 \begin{itemize}
-\item Arte óptico: Mezclando ilusión y pintura, se centra en la interpretación del lo que el ojo ve y lo que la retina y el cerebro interpretan. Dentro de este movimiento, se considera a Víctor Vasarely \cite{VASARELY} como el padre y máximo exponente de este movimiento artístico.
+\item Arte óptico: Mezclando ilusión y pintura, se centra en la interpretación de lo que el ojo ve y lo que la retina y el cerebro interpretan. Dentro de este movimiento, se considera a Víctor Vasarely \cite{VASARELY} como el padre y máximo exponente de este movimiento artístico.
 
 \begin{figure} [H]
 \begin{center}
@@ -218,7 +218,7 @@ En este movimiento se agrupan diferentes corrientes artísticas que aplican un en
 \end{figure}
 \vspace{10 mm}
 
-\item Arte cinético: Se trata de otra de la corrientes de la Vanguarda Tecnológica, donde comenzaron a incluirse objetos industriales o cotidianos en las propias obras y cuyo eje gira entorno a la movilidad o la sensación de movilidad de las mismas. Existe en todos los soportes, pero destaca especialmente en instalaciones y en escultura. Esta corriente fue muy prolífica y dentro de ella destacan artistas como Marcel Duchamp \cite{MDUCHAMP}, Alexander Calder \cite{ACALDER} o César Manrique \cite{CMANRIQUE}.
+\item Arte cinético: Se trata de otra de las corrientes de la Vanguarda Tecnológica, donde comenzaron a incluirse objetos industriales o cotidianos en las propias obras y cuyo eje gira entorno a la movilidad o la sensación de movilidad de las mismas. Existe en todos los soportes, pero destaca especialmente en la creación de instalaciones y en la escultura. Esta corriente fue muy prolífica y dentro de ella destacan artistas como Marcel Duchamp \cite{MDUCHAMP}, Alexander Calder \cite{ACALDER} o César Manrique \cite{CMANRIQUE}.
 
 \begin{figure} [H]
 \begin{center}
@@ -228,10 +228,13 @@ En este movimiento se agrupan diferentes corrientes artísticas que aplican un en
 \end{figure}
 
 
-\item Arte cibernético: En esta corriente se da gran importancia a los procesos cognitivos, en cualquiera de sus representaciones. Ya sea la forma en que cómo funciona la retina humana o los procesos automáticos para la interpretación o manipulación de la información con el fin de crear obras estéticas. En el origen de esta corriente destaca una gran importacia de las descripciones matemáticas formales, lingüisticas y el uso de sistemas computacionales. 
+\item Arte cibernético: En esta corriente se da gran importancia a los procesos cognitivos, en cualquiera de sus representaciones. Ya sea la forma en que funciona la retina humana o la exploración de procesos automáticos para la interpretación o manipulación de la información con el fin de crear obras estéticas. En el origen de esta corriente destaca una gran importacia de las descripciones matemáticas formales, lingüisticas y el uso de sistemas computacionales. 
 \\
 
-Dentro de este este apartado me gustaría hacer mención a Norvert Wiener quién acuñó el término cibernética, e igualmente me gustaría hacer mención a su cita " The nervous system and the automatic machine are fundamentally alike in that they are devices, which make decisions on the basis of decisions they made in the past." \cite{NWIENER}. Dentro de esta línea podríamos incluir a científicos, matemáticos o músicos, como a Ben F. Laposky con sus Abstracciones Electrónicas o Jhon Cage, uno de los primeros en usar computadores para la composición musical y en creación de dibujos interpretables como composiciones \cite{JCAGEMKN}. 
+Dentro de esta línea podríamos incluir a científicos, matemáticos o músicos, como a Ben F. Laposky con sus Abstracciones Electrónicas o Jhon Cage, uno de los primeros en usar computadores para la composición musical y en creación de dibujos interpretables como composiciones \cite{JCAGEMKN}. Aunque fuera de esta línea, me gustaría hacer mención a Norbert Wiener, quién acuñó el término cibernética, e igualmente me gustaría hacer mención a su cita " The nervous system and the automatic machine are fundamentally alike in that they are devices, which make decisions on the basis of decisions they made in the past." \cite{NWIENER}. 
+\\
+
+Norbert Wiener ha sido inspiración para muchos científicos y creadores. El arte cibernético no podría entenderse sin sus aportaciones.
 \vspace{35 mm}
 
 \begin{figure} [H]
@@ -257,11 +260,10 @@ Para acercarnos al final de este estudio, abordaremos el mundo de la demoscene y
 \caption{ \label{F_Demoscene} Demoscene: a la izquierda cdak de Quite and Orange \cite{CDAKQO}, a al derecha Chaos Theory del grupo Conspiracy \cite{CHAOSTC}, y debajo Ellectric Bullet de a n d r o m e d a \cite{EBANDROMEDA}}
 \end{figure}
 
-Como comentaba, no puede evitarse hacer una referencia a la Demoscene y sus demos \cite{DEMOSCENE}. La demo escena es un movimiento surgido en los años 70-80s, originada por crackers que querían dejar su firma. Este movimiento se centra en la representación de composiciones de audio y escenas gráficas llamativas, que cada vez más, intentaban explotar al máximo las capacidades de la máquina sobre la que trabajaban para crear expresiones gráficas impactantes. Hay que tener en cuenta que no se tratan de videos, sino de aplicaciones que se ejecutan en dichas máquinas, principalmente consolas o PCs, en tiempo real. En la figura \ref{F_Demoscene} pueden verse algunos ejemplos, aunque los estilos visuales varían mucho de una escena a otra.
+Como comentaba, no puede evitarse hacer una referencia a la Demoscene y sus demos \cite{DEMOSCENE}. La demo escena es un movimiento surgido en los años 70-80s, originada por crackers que querían dejar su firma. Este movimiento se centra en la representación de composiciones de audio y escenas gráficas llamativas, que con el tiempo evolucionaron para explotar, cada vez más, el máximo de las capacidades tecnológicas de la máquina sobre la que trabajaban, para crear expresiones gráficas impactantes. Hay que tener en cuenta que no se tratan de videos, sino de aplicaciones que se ejecutan en dichas máquinas, principalmente consolas o PCs, en tiempo real. En la figura \ref{F_Demoscene} pueden verse algunos ejemplos, aunque los estilos visuales varían mucho de una escena a otra.
 \\
 
-Llegados a este punto, estamos en el momento adecuado para acercanos a la corriente de instalaciones basadas en técnicas de computación. Hay que recordar que una instalación es un espacio que dialoga con la persona que se encutra dentro o a su alrededor. Este movimiento es muy extenso. También, como hemos podido ver, el uso de la tecnología y la creación artística siempre han estado vinculados. No por nada, arte, ciencia y tecnología han estaban profundamente vinculadas en el origen de las culturas. De esta forma, en la corriente artística de las instalaciones basadas en técnicas de computación, podríamos destacar a creadores y artistas como Ole Kristensen \cite{OKRISTENSEN}, Golan Levin  \cite{FLONG} o Frieder Weiss (Mortal Engine) entre muchos otros.
-\\
+Llegados a este punto, estamos en el momento adecuado para acercarnos a la corriente de las instalaciones basadas en técnicas de computación. Hay que recordar que una instalación es un espacio que dialoga con la persona que se encuentra dentro o a su alrededor. Destacan las que se centran en la producción visual, siendo en ocasiones meras herramientas preprogramadas o que funcionan bajo un control manual donde el individuo es mayormente un espectador, y, por otro lado, las que se alimentan de sensores para habilitar una interfaz humano-máquina no basada en la manipulación física de un periférico, donde el individuo cobra un rol de actor. 
 
 \begin{figure} [H]
 \begin{center}
@@ -270,8 +272,10 @@ Llegados a este punto, estamos en el momento adecuado para acercanos a la corrie
 \caption{ \label{F_Demoscene} Izquierda: Body Bavigation - Pong Duet de O. Kristensen\cite{OKRISTENSEN}, Derecha: Mesa di voce de G. Levin \cite{FLONG}, Inferior: Mortal Engine de F. Weiss \cite{FWEISS}}
 \end{figure}
 
+En la corriente artística de instalaciones basadas en técnicas de computación, y en especial de visión por computador, podemos destacar a creadores y artistas como Ole Kristensen \cite{OKRISTENSEN}, Golan Levin  \cite{FLONG} o Frieder Weiss entre muchos otros.
+\\
 
-Teniendo esto en cuenta, el proyecto que se presenta pretende ser dos cosas: Por un lado, una propuesta de instalación que conjugue elementos de Percepción y otros elementos de Inteligencia Articial, que presentará mediante un proyector, una vista de un entorno en el cual entrará el usuario. Una vez dentro, tanto su presencia como sus acciones irán definiendo el propio entorno creando una experiencia personalizada con la que podrá interactuar. Por otro lado, o mejor dicho, durante el camino, se creará una librería con la que será posible crear nuevas instalaciones o aplicaciones de este estilo. Se pretende que cada módulo de la misma sea completamente independiente de la implementación de las demás, mediante el uso de interfaces, para que de esta forma, sea sencillo hacer cambios o sustituir tecnologías. 
+Teniendo esto en cuenta, el proyecto que se presenta pretende ser dos cosas: Por un lado, una propuesta de instalación que conjugue elementos de Percepción y otros elementos de Inteligencia Artificial que presentará, mediante un proyector, una vista de un entorno en el que entrará el usuario. Una vez dentro, tanto su presencia como sus acciones irán definiendo el propio entorno creando una experiencia personalizada con la que podrá interactuar. Por otro lado, o mejor dicho, durante el camino, se creará una librería con la que será posible crear nuevas instalaciones o aplicaciones de este estilo. Para el desarrollo de esta librería se pretende que cada módulo de la misma sea completamente independiente de la implementación de los demás, mediante el uso de interfaces para que, de esta forma, sea sencillo hacer cambios o sustituir tecnologías. 
 \\
 
 Como cierre de esta sección, y dando un paso más allá de las instalaciones, me gustaría mencionar algunas convergencias de este campo con la creación de productos en la industria audiovisual y del entretenimineto. 
@@ -286,49 +290,65 @@ Como cierre de esta sección, y dando un paso más allá de las instalaciones, me g
 Esta combinación de interacción y producción visual y sonora proporciona un nicho muy interesante en el ámbito de la definición de interfaces hombre máquina, y sin duda en la producción de elementos artísticos. Empieza a ser frecuente ver algunos de estos ejemplos de uso tanto en el mundo de los videojuegos como en la producción audiovisual.
 \\
 
-Como puede verse en la figura \ref{F_Mizuguchi}, en el campo de los juegos, me gustaría destacar el caso de Tetsuya Mizuguchi\cite{TMIZUGICHI}, con el juego Child of Eden. Un título que como su antecesor, Rez, hace uso del concepto de sinestesia, mezclando los sentidos de vista y oído. En estos juegos, todas las acciones que hace el usuario reflejan una consecuencia visual y sonora. En el título, original Miziguchi hacía uso del mando de la consola, pero con la llegada de la consola XBox y el dispositivo Kinect, el creador hizo uso del reconocimiento postural para que el jugador pudiera interactuar con la escena usando su propio cuerpo y manos. 
+Como puede verse en la figura \ref{F_Mizuguchi}, en el campo de los juegos, me gustaría destacar el caso de Tetsuya Mizuguchi\cite{TMIZUGICHI}, con el juego Child of Eden. Un título que como su antecesor, Rez, hace uso del concepto de sinestesia, mezclando los sentidos de vista y oído. En estos juegos, todas las acciones que hace el usuario reflejan una consecuencia visual y sonora. En el título original, Mizuguchi hacía uso del mando de la consola, pero con la llegada de la consola XBox y el dispositivo Kinect, el creador hizo uso del reconocimiento postural para que el jugador pudiera interactuar con la escena usando su propio cuerpo y manos. 
 \\
 
-Otro caso interesante a modo de ilustración puede verse en video como 'Get Outta My Way' de Kylie Minogue, donde la cantante realiza su actuación dentro de una instalación realizada también por Frieder Weiss \cite{FWEISS} o Depeche Mode en 'Fragile Tension', video clip donde se usan técnicas de percepción para crear representaciones visuales de los cantantes, por Memo Akten \cite{MAKTEN}.
+Otro caso interesante a modo de ilustración puede verse en videos como 'Get Outta My Way' de Kylie Minogue, donde la cantante realiza su actuación dentro de una instalación realizada también por Frieder Weiss \cite{FWEISS} o Depeche Mode en 'Fragile Tension', video clip donde se usan técnicas de percepción para crear representaciones visuales de los integrantes de la banda, por Memo Akten \cite{MAKTEN}.
 
 \begin{figure} [H]
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/estadoarte_videoclips.png}
 \end{center}
-\caption{ \label{F_VideoClips} Arriba: videoclip Get Out My Way de la artista pop Kilie Minoge, instalación creada por F.Weiss \cite{FWEISS}, Debajo: videoclip Fragile Tension de la banda Depeche Mode, usando uno de los experimentos visuales de Memo Akten \cite{MAKTEN}.}
+\caption{ \label{F_VideoClips} Arriba: videoclip 'Get Out My Way' de la artista pop Kylie Minoge, instalación creada por F.Weiss \cite{FWEISS}, Debajo: videoclip 'Fragile Tension' de la banda Depeche Mode, usando varios de los experimentos visuales de Memo Akten \cite{MAKTEN}.}
 \end{figure}
 
 
 \chapter{Metodología}
 
-Las Metodologías de Desarrollo Ágiles son un marco de trabajo conceptual de la ingeniería del software que propone realizar iteraciones de las distintas fases a lo largo del desarrollo. Cada metodología introduce sus propias definiciones, pero en conjunto reflejan siguientes fases: Planificación, Análisis de Requerimientos, Diseño, Codificación, Revisión y Documentación. Una iteración no agrega demasiada funcionalidad en relación al producto final, pero permite tener una demo de la misma al final de cada iteración, momento en el que se evalúa de nuevo las prioridades del proyecto. Así se consigue un producto que podrá probarse desde las primeras semanas al que ir añadiendo funcionalidades \cite{RCol09}. 
+Las Metodologías de Desarrollo Ágiles son un marco de trabajo conceptual de la ingeniería del software. Surgen como antítesis de los paradigmas anteriores y proponen alternativas para conseguir plantear y ejecutar proyectos de forma más eficaz y satisfactoria, teniendo en cuenta realidades que, por su propia naturaleza, distinguen a la informática del resto de industrias. Teniendo esto en cuenta, un grupo de desarrolladores elaboran el Manifiesto por el Desarrollo Ágil del Software, donde plantean un cambio a la hora de valorar los elementos que entran en juego en el desarrollo de un proyecto. Como conclusión,  hacen especial incapié en los siguientes conceptos: la importancia de las interacciones entre las personas involucradas, la importancia de tener un producto funcional probable desde las primeras etapas de desarrollo y la capacidad de responder ante el cambio \cite{MANIFESTOA}.
+\\
+
+En cualquier caso, alrededor de este concepto surgen múltiples marcos de trabajo y metodologías, algunas que se alejan radicalmente de las propuestas anteriores y otras que se acercan proponiendo una síntesis entre los elementos clásicos del desarrollo y las ventajas que aporta esta nueva aproximación. En cualquier caso, todas parecen estar de acuerdo en realizar iteraciones sobre un producto, volviendo sobre las distintas fases a lo largo del desarrollo para conseguir, en cada iteración, un incremento del mismo hasta alcanzar el resultado final.
 \\
 
 La fortaleza del desarrollo ágil se centra en minimizar los riesgos desarrollando software en lapsos cortos y en su capacidad de respuesta al cambio, enfatizando el software funcional como objetivo y promoviendo las comunicaciones eficientes. \cite{KenB01}
 \\
 
-En nuestro caso concreto se ha decidido utilizar como metodología ágil el Proceso Unificado Esencial (Essential Unified Process - EssUP), creado por Invar Jacobson \cite{IJacobson09}. EssUp plantea un conjunto de nueve prácticas ligeras y compatibles, que pueden adoptarse de forma individual o combinadas según las necesidades de un proyecto en cuestión. Estas prácticas son: Definición de Casos de Uso, Definición de Iteración, Definición de Arquitectura, Definición de Componente, Definición de Modelo, Definición de Producto, Definición de Proceso, Definición de Equipo y Definición del Proceso Unificado.
+Cada metodología introduce sus propias definiciones. Para este proyecto se ha usado una combinación de la metodología planteada por Invar Jacobson, llamada EssUp (Proceso Unificado Esencial) \cite{IJacobson09} y la surgida posteriormente SCRUM Manager \cite{SCRUMMANAGER}, una variación de SCRUM sobre la que se ha realizado un curso de certificación y del que se aprovechan una serie de herramientas que pueden ayudar en el flujo de trabajo. 
+\\
 
-%\begin{itemize}
-%\item Definición de Casos de Uso
-%\item Definición de Iteración
-%\item Definición de Arquitectura
-%\item Definición de Componente
-%\item Definición de Modelo
-%\item Definición de Producto
-%\item Definición de Proceso
-%\item Definición de Equipo
-%\item Definición del Proceso Unificado
-%\end{itemize}
-
-Para el desarrollo de la aplicación se hará uso de los apartados necesarios en cada fase del proyecto. Invar Jacobson también ofrece software enfocado al seguimiento de estas tareas de forma gratuita. Estas herramientas son:
+Sumando estas metodologías y adaptándolas al caso que se presenta, definiremos un conjunto de fases: Planificación, Análisis de Requisitos, Diseño, Implementación y Validación. 
 
 \begin{itemize}
-\item EssWork: Herramienta para el desarrollo de software orientado a la práctica que combina tareas para un trabajo flexible, con coherencia y efectivo. 
+\item Planificación: Se trata de definir el alcance del proyecto y de estructurarlo, tanto en contenidos como temporalmente. En este caso se hará una excepción y se planteará una planificación inicial al comienzo de este proyecto. Para el día a día, se plantea la práctica de revisar la lista de tareas al comienzo y finalización de cada sesión de trabajo, para revisar lo completado y lo que ressta, así como el tiempo disponible. De esta forma se persigue mantener en mente una imagen de lo conseguido y del trabajo que queda por hacer, y permitirá reaccionar para adaptar el trabajo futuro y conseguir los objetivos propuestos manteniendo la planificación.
+\item Análisis de Requisitos: Se plantearán los casos de uso que se quieren añadir a la Demo que se está desarrollando. Se describirán a los actores y se mencionarán los procesos implicados.
+\item Diseño: Se describirá de forma más formal las entidades que entran en juego. Se hará uso de Diagramas UML para reflejar estas descripciones y se dará un paso más en su definición.
+\item Implementación: Esta fase es la principal y cubre el desarrollo de las nuevas funcionalidades y cuyo resultado será código que aportará un incrmento de la librería y aplicación. En la memoria, esta etapa describirá en mayor detalle la solución adoptada para resovler el problema que se plantea, acompañando a las descripciones con fragmentos de código representativo.
+\item Validación: En este apartado se hará revisión del trabajo realizado durante esta etapa y su integración con el resto del proyecto. Su objetivo es probar y validar que se consiguen los resultados deseados y que la demo está lo suficientemente cerrada para dar el siguiente paso. Igualmente se comentan y se listan los problemas más destacados o que hayan quedado pendientes para resolver en la siguiente en etapa.
+\end{itemize}
+
+En cualquier caso, hay que tener en cuenta que a la hora de ejecutar una iteración de este ciclo de desarrollo, puede visitarse cualquiera de las fases en todo momento, si esto es necesario. Es decir, se podrá ajustar el diseño durante la implementación, e igualmente se deberá testear y validar el código añadido mientra se desarrolla, no únicamente al final. 
+\\
+
+Como se verá en el Capítulo \ref{C_PlanTrabajo}, y que puede consultarse en la página \pageref{C_PlanTrabajo}, se plantean cinco bloques de trabajo que actuarán como hitos del progreso del proyecto, añadiendo cada vez funcionalidades más avanzadas que dependen de las anteriores. Además, salvo el caso inicial que se centrará en el estudio y búsqueda de herramientas, en el resto de etapas se dará especial importancia a construir una demo funcional al final de cada de ellas. Al final de cada iteración se evaluarán las prioridades del proyecto y planteará el nuevo bloque de trabajo. Con esta metodología se quiere conseguir un producto que podrá probarse desde las primeras semanas, que poco a poco irá creciendo hasta completarse \cite{RCol09}. Esta línea de trabajo refleja la propia naturaleza de los proyectos de desarrollo software donde, con frecuencia, las condiciones sobre los requisitos pueden variar a lo largo de un desarrollo.
+\\
+
+Invar Jacobson también ofrece software para el desarrollo de proyectos. De ellas se usará:
+
+\begin{itemize}
 \item Essential Modeler: Herramienta visual que permite crear diagramas de casos de uso UML y modelos de clases.
 \end{itemize}
 
-Finalmente, para el caso del Diseño de la Base de Datos cabe destacar que se usará el modelo de Diagramas de Entidad-Interrelación, que se continuará con un proceso de transformación mediante Diseño Relacional para obtener finalmente la Base de Datos.
+Para la planificación y seguimiento del proyecto se hará uso de la herramienta online Project Manager vista durante la asignatura de Proyectos Informáticos. Sin embargo, más adelante, durante la Etapa5 se hará uso de la herramienta MOOVIA \cite{MOOVIA}, una herramienta online gratuita orientada a proyectos ágiles. Esta herramienta permite la gestión de componentes, etapas de desarrollo y lista de tareas, cuyo estado puede ser modificado transportándolas entre las siguientes etapas:
+
+\begin{itemize}
+\item Por hacer: Tareas que deben realizarse y que no se han comenzado.
+\item En progreso: Tareas en las se está trabajando actualmente.
+\item Entregadas: Tareas realizadas pero que no se consideran cerradas hasta que sea validadas.
+\item Completadas: Tareas que ya se consideran completamente terminadas.
+\end{itemize}
+
+Para cada etapa, el objetivo consistirá en llevar todas las tareas del estado 'Por hacer' a 'Completadas'.
 
 \chapter{Recursos necesarios}
  Se detallan los recursos hardware, software u otros necesarios para el desarrollo del proyecto, incluyendo desde las aplicaciones necesarias así como librerías a utilizar y requerimientos hardware.
@@ -399,7 +419,7 @@ Finalmente, para el caso del Diseño de la Base de Datos cabe destacar que se usa
 \end{itemize}
 
 
-\chapter{Plan de trabajo y temporización}
+\chapter{Plan de trabajo y temporización}\label{C_PlanTrabajo}
 A continuación se muestra el plan de trabajo para el presente proyecto desglosado en etapas, con una estimación en cada etapa del tiempo de ejecución. Siguiendo un proceso iterativo, donde se construirán versiones cada vez más completas, se definen las siguientes cinco etapas:
 
 \begin{itemize}
@@ -3840,9 +3860,9 @@ Interacción basada en comportamiento: Las acciones del usuario provocarán efecto
 \end{figure}
 
 
-\subsection{Selección de Herramientas}
+\subsection{Selección de Herramientas}\label{Etapa5Herramientas}
 
-Un cambio de interés ha sido el de la herramienta de gestión de proyectos. Para esta fase final se ha utilizado la herramienta MOOVIA. MOOVIA es una red social y gestor de proyectos ágiles online que permite la gestión colaborativa de proyectos, muy integrada con el uso de documentos compartidos de Google Drive. Permite crear componentes, etapas, fases o sprints de desarrollo, y crear listas de tareas que planificar y sobre las que realizar su seguimiento. Tiene un acercamiento importante a las metodologías de desarrollo ágiles ofreciendo interfaces de tipo kanban donde ver el estado actual de una tarea (ToDo, Doing, Issue, Done), así como diagramas de BurnDown (gráfica de quemado de trabajo que muestra el trabajo pendiente por realizar) o diagramas de Gantt basados en las etapas.
+Un cambio de interés ha sido el de la herramienta de gestión de proyectos. Para esta fase final se ha utilizado la herramienta MOOVIA \cite{MOOVIA}. MOOVIA es una red social y gestor de proyectos ágiles online que permite la gestión colaborativa de proyectos, muy integrada con el uso de documentos compartidos de Google Drive. Permite crear componentes, etapas, fases o sprints de desarrollo, y crear listas de tareas que planificar y sobre las que realizar su seguimiento. Tiene un acercamiento importante a las metodologías de desarrollo ágiles ofreciendo interfaces de tipo kanban donde ver el estado actual de una tarea (ToDo, Doing, Issue, Done), así como diagramas de BurnDown (gráfica de quemado de trabajo que muestra el trabajo pendiente por realizar) o diagramas de Gantt basados en las etapas.
 \\
 
 Como se ha usado sólo en la etapa final del proyecto, su uso se ha centrado en la manipulación de tareas. En cualquier caso se trata de una herramienta muy potente y flexible, por lo que su uso es muy recomendado.
@@ -5246,7 +5266,7 @@ El propósito de esta acción es:
 Ha llegado el momento de echar un vistazo atrás y ver el trabajo realizado.
 \\
 
-La creación de este proyecto me ha dado la oportunidad de explorar y aprender conceptos y técnicas que no quería dejar pasar y que para mí representan el eje central de mi pasión por la informática: la resolución de problemas complejos buscando soluciones creativas; uniendo, además, dos campos que son el motor de mi vida, Ciencia y Arte. Es de esta forma como deseaba dar el cierre a esta etapa de formación académica como Ingeniero Informático, estudiando problemas complejos, evaluando herramientas y construyendo una solución.
+La creación de este proyecto ha dado la oportunidad de explorar y aprender conceptos y técnicas que no quería dejar pasar y que para mí representan el eje central de mi pasión por la informática: la resolución de problemas complejos buscando soluciones creativas. Uniendo, además, dos campos que son el motor de mi vida, Ciencia y Arte. Es de esta forma como deseaba dar el cierre a esta etapa de formación académica como Ingeniero Informático, estudiando problemas complejos, evaluando herramientas y construyendo una solución.
 \\
 
 Puedo decir que el desarrollo de este trabajo ha tenido un gran impacto en la calidad del trabajo que realizo y que me ha aportado la capacidad de desarrollar herramientas de gran valor tanto a nivel personal como profesional.
@@ -5255,26 +5275,37 @@ Puedo decir que el desarrollo de este trabajo ha tenido un gran impacto en la ca
 A modo de resumen se listan algunos de los hitos más representativos:
 
 \begin{itemize}
-\item Se ha creado un kit de desarrollo software con el que se pueden crear instalaciones artísticas basadas en técnicas de percepción e incluir componentes de vida artifial, con el que además de ha creado una propuesta de instalación a modo de ejemplo.
-\item Este kit se ha desarrollado de forma que la implementación de sus componentes es desconocida para el resto de componentes, que se comunican mediante una interfaz que otorga independencia y la capacidad de, llegado el momento en el que se desee, cambiar la tecnología con la que ha implementado uno de ellos, sin que afecte a los demás.
-\item Como resultado tenemos siete proyectos. Uno principal que genera un ejecutable, y otros seis que aportan interfaces o generan librerías que pueden ser consumidas por terceros, en este caso, la aplicación principal.
-\item Al comienzo de este proyecto era extraño ver computadores de más de dos núcleos, pero era evidente que la tendencia indicaría que tenderían a popularizarse. Ésta era una de las capacidades que más querían explotarse. Hasta el momento no había desarrollado aplicaciones que explotaran, en esta medida, esta capacidad. A modo de anécdota, una de las primeras sorpresas fue ver que preparar una aplicación como multihilo no implicaba que se usaran todas las CPUs, por defecto todos los hilos creados se ejecutaban en la misma CPU física. 
-\item Tanto el kit como la aplicación pretende explotar en la medida de lo posible la concurrencia de procesos. La cantidad de hilos en ejecución dependerá del número de componentes activos. A modo de ejemplo, cada detector sobre cada fuente, es ejecutado y procesado en un hilo independiente. A modo ilustrativo durante una ejecución podemos tener entre alrededor de 20 hilos de ejecución en paralelo.
-\item Aunque se han acortado las intenciones iniciales, se ha podido estudiar diferentes técnicas de percepción y los conceptos sobre los que se basan: sustracción de fondo, detectores de presencia, entrenamiento de clasificadores, uso de detectores y reconocedores, cálculo de información enriquecida a partir de una imagen.
-\item Aunque es un campo en el que me habría gustado profundizar más, ha sido muy interesante evaluar y desarrollar un plantemiento sobre la composición de contenidos usando elementos gráficos y musicales.
+\item Se ha creado un kit de desarrollo software con el que se pueden crear instalaciones artísticas basadas en técnicas de percepción e incluir componentes de vida artifial, con el que además se ha creado una propuesta de instalación a modo de ejemplo.
+
+\item Este kit se ha desarrollado de forma que la implementación de sus componentes es desconocida para el resto de componentes, que se comunican mediante una interfaz que otorga independencia y la capacidad de, llegado el momento, cambiar la tecnología con la que ha implementado uno de ellos, sin que afecte a los demás.
+
+\item Como resultado tenemos siete proyectos. Uno principal que genera un ejecutable, y otros seis que aportan interfaces o generan librerías que pueden ser consumidas entre sí o por terceros, por ejemplo, la aplicación principal.
+
+\item Al comienzo de este proyecto era extraño ver computadores de más de dos núcleos, pero era evidente que la tendencia indicaría que tenderían a popularizarse. Ésta era una de las capacidades que más querían explotarse. Hasta el momento no había desarrollado aplicaciones que explotaran, en esta medida, esta capacidad. A modo de anécdota, una de las primeras sorpresas fue ver que preparar una aplicación como multihilo no implicaba que se usaran todas las CPUs físicas, por defecto todos los hilos creados se ejecutaban en la misma CPU física. 
+
+\item Tanto el kit como la aplicación pretende explotar en la medida de lo posible la concurrencia de procesos. La cantidad de hilos en ejecución dependerá del número de componentes activos. A modo de ejemplo, cada detector sobre cada fuente, es ejecutado y procesado en un hilo independiente. A modo ilustrativo, durante una ejecución podemos tener alrededor de 20 hilos de ejecución en paralelo.
+
+\item Aunque se han acortado las intenciones iniciales, se ha podido estudiar diferentes técnicas de proceso de imagen y visión por computador y los conceptos sobre los que se basan: sustracción de fondo, entrenamiento y uso de clasificadores, detectores y reconocedores, cálculo de información enriquecida a partir de una imagen como centro de masas, área, orientación o excentricidad, etc.
+
+\item Aunque es un campo en el que me habría gustado profundizar más, ha sido muy interesante evaluar y desarrollar un plantemiento sobre la composición de contenidos, usando elementos gráficos y musicales.
+
 \item Otro de los apartados que ha resultado de gran interés ha sido la búsqueda, análisis y estudio de herramientas, siendo un elemento curioso ver cómo algunas de esas herramientas han comenzando a popularizarse recientemente. Otras en cambio, que parecían estar a la vanguardia, han caído o empeorado de forma notable.
-\item Sin duda, una de las tareas que más he disfrutado ha sido analizar los problemas e idear soluciones, aspecto que personal y profesionalmente me resulta especialmente atractivo en la informática.
-\item Otro punto que me gustaría resaltar es la ausencia de dispositivos con capacidad de ser usados de forma abierta por desarrolladores como la Kinect de Microsoft, conocido primero como Project Natal \cite{KINECT09} para el momento de este desarrollo. La Kinect fue anunciada por primera vez en 2009 y comenzó a poder usarse en PCs oficialmente en 2011. Cuando fue anunciada en el proyecto ya se había desarrollado por completo todo el módulo de percepción (salvo los añadidos de la Etapa 5). De todas formas, OpenCV ha sido igualmente interesante e instructivo, y en cualquier caso sería muy interesante como trabajo futuro evaluar la capacidades de la Kinect para sustituir el actual módulo de percepción por una reimplementación que la utilice.
-\item Una de las mayores dificultades ha sido la integración de tecnologías muy diferentes, especialmente cuando hacían uso de librerías de sistema o de terceros que eran incompatibles. En algunas ocasiones se han hecho correcciones y modificaciones en esas mismas librerías, algunas enviadas y admitidas en revisión.
-\item Otro punto a mencionar es sobre la planificación y seguimiento del proyecto. Antes de comenzar a trabajar en este proyecto ya llevaba varios años trabajando. Con poca experiencia, pero con una dedicación completa. De esta forma, se inició una planificación de dos años usando exclusivamente los tiempos libres. Esta planificación consiguió cumplirse y mantenerse correctamente, haciendo ajustes necesarios durante su ejecución pero manteniéndose razonablemente en plazos. Sin embargo, por motivos personales y profesionales el proyecto ha sufrido una pausa importante en su etapa final. Al retomar el trabajo, se volvió a planificar para completar el desarrollo de esta última etapa en tres meses, y así se ha hecho. 
-\item Este proyecto se entrega bajo licencia Creative Commons BY 1.0 \cite{CCBY10}. No pretende ser una solución universal y, sin duda, puede ser mejorada y extendida. Sin embargo, se tiene el convencimiento de haber creado una librería lo bastante completa y flexible que puede ser una base interesante para otros desarrolladores que quieran crear sus propias instalaciones, teniendo una gran parte de trabajo realizado, y pudiéndose centrar más en la parte creativa. Para ello, el proyecto ha sido subido en Github y puede accederse desde esta url: https://github.com/Adrasl/OX/ - Hay que tener en cuenta, que por motivos de espacio y guía de uso de Github, no se han subido las librerías precompiladas de las librerías de terceros. En el anexo de esta memoria se detallen qué librerías se han usado y las referencias oficiales a las instrucciones para su compilación.
+
+\item Sin duda, una de las tareas que más he disfrutado ha sido analizar los problemas e idear soluciones, aspecto que me resulta especialmente atractivo en la informática.
+
+\item Otro punto que me gustaría resaltar es la ausencia de dispositivos con capacidad de ser usados de forma abierta por desarrolladores como la actual Kinect de Microsoft, conocida primero como Project Natal \cite{KINECT09}, para el momento de este desarrollo. La Kinect fue anunciada por primera vez en 2009 y comenzó a poder usarse en PCs oficialmente en 2011. Cuando fue anunciada, en el proyecto ya se había desarrollado por completo todo el módulo de percepción (salvo los añadidos de la Etapa 5). De todas formas, OpenCV ha sido igualmente interesante e instructivo. En cualquier caso, sería  interesante como trabajo futuro evaluar la capacidades de la Kinect para sustituir el actual módulo de percepción por una reimplementación que la utilice.
+
+\item Una de las mayores dificultades ha sido la integración de tecnologías muy diferentes, especialmente cuando imponían restricciones o hacían uso de librerías de sistema o de terceros que eran incompatibles. En algunas ocasiones, se han hecho correcciones y modificaciones en esas mismas librerías, algunas enviadas y admitidas en revisión.
+
+\item Otro punto a mencionar es sobre la planificación y seguimiento del proyecto. Se ha realizado una planificación a largo plazo debido a que además de alumno, también me encontraba trabajando,con poca experiencia, pero con una dedicación completa. Debido a ello, se inició una planificación original de dos años usando exclusivamente los tiempos libres. Esta planificación consiguió cumplirse y mantenerse correctamente, haciendo ajustes necesarios durante su ejecución, pero manteniéndose razonablemente en plazos. Sin embargo, por motivos personales y profesionales el proyecto ha sufrido una pausa importante en su etapa final. Al retomar el trabajo, se volvió a planificar para completar el desarrollo de esta última etapa en tres meses, y así se ha hecho. 
+\item Este proyecto se entrega bajo licencia Creative Commons BY 1.0 \cite{CCBY10}. No pretende ser una solución universal y, sin duda, puede ser mejorada y extendida. Sin embargo, se tiene el convencimiento de haber creado una librería lo bastante completa y flexible que puede ser una base interesante para otros desarrolladores que quieran crear sus propias instalaciones, teniendo una gran parte de trabajo realizado, y pudiéndose centrar más en la parte creativa. Para ello, el proyecto ha sido subido en Github y puede accederse desde esta url: https://github.com/Adrasl/OX/ Hay que tener en cuenta, que por motivos de espacio y guía de uso de Github, no se han subido las librerías precompiladas de terceros. En el Apéndice B de esta memoria se detallan qué librerías se han usado y se pueden encontrar las referencias oficiales a las instrucciones para su compilación.
 \item Se ha creado una página web para dar una presencia pública y facilitar la visibilidad. Para ello se ha creado una página gratuita en WIX a partir de una plantilla simple que permita mostrar como elemento principal un video de presentación, algunas imágenes y enlaces. Se añaden algunos elementos de SEO pero por el momento no se plantea establecer un dominio propio ni eliminar la promoción propia de WIX. La página puede accederse desde la dirección https://garionsl.wix.com/projectOX/
 \item Para acompañar esta presentación se ha creado un video de demostración donde se graba una performance mostrando su uso durante una sesión. Puede encontrarse igualmente en la página web del proyecto en https://garionsl.wix.com/projectOX/
 \end{itemize}
 
 \chapter{Trabajo Futuro}
 
-Aunque se ha procurado ofrecer una librería lo más completa posible, no hay duda de que hay lugar para realizar muchas mejoras y para extender sus capacidades. Especialmente por ello se ha querido ofrecer la librería bajo la licencia Creative Commons BY 1.0 \cite{CCBY10}. En este apartado se hace una relación de las posibles líneas de trabajo futuro a partir del ya realizado.
+Aunque el trabajo ha sido bastante extenso y se ha procurado ofrecer una librería lo más completa posible, no hay duda de que hay lugar para realizar mejoras y para extender sus capacidades. Especialmente por ello, se ha querido ofrecer la librería bajo la licencia Creative Commons BY 1.0 \cite{CCBY10}. En este apartado se hace una relación de las posibles líneas de trabajo futuro que pueden resultar de interés, a partir del ya realizado.
 
 \begin{itemize}
 \item OX Instalación:
@@ -5521,6 +5552,8 @@ nmake -f makefile.vc DEBUG=0 DEBUG=1 PGSQL=1
 nmake -f makefile.vc DEBUG=0 DEBUG=1 PGSQL=1 install
 copiar directorio resultatnte en extern\_debea
 (REVISAR!!!!!)
+añadir al path extern,debea,vc\_release\_static
+añadir variable de entorno POSTGRESQL apuntando a donde estén lib y bin
 
 \subsection{DynDNS}\label{detallesImp:DynDNS}
 https://www.dyndns.com
@@ -6449,83 +6482,6 @@ void Application::DoMainLoopStuff(wxTimerEvent& event)
 IMPLEMENT_MIIAPP(Application)
 \end{lstlisting}
 
-\chapter[Redacción de Proyectos]{Comentarios Generales sobre la redacción de los proyectos}
-
-
-Por donde se empieza? Habitualmente se empieza a redactar en orden inverso al que se lee el documento, primero 
-se puede empezar a rellenar la bibliografía utilizada que se irá completando según avance el proyecto. A continuación, 
-a partir de un esqueleto inicial del proyecto, que puede estar redactado, manuscrito, o simplemente en la cabeza del estudiante, 
-se empieza a redactar las partes más concretas del proyecto, que tengamos más claras, y que sean lo más independiente posible 
-de la redacción de otras partes del proyecto. Por ejemplo, se puede empezar por anexos donde se resuma las características 
-de una herramienta que utilizamos, etc.., a continuación empezamos a redactar de manera individual los detalles de cada 
-una de las etapas en las que se constituye el proyecto, no tienen que redactarse ordenadas según aparecen en el texto, 
-sobre la elección sobre cual empezar, siempre primará que sea una parte que tengamos bien clara, y que hayamos delimitado 
-su contenido para que sea independiente de la redacción de las otras etapas. Como verán, según vayan avanzando en la 
-redacción, cada vez verán las cosas más claras, y de forma natural verán la forma de ir redactando las otras partes del 
-proyecto, hasta llegar a las secciones de introducción y conclusiones y resultados que son las más delicadas de desarrollar, 
-pues son las más importantes y las que previsiblemente se van a leer en mayor detalle las personas que lean el proyecto. 
-Una deficiente redacción de la introducción (que es donde se atrae al lector sobre la importancia de lo que se va a hacer) 
-o una mala presentación de las conclusiones y resultados (que es donde se transmite el mensaje de todo lo bueno que hay 
-en proyecto) pone en entredicho la calidad global del proyecto. Una buena estrategia consiste en según se van redactando 
-las diferentes secciones del proyecto, ir haciendo un borrador de las secciones de introducción y conclusiones y resultados, 
-poniendo las ideas sueltas, y en principio desordenadas, que nos vayan surgiendo  y que puedan ser de utilidad en la redacción 
-de estas secciones. Redactar bien tiene su dificultad y no todos los días tenemos la inspiración adecuada, para esos días 
-negros, que no nos viene nada a la cabeza, lo mejor es dedicarse a cosas más mecánicas que no requieren tanta concentración, 
-como puede ser completar la bibliografía, ir haciendo un manual de usuario o un anexo técnico, etc..
-
-Cuando empezamos a redactar, siempre es necesario tener en cuenta algunos criterios básicos como son:
-
-1. Escribir de cada cosa su esencia. Que es lo que es realmente relevante en la sección que estoy redactando y esforzarme 
-en que ello quede claro
-
-2. Ponerse en el lugar del potencial lector. El orden y la forma en la redactamos no es sólo para que nosotros tengamos 
-claro lo que hacemos, es sobre todo para que una tercera persona que lea el texto lo pueda tener, si cabe, más claro 
-que nosotros. Para ello hay que respetar un orden lógico en la forma en que presentamos las cosas y no presuponer que 
-el lector conoce los entresijos de lo que estamos haciendo, hay que evitar dar saltos en el vacío, por ejemplo dando 
-por supuesto conocimientos que el lector no tiene o alterando el orden natural en que deben aparecer las cosas.
-
-Algunas ideas sueltas sacadas del libro "Como elaborar y presentar un trabajo escrito" cuyo autor es el profesor Santos Pérez:
-
-El proyecto fin de carrera es un trabajo personal en el que el estudiante debe demostrar que domina el tema, sabe organizarlo, 
-estructurarlo y elaborar en profundidad, y presentarlo en la forma normalizada de un trabajo técnico o científico. Es la 
-ocasión que tiene el estudiante de demostrar que sabe analizar un problema, sabe seleccionar la metodología y técnicas 
-apropiadas para reunir los datos, y alcanzar conclusiones razonables. Un proyecto de esta naturaleza permite la evaluación 
-de la capacidad del estudiante para aplicar su conocimiento a un tema concreto.
-
-El proyecto fin de carrera debe ser
-\begin{itemize}
-\item Proyecto Personal: debe ser un producto de la reflexión, investigación y esfuerzo del estudiante. Si se hace con 
- reflexión, con investigación y esfuerzo personal, el rendimiento que obtiene el estudiante es muy productivo y beneficioso para él y de una duración permanente.
-\item  Es un trabajo documentado: es decir, serio, científico, hay que sustentar las afirmaciones con datos comprobables 
- y lógicamente fundados.
-\item  Planificado: La elaboración de un proyecto fin de carrera es un proceso complicado. Un trabajo de esta naturaleza 
- requiere una planificación cuidadosa del tiempo: tiempo para investigar y documentarse, tiempo para reflexionar, 
- tiempo para corregir posibles desviaciones y finalmente tiempo para redactarlo y presentarlo de forma adecuada.
-\end{itemize}
-
-El esquema final de un proyecto fin de carrera debe llenar las siguientes características:
-
-\begin{itemize}
-\item Claridad: la claridad se consigue sobre todo con una nítida división y distribución del esquema. Y a su vez esta 
- claridad deriva también de la compresión en profundidad del material recogido.
-\item Convergencia hacia el objetivo: El secreto de la claridad está en saber ordenar las partes del trabajo hacia el 
- objetivo buscado; es decir, en lograr que cada punto del esquema nos vaya encaminando con naturalidad hacia la meta 
- enunciada en el título del trabajo.
-\item Coherencia: las distintas partes, puntos o párrafos deben estar trabados entre sí, concatenados, de forma que se 
- vayan preparando y completandose recíprocamente para conseguir el efectode que cada punto sea consecuencia del otro, 
- formando un todo orgánico y no una mera yuxtaposición de partes; por el contrario que se vaya mostrando la conexión 
- y la coherencia lógica de los distintos aspectos tratados
-\item Conformidad con el objetivo: La estructura del esquema final debe resaltar lo más importante y debe dejar en la 
- penumbra los accesorios.
-\item Elegancia: en la distribución del esquema, debe guardarse una cierta simetría y proporción. La elegancia no debe 
- subordinarse a la claridad y a la verdad; pero hay una elegancia no sólo formal, sino de concepción y elegancia 
- que contribuye significativamente a conseguir la armonía y transparencia en la transmisión del contenido principal 
- del tema. Conviene resaltar esta elegancia sobre todo ahora que nos encontramos en un mundo de zafiedad y donde se 
- hace gala del caos mental como norma de actuación.
-\item El descanso inteligente: Una vez que se ha acabado la primera redacción del proyecto se sugiere tomarse unos 
- días de descanso suficientes para que la cabeza descanse del tema. Con este descanso se adquiere perspectiva, 
- y aumenta la objetividad y sentido crítico del autor.
-\end{itemize}
 
 
 % Aqui va la Bibliografía utilizada por el proyecto.
@@ -6612,6 +6568,10 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 
 \bibitem{MAKTEN} Memo Akten http://www.memo.tv/
 
+\bibitem{MANIFESTOA} Manifiesto por el Desarrollo Ágil de Software http://agilemanifesto.org/iso/es/
+
+\bibitem{SCRUMMANAGER} Certificación Scrum Manager http://www.scrummanager.net/certificacion
+
 \bibitem{Chuck09} G. Wang, P. Cook et al. {\em Chuck, Strongly-timed, Concurrent, and On-the-fly Audio Programming Language} http://chuck.cs.princeton.edu/ 2009.
 
 \bibitem{DME09} Devmasters.net {\em 3D Engines Data Base} http://www.devmaster.net/engines/ 2009
@@ -6637,6 +6597,8 @@ El esquema final de un proyecto fin de carrera debe llenar las siguientes caract
 \bibitem{RCol09} R. Colusso {\em Desarrollo ágil de software} http://knol.google.com/k/desarrollo-ágil-de-software 2009
 
 \bibitem{IJacobson09} I. Jacobson {Introducing the Essential Unified Process} 2009
+
+\bibitem{MOOVIA} MOOVIA Social Collaboration https://site.moovia.com/
 
 \bibitem{BOOST10} D. Abrahams et al. {Boost C++ Liraries} http://www.boost.org/ 2010
 

@@ -272,6 +272,7 @@ void OXStandAloneEntity::OnUserCollisionCall(core::corePDU3D<double> collisionIn
 	{
 		float collision_strengh = pow(pow(collisionInfo.velocity.x, 2) + pow(collisionInfo.velocity.y, 2) + pow(collisionInfo.velocity.z, 2), 0.5);
 		bool the_user_is_good = collision_strengh < USER_HIT_THRESHOLD_STRENGHT;
+		cout << "USER COLLISION STRENGHT: " << collision_strengh << "\n";
 
 		{	boost::mutex::scoped_lock lock(m_mutex);
 

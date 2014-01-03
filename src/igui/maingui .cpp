@@ -231,6 +231,19 @@ void MainGui::GetWorldList(const std::string &user_name, std::vector<std::string
 		app->GetWorldList(user_name, names, permissions);
 }
 
+bool MainGui::GetAutoLogin()
+{
+	if (app != NULL)
+		return app->GetAutoLogin();
+	return false;
+}
+
+void MainGui::SetAutoLogin(const bool &value)
+{
+	if (app != NULL)
+		app->SetAutoLogin(value);
+}
+
 void MainGui::Calibrate()
 {
 	if (app != NULL)

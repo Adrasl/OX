@@ -37,6 +37,8 @@ namespace core
 			virtual core::IWorldPersistence* GetDefaultWorld()= 0;
 			virtual core::IEntityPersistence* GetAvatarEntity() = 0;
 			virtual void GetWorldList(const std::string &user_name, std::vector<std::string> &names, std::vector<int> &permissions)=0;
+			virtual bool GetAutoLogin() =0;
+			virtual void SetAutoLogin(const bool &value) =0;
 			//virtual bool RunWorld(const int &world_id) = 0;
 			virtual bool CloseSession() = 0;
 			virtual bool DeleteUser(const std::string &name) = 0;

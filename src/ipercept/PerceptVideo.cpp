@@ -2149,7 +2149,8 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 						switch (iter->first)
 						{
 							case FRONT :
-							{	 x_candidate = (offset_x + x);
+							{	//std::cout << "------------------------------------VELOCITY = 0" << "\n"; 
+								x_candidate = (offset_x + x);
 								 z_candidate = (offset_y + -1*y);
 								 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter->first);
 								 if (iter_motionDetector != mapped_motion_detectors.end())

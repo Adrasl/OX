@@ -224,7 +224,7 @@ void RunningSceneController::Iterate()
 	{
 		// BLOCK 3: Creating the avatar
 		if (presence_volume.size() > 0) 
-		{
+		{	//std::cout << "---------------ENTERED BLOCK 3" << "\n";
 			double timestamp = (double)clock()/CLOCKS_PER_SEC;
 			void *graphic_node = production->CreateGraphicNode(presence_volume); 
 			double timestamp2 = (double)clock()/CLOCKS_PER_SEC;

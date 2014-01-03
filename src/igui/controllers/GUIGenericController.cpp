@@ -139,6 +139,19 @@ void GUIGenericController::GetWorldList(const std::string &user_name, std::vecto
 		main_gui->GetWorldList(user_name, names, permissions);
 }
 
+bool GUIGenericController::GetAutoLogin()
+{
+	if (main_gui != NULL)
+		return main_gui->GetAutoLogin();
+	return false;
+}
+
+void GUIGenericController::SetAutoLogin(const bool &value)
+{
+	if (main_gui != NULL)
+		main_gui->SetAutoLogin(value);
+}
+
 void GUIGenericController::ViewUserInfoPanel()
 {
 	if (main_gui != NULL)

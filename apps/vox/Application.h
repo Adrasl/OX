@@ -66,6 +66,8 @@ class Application : public wxApp, public core::IApplication
 		core::IEntityPersistence* GetAvatarEntity();
 		IUserDataModelController* GetUserDataModelControllerInstance();
 		void GetWorldList(const std::string &user_name, std::vector<std::string> &names, std::vector<int> &permissions);
+		bool GetAutoLogin();
+		void SetAutoLogin(const bool &value);
 		//bool RunWorld(const int &world_id);
 		bool CloseSession();
 		bool DeleteUser(const std::string &name);

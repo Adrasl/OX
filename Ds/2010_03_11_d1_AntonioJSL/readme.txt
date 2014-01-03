@@ -1,4 +1,0 @@
--Etapa 1: Acercamiento, Cerrada.
--Etapa 2: Primera Demo, Cerrada. 
--Pendiente actualizar el gráfico del diagrama de la planificación en la memoria. No se han cambiado ni las tareas ni la asignación de tiempo, pero sí se ha reordenaqdo el trabajo y definido mejor las etapas/iteraciones (aún son flexibles).
--Es necesario revisar apartados de la memoria para mejorar la redacción.

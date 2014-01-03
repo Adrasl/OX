@@ -2392,6 +2392,7 @@ void* MainProd::CreateGraphicNode(std::map< int, std::vector<corePDU3D<double>> 
 						//col_node.look_at(user_nodepath->get_pos());
 						if (SHOW_COLLISION) col_node.show();
 						avatar_collider_array[collision_solid] = (*iter2);
+						//std::cout << "USER COLLIDER VEL X: " << (*iter2).velocity.x << ", VEL Y: " << (*iter2).velocity.y << ", VEL Z: " << (*iter2).velocity.z << "\n";
 					}// a simpler capsule based set of colliders
 				}
 			}

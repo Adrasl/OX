@@ -34,11 +34,13 @@ MainPersistence::MainPersistence(IApplicationConfiguration *app_config_) : app(N
 
 		std::stringstream wop;
 		wop << "host=" << db_hostname << " port=" << db_port <<" dbname=" << db_name << " user=" << db_user << " password=" << db_passwd;
+		std::cout << "DATA BASE CONNECTION - " << wop.str() << "\n";
 		ar.setIdFetcher(new dba::GenericFetcher()); //for assigning id numbers. Using generic one that needs special SQL table debea_object_count. 
 		//unlink("voxDB"); 		                    //backend creates new empty database if there is no file
 		//ar.open("dbapgsql-static", "dbname=voxDB user=vox password=vox"); //load database plugin & open existing database //ar.initPlugin("dbapgsql-static");
 		unlink(db_name.c_str());
 		ar.open("dbapgsql-static", wop.str().c_str());
+
 
 
 		//dba float filter tests---------------------------------------

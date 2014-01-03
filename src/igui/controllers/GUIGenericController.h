@@ -27,6 +27,8 @@ namespace core
 				bool UserExists(const std::string &name);
 				core::IUserPersistence* GetCurrentUser();
 				void GetWorldList(const std::string &user_name, std::vector<std::string> &names, std::vector<int> &permissions);
+				bool GetAutoLogin();
+				void SetAutoLogin(const bool &value);
 				bool CreateWorld(const std::string &name, const std::string &owner, const int &permissions);				
 				bool RunWorld(const std::string &name);
 				bool WorldExists(const std::string &name);

@@ -59,7 +59,11 @@ void GUIStart::OnLoginButton(wxCommandEvent& WXUNUSED(event))
 }
 
 void GUIStart::OnAutoButton(wxCommandEvent& WXUNUSED(event))
-{
+{	GUIGenericController *guiGc	= GUIGenericController::GetInstance();
+	if (guiGc != NULL)
+	{	bool toggle_autologin = guiGc->GetAutoLogin();
+		guiGc->SetAutoLogin(!toggle_autologin);
+	}
 }
 
 void GUIStart::OnConfigureButton(wxCommandEvent& WXUNUSED(event))

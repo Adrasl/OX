@@ -345,9 +345,10 @@ void ContentCreationController::Update()
 {
 	if (!sesion_is_prepared)		//return;
 	{		boost::mutex::scoped_lock lock(m_mutex);
+			bool restart = current_user == NULL;
 			current_world = app->GetDefaultWorld();
 			current_user = app->GetDefaultUser();
-			RestartCurrentUserBackgroundAndFog();
+			if (restart) RestartCurrentUserBackgroundAndFog();
 	}
 
 	if (app_mainprod)
@@ -463,8 +464,8 @@ void ContentCreationController::Update()
 			energy = factor*((float)IA_Energy::EXITED);
 			accumulators_motion_CALMorEXITED(energy);
 			double median_energy = extract_result< tag::median >( accumulators_motion_CALMorEXITED );
-			cout << "CURRENT MOTION EL: " << n_motionElements << " ECC: " << 0.5*(main_eccentricity.x+main_eccentricity.y+main_eccentricity.z) << " DISP ECC: " << dispersion_eccentricity << "\n";
-			cout << "CURRENT ENERGY: " << energy << " MEDIAN: " << median_energy << "\n";
+			//cout << "CURRENT MOTION EL: " << n_motionElements << " ECC: " << 0.5*(main_eccentricity.x+main_eccentricity.y+main_eccentricity.z) << " DISP ECC: " << dispersion_eccentricity << "\n";
+			//cout << "CURRENT ENERGY: " << energy << " MEDIAN: " << median_energy << "\n";
 		}
 
 		//Interpolate Background color and fog
@@ -614,7 +615,8 @@ void ContentCreationController::EntityHadAGoodUserFeedback(core::IEntityPersiste
 		
 
 		if (was_good)
-		{	psique = (psique - CC_GOOD_STEP <= 0.0f) ? 0.0f : psique - CC_GOOD_STEP;
+		{	cout << "TOUCHED" << "\n";
+			psique = (psique - CC_GOOD_STEP <= 0.0f) ? 0.0f : psique - CC_GOOD_STEP;
 			i_am_being = IA_Karma::GOOD;		
 			accumulators_motion_GOODorEVIL((float)IA_Karma::GOOD);
 			if (!(recover_createswarm1_afterseconds - current_timestamp > 0))
@@ -622,7 +624,8 @@ void ContentCreationController::EntityHadAGoodUserFeedback(core::IEntityPersiste
 				recover_createswarm1_afterseconds = current_timestamp + CC_RECOVER_CREATESWARM1_TIME *0.5f;
 			}}
 		else
-		{	psique = (psique + CC_EVIL_STEP >= 2.0f) ? 2.0f : psique + CC_EVIL_STEP;
+		{	cout << "HIT" << "\n";
+			psique = (psique + CC_EVIL_STEP >= 2.0f) ? 2.0f : psique + CC_EVIL_STEP;
 			i_am_being = IA_Karma::EVIL;		
 			accumulators_motion_GOODorEVIL((float)IA_Karma::EVIL);
 			if (!(recover_createswarm2_afterseconds - current_timestamp > 0))

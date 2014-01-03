@@ -499,6 +499,19 @@ void Application::GetWorldList(const std::string &user_name, std::vector<std::st
 		app_mainpersistence->GetWorldList(user_name, names, permissions);
 }
 
+bool Application::GetAutoLogin()
+{
+	if (app_config != NULL)
+		return app_config->GetAutoLogin();
+	return false;
+}
+
+void Application::SetAutoLogin(const bool &value)
+{
+	if (app_config != NULL)
+		app_config->SetAutoLogin(value);
+}
+
 //bool Application::RunWorld(const std::string &world_id)
 //{
 //	if (session_controller != NULL) 

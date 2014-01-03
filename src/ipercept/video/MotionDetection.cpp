@@ -487,6 +487,7 @@ char * MotionDetection::GetCopyOfCurrentImageOpticalFlow(int &size_x, int &size_
 }
 corePoint3D<float> MotionDetection::GetMotionAtCoords(corePoint2D<int> coords)
 {
+	//std::cout << "+++++++++++++++++++++++ENTERED GetMotionAtCoords" << "\n";
 	corePoint3D<float> result;
 	result.y = result.x = result.z = 0.0;
 	if (velx && vely && velx_Mat && velx_Mat)
@@ -496,5 +497,6 @@ corePoint3D<float> MotionDetection::GetMotionAtCoords(corePoint2D<int> coords)
 		result.x = (int)cvGetReal2D( velx, coords.y, coords.x);
 		result.y = (int)cvGetReal2D( vely, coords.y, coords.x);
 	}
+	//std::cout << "MOTION AT COORDS X: " << result.x << ", VEL Y: " << result.y << ", VEL Z: " << result.z << "\n";
 	return result;
 }

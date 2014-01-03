@@ -2,177 +2,176 @@
 \contentsline {chapter}{\numberline {1}Introducci\'on}{7}
 \contentsline {chapter}{\numberline {2}Estado del arte}{9}
 \contentsline {chapter}{\numberline {3}Metodolog\IeC {\'\i }a}{17}
-\contentsline {chapter}{\numberline {4}Recursos necesarios}{19}
-\contentsline {subsection}{\numberline {4.0.1}Software}{19}
-\contentsline {subsection}{\numberline {4.0.2}Hardware}{20}
-\contentsline {chapter}{\numberline {5}Plan de trabajo y temporizaci\'on}{21}
-\contentsline {chapter}{\numberline {6}Etapa 1: Acercamiento}{23}
-\contentsline {section}{\numberline {6.1}An\'alisis}{23}
-\contentsline {subsection}{\numberline {6.1.1}Documentaci\'on y herramientas}{23}
-\contentsline {subsubsection}{UDK: Unreal Development Kit}{23}
-\contentsline {subsubsection}{CryENGINE 3 Educational SDK}{25}
-\contentsline {subsubsection}{Crystal Space}{25}
-\contentsline {subsubsection}{Ogre, Object-Oriented Graphics Rendering Engine}{26}
-\contentsline {subsubsection}{OSG: OpenSceneGraph}{26}
-\contentsline {subsubsection}{Irrlicht: Lightning Fast Realtime 3D Engine}{27}
-\contentsline {subsubsection}{Panda3D: Free 3D Game Engine}{28}
-\contentsline {subsubsection}{Doxygen: Source code documentation generator tool}{28}
-\contentsline {subsubsection}{Boost C++ Libraries }{29}
-\contentsline {subsubsection}{Qt: Cross-platform Application and UI Framework}{29}
-\contentsline {subsubsection}{wxWidgets: Cross-platform GUI Library}{29}
-\contentsline {subsubsection}{OpenCV: Open Source Computer Vision}{30}
-\contentsline {subsubsection}{Encara2:}{31}
-\contentsline {subsubsection}{Fmod: Music \& Sound Effects System}{31}
-\contentsline {subsubsection}{OpenAL: Cross-platform 3D Audio API}{31}
-\contentsline {subsubsection}{SDL\_Mixer: Simple DirectMedia Layer Mixer}{31}
-\contentsline {subsubsection}{Clunk: Open Source 3D-Sound library}{32}
-\contentsline {subsubsection}{Irrklang: High level 3D audio engine/API}{32}
-\contentsline {subsubsection}{SFML: Simple and Fast Multimedia Library}{32}
-\contentsline {subsubsection}{Chuck: Strongly-timed, Concurrent, and On-the-fly Audio Programming Language}{33}
-\contentsline {subsubsection}{Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals}{33}
-\contentsline {subsubsection}{PostgreSQL}{33}
-\contentsline {subsubsection}{OODBMS: Object Oriented Data Base Management Systems}{33}
-\contentsline {subsubsection}{Debea: Database Access Library}{34}
-\contentsline {subsection}{\numberline {6.1.2}An\'alisis de Requisitos de Usuario}{35}
-\contentsline {subsection}{\numberline {6.1.3}An\'alisis de Requisitos de Software}{38}
-\contentsline {section}{\numberline {6.2}Dise\~no}{38}
-\contentsline {subsection}{\numberline {6.2.1}Estructuraci\'on de conceptos}{38}
-\contentsline {subsubsection}{Aplicaci\'on}{38}
-\contentsline {subsubsection}{Usuario}{38}
-\contentsline {subsubsection}{Entorno}{39}
-\contentsline {subsubsection}{Resumen}{39}
-\contentsline {subsection}{\numberline {6.2.2}Dise\~no de la Aplicaci\'on}{40}
-\contentsline {chapter}{\numberline {7}Etapa 2: Aplicaci\'on principal, GUI, Percepci\'on y Producci\'on}{43}
-\contentsline {section}{\numberline {7.1}An\'alisis}{43}
-\contentsline {subsection}{\numberline {7.1.1}An\'alisis de Requisitos de Usuario}{43}
-\contentsline {subsection}{\numberline {7.1.2}Selecci\'on de Herramientas}{44}
-\contentsline {section}{\numberline {7.2}Dise\~no}{45}
-\contentsline {subsection}{\numberline {7.2.1}Dise\~no de la Aplicaci\'on}{45}
-\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{45}
-\contentsline {subsubsection}{Dise\~no General en UML}{46}
-\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{47}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{48}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{49}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{50}
-\contentsline {section}{\numberline {7.3}Implementaci\'on}{51}
-\contentsline {subsubsection}{N\'ucleo de la Interfaz}{52}
-\contentsline {subsubsection}{M\'odulo de GUI}{52}
-\contentsline {subsubsection}{M\'odulo de Percepci\'on}{55}
-\contentsline {subsubsection}{M\'odulo de Producci\'on}{58}
-\contentsline {subsubsection}{Aplicaci\'on Principal}{62}
-\contentsline {section}{\numberline {7.4}Validaci\'on y Publicidad}{64}
-\contentsline {subsection}{\numberline {7.4.1}Validaci\'on}{64}
-\contentsline {subsection}{\numberline {7.4.2}Publicidad}{66}
-\contentsline {chapter}{\numberline {8}Etapa 3: Usuario, Entorno, Configuraci\'on y Persistencia}{69}
-\contentsline {section}{\numberline {8.1}An\'alisis}{70}
-\contentsline {subsection}{\numberline {8.1.1}An\'alisis de Requisitos de Usuario}{70}
-\contentsline {subsection}{\numberline {8.1.2}Selecci\'on de Herramientas}{71}
-\contentsline {section}{\numberline {8.2}Dise\~no}{72}
-\contentsline {subsection}{\numberline {8.2.1}Dise\~no de la Aplicaci\'on}{72}
-\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{73}
-\contentsline {subsubsection}{Dise\~no General en UML}{74}
-\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{75}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Aplicaci\'on}{77}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Persistencia}{78}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{80}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{82}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{83}
-\contentsline {section}{\numberline {8.3}Implementaci\'on}{83}
-\contentsline {subsubsection}{N\'ucleo de la Interfaz}{84}
-\contentsline {subsubsection}{Aplicaci\'on Principal}{84}
-\contentsline {subsubsection}{M\'odulo de Persistencia}{85}
-\contentsline {subsubsection}{M\'odulo de GUI}{89}
-\contentsline {subsubsection}{M\'odulo de Producci\'on}{93}
-\contentsline {subsubsection}{M\'odulo de Percepci\'on}{95}
-\contentsline {section}{\numberline {8.4}Validaci\'on y Publicidad}{96}
-\contentsline {subsection}{\numberline {8.4.1}Validaci\'on}{96}
-\contentsline {chapter}{\numberline {9}Etapa 4: Detecci\'on, Navegaci\'on e Interacci\'on}{99}
-\contentsline {section}{\numberline {9.1}An\'alisis}{100}
-\contentsline {subsection}{\numberline {9.1.1}An\'alisis de Requisitos Hardware}{100}
-\contentsline {subsection}{\numberline {9.1.2}An\'alisis de Requisitos de Usuario}{101}
-\contentsline {subsection}{\numberline {9.1.3}Selecci\'on de Herramientas}{102}
-\contentsline {section}{\numberline {9.2}Dise\~no}{103}
-\contentsline {subsection}{\numberline {9.2.1}Dise\~no de la Aplicaci\'on}{103}
-\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{104}
-\contentsline {subsubsection}{Dise\~no General en UML}{105}
-\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{106}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Aplicaci\'on}{107}
-\contentsline {subsubsection}{M\'odulo de Persistencia}{108}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{109}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{110}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{111}
-\contentsline {section}{\numberline {9.3}Implementaci\'on}{113}
-\contentsline {subsubsection}{N\'ucleo de la Interfaz}{113}
-\contentsline {subsubsection}{M\'odulo de Aplicaci\'on}{119}
-\contentsline {subsubsection}{M\'odulo de Persistencia}{126}
-\contentsline {subsubsection}{M\'odulo de GUI}{126}
-\contentsline {subsubsection}{M\'odulo de Producci\'on}{131}
-\contentsline {subsubsection}{M\'odulo de Percepci\'on}{135}
-\contentsline {section}{\numberline {9.4}Validaci\'on y Publicidad}{158}
-\contentsline {subsection}{\numberline {9.4.1}Validaci\'on}{158}
-\contentsline {subsection}{\numberline {9.4.2}Publicidad}{159}
-\contentsline {chapter}{\numberline {10}Etapa 5: Interacci\'on Avanzada y Creaci\'on de Contenidos}{161}
-\contentsline {section}{\numberline {10.1}Consideraciones Previas}{162}
-\contentsline {section}{\numberline {10.2}An\'alisis}{162}
-\contentsline {subsection}{\numberline {10.2.1}An\'alisis de Requisitos Hardware}{162}
-\contentsline {subsection}{\numberline {10.2.2}An\'alisis de Requisitos de Usuario}{163}
-\contentsline {subsection}{\numberline {10.2.3}Selecci\'on de Herramientas}{164}
-\contentsline {section}{\numberline {10.3}Dise\~no}{166}
-\contentsline {subsection}{\numberline {10.3.1}Dise\~no de la Aplicaci\'on}{166}
-\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{168}
-\contentsline {subsubsection}{Dise\~no en UML - Resumen}{170}
-\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{171}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Persistencia}{172}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{174}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Aplicaci\'on}{175}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{177}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{178}
-\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Inteligencia Artificial}{180}
-\contentsline {section}{\numberline {10.4}Implementaci\'on}{181}
-\contentsline {subsubsection}{N\'ucleo de la Interfaz}{181}
-\contentsline {subsubsection}{M\'odulo de Persistencia}{184}
-\contentsline {subsubsection}{M\'odulo de GUI}{185}
-\contentsline {subsubsection}{M\'odulo de Percepci\'on}{186}
-\contentsline {subsubsection}{M\'odulo de Producci\'on}{195}
-\contentsline {subsubsection}{M\'odulo de Inteligencia Artificial}{204}
-\contentsline {subsubsection}{M\'odulo de Aplicaci\'on}{207}
-\contentsline {section}{\numberline {10.5}Validaci\'on y Publicidad}{216}
-\contentsline {subsection}{\numberline {10.5.1}Validaci\'on}{216}
-\contentsline {subsection}{\numberline {10.5.2}Publicidad}{217}
-\contentsline {chapter}{\numberline {11}Resultados y conclusiones}{219}
-\contentsline {chapter}{\numberline {12}Trabajo Futuro}{223}
-\contentsline {chapter}{\numberline {A}Manuales de usuario}{225}
-\contentsline {chapter}{\numberline {B}Detalles Implementaci\'on}{227}
-\contentsline {section}{\numberline {B.1}Incompatibilidades}{227}
-\contentsline {subsection}{\numberline {B.1.1}winsock}{227}
-\contentsline {subsection}{\numberline {B.1.2}CLR}{228}
-\contentsline {subsection}{\numberline {B.1.3}NDEBUG}{228}
-\contentsline {section}{\numberline {B.2}Third Parties}{228}
-\contentsline {subsection}{\numberline {B.2.1}wxWidgets}{228}
-\contentsline {subsection}{\numberline {B.2.2}Boost}{228}
-\contentsline {subsection}{\numberline {B.2.3}SFML}{228}
-\contentsline {subsection}{\numberline {B.2.4}OpenCV, Open Source Computer Vision}{230}
-\contentsline {subsection}{\numberline {B.2.5}Panda3D}{231}
-\contentsline {subsection}{\numberline {B.2.6}PostgreSQL}{231}
-\contentsline {subsection}{\numberline {B.2.7}Debea}{231}
-\contentsline {subsection}{\numberline {B.2.8}DynDNS}{232}
-\contentsline {subsection}{\numberline {B.2.9}VisualSVN}{232}
-\contentsline {subsection}{\numberline {B.2.10}Tortoise SVN}{232}
-\contentsline {section}{\numberline {B.3}Interfaces core}{232}
-\contentsline {subsection}{\numberline {B.3.1}IApplicationConfiguration}{233}
-\contentsline {section}{\numberline {B.4}M\'odulo de GUI}{234}
-\contentsline {subsection}{\numberline {B.4.1}MainGui}{235}
-\contentsline {subsection}{\numberline {B.4.2}MainFrame}{236}
-\contentsline {subsection}{\numberline {B.4.3}GUIStart}{236}
-\contentsline {subsection}{\numberline {B.4.4}GUIHelp}{237}
-\contentsline {section}{\numberline {B.5}M\'odulo de Percepci\'on}{237}
-\contentsline {subsection}{\numberline {B.5.1}MainPercept}{238}
-\contentsline {subsection}{\numberline {B.5.2}PerceptAudio}{239}
-\contentsline {subsection}{\numberline {B.5.3}PerceptVideo}{241}
-\contentsline {section}{\numberline {B.6}M\'odulo de Producci\'on}{243}
-\contentsline {subsection}{\numberline {B.6.1}Prod3dWindow}{244}
-\contentsline {subsection}{\numberline {B.6.2}MainProd}{245}
-\contentsline {section}{\numberline {B.7}Aplicaci\'on Principal}{250}
-\contentsline {subsection}{\numberline {B.7.1}Application}{252}
-\contentsline {subsection}{\numberline {B.7.2}main}{253}
-\contentsline {chapter}{\numberline {C}Redacci\'on de Proyectos}{255}
+\contentsline {chapter}{\numberline {4}Recursos necesarios}{21}
+\contentsline {subsection}{\numberline {4.0.1}Software}{21}
+\contentsline {subsection}{\numberline {4.0.2}Hardware}{22}
+\contentsline {chapter}{\numberline {5}Plan de trabajo y temporizaci\'on}{23}
+\contentsline {chapter}{\numberline {6}Etapa 1: Acercamiento}{25}
+\contentsline {section}{\numberline {6.1}An\'alisis}{25}
+\contentsline {subsection}{\numberline {6.1.1}Documentaci\'on y herramientas}{25}
+\contentsline {subsubsection}{UDK: Unreal Development Kit}{25}
+\contentsline {subsubsection}{CryENGINE 3 Educational SDK}{27}
+\contentsline {subsubsection}{Crystal Space}{27}
+\contentsline {subsubsection}{Ogre, Object-Oriented Graphics Rendering Engine}{28}
+\contentsline {subsubsection}{OSG: OpenSceneGraph}{28}
+\contentsline {subsubsection}{Irrlicht: Lightning Fast Realtime 3D Engine}{29}
+\contentsline {subsubsection}{Panda3D: Free 3D Game Engine}{30}
+\contentsline {subsubsection}{Doxygen: Source code documentation generator tool}{30}
+\contentsline {subsubsection}{Boost C++ Libraries }{31}
+\contentsline {subsubsection}{Qt: Cross-platform Application and UI Framework}{31}
+\contentsline {subsubsection}{wxWidgets: Cross-platform GUI Library}{31}
+\contentsline {subsubsection}{OpenCV: Open Source Computer Vision}{32}
+\contentsline {subsubsection}{Encara2:}{33}
+\contentsline {subsubsection}{Fmod: Music \& Sound Effects System}{33}
+\contentsline {subsubsection}{OpenAL: Cross-platform 3D Audio API}{33}
+\contentsline {subsubsection}{SDL\_Mixer: Simple DirectMedia Layer Mixer}{33}
+\contentsline {subsubsection}{Clunk: Open Source 3D-Sound library}{34}
+\contentsline {subsubsection}{Irrklang: High level 3D audio engine/API}{34}
+\contentsline {subsubsection}{SFML: Simple and Fast Multimedia Library}{34}
+\contentsline {subsubsection}{Chuck: Strongly-timed, Concurrent, and On-the-fly Audio Programming Language}{35}
+\contentsline {subsubsection}{Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals}{35}
+\contentsline {subsubsection}{PostgreSQL}{35}
+\contentsline {subsubsection}{OODBMS: Object Oriented Data Base Management Systems}{35}
+\contentsline {subsubsection}{Debea: Database Access Library}{36}
+\contentsline {subsection}{\numberline {6.1.2}An\'alisis de Requisitos de Usuario}{37}
+\contentsline {subsection}{\numberline {6.1.3}An\'alisis de Requisitos de Software}{40}
+\contentsline {section}{\numberline {6.2}Dise\~no}{40}
+\contentsline {subsection}{\numberline {6.2.1}Estructuraci\'on de conceptos}{40}
+\contentsline {subsubsection}{Aplicaci\'on}{40}
+\contentsline {subsubsection}{Usuario}{40}
+\contentsline {subsubsection}{Entorno}{41}
+\contentsline {subsubsection}{Resumen}{41}
+\contentsline {subsection}{\numberline {6.2.2}Dise\~no de la Aplicaci\'on}{42}
+\contentsline {chapter}{\numberline {7}Etapa 2: Aplicaci\'on principal, GUI, Percepci\'on y Producci\'on}{45}
+\contentsline {section}{\numberline {7.1}An\'alisis}{45}
+\contentsline {subsection}{\numberline {7.1.1}An\'alisis de Requisitos de Usuario}{45}
+\contentsline {subsection}{\numberline {7.1.2}Selecci\'on de Herramientas}{46}
+\contentsline {section}{\numberline {7.2}Dise\~no}{47}
+\contentsline {subsection}{\numberline {7.2.1}Dise\~no de la Aplicaci\'on}{47}
+\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{47}
+\contentsline {subsubsection}{Dise\~no General en UML}{48}
+\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{49}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{50}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{51}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{52}
+\contentsline {section}{\numberline {7.3}Implementaci\'on}{53}
+\contentsline {subsubsection}{N\'ucleo de la Interfaz}{54}
+\contentsline {subsubsection}{M\'odulo de GUI}{54}
+\contentsline {subsubsection}{M\'odulo de Percepci\'on}{57}
+\contentsline {subsubsection}{M\'odulo de Producci\'on}{60}
+\contentsline {subsubsection}{Aplicaci\'on Principal}{64}
+\contentsline {section}{\numberline {7.4}Validaci\'on y Publicidad}{66}
+\contentsline {subsection}{\numberline {7.4.1}Validaci\'on}{66}
+\contentsline {subsection}{\numberline {7.4.2}Publicidad}{68}
+\contentsline {chapter}{\numberline {8}Etapa 3: Usuario, Entorno, Configuraci\'on y Persistencia}{71}
+\contentsline {section}{\numberline {8.1}An\'alisis}{72}
+\contentsline {subsection}{\numberline {8.1.1}An\'alisis de Requisitos de Usuario}{72}
+\contentsline {subsection}{\numberline {8.1.2}Selecci\'on de Herramientas}{73}
+\contentsline {section}{\numberline {8.2}Dise\~no}{74}
+\contentsline {subsection}{\numberline {8.2.1}Dise\~no de la Aplicaci\'on}{74}
+\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{75}
+\contentsline {subsubsection}{Dise\~no General en UML}{76}
+\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{77}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Aplicaci\'on}{79}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Persistencia}{80}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{82}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{84}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{85}
+\contentsline {section}{\numberline {8.3}Implementaci\'on}{85}
+\contentsline {subsubsection}{N\'ucleo de la Interfaz}{86}
+\contentsline {subsubsection}{Aplicaci\'on Principal}{86}
+\contentsline {subsubsection}{M\'odulo de Persistencia}{87}
+\contentsline {subsubsection}{M\'odulo de GUI}{91}
+\contentsline {subsubsection}{M\'odulo de Producci\'on}{95}
+\contentsline {subsubsection}{M\'odulo de Percepci\'on}{97}
+\contentsline {section}{\numberline {8.4}Validaci\'on y Publicidad}{98}
+\contentsline {subsection}{\numberline {8.4.1}Validaci\'on}{98}
+\contentsline {chapter}{\numberline {9}Etapa 4: Detecci\'on, Navegaci\'on e Interacci\'on}{101}
+\contentsline {section}{\numberline {9.1}An\'alisis}{102}
+\contentsline {subsection}{\numberline {9.1.1}An\'alisis de Requisitos Hardware}{102}
+\contentsline {subsection}{\numberline {9.1.2}An\'alisis de Requisitos de Usuario}{103}
+\contentsline {subsection}{\numberline {9.1.3}Selecci\'on de Herramientas}{104}
+\contentsline {section}{\numberline {9.2}Dise\~no}{105}
+\contentsline {subsection}{\numberline {9.2.1}Dise\~no de la Aplicaci\'on}{105}
+\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{106}
+\contentsline {subsubsection}{Dise\~no General en UML}{107}
+\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{108}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Aplicaci\'on}{109}
+\contentsline {subsubsection}{M\'odulo de Persistencia}{110}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{111}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{112}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{113}
+\contentsline {section}{\numberline {9.3}Implementaci\'on}{115}
+\contentsline {subsubsection}{N\'ucleo de la Interfaz}{115}
+\contentsline {subsubsection}{M\'odulo de Aplicaci\'on}{121}
+\contentsline {subsubsection}{M\'odulo de Persistencia}{128}
+\contentsline {subsubsection}{M\'odulo de GUI}{128}
+\contentsline {subsubsection}{M\'odulo de Producci\'on}{133}
+\contentsline {subsubsection}{M\'odulo de Percepci\'on}{137}
+\contentsline {section}{\numberline {9.4}Validaci\'on y Publicidad}{160}
+\contentsline {subsection}{\numberline {9.4.1}Validaci\'on}{160}
+\contentsline {subsection}{\numberline {9.4.2}Publicidad}{161}
+\contentsline {chapter}{\numberline {10}Etapa 5: Interacci\'on Avanzada y Creaci\'on de Contenidos}{163}
+\contentsline {section}{\numberline {10.1}Consideraciones Previas}{164}
+\contentsline {section}{\numberline {10.2}An\'alisis}{164}
+\contentsline {subsection}{\numberline {10.2.1}An\'alisis de Requisitos Hardware}{164}
+\contentsline {subsection}{\numberline {10.2.2}An\'alisis de Requisitos de Usuario}{165}
+\contentsline {subsection}{\numberline {10.2.3}Selecci\'on de Herramientas}{166}
+\contentsline {section}{\numberline {10.3}Dise\~no}{168}
+\contentsline {subsection}{\numberline {10.3.1}Dise\~no de la Aplicaci\'on}{168}
+\contentsline {subsubsection}{Breve descripci\'on de los m\'odulos}{170}
+\contentsline {subsubsection}{Dise\~no en UML - Resumen}{172}
+\contentsline {subsubsection}{Dise\~no en UML - N\'ucleo de la Interfaz}{173}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Persistencia}{174}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de GUI}{176}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Aplicaci\'on}{177}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Percepci\'on}{179}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Producci\'on}{180}
+\contentsline {subsubsection}{Dise\~no en UML - M\'odulo de Inteligencia Artificial}{182}
+\contentsline {section}{\numberline {10.4}Implementaci\'on}{183}
+\contentsline {subsubsection}{N\'ucleo de la Interfaz}{183}
+\contentsline {subsubsection}{M\'odulo de Persistencia}{186}
+\contentsline {subsubsection}{M\'odulo de GUI}{187}
+\contentsline {subsubsection}{M\'odulo de Percepci\'on}{188}
+\contentsline {subsubsection}{M\'odulo de Producci\'on}{197}
+\contentsline {subsubsection}{M\'odulo de Inteligencia Artificial}{206}
+\contentsline {subsubsection}{M\'odulo de Aplicaci\'on}{209}
+\contentsline {section}{\numberline {10.5}Validaci\'on y Publicidad}{218}
+\contentsline {subsection}{\numberline {10.5.1}Validaci\'on}{218}
+\contentsline {subsection}{\numberline {10.5.2}Publicidad}{219}
+\contentsline {chapter}{\numberline {11}Resultados y conclusiones}{221}
+\contentsline {chapter}{\numberline {12}Trabajo Futuro}{225}
+\contentsline {chapter}{\numberline {A}Manuales de usuario}{227}
+\contentsline {chapter}{\numberline {B}Detalles Implementaci\'on}{229}
+\contentsline {section}{\numberline {B.1}Incompatibilidades}{229}
+\contentsline {subsection}{\numberline {B.1.1}winsock}{229}
+\contentsline {subsection}{\numberline {B.1.2}CLR}{230}
+\contentsline {subsection}{\numberline {B.1.3}NDEBUG}{230}
+\contentsline {section}{\numberline {B.2}Third Parties}{230}
+\contentsline {subsection}{\numberline {B.2.1}wxWidgets}{230}
+\contentsline {subsection}{\numberline {B.2.2}Boost}{230}
+\contentsline {subsection}{\numberline {B.2.3}SFML}{230}
+\contentsline {subsection}{\numberline {B.2.4}OpenCV, Open Source Computer Vision}{232}
+\contentsline {subsection}{\numberline {B.2.5}Panda3D}{233}
+\contentsline {subsection}{\numberline {B.2.6}PostgreSQL}{233}
+\contentsline {subsection}{\numberline {B.2.7}Debea}{233}
+\contentsline {subsection}{\numberline {B.2.8}DynDNS}{234}
+\contentsline {subsection}{\numberline {B.2.9}VisualSVN}{234}
+\contentsline {subsection}{\numberline {B.2.10}Tortoise SVN}{234}
+\contentsline {section}{\numberline {B.3}Interfaces core}{234}
+\contentsline {subsection}{\numberline {B.3.1}IApplicationConfiguration}{235}
+\contentsline {section}{\numberline {B.4}M\'odulo de GUI}{236}
+\contentsline {subsection}{\numberline {B.4.1}MainGui}{237}
+\contentsline {subsection}{\numberline {B.4.2}MainFrame}{238}
+\contentsline {subsection}{\numberline {B.4.3}GUIStart}{238}
+\contentsline {subsection}{\numberline {B.4.4}GUIHelp}{239}
+\contentsline {section}{\numberline {B.5}M\'odulo de Percepci\'on}{239}
+\contentsline {subsection}{\numberline {B.5.1}MainPercept}{240}
+\contentsline {subsection}{\numberline {B.5.2}PerceptAudio}{241}
+\contentsline {subsection}{\numberline {B.5.3}PerceptVideo}{243}
+\contentsline {section}{\numberline {B.6}M\'odulo de Producci\'on}{245}
+\contentsline {subsection}{\numberline {B.6.1}Prod3dWindow}{246}
+\contentsline {subsection}{\numberline {B.6.2}MainProd}{247}
+\contentsline {section}{\numberline {B.7}Aplicaci\'on Principal}{252}
+\contentsline {subsection}{\numberline {B.7.1}Application}{254}
+\contentsline {subsection}{\numberline {B.7.2}main}{255}

@@ -67,6 +67,8 @@ namespace core
 				core::IUserPersistence* GetCurrentUser();
 				core::IWorldPersistence* GetCurrentWorld();
 				void GetWorldList(const std::string &user_name, std::vector<std::string> &names, std::vector<int> &permissions);
+				bool GetAutoLogin();
+				void SetAutoLogin(const bool &value);
 				void ViewUserInfoPanel();
 				void ViewLogPanel();
 				void ViewConfigurePanel();
