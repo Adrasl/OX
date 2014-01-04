@@ -5,14 +5,15 @@
 \contentsline {chapter}{\numberline {4}Recursos necesarios}{21}
 \contentsline {subsection}{\numberline {4.0.1}Software}{21}
 \contentsline {subsection}{\numberline {4.0.2}Hardware}{22}
+\contentsline {subsection}{\numberline {4.0.3}Presupuesto}{22}
 \contentsline {chapter}{\numberline {5}Plan de trabajo y temporizaci\'on}{23}
 \contentsline {chapter}{\numberline {6}Etapa 1: Acercamiento}{25}
 \contentsline {section}{\numberline {6.1}An\'alisis}{25}
 \contentsline {subsection}{\numberline {6.1.1}Documentaci\'on y herramientas}{25}
 \contentsline {subsubsection}{UDK: Unreal Development Kit}{25}
-\contentsline {subsubsection}{CryENGINE 3 Educational SDK}{27}
+\contentsline {subsubsection}{CryENGINE 3 Educational SDK}{26}
 \contentsline {subsubsection}{Crystal Space}{27}
-\contentsline {subsubsection}{Ogre, Object-Oriented Graphics Rendering Engine}{28}
+\contentsline {subsubsection}{OGRE, Object-Oriented Graphics Rendering Engine}{28}
 \contentsline {subsubsection}{OSG: OpenSceneGraph}{28}
 \contentsline {subsubsection}{Irrlicht: Lightning Fast Realtime 3D Engine}{29}
 \contentsline {subsubsection}{Panda3D: Free 3D Game Engine}{30}
@@ -21,18 +22,18 @@
 \contentsline {subsubsection}{Qt: Cross-platform Application and UI Framework}{31}
 \contentsline {subsubsection}{wxWidgets: Cross-platform GUI Library}{31}
 \contentsline {subsubsection}{OpenCV: Open Source Computer Vision}{32}
-\contentsline {subsubsection}{Encara2:}{33}
+\contentsline {subsubsection}{Encara2: A Real-Time Multiple Face and Facial Feature Detector for Perceptual Interfaces for Face Recognition and Description}{33}
 \contentsline {subsubsection}{Fmod: Music \& Sound Effects System}{33}
 \contentsline {subsubsection}{OpenAL: Cross-platform 3D Audio API}{33}
-\contentsline {subsubsection}{SDL\_Mixer: Simple DirectMedia Layer Mixer}{33}
+\contentsline {subsubsection}{SDL\_Mixer: Simple DirectMedia Layer Mixer}{34}
 \contentsline {subsubsection}{Clunk: Open Source 3D-Sound library}{34}
 \contentsline {subsubsection}{Irrklang: High level 3D audio engine/API}{34}
-\contentsline {subsubsection}{SFML: Simple and Fast Multimedia Library}{34}
+\contentsline {subsubsection}{SFML: Simple and Fast Multimedia Library}{35}
 \contentsline {subsubsection}{Chuck: Strongly-timed, Concurrent, and On-the-fly Audio Programming Language}{35}
 \contentsline {subsubsection}{Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals}{35}
-\contentsline {subsubsection}{PostgreSQL}{35}
-\contentsline {subsubsection}{OODBMS: Object Oriented Data Base Management Systems}{35}
-\contentsline {subsubsection}{Debea: Database Access Library}{36}
+\contentsline {subsubsection}{PostgreSQL}{36}
+\contentsline {subsubsection}{OODBMS: Object Oriented Data Base Management Systems}{36}
+\contentsline {subsubsection}{Debea: Database Access Library}{37}
 \contentsline {subsection}{\numberline {6.1.2}An\'alisis de Requisitos de Usuario}{37}
 \contentsline {subsection}{\numberline {6.1.3}An\'alisis de Requisitos de Software}{40}
 \contentsline {section}{\numberline {6.2}Dise\~no}{40}

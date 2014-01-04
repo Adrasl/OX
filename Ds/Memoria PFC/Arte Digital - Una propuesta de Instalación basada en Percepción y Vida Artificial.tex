@@ -351,8 +351,8 @@ Para la planificación y seguimiento del proyecto se hará uso de la herramienta o
 Para cada etapa, el objetivo consistirá en llevar todas las tareas del estado 'Por hacer' a 'Completadas'.
 
 \chapter{Recursos necesarios}
- Se detallan los recursos hardware, software u otros necesarios para el desarrollo del proyecto, incluyendo desde las aplicaciones necesarias así como librerías a utilizar y requerimientos hardware.
-\\
+Se detallan los recursos hardware, software y otros necesarios para el desarrollo del proyecto, incluyendo desde las aplicaciones necesarias así como librerías a utilizar y requerimientos hardware.
+
 \subsection{Software}
 
 \begin{itemize}
@@ -361,30 +361,26 @@ Para cada etapa, el objetivo consistirá en llevar todas las tareas del estado 'P
 \begin{itemize}
 \item TexMaker: Editor de LaTex.
 \item EssWork: Editor de modelos de Casos de Uso.
-\item Essential Modeler: Para el seguimiento y orientación de la metodología EssUp.
 \item Dia: Para modelado de diagramas UML y Entidad-Interrelación.
+\item Project Manager y Moovia: Entornos de gestión de proyectos.
 \item Visual Studio 2008 Express Edition: Entorno de desarrollo.
 \item Blender: Programa de edición 3D.
 \item Gimp: Programa de edición 2D.
-\item HeidiSQL: Front-end de MySQL.
+\item Audacity: Programa de edición de Audio.
+\item FreeSound: Portal de stock de recursos de audio con licencias Creative Commons.
+\item PostgreSQL: Base de datos SQL.
 \end{itemize}
 
 \item Librerías:
 \begin{itemize}
-\item De Visión por Computador: OpenCV.
+\item Visión por Computador: OpenCV.
 \item Motor gráfico: Se estudiarán UDK, CryEngine 3 ESDK, Crystal Space, OpenSceneGraph, Ogre, Irrlicht y Panda3D.
 \item Interfaz gráfica de usuario: se estudiarán Qt y wxWidgets.
-\item Para captura de audio y reproducción 3D se estudiará las capacidades del motor gráfico o de juego a usar, así como Fmod, OpenAL, SDL Mixer, Clunk, Irrklang y SFML.
+\item Para captura de audio y reproducción 3D: se estudiará las capacidades del motor gráfico o de juego a usar, así como Fmod, OpenAL, SDL Mixer, Clunk, Irrklang y SFML.
 \item Para composición de audio: Se estudiarán Chuck y Marsyas.
 \item De sistema: Boost y SFML.
 \item BBDD: MySQL, PostGreSQL.
-\item De documentación: Doxygen.
-\end{itemize}
-
-\item Recursos:
-\begin{itemize}
-\item Imágenes: GCTextures.
-\item Sonidos: wiki.laptop.org,go,Soundsamples; Jamendo.
+\item Documentación: Doxygen.
 \end{itemize}
 
 \end{itemize}
@@ -395,38 +391,33 @@ Para cada etapa, el objetivo consistirá en llevar todas las tareas del estado 'P
 \item Primera aproximación:
 \begin{itemize}
 \item Entorno controlado: fondo estático, buena iluminación, sin ruido ambiente.
-\item 1 PC con: 1 Monitor/Proyector, 1 cámara, micrófono y altavoces sonido envolvente.
+\item 1 PC con: 1 Monitor/Proyector, 1 webcam y altavoces estándares.
+\item El PC para desarrollar deberá tener al menos una configuración equivalente a la siguiente: Intel core i7 de cuatro núcleos a 3.0Gz, 6Gb RAM, tarjeta gráfica dedicada válida para juegos con al menos 2Gb de RAM, 10 Gb de espacio libre en disco.
 \end{itemize}
 
-\item Segunda aproximación:
+\end{itemize}
+
+\subsection{Presupuesto}
 \begin{itemize}
-\item Entorno controlado: fondo estático, buena iluminación, sin ruido ambiente, mobiliario.
-\item 1 PC con: 1 Monitor/Proyector, 2 cámaras, micrófono y altavoces sonido envolvente.
+\item PC: 1.200 euros
+\item Webcam: 20 euros
+\item Altavoces: 50 euros
+\item Monitor: 120 euros
+\item Proyector: 500 euros
+\item Gastos intrínsecos de luz y conexión a internet (aprox 20\% de las horas de uso al mes): 
+\\18 meses x 31 euros = 558 euros
+\item Horas de trabajo: No se percibe remuneración económica por el desarrollo de este proyecto. Si se hiciera, estimando un coste bruto de 20 euros y un 40 por cierto de seguridad social, quedaría en 28 euros por hora: 1.000 x 28 = 28.000 euros. 
+\item TOTAL: 30.448 euros
 \end{itemize}
-
-\item-Tercera aproximación:
-\begin{itemize}
-\item Entorno controlado: fondo estático, buena iluminación, sin ruido ambiente, mobiliario.
-\item 1 PC con: 2 Monitores/Proyectores, 2 cámaras, micrófono y altavoces sonido envolvente.
-\end{itemize}
-
-\item Cuarta aproximación:
-\begin{itemize}
-\item Entorno controlado: fondo estático, buena iluminación, sin ruido ambiente, mobiliario.
-\item Varios PCs con: 2 Monitores/Proyectores, 2 cámaras, micrófono y altavoces sonido envolvente.
-\end{itemize}
-
-\end{itemize}
-
 
 \chapter{Plan de trabajo y temporización}\label{C_PlanTrabajo}
-A continuación se muestra el plan de trabajo para el presente proyecto desglosado en etapas, con una estimación en cada etapa del tiempo de ejecución. Siguiendo un proceso iterativo, donde se construirán versiones cada vez más completas, se definen las siguientes cinco etapas:
+A continuación se muestra el plan de trabajo para el presente proyecto, desglosado en sus diferentes etapas. Siguiendo un proceso iterativo, se construirán versiones ejecutables y probables cada vez más completas. Para cada etapa, se refleja una estimación del tiempo que llevaría ejecutarlas, pudiéndose ver la distribución y proporción de la carga de trabajo entre ellas:
 
 \begin{itemize}
-\item Etapa 1: Acercamiento
-\item Etapa 2: Primera Demo: Bases de la interfaz entre módulos, Aplicación principal, GUI, Percepción y Producción
+\item Etapa 1: Acercamiento: Estudio de herramientas y Planteamiento inicial
+\item Etapa 2: Primera Demo: Aplicación principal, GUI, Percepción y Producción
 \item Etapa 3: Segunda Demo: Usuario, Entorno, Configuración y Persistencia
-\item Etapa 4: Tercera Demo: Detección, Navegación e Interacción Básica
+\item Etapa 4: Tercera Demo: Detección, Navegación e Interacción
 \item Etapa 5: Cuarta Demo: Interacción Avanzada y Creación de Contenidos
 \end{itemize}
 
@@ -441,7 +432,8 @@ A continuación se muestra el plan de trabajo para el presente proyecto desglosad
 
 \chapter{Etapa 1: Acercamiento}
 
-En esta fase se llevará a cabo la primera aproximación a la solución que se va adoptar. Para ello se hará un estudio global de las capacidades de las que se desea dotar a la aplicación, que pretende ser completo aunque no en profundidad. También se hará una búsqueda y estudio de las herramientas disponibles que puedan ofrecer las funcionalidades necesarias para la construcción del proyecto.
+En esta fase se llevará a cabo la primera aproximación a la solución que se va adoptar. Para ello se hará un estudio global de las capacidades de las que se desea dotar a la aplicación, que pretende ser completo, aunque no en profundidad. También se hará una búsqueda y estudio de las herramientas disponibles que puedan ofrecer las funcionalidades necesarias para la construcción del proyecto.
+\\
 
 En las siguientes fases/iteraciones se abordarán y trabajará en profundidad un subconjunto de cada apartado con el objetivo de conseguir demos intermedias que sean funcionales.
 
@@ -449,24 +441,15 @@ En las siguientes fases/iteraciones se abordarán y trabajará en profundidad un s
 
 \subsection{Documentación y herramientas}
   Existe un conjunto de librerías bastante amplio que puede ser de utilidad en el desarrollo del proyecto. A continuación se hace una revisión de las mismas con el fin de elegir las que mejor se adapten a las necesidades del proyecto. Finalmente se elegirán las más adecuadas.
-\\
-
-(RECORDAR AÑADIR LA FEATURE-LIST DE LOS DISTINTOS MOTORES - copy paste en forma de tablas bonitas)
 
 \subsubsection {UDK: Unreal Development Kit}
-  A noviembre de 2009, el motor gráfico Unreal3, desarrollado por Epic Games, es considerado uno de los más potentes y de mayor calidad junto con el motor CryEngine de Crytek. A mediados del mismo mes Epic Games decide liberar UDK, su kit de desarrollo para proyectos sin ánimo de lucro, además de ofrecer licencias más asequibles para proyectos comerciales. Inicialmente el coste de una licencia para Unreal3 oscilaba alrededor los \$700.000.  Esta nueva situación hace posible tomarlo en consideración para el desarrollo de la aplicación que tratamos, por lo que se procede a su estudio. Es interesante comentar que Epic Games ya trabaja en la cuarta de versión de su motor, Unreal4, que planea estar disponible a partir de 2012~-2018.
+  A noviembre de 2009, el motor gráfico Unreal3, desarrollado por Epic Games, es considerado uno de los más potentes y de mayor calidad junto con el motor CryEngine de Crytek. A mediados del mismo mes Epic Games decide liberar UDK (Unreal Development Kit) \cite{UDK}, su kit de desarrollo gratuito para proyectos sin ánimo de lucro o con beneficios inferiores, además de ofrecer licencias más asequibles para proyectos comerciales de mayor alcance. Inicialmente el coste de una licencia para Unreal3 oscilaba alrededor los \$700.000.  Esta nueva situación hace posible tomarlo en consideración para el desarrollo de la aplicación que tratamos, por lo que se procede a su estudio. Es interesante comentar que Epic Games ya trabajaba en la cuarta de versión de su motor, Unreal4 en 2009, que finalmente fue anunciada en marzo de 2013.
 \\
 
-Algunas de las compañías que han usado Unreal 3 son: Atari, Activision, Capcom, Disney, Konami, Koei, 2K Games, Midway, THQ, Ubisoft, Sega, Sony, Electronic Arts, Square Enix y 3D Realms. Entre los ejemplos más destacados se encuentran las series BioShock o Gears of War, entre otros juegos como Medal of Honor: Airbone y Unreal Tournament 3.
+Algunas de las compañías que han usado Unreal3 son: Atari, Activision, Capcom, Disney, Konami, Koei, 2K Games, Midway, THQ, Ubisoft, Sega, Sony, Electronic Arts, Square Enix y 3D Realms. Entre los ejemplos más destacados se encuentran las series BioShock, Mass Effect o Gears of War, entre otros juegos como Medal of Honor: Airbone y Unreal Tournament 3.
 \\
 
-Sin duda, los resultados que pueden verse en las imágenes corresponden a proyectos de grandes compañías que disponen de una importante cantidad de recursos. Como muestra visual más razonable se encuentra uno de los juegos de ejemplo que puede encontrarse en la página oficial del UDK, Whizzle.
-\\
-
-Al ser un kit de desarrollo completo su lista de capacidades es muy extensa. En la siguiente tabla se muestra un resumen de su lista de capacidades de render:
-\\
-
-Finalmente, se exponen algunas de las características clave para la toma de decisión:
+Se exponen algunas de las características clave para la toma de decisión:
 \\
 \begin{itemize}
 \item UDK es un kit de desarrollo software que ofrece un entorno completo para el desarrollo de videojuegos o aplicaciones similares. 
@@ -481,125 +464,123 @@ Finalmente, se exponen algunas de las características clave para la toma de deci
 \item Es gratis para uso no comercial. En proyectos comerciales es necesario abonar una licencia y un porcentaje de las ventas en concepto de royalties que puede llegar al 25\% para ingresos superiores a 5000 euros.
 \end{itemize}
 Las capacidades del motor gráfico son sobresalientes. Sin embargo, el esquema de desarrollo con UDK no se ajusta adecuadamente al del  resto de la aplicación.
+\\
 
 \subsubsection{CryENGINE 3 Educational SDK}
 
-Como era de esperar, poco después de la salida del Unreal Development Kit por parte de Epic Games, otro de los grandes motores gráficos comerciales lanzó su propia alternativa. Se trata en este caso del motor CryENGINE 3, de Crytek, con su propio kit de desarrollo con licencia gratuita. Sin embargo, hay que destacar que los términos de la misma son mucho menos flexibles que la de Epic Games y enfocado sólo hacia un sector. El SDK sólo está disponible para instituciones académicas por parte de jefes de curso, exclusivamente para proyectos de naturaleza interna y con fines no comerciales. Se excluye específicamente el caso de estudiantes individuales o proyectos de grupo. Además, los términos de la licencia en sí no son públicos y sólo son accesibles para personal académico previa solicitud. 
+Como era de esperar, poco después de la salida del Unreal Development Kit por parte de Epic Games, otro de los grandes motores gráficos comerciales lanzó su propia alternativa. Se trata en este caso del motor CryENGINE 3, de Crytek, con su propio kit de desarrollo con licencia gratuita \cite{CRYENGINEE}. Sin embargo, hay que destacar que los términos de la misma son mucho menos flexibles que la de Epic Games y enfocado sólo hacia un sector. El SDK sólo está disponible para instituciones académicas por parte de jefes de curso, exclusivamente para proyectos de naturaleza interna y con fines no comerciales. Se excluye específicamente el caso de estudiantes individuales o proyectos de grupo. Además, los términos de la licencia en sí no son públicos y sólo son accesibles para personal académico previa solicitud. 
 \\
 
 Por ahora el único juego que parece usar este motor es Crysis 2, actualmente en desarrollo por Crytek. 
 \\
 
-Aunque una alternativa más limitada, en términos de licencia de uso, y en contradicción con algunos puntos de la naturaleza del proyecto, como es el uso de software gratuito y en la medida de lo posible libre, podría ser una alternativa a tener en cuenta y se procede a su análisis. 
-\\
-
-En la siguiente tabla se muestra un resumen de su lista de capacidades de render:
-\\
-
-Finalmente, se exponen algunas de las características clave para la toma de decisión:
+Al ser una alternativa demasiado limitada, en términos de licencia de uso, y en contradicción con algunos puntos de la naturaleza del proyecto, como es el uso de software gratuito y en la medida de lo posible libre, se considera que no es adecuada para el proyecto que se desea desarrollar. Se exponen las características clave para la toma de decisión:
 
 \begin{itemize}
-\item Licencia de uso muy restrictiva. Sólo para proyectos académicos no comerciales y no puede ser solicitada por estudiantes individualmente. Continuidad del proyecto también limitada.
+\item Licencia de uso muy restrictiva. 
+\item Sólo para proyectos académicos no comerciales.
+\item No puede ser solicitada por estudiantes individualmente.
+\item Continuidad futura del proyecto limitada.
 \end{itemize}
 
+
 \subsubsection{Crystal Space}
-Crystal Space es un entorno de desarrollo comúnmente usado con motor de juego. Está escrito en C++ usando un modelo Orientado a Objetos y soporta las principales plataformas. El SDK se distribuye bajo licencia LGPL, por lo que puede utilizarse de forma gratuita para cualquier tipo de desarrollo. Durante mucho tiempo se le ha considerado como uno de los motores libres más completos y populares, ya que no sólo es un motor de render sino un motor de juego, que incluye distintos módulos que facilitan el desarrollo.
+Crystal Space \cite{CRYSTALSPACE} es un kit de desarrollo comúnmente usado como motor de juego y la primera de las alternativas gratuitas que se estudiarán. Está escrito en C++ usando un modelo Orientado a Objetos y soporta las principales plataformas. El SDK se distribuye bajo licencia LGPL\cite{LGPL}, por lo que puede utilizarse de forma gratuita para cualquier tipo de desarrollo. Durante mucho tiempo se le ha considerado como uno de los motores libres más completos y populares, ya que no sólo es un motor de render sino un motor de juego, que incluye distintos módulos que facilitan el desarrollo.
 \\
 
-Algunos ejemplos de uso son PlaneShift, El Hierro Virtual (ULPGC) y el reciente Yo Frankie! (Apricot Open Game Project).
+Algunos ejemplos de uso son PlaneShift, CAVACAN - El Hierro Virtual (ULPGC) y Yo Frankie! (Apricot Open Game Project) del Instituto Blender.
+\\
+
+Las claves para su evaluación son:
 
 \begin{itemize}
 \item Relación estrecha con Blender, entorno de diseño 3D y de desarrollo de videojuegos con el que se dispone de cierta experiencia.
-\item Complejidad alta y relativamente abandonado, pasando largos períodos de tiempo entre revisiones.
+\item Complejidad alta y relativamente abandonado, pasando largos períodos de tiempo entre revisiones. Curva de aprendizaje también muy elevada.
 \item Nueva versión del SDK publicada el 25 de Enero de 2010, que incluye algunas mejoras y pocas funcionalidades añadidas. Entre ellas destaca el uso de un plugin basado en OpenAL para ofrecer sonido 3D.
-\item Resultados visualmente pobres y de bajo rendimiento incluso en proyectos desarrollados por equipos con experiencia.
+\item Resultados visualmente pobres y de bajo rendimiento incluso en proyectos desarrollados por equipos con recursos y experiencia.
 \end{itemize}
 
-(completar)
+Como conclusión, es un motor que permitiría llevar a cabo el proyecto, pero parece una opción con una complejidad elevada y que podría aportar resultados pobres.
 
-\subsubsection{Ogre, Object-Oriented Graphics Rendering Engine}
-Ogre es considerado uno de los motores gráficos open-source multiplataforma más populares y de más éxito. Está escrito en C++ y está dirigido al mismo lenguaje, aunque existen wrappers para Python, Java y .NET. 
+\subsubsection{OGRE, Object-Oriented Graphics Rendering Engine}
+OGRE \cite{OGRE} es considerado uno de los motores gráficos open-source multiplataforma más populares y de más éxito. Está escrito en C++ y está dirigido al mismo lenguaje, aunque existen wrappers para Python, Java y .NET. 
 \\
 
-A diferencia de otros, no está planteado como un motor de juego, sólo como motor gráfico. Aunque se le puede añadir con facilidad otras librerías. La filosofía de Ogre es que el desarrollador pueda añadir Ogre como un módulo más en su aplicación, así como los módulos que necesite, en lugar de tener que adaptar la aplicación para que encaje correctamente con una solución que pretenda abarcar más de lo que se necesita y provocando incomodidades e incompatibilidades.
-\\
+A diferencia de otros, no está planteado como un motor de juego, sólo como motor gráfico. Aunque se le puede añadir otras librerías para completar la arquitectura. La filosofía de Ogre es que el desarrollador pueda añadir Ogre como un módulo más en su aplicación, así como los módulos que necesite, en lugar de tener que adaptar la aplicación para que encaje correctamente con una solución que pretenda abarcar más de lo que se necesita y provocando incomodidades e incompatibilidades.
 
 \begin{itemize}
-\item Altamente modular, se le pueden añadir librerías y plugins con facilidad. 
-\item Esto mismo hace que las capacidades sean más limitadas que las de los motores y SDKs.
+\item Altamente modular, se le pueden añadir librerías y plugins para completar funcionalidades. 
+\item Esto mismo hace que las capacidades iniciales sean más limitadas que las de otros motores y SDKs ya vistos, siendo necesario unir varios componentes para obtener una solución equivalente.
 \item Dispone de un equipo de desarrollo dinámico y de una comunidad muy activa.
-\item Nueva versión publicada el 31 de Diciembre de 2009, con una lista amplia de mejoras.
-\item Utiliza la licencia del MIT-X11, por lo que Ogre es gratuito, libre y puede usarse para cualquier tipo de desarrollo.
+\item Curva de aprendizaje elevada.
+\item La versión estable más reciente publicada tiene menos de 4 meses, publicada el 31 de Diciembre de 2009, con una lista amplia de mejoras.
+\item Utiliza la licencia del MIT \cite{MITL}, por lo que Ogre es gratuito, libre y puede usarse para cualquier tipo de desarrollo.
 \end{itemize}
-(completar)
+
+Como conclusión, Ogre es una buena alternativa, aunque requiere un mayor trabajo inicial para conseguir la base necesaria sobre la que trabajar.
 
 \subsubsection{OSG: OpenSceneGraph}
-OSG se presenta como una librería multiplataforma para el desarrollo de aplicaciones que requieran de visualización 3D con alto rendimiento, como visualización científica, realidad virtual o comúnmente juegos. 
-\\
-
-Es una librería ampliamente usada, con cierta tendencia hacia la visualización científica y geográfica, con una lista amplia de capacidades. Algunos ejemplos de uso son TerrainView, Pok3D, Nasa'a Blue Marble y Capaware!/Geviemer (ULPGC)
+OSG \cite{OSG} se presenta como una librería multiplataforma para el desarrollo de aplicaciones que requieran de visualización 3D con alto rendimiento, como visualización científica, realidad virtual o incluso juegos. Es una librería ampliamente usada, con cierta tendencia hacia la visualización científica y geográfica, con una lista amplia de capacidades. Algunos ejemplos de uso son TerrainView, Pok3D, o CAPAWARE (ULPGC)
 
 \begin{itemize}
 \item Altamente modular y potente, con multitud de extensiones. 
 \item Dispone de un equipo de desarrollo dinámico, con revisiones frecuentes y de una comunidad activa.
 \item Se dispone de cierta experiencia con el entorno.
 \item El diseño de la API puede ser confuso y en cierta medida deficiente en términos de facilidad de uso.
+\item Debido a experiencias previas se conocen problemas del motor gráfico, especialmente si se desean múltiples regiones de render.
 \item Documentación pobre.
 \item Utiliza licencia LGPL, por lo que es gratuita, libre y puede usarse para cualquier tipo de desarrollo.
 \end{itemize}
-(completar)
+
+Como conclusión, OpenSceneGraph es una posible alternativa, aunque se conocen algunas deficiencias y problemas debido a experiencias previas.
 
 \subsubsection{Irrlicht: Lightning Fast Realtime 3D Engine}
-Motor gráfico 3D multiplataforma de código abierto y de alto rendimiento. Está escrito en C++, pero también esta disponible para lenguajes .NET, así como otros lenguajes como Java, Perl, Ruby, Python o Lua, mediante bindings. 
+Irrlicht \cite{IRRLICHT} es un motor gráfico 3D multiplataforma de código abierto y de alto rendimiento. Está escrito en C++, pero también esta disponible para lenguajes .NET, así como otros lenguajes como Java, Perl, Ruby, Python o Lua, mediante bindings. 
 
 \begin{itemize}
 \item Altamente modular, potente y con multitud de extensiones. 
 \item Dispone de un equipo de desarrollo dinámico, con revisiones frecuentes y de una comunidad activa.
-\item Utiliza la licencia zlib/libpng, por lo que es gratuito, libre y puede usarse para cualquier tipo de desarrollo.
-\item Mediante IrrEDIT se peude construir escenarios con facilidad que peuden usarse dentro de Irrlycht.
+\item Utiliza una licencia propia \cite{IRRLICHTLICENSE} basada en la licencia zlib/libpng, por lo que es gratuito, libre y puede usarse para cualquier tipo de desarrollo.
+\item Mediante IrrEDIT se puede construir escenarios con facilidad que pueden usarse dentro del motor.
 \item Sin embargo, otras librerías como IrrKlang, para sonido, se distribuyen bajo licencias más restrictivas.
 \item Se define a la altura de los motores comerciales pero tiene ciertas carencias.
 \end{itemize}
-(completar)
+
+Como conclusión es una posible alternativa, aunque algunos de sus componentes hacen uso de licencias demasiado restrictivas.
 
 \subsubsection{Panda3D: Free 3D Game Engine}
-Originalmente Panda3D, acrónimo de Platform Agnostic Networked Display Architecture, fue creado por Disney como parte de una de sus atracciones y posteriormente liberado, en 2002, con la intención de facilitar el trabajo con universidades y projectos de investigación en Realidad Virtual. 
+Originalmente Panda3D \cite{PANDA3D}, acrónimo de Platform Agnostic Networked Display Architecture, fue creado por Disney como parte de una de sus atracciones y posteriormente liberado, en 2002, con la intención de facilitar el trabajo con universidades y proyectos de investigación en Realidad Virtual. 
 \\
 
-Acogido por el Carnegie Mellon Entertainment Technology Center, fue mejorado y preparado para su uso público. Panda3D se define como un motor de juego y un entorno de de trabajo para render 3D y desarrollo de juegos, libre, gratuito y multiplataforma, que puede usarse para cualquier tipo de desarrollo. Incluye motor gráfico, audio, gestión de entrada/salida y detección de colisiones entre otras capacidades.
+Acogido por el Carnegie Mellon Entertainment Technology Center, fue mejorado y preparado para su uso público. Panda3D se define como un motor de juego y un entorno de de trabajo para render 3D y desarrollo de juegos, libre, gratuito y multiplataforma, que puede usarse para cualquier tipo de desarrollo. Incluye un motor gráfico, de audio, gestión de entrada/salida y detección de colisiones entre otras capacidades.
 
 \begin{itemize}
 \item Dispone de un equipo de desarrollo dinámico, con revisiones frecuentes y de una comunidad activa. Aunque mayormente para Python.
-\item Sin embargo, existe un menor dinamismo y soporte para C++ que para Python.
+\item Existe un menor dinamismo y soporte para C++.
 \item Tiene un diseño orientado a mejoras futuras e incluye funcionalidades avanzadas cercanas a los motores comerciales que aún no incluyen otros motores libres.
-\item Diseño de la API atractivo y sencillo de usar.
-\item Énfasis en la documentación de la librería, en distintas modalidades: manuales, referencias, y plantillas conceptuales, que facilitan en gran medida la comprensión y el uso de la librería. 
-\item Se añade a la documentación tradicional diversos video tutoriales creados tanto por la comunidad, así como clases impartidas sobre Panda3D por David Rose, del Instituto de Realidad Virtual de Walt Disney.
+\item Tiene un diseño de la API atractivo y sencillo de usar, aportando definiciones de alto nivel que facilitan la gestión de elementos típicos de un motor gráfico.
+\item Énfasis en la documentación de la librería, en distintas modalidades: manuales, referencias, gráficos y plantillas conceptuales, que facilitan en gran medida la comprensión y uso de la librería. 
+\item Se añade a la documentación tradicional, diversos video-tutoriales creados tanto por la comunidad, como clases impartidas sobre Panda3D por David Rose, del Instituto de Realidad Virtual de The Walt Disney Company.
 \item Ampliamente usada por alumnos del Carnegie Mellon y en proyectos de equipos pequeños con resultados visuales atractivos y con buen rendimiento. 
-\item Se distribuye bajo una licencia basada en BSD que permite su uso libre y gratuito para todo tipo de proyectos.
+\item Se distribuye bajo una licencia basada en BSD \cite{PANDA3DLICENSE} que permite su uso libre y gratuito para todo tipo de proyectos.
 \end{itemize}
-(completar)
+
+Como conclusión es una alternativa prometedora, especialmente por su diseño de la API y por la calidad visual conseguida, incluso en pequeños proyectos realizados por estudiantes.
 
 \subsubsection{Doxygen: Source code documentation generator tool}
-Generador de documentación multiplataforma para C++, entre otros lenguajes. Permite generar documentación online para su visualización en un navegador web (HTML), así como LaTex, MS-Word, PostCript, PDF con hipervínculos entre otros. Además puede usarse para extraer la estructura de código de fuentes no documentados, y generar grafos de dependencias, diagramas de clases y otros esquemas.
+Doxygen \cite{DOXYGEN} es un generador de documentación multiplataforma para C++, además disponible para otros lenguajes. Permite generar documentación para su visualización online en un navegador web en HTML, así como LaTex, MS-Word, PostCript, PDF con hipervínculos, entre otros. Además puede usarse para extraer la estructura de código de fuentes no documentados, y generar grafos de dependencias, diagramas de clases y otros esquemas.
 \\
 
-Doxygen se distribuye bajo licencia GPL. De cualquier forma, los documentos producidos mediante Doxigen son trabajo derivado de los datos usados en su producción, por lo que no se ven afectados por la licencia.
-\\
-
-No se estudian más casos por considerarse la mejor(¿única?) opción y tener cierta experiencia con ella, lo que es una ventaja determinante.
+Doxygen se distribuye bajo licencia GPL2 \cite{GPL2}. De cualquier forma, los documentos producidos mediante Doxigen son trabajo derivado de los datos usados en su producción, por lo que no se ven afectados por la licencia. No se estudian más casos por considerarse la mejor opción y tener cierta experiencia con ella, lo que es una ventaja determinante.
 \\
 
 \subsubsection{Boost C++ Libraries }
-Boost es un conjunto de librerías de código abierto multiplataforma con la intención de extender las capacidades del lenguaje de programación C++. Varios fundadores de Boost forman parte del Comité ISO de Estándares de C++, por lo que algunas de estas librerias terminan por introducirse en la siguiente versión estándar de C++. Utiliza una licencia propia, la Boost Software License, que permite su uso en cualquier tipo de proyectos, comerciales o no. 
-\\
-
-Algunas de las librerías de mayor uso son las que facilitan las operaciones con el sistema, I/O y gestión de hilos, entre muchas otras.
+Boost \cite{BOOST} es un conjunto de librerías de código abierto multiplataforma con la intención de extender las capacidades del lenguaje de programación C++. Varios fundadores de Boost forman parte del Comité ISO de Estándares de C++, por lo que algunas de estas librerias terminan por introducirse en la siguiente versión estándar de C++. Utiliza una licencia propia, la Boost Software License, que permite su uso en cualquier tipo de proyectos, comerciales o no. Algunas de las librerías más extensamente utilizadas son las que facilitan las operaciones con el sistema, operaciones de Entrada/Salida con dispositivos y la gestión de hilos, entre muchas otras.
 
 
 \subsubsection{Qt: Cross-platform Application and UI Framework}
 
-Librería multiplataforma de Trolltech para desarrollar interfaces gráficas de usuario, así como para desarrollar aplicaciones de consola y servidores. Utiliza como lenguaje C++, aunque también está disponible para otros lenguajes a través de binding (Python, C\#, Ruby, Java, Ada y Php, entre otros).
+Qt \cite{QT} es la librería multiplataforma de Trolltech para desarrollar interfaces gráficas de usuario, así como para desarrollar aplicaciones de consola y servidores. Utiliza como lenguaje C++, aunque también está disponible para otros lenguajes a través de binding (Python, C\#, Ruby, Java, Ada y Php, entre otros).
 \\
 
 Qt es ampliamente usado y considerado como una de las opciones multiplataforma más completa y estable. Algunos ejemplos de uso son principalmente KDE, a partir del cual logró un considerable éxito y expansión, además de otras aplicaciones como Google Earth o Skype.
@@ -609,11 +590,11 @@ Tras polémicas en sus inicios por publicitarse como código libre sin serlo, actu
 
 
 \subsubsection{wxWidgets: Cross-platform GUI Library}
-Se trata de una librería para C++ para el desarrollo de interfaces gráficas de usuario. Es una de las pocas opciones realmente multiplataforma, gratuita y open source disponibles. Tiene la capacidad para ofrecer interfaces de aspecto nativo dependiendo de la máquina sobre la que se ejecuta el código. 
+Wxwidgets \cite{WXWIDGETS} consiste en una librería para C++ para el desarrollo de interfaces gráficas de usuario. Es una de las pocas opciones realmente multiplataforma, gratuita y open source disponibles. Tiene la capacidad para ofrecer interfaces de aspecto nativo dependiendo de la máquina sobre la que se ejecuta el código. 
 \\
 
 wxWidgets, aunque con sus desventajas y limitaciones, es una libería ampliamente usada que ha creado comunidad. Algunos de sus usarios más conocidos son: AOL(AOL Comunicator), California Institute of Technology (Gambit), Carnegie Mellon University (Audacity),   Grisoft Inc. (AVG Antivirus), NASA (NASGRO), National Human Genome Research Institute - USA
-(ComboScreen), TomTom (TomTom HOME), Xerox (VIPP) o la propia Universidad de Las Palmas de Gran Canaria (Capaware!) entre otros.
+(ComboScreen), TomTom (TomTom HOME), Xerox (VIPP) o la propia Universidad de Las Palmas de Gran Canaria (CAPAWARE), entre otros.
 \\
 
 Se exponen algunas de las características clave para la toma de decisión sobre su uso:
@@ -621,26 +602,32 @@ Se exponen algunas de las características clave para la toma de decisión sobre s
 \item Librería multiplataforma gratuita y open source para desarrollar interfaces gráficas de usuario para aplicaciones de escritorio.
 \item No todas las opciones que ofrece la librería funciona en las distintas plataformas, por lo que hay que tener especial cuidado si que quiere que el proyecto sea, en potencia, multiplataforma. Esto limita las opciones de la librería que pueden usarse y la calidad visual del resultado.
 \item Existe documentación, foros y una comunidad bastante amplia y activa.
-\item Hay que tener en cuenta que durante el funcionamiento de la aplicación no existe una interfaz gráfica destinada al usuario en términos tradicionales. Es decir, no existen ventanas, botones, menús ni indicadores destinados a que el usuario las maneje. Por lo tanto no es un apartado crítico del proyecto. Sin embargo, se desea una interfaz gráfica que permita preparar la instalación en su situación final, además de gestionar ventanas y para mostrar las opciones de configuración de la aplicación. Las capacidades de wxWidgets resultan suficientes para estas necesidades.
-\item Se dispone de amplia experiencia previa con la librería en otros proyectos.
+\item Hay que tener en cuenta que durante el funcionamiento de la aplicación no existe una interfaz gráfica destinada al usuario en términos tradicionales. Es decir, no existen ventanas, botones, menús ni indicadores destinados a que el usuario las maneje. Por lo tanto no es un apartado crítico del proyecto. Sin embargo, se desea una interfaz gráfica que permita preparar la instalación en su situación final, además de gestionar ventanas y para mostrar las opciones de configuración de la aplicación. Se considera que las capacidades de wxWidgets resultan suficientes para estas necesidades.
+\item Se dispone de amplia experiencia previa con la librería durante el desarrollo de CAPAWARE y otros proyectos.
 \end{itemize}
 
-Se decide optar por esta librería por cubrir las necesidades básicas del proyecto, por ser gratuita y libre, y por tener una extensa experiencia con la misma en otros proyectos, lo que es determinante para considerarla la mejor opción.
+Se decide optar por esta librería por cubrir las necesidades básicas del proyecto, por ser gratuita y libre, y por tener una extensa experiencia con la misma, lo que es determinante para considerarla la mejor opción.
 
 \subsubsection{OpenCV: Open Source Computer Vision}
-OpenCV es una librería multiplataforma de funciones de visión por computador en tiempo real. Está desarrollada inicialmente por Intel, siendo gratuita tanto para uso comercial como investigación bajo licencia BSD. Surgió en 1999 como una iniciativa de Intel para mejorar aplicaciones intensivas en CPU, formando parte de una serie de proyectos que incluían ray tracing en tiempo real y pantallas de representación 3D. Actualmente acaba de salir la versión 2.0 que incluye amplias mejoras a la interfaz con C++, mejor prototipado, nuevas funciones y mejoras de rendimiento, especialmente en sistemas multicore. 
+OpenCV \cite{OPENCV} es una librería multiplataforma de funciones de visión por computador en tiempo real. Está desarrollada inicialmente por Intel, siendo gratuita tanto para uso comercial como para investigación bajo licencia BSD. Surgió en 1999 como una iniciativa de Intel para mejorar aplicaciones intensivas en CPU, formando parte de una serie de proyectos que incluían ray tracing en tiempo real y pantallas de representación 3D. Actualmente acaba de salir la versión 2.0 que incluye amplias mejoras a la interfaz con C++, mejor prototipado, nuevas funciones y mejoras de rendimiento, especialmente en sistemas multicore. 
 \\
 
-Algunas de sus aplicaciones son HCI (Human-Computer Interaction), Identificación, Segmentación y Reconocimiento de objetos, Reconocimiento de Caras, Reconocimiento de Gestos, Motion tracking, Ego Motion, Motion Understanding, SFM(Structure from Motion), Calibración estéreo y multi-cámara, Percepción de Profundidad y Robótica móvil.
+Algunas de sus aplicaciones son HCI (Human-Computer Interaction), Identificación, Segmentación y Reconocimiento de objetos, Reconocimiento de Caras, Reconocimiento de Gestos, Motion tracking, Ego Motion, Motion Understanding, SFM (Structure from Motion), Calibración estéreo y multi-cámara, Percepción de Profundidad y Robótica móvil.
 \\
 
-La librería es utilizada en el proyecto principalmente para las tareas de reconocimiento de objetos, caras, gestos y movimiento, lo que formaría parte del Módulo de Reconocimiento. Además, también es utilizada para el proceso de imágenes con fines estéticos, adoptando los resultados de los algoritmos de reconocimiento como modificadores de las imágenes en si, formando parte del Módulo de Producción.
+Se propone utilizar la librería principalmente para las tareas de reconocimiento de objetos, caras, gestos y movimiento, lo que formaría parte del Módulo de Percepción. Además, es un requisito para el uso de la librería Encara2, que se usará para la detección de caras en tiempo real.
 
-\subsubsection{Encara2:}
-Escribir escribir...
+\subsubsection{Encara2: A Real-Time Multiple Face and Facial Feature Detector for Perceptual Interfaces for Face Recognition and Description}
+Encara2 \cite{Castrillon05} \cite{ENCARA2} es la librería de reconocimiento facial en tiempo real desarrollada por Modesto Castrillón Santana, Óscar Déniz, Cayetano Guerra y Mario Hernández desde el SIANI: Instituto Universitario de Sistemas Inteligentes y Aplicaciones Numéricas en Ingeniería \cite{SIANI}. 
+\\
+
+Esta librería está desarrollada en C++ sobre OpenCV y propone un sistema de detección de caras y características faciales como ojos, nariz y boca, que da un paso más allá de los esquemas planteados comúnmente para imágenes estáticas. El sistema, dada una secuencia de imágenes, aprovecha información extrínseca sobre coherencia espacial y temporal, para crear un sistema robusto y eficiente para la detección de múltiples caras incluso en tiempo real. Los resultados conseguidos mejoran a los planteados por Viola-Jones \cite{Viola01cvpr}. Su desarrollo continúa centrándose actualmente en ofrecer más características faciales como sexo y edad del sujeto observado.
+\\
+
+Encara2 no se encuentra bajo una licencia Open Source. Sin embargo, sus autores están abiertos a estudiar colaboraciones y su uso por parte de terceros, por lo que es posible contactarlos para establecer una comunicación. Esto puede hacerse a través de la página oficial \cite{ENCARA2}. Esta herramienta ofrecida por Modesto será incluída en el proyecto y podrá verse más información sobre la misma en la sección \ref{Encara2Details}, página \pageref{Encara2Details}. 
 
 \subsubsection{Fmod: Music \& Sound Effects System}
-Librería de audio propietaria y multiplataforma de Firelight Technologies que soporta un amplio abanico de formatos de audio. También tiene capacidad para reproducir sonido 3D en sistemas de sonido envolventes.
+Fmod \cite{FMOD}  es una librería de audio propietaria y multiplataforma de Firelight Technologies que soporta un amplio abanico de formatos de audio. También tiene capacidad para reproducir sonido 3D en sistemas de sonido envolventes.
 \\
 
 La biblioteca es ampliamente utilizada en juegos y varios motores gráficos incluyen soporte para la misma. Algunos ejemplos son: BioShock, Call of Duty 4, Crysis, Far Cry, la saga Guitar Hero, Heavenly Sword, Hellgate: London, Metroid Prime 3, Second Life o World of Warcraft, entre otros.
@@ -649,143 +636,120 @@ La biblioteca es ampliamente utilizada en juegos y varios motores gráficos inclu
 Fmod está disponible siguiendo distintos esquemas. Sin embargo, no es de código abierto y sólo es gratuito para desarrollo de aplicaciones no comerciales.
 
 \subsubsection{OpenAL: Cross-platform 3D Audio API}
-API de audio multiplataforma desarrollada por Creative Labs destinada la reproducción de audio posicional y multicanal en 3D. Se ideó para su uso extenso en videojuegos siguiendo las mismas convenciones que OpenGL, consiguiendo convertirse en un estándar aceptado. 
+OpenAL \cite{OPENAL} ofrece una API de audio multiplataforma desarrollada por Creative Labs destinada la reproducción de audio posicional y multicanal en 3D. Se ideó para su uso extenso en videojuegos siguiendo las mismas convenciones que OpenGL, consiguiendo convertirse en un estándar aceptado. 
 \\
 
 La biblioteca es ampliamente usada en juegos y varios motores incluyen soporte para la misma. Algunos ejemplos relativamente recientes son: Doom3, Quake4, Unreal2, Unreal Tournament 3 o Hitman2. 
 \\
 
-Sin embargo, en los últimos años el mantenimiento de la misma se ha descuidado y aparecen errores, especialmente en sistemas de 64 bits. Son comunes las nuevas variaciones de OpenAL que le dan continuidad, como OpenAL Soft, OpenAL++ o distintas librerías a modo de wrapper que usan OpenAL por debajo, como SFML.
+Sin embargo, en los últimos años el mantenimiento de la misma se ha descuidado y aparecen errores, especialmente en sistemas de 64 bits. Su API es especialmente confusa y su curva de aprendizaje muy elevada. Son comunes las nuevas variaciones de OpenAL que le dan continuidad, como OpenAL Soft, OpenAL++ o distintas librerías a modo de wrapper que usan OpenAL por debajo, como SFML.
 \\
 
-De cualquier forma, OpenAL parece ser la única opción multiplataforma gratuita y libre para cualquier tipo de desarrollo que provea de posicionamiento 3D de audio en sistemas de sonido envolventes.
+OpenAL y sus variaciones parecen ser la única opción encontrada multiplataforma gratuita y libre para cualquier tipo de desarrollo, que provea de posicionamiento 3D de audio en sistemas de sonido envolventes.
 
 \subsubsection{SDL\_Mixer: Simple DirectMedia Layer Mixer}
-Partiendo de la SDL, librería multiplataforma que permite el acceso de bajo nivel a dispositivos de audio, periféricos y hardware 3D, SDL\_Mixer se centra en el primer apartado facilitando la mezcla de sonido multicanal, así como la carga de samples y de música de distintos formatos.
-\\
-
-Sin embargo, aunque permite el acceso a bajo nivel, no aporta mayores funcionalidades por sí misma.
-Bla bla bla...
-\\
-(completar)
+SDLMixer \cite{SDLMIXER} es una librería multiplataforma que permite el acceso de bajo nivel a dispositivos de audio, periféricos y hardware 3D, SDL\_Mixer se centra en el primer apartado facilitando la mezcla de sonido multicanal, así como la carga de samples y de música de distintos formatos. Sin embargo, aunque permite el acceso a bajo nivel, no aporta mayores funcionalidades por sí misma. Además parece tener un mantenimiento muy escaso.
 
 \subsubsection{Clunk: Open Source 3D-Sound library}
-Biblioteca de creación reciente de código abierto para C++ que pretende dar soporte para la generación de sonido 3D, binaural, en tiempo real. Propone una API bastante manejable y sencilla de usar, con un modelo orientado a la gestión de objetos. Sin embargo aún se encuentra en fase de testeo antes de lanzar su primera release. 
+Clunk \cite{CLUNK} es una librería de código abierto para C++ que pretende dar soporte para la generación de sonido 3D, binaural, en tiempo real. Propone una API bastante manejable y sencilla de usar, con un modelo orientado a la gestión de objetos. Sin embargo aún se encuentra en fase de testeo antes de lanzar su primera release. 
 \\
 
-Sin embargo, está preparado para generar sonido binaural, el cual tiene su mejor efecto en auriculares y no tanto en altavoces. Por otro lado del modelo de escucha sólo tiene en consideración posición, velocidad y dirección de orientación, sin información de verticalidad; por lo que no es posible definir realmente su estado en un entorno 3D, sólo en un plano.
+Está preparado para generar sonido envolvente binaural, el cual tiene su mejor efecto en auriculares, aunque no tanto en altavoces. Por otro lado del modelo de escucha sólo tiene en consideración posición, velocidad y dirección de orientación, sin información de verticalidad; por lo que no es posible definir realmente su estado en un entorno 3D, sólo en el plano horizontal.
 
 \subsubsection{Irrklang: High level 3D audio engine/API}
-API de alto nivel para sonido 2D/3D multiplataforma enfocado hacia C++ y lenguajes.NET. Da soporte para un amplio abanico de formatos de sonido y provee de una API muy sencilla de usar. Se puede encontrar bajo distintas licencias pero sólo es gratuito para desarrollos no comerciales.
+Irrklang \cite{IRRKLANG} ofrece una API de alto nivel para sonido 2D y 3D en multiplataforma enfocado hacia C++ y lenguajes .NET. Da soporte para un amplio abanico de formatos de sonido y provee de una API que parece muy sencilla de usar. Se puede encontrar bajo distintas licencias pero sólo es gratuito para desarrollos no comerciales.
 \\
 
-Al igual que OpenAL y FMOD éste sí permite definir completamente las propiedades necesarias para orientar en 3D tanto los sonidos como la escucha. Sin embargo, la limitaciones de licencia son menos interesantes que las de una opción más abierta.
-\\
-(completar)
+Al igual que OpenAL y FMOD, Irrklang sí permite definir completamente las propiedades necesarias para orientar en 3D tanto los sonidos como la escucha. Sin embargo, la limitaciones de licencia son menos interesantes que las de otras alternativas, dado que no permite desarrollar cualquier tipo de proyecto.
+
 
 \subsubsection{SFML: Simple and Fast Multimedia Library}
-SFML se ofrece como una API open-source multimedia que provee mecanismos para la gestión del sistema, de gráficos, interfaz gráfica de usuario, sonido, periféricos y de red. La librería es multiplataforma y se encuentra disponible para varios lenguajes como C, C++,.NET, Python o Ruby, entre otros. 
+SFML \cite{SFML} se ofrece como una API Open Source multimedia que provee mecanismos para la gestión del sistema, de gráficos, interfaz gráfica de usuario, sonido, periféricos y de red. La librería es multiplataforma y se encuentra disponible para varios lenguajes como C, C++,.NET, Python o Ruby, entre otros. 
 \\
 
 Sigue un diseño Orientado a Objetos y define un interfaz fácil de usar y de integrar en otros proyectos. Se compone de diferentes paquetes que pueden ser usados en conjunto o individualmente. Es de especial interés el paquete de sonido, que funciona a modo de wrapper de OpenAL, arreglando algunos de los bugs que tiene y simplificando su uso. 
 \\
 
-Se distribuye bajo licencia zlib/png, de la Open Source Initiative, por lo que es gratuita y abierta para todo tipo de proyectos.
+Se distribuye bajo licencia zlib/png \cite{SFMLLICENSE}, de la Open Source Initiative, por lo que es gratuita y abierta para todo tipo de proyectos.
 \\
 
 Tiene varios defectos. Por un lado, en el paquete de sonido la documentación es errónea, y puede llevar a confusiones importantes. Además la definición de la API, aunque más simple, limita la funcionalidad real de OpenAL hasta el punto de que no puede orientarse correctamente la escucha en 3D, por lo que sólo puede usarse en 2D o 3D en el plano horizontal. Sin embargo, pequeñas modificaciones en la libería permitirían recuperar esa funcionalidad sin problemas.
 
 \subsubsection{Chuck: Strongly-timed, Concurrent, and On-the-fly Audio Programming Language}\label{SUBSUBSEC_CHUCK}
 
-Chuck es un lenguaje de programación para el análisis, síntesis, composición y producción de audio. La librería es multiplataforma y presenta un modelo de programación concurrente basado en tiempo, altamente preciso (strongly-timed) y con la habilidad de añadir y moficar código en tiempo de ejecución. Chuck soporta dispositivos MIDI, OSC, HID y audio multicanal.
-\\
+Chuck \cite{CHUCK} es un lenguaje de programación para el análisis, síntesis, composición y producción de audio. La librería es multiplataforma y presenta un modelo de programación concurrente basado en tiempo, altamente preciso (strongly-timed) y con la habilidad de añadir y moficar código en tiempo de ejecución. Chuck soporta dispositivos MIDI, OSC, HID y audio multicanal. Se considera como una opción muy interesante para la producción de audio.
 
-(completar, scripts, etc y estudiar más a fondo junto con Tapestrea, en comparación con Marsyas)
 
 \subsubsection{Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals}\label{SUBSUBSEC_MARSYAS}
-Librería y framework para C++ para el procesado de audio con especial énfasis en aplicaciones de extracción de información en música, creada principalmente por George Tzanetakis y desarrollada de forma abierta. Está enfocado hacia el prototipado rápido y la experimentación en el análisis y síntesis de audio, procurando un alto rendimiento. 
-
-Bla bla bla...
-
-(completar... y estudiar más a fondo en comparación con Chuck)
+Marsyas \cite{MARSYAS} es una librería y framework para C++ para el procesado y síntesis de audio. Hace especial énfasis en sus aplicaciones la extracción de información musical. Creada principalmente por George Tzanetakis y desarrollada de forma abierta, está enfocada hacia el prototipado rápido y la experimentación en el análisis y síntesis de audio, procurando un alto rendimiento. Fue finalista para el premio por elección del público de la comunidad de SourgeForge en 2009, y pueden verse referencias a proyectos de muy diferente naturaleza que la utilizan en su desarrollo. Se considera que es una herramienta muy interesante, tanto para el análisis como la síntesis de audio.
 
 \subsubsection{PostgreSQL}
-Potente Bases de Datos objeto-relacional open source. Es considerada la BBDD open source más avanzada y potente, con más de 15 años de desarrollo. Está disponible para múltiples sistemas operativos Linux, UNIX y Windows y dispone de interfaces con múltiples lenguages, entre ellos C++. 
-\\
-bla bla bla
-\\
-Para eliminar el usuario (especialmente en win 7) usar comando NET USER postgres /DELETE
+PostgreSQL \cite{POSTGRESQL} es una potente bases de datos objeto-relacional open source. Es considerada la BBDD open source más avanzada y potente, con más de 15 años de desarrollo. Está disponible para múltiples sistemas operativos Linux, UNIX y Windows y dispone de interfaces con múltiples lenguages, entre ellos C++. 
+
 
 \subsubsection{OODBMS: Object Oriented Data Base Management Systems}
-Se han estudiado múltiples variantes de Bases de Datos Orientadas a Objetos. Sin embargo, no ha sido posible encontrar ninguna que se adapte a los requisitos software del proyecto. Se resumen detalles que implican su descarte:
+Se ha relizado una búsqueda bastante extensa sobre Bases de Datos Orientadas a Objetos. Sin embargo, no ha sido posible encontrar ninguna que se adapte a los requisitos software del proyecto. A continuación, se muestra un listado de las soluciones encontradas y se resume el detalle que implica su descarte:
 \begin{itemize}
 \item EyeDB: Disponible para C++, potente y estable. Sólo está disponible para Linux.
-\item Metakit: Base de datos embebida limita su uso y crecimiento futuro del proyecto.
-\item db4o: Embebida, sólo para Java o c\#.
+\item Metakit: Base de datos embebida, esto limita su uso, conectividad y crecimiento futuro del proyecto.
+\item db4o: Embebida, no disponible para C++, sólo para Java o C\#.
 \item Orient: Versión para Windows sólo embebida. Mala documentación.
 \item NeoDatis: Sólo para Java o C\#.
 \item Perst: Embebida.
-\item Odaba: Proyecto antiguo, API confusa.
-\item Matisse: Licencia gratuitia restrictiva, sólo para prueba de la librería.
+\item Odaba: API confusa, el proyecto es antiguo y parece abandonado.
+\item Matisse: Licencia gratuita restrictiva, sólo para prueba de la librería.
 \item Jade6: Licencia restrictiva, sólo para prueba de la librería.
 \item Bifröst: Abandonado.
-\item Cerebrum: ??
+\item Cerebrum: Abandonado.
 \item Frontier: Abandonado.
 \item Oviedo3: Abandonado.
 \item Thor: Proyecto del MIT, no disponible aún.
-\item MongoDB: No es orientada a objetos sino a documentos, mala eficiencia en altas cantidades de transacciones.
+\item MongoDB: No es orientada a objetos sino a documentos, ofrece ventajas si la estructura de datos es lineal, pero ofrece mala eficiencia cuando hay en altas cantidades de consultas relacionales entre los datos.
 \end{itemize}
 
 \subsubsection{Debea: Database Access Library}
-Se trata de una librería en C++ que actúa como mapper entre el modelo orientado a objetos de la aplicación y el esquema de persistencia elegido (base de datos SQL, CSV o ficheros XML). En el caso de SQL, aunque encapsula la persistencia de los objetos incluyendo una API sencilla para la carga y almacenamiento de los mismos y sus relaciones, sigue siendo posible ejecutar comandos SQL si se desea realizar consultas elaboradas. Usa la licencia de wxWindows por lo que es gratuita y libre. También está disponible para Linux y Windows. Soporta de forma nativa bases de datos SQLite3 y PostgreSQL, además de ficheros csv y xml y ofrece una API sencilla y una documentación clara.\\
+Debea \cite{DEBEA} consiste en una librería en C++ que actúa como mapper entre el modelo orientado a objetos de la aplicación y el esquema de persistencia elegido (base de datos SQL, CSV o ficheros XML). En el caso de SQL, aunque encapsula la persistencia de los objetos incluyendo una API sencilla para la carga y almacenamiento de los mismos y sus relaciones, sigue siendo posible ejecutar comandos SQL si se desea realizar consultas elaboradas. Usa la licencia de wxWindows \cite{DEBEALICENSE} por lo que es gratuita y libre.
 \\
-\\
-licencias usadas: BSD modificada (Panda3D), GPL (doxygen), Boost software license, wxwindows license (wxwidgets, debea), BSD (OpenCV), zlib-png (SFML).
 
+También está disponible para Linux y Windows. Soporta de forma nativa bases de datos SQLite3 y PostgreSQL, además de ficheros csv y xml y ofrece una API sencilla y una documentación clara.
 
 \subsection {Análisis de Requisitos de Usuario}
-La instalación se presenta como un espacio en el que el usuario puede entrar y moverse. Dentro de ese espacio se encontrará con una o varias pantallas, cámaras, micrófonos  y altavoces. A través de las cámaras y de los micrófonos se capturará información para su análisis y para la producción de efectos, y mediante las pantallas y los altavoces se mostrará un entorno. Es mediante la actitud e interacción del usuario con el espacio como el entorno virtual es generado. A su vez, este entorno será capaz de actuar y evolucionar por su cuenta dentro de un esquema de comportamiento, también definido mediante la interacción del usuario durante la sesión. Capacidades añadidas permitirían a un usuario entrar en el entorno de otro usuario. Aunque este apartado se dejará como trabajo futuro en función de la evolución del proyecto.
+La propuesta de instalaciones que se podrán crear con este kit de desarrollo se presenta como un espacio en el que el usuario puede entrar y moverse. Dentro de ese espacio se encontrará con una o varias pantallas, cámaras y altavoces. A través de las cámaras se capturará información para su análisis y para la producción de efectos, y mediante las pantallas y los altavoces se mostrará el entorno generado. Es mediante la interacción del usuario con el espacio como el entorno virtual es generado. A su vez, este entorno será capaz de actuar y evolucionar por su cuenta dentro de un esquema de comportamiento, también definido mediante la interacción del usuario durante la sesión. Capacidades añadidas permitirían a un usuario hablar con el entorno o entrar en el entorno de otro usuario. Aunque estos apartados se consideran extensiones del trabajo a realizar y se dejarán como trabajo futuro en función de la evolución del proyecto.
 \\
 
 Teniendo en cuenta estos aspectos, se detallan los siguientes requisitos:
 
 \begin{itemize}
 \item Captura de imagen del usuario.
-\item Captura de sonido del usuario.
-\item Reconocimiento de su posición en el espacio, localización de cabeza/cuerpo, posturas o gestos.
-\item Reconocimiento de voz (sonidos, palabras) (en función de la evolución del proyecto)
-\item Crear entorno propio (crear, borrar, cargar escenarios).
-\item generación de esquema de comportamiento.
+\item Captura de sonido del usuario (en función de la evolución del proyecto).
+\item Reconocimiento mediante técnicas de visión por computador (presencia, posición, cara, etc.).
+\item Análisis de audio (en función de la evolución del proyecto).
+\item Crear entornos propios para un usuario (crear, borrar, cargar escenarios).
 \item Generación de efectos visuales.
 \item Generación de efectos de audio y composición musical.
 \item Generación de elementos 3D.
 \item Generación de elementos 2D.
-\item Generación de vida artificial.
+\item Generación de esquemas de comportamiento
+\item Generación de elementos de vida artificial.
+\item Capacidad para crear una experiencia única que dependa de la interacción del usuario.
 \item Interacción.
 \begin{itemize}
 \item Con la escena:
 \begin{itemize}
-\item Vista: Perspectiva Visual (asociación cámara/cabeza).
+\item Vista: Perspectiva Visual (asociación de la cámara a la presencia).
 \item Oído: sonido estéreo ó 3D envolvente.
-\item Provocar sonidos: ruidos, palmas, habla.
 \item Movimiento dentro de la escena:
 \begin{itemize}
 \item No estar.
 \item Estar.
 \item Quedarse quieto.
 \item Moverse. 
-\item Contacto del usuario con los elementos de la escena (velocidad: estático, roce, golpe, gesto...)
-\item Elementos: Crear, destruir, mover, provocar interacción/respuesta.
-\item Definición de Esquema de Comportamiento/Psique: propia y de la escena, estudio del comportamiento e interacción que sentará las bases del estado del entorno (tipo de escena, iluminación, sonidos, efectos, tipos de elementos creados, comportamientos de los mismos).
+\item Colisiones del usuario con los elementos de la escena (tocar o golpear).
+\item Elementos: crear, destruir o provocar una interacción o respuesta.
+\item Estudio del comportamiento e interacción que sentará las bases del estado del entorno (tipo de escena, iluminación, sonidos, efectos, tipos de elementos creados, comportamientos de los mismos, etc.).
 \end{itemize}
 \end{itemize}
-\item Con otros usuarios: (en función de la evolución del proyecto)
-\begin{itemize}
-\item Entrar en escenarios de otros usuarios (limitación de interacción según permisos: ver/tocar/crear/destruir/psique-empatía(poder modificar esquema de comportamiento del otro usuario o que se modifique el suyo)).
-\item Ver y comunicarse con otro usuario: avatar visual, comunicación por audio.
 \end{itemize}
-\end{itemize}
-\item  Alta capacidad de personalización del entorno resultante y unicidad del entorno.
 \end{itemize}
 
 \newpage
@@ -798,7 +762,10 @@ Teniendo en cuenta estos aspectos, se detallan los siguientes requisitos:
 
 \subsection {Análisis de Requisitos de Software}
 
-Además de conseguir como resultado una Instalación que muestre las capacidades tecnológicas en el entorno del Arte, así como la experimentación en nuestras interfaces y formas de interacción del usuario, este proyecto pretende ofrecer un entorno de trabajo para el futuro desarrollo de nuevas aplicaciones de este tipo. De esta forma, la aplicación se enfoca como un proyecto open-source, un marco de trabajo compuesto de diferentes módulos independientes, de forma que la implementación subyacente sea modificable sin afectar al resto de los módulos. Para ello se debe definir un completo esquema de interfaces.
+Además de conseguir como resultado una Instalación que muestre las capacidades tecnológicas estudiadas, así como la experimentación en  el campo de las interfaces y formas de interacción del usuario, este proyecto pretende ofrecer un entorno de trabajo para el futuro desarrollo de nuevas aplicaciones de este tipo. De esta forma, la aplicación se enfoca como un proyecto Open Source. 
+\\
+
+El proyecto estará compuesto de de diferentes módulos independientes, de forma que la implementación subyacente sea modificable sin afectar al resto de los módulos. Para ello se debe definir un esquema de interfaces.
 \\
 
 Teniendo en cuenta estas características, se detallan los requisitos software del proyecto:
@@ -806,99 +773,102 @@ Teniendo en cuenta estas características, se detallan los requisitos software de
 \item Uso de software libre y multiplataforma.
 \item Uso de recursos gratuitos.
 \item El framework producido será software libre.
-\item Diseño del framework orientado a multiplataforma, para facilitar su futura portabilidad.
+\item Facilitar su futura portabilidad usando sólo recursos para los que existan equivalentes en las otras plataformas a ala de desarrollo.
 \item Diseño de interfaces de forma que los módulos sean fácilmente sustituibles.
-\item Sistema local/online persistente (según evolución del proyecto).
+\item Sistema local/online de persistencia (según la evolución del proyecto).
 \end{itemize}
 
 
 \section{Diseño}
 
 \subsection{Estructuración de conceptos}
-\begin{center}
-(REVISAR Y DEFINIR BIEN)
-\end{center}
 
 \subsubsection{Aplicación}
--Aplicación:
-  -Programa de que se ejecuta en un ordenador.
-  -Carga un escenario para un usuario.
-  -Puede entrar en escenarios cargados por otros usuarios en otras aplicaciones conectados al mismo sistema.
+
+\begin{itemize}
+\item Aplicación:
+\begin{itemize}
+\item Programa de que se ejecuta en un ordenador.
+\item Carga un escenario para un usuario.
+\item Puede sin que ningún usuario lo manipule manualmente durante las sesiones.
+\end{itemize}
+\end{itemize}
 
 \subsubsection{Usuario}
--Usuario:
-  -El usuario se presenta en la instalación y es reconocido por su cara (ID) y se crea un entorno/escenario.
-  -El usuario puede querer crear un escenario nuevo o ver uno anterior (default: decidir cargar último/crear).
-  -El usuario puede interactuar con un escenario propio o de otro usuario (preferencia, permisos) (default: todo, ver, tocar), and lógico bit a bit.
-  -El usuario puede verse a sí mismo (avatar), a otros usuarios (avatar) y a otros escenarios en red (símbolos de escenarios).
-  -Los cambios y la interacción del usuario define un patrón de comportamiento (psique, opciones: egocéntrico, tábula rasa).
-\\
-
--Permisos: 
-  -Conjunto de opciones que define la interacción entre un usuario(desea) y un escenario(permite).
-  -Operación lógica (umpersand) definiría qué puede hacer un usuario en un escenario.
-  -Posibles permisos: Ver/Tocar/Coger/Copiar/Crear/Destruir/Influenciar/LibreAlbedrío
+\begin{itemize}
+\item Usuario:
+\begin{itemize}
+\item El usuario se presenta en la instalación y es reconocido por su cara, si no era conocido se le crea un entorno/escenario.
+\item El usuario puede querer crear un escenario nuevo o abrir uno anterior.
+\item La interacción del usuario define un patrón de comportamiento y modifica la producción sonora y visual.
+\end{itemize}
+\end{itemize}
 
 \subsubsection{Entorno}
--Escenario/Entorno:
-  -Se presenta ante / es creado por / un usuario.
-  -Representa elementos vivos o inertes, definidos mediante objetos 3D, 2D, sonidos y efectos.
-  -Responde ante la interacción del usuario y cambia según sus acciones.
-  -También cambia por su cuenta.
-  -Permite al usuario propietario interactuar cómo desee, la interacción de otros usuarios puede estar limitada.
-  -Los cambios y la interacción del escenario define un patrón de comportamiento que establece las bases del mismo (psique).
-  -Se rige por la psique pero tiene un determinado factor de aleatoriedad.
-  -Componentes: Espacio, entidades.
-\\
+\begin{itemize}
+\item Escenario/Entorno:
+\begin{itemize}
+\item Es creado para un usuario.
+\item Representa elementos mediante objetos 3D, sonidos y efectos.
+\item Responde ante la interacción del usuario y cambia según sus acciones.
+\item Los cambios y la interacción del escenario define un patrón de comportamiento que establece cómo cambiará el entorno.
+\item Componentes: Espacio, entidades.
+\end{itemize}
+\end{itemize}
 
--Espacio: 
-  -Terrenos (discutir estático/dinámico, interactivo o no).
-  -Sonido ambiental: autogenerado, gramática para generación de composiciones.
+\begin{itemize}
+\item Espacio: 
+\begin{itemize}
+\item Elementos gráficos usados como trasfondo.
+\item Sonido ambiental.
+\end{itemize}
+\end{itemize}
 
--Entidades:
-  -Usuarios: avatares.
-  -Objetos no interactivos/inertes (estudiar interacción por físicas).
-  -Objetos interactivos: vivos/inertes.
-  -Sonido de las entidades: acciones (gramática), etc. (autogenerado: gramática).
-  -Sonidos de los usuarios: acciones (autogenerado: gramática), captura por micrófono, comunicaciones chat, etc.
+\begin{itemize}
+\item Entidades:
+\begin{itemize}
+\item Usuarios: El usuario es una entidad que existe en la escena.
+\item Objetos no interactivos.
+\item Objetos interactivos que reaccionan ante el usuario.
+\item Sonidos de las entidades según sus acciones.
+\end{itemize}
+\end{itemize}
 
--Objetos interactivos:
-  -Colección de elementos 3D, 2D, sonidos y efectos.
-  -Composición: algoritmo genético que define la creación de un objeto, tanto física (3D, 2D, sonidos, efectos) como de comportamiento.
-  -Capacidades de evolución: reproducción, mutación y asimilación.
-  -Vivos: Agentes, revisar modelo BDI (Creencias, Deseos, Intenciones), y de Agentes Híbridos (Nivel Reactivo, Conocimiento, Social).
-  -No-muertos: Agentes interactivos totalmente reactivos, sin deseos ni intenciones.
-\\
 
 \subsubsection{Resumen}
-\textsl{Llegados a este punto se observan las siguientes necesidades:}
+Llegados a este punto se observan las siguientes necesidades:
 
 \begin{itemize}
 \item Aplicación que implemente y englobe las funcionalidades.
-\item Interfaz gráfica de usuario genérica para la gestión de ventanas y configuración de opciones de aplicación.
+\item Interfaz gráfica de usuario genérica para la gestión de ventanas y para mostrar las opciones de configuración de la aplicación.
 \item Modificación de elementos y datos, carga y guardado de los mismos.
 \item Base de Datos.
-\item Percepción del entorno mediante técnicas de Visión por Computador y Captura de audio.
-\item Generación de elementos con los que componer un entorno (elementos 3D, 2D, audio).
-\item Análisis y definición del patrón de interacción del usuario y de la evolución del entorno (psique).
+\item Percepción del entorno mediante técnicas de Visión por Computador.
+\item Generación de elementos con los que componer un entorno.
+\item Análisis y definición del patrón de interacción del usuario y de la evolución del entorno.
 \end{itemize}
 
 \subsection{Diseño de la Aplicación}
 
-A partir de esta descripción se pueden diferenciar y extraer los diferentes módulos de los que es necesario que se componga la aplicación. Hay que tener en cuenta además que se desea conseguir una alta modularidad e independencia entre las distintas secciones, que permita extraer e intercambiar módulos con facilidad, p.e para usen distintas librerías o no usen librerías externas en absoluto. Por ello, se sigue un modelo de interfaces, en la que se define el núcleo de la aplicación y las relaciones entre los módulos. Sobre ella, se implementará cada módulo y finalmente se construirá la aplicación final.
+A partir de esta descripción se pueden diferenciar y extraer los diferentes módulos de los que es necesario que se componga la aplicación. Hay que tener en cuenta además que se desea conseguir una alta modularidad e independencia entre las distintas secciones, que permita extraer e intercambiar módulos con facilidad. De esta forma, las implementaciones de cada módulo deben ser capaces de comunicarse, pero también deben desconocer con qué tecnología se han desarrollado. 
+\\
+
+Por ello, se sigue un modelo basado en el uso de interfaces. 
+\\
+
+Se define un núcleo que albergará la definición de estas interfaces abstractas, así como de estructuras de datos básicos o plantillas que permitan la manipulación de estructuras de datos comunes entre módulos. Sobre el núcleo, se implementará cada módulo y, finalmente, se construirá la aplicación, haciendo uso de las librerías generadas por éstos.
 
 \begin{itemize}
 \item Core: Conjunto de interfaces de la aplicación.
 \begin{itemize}
-\item IAplication: Define la interfaz de la aplicación completa. Es además una composición de los distintos módulos de la misma.
-\item IGUI: Interfaz gráfica de la aplicación de ventanas, para las opciones básicas de visualización y configuración.
+\item IAplication: Define la interfaz de una aplicación básica que use este kit de desarrollo. Es además una composición de los distintos módulos del kit.
+\item IGUI: Usada para definición de la interfaz gráfica de la aplicación de ventanas, para las opciones básicas de visualización y configuración.
 \item IPersistence: Persistencia de la aplicación, encapsula los cambios que se efectúan sobre los datos de la misma.
-\item IPercept: Engloba la interfaz de usuario mediante percepción (Visión por Computador, captura de audio).
-\item Iprod: Es el módulo referido a la Producción, generación de elementos 3D, 2D, composición de audio, etc.
-\item ICog: Para el ánalisis de la interacción del usuario y definición del concepto de Esquema de Comportamiento/Psique de Entorno y de Usuario.
+\item IPercept: Engloba la interfaz de usuario mediante percepción.
+\item Iprod: Es el módulo referido a la Producción, generación de elementos 3D y de audio.
+\item ICog: Ofrecerá elementos de Inteligenia Artificial.
 \end{itemize}
-\item VOX: Implementación de la aplicación.
-\item Monitor: Para la gestión y monitorización de los accesos a la Base de Datos.
+\item VOX: Implementación de una aplicación que usa este kit de desarrollo como propuesta de una Instalación.
 \item Base de Datos
 \end{itemize}
 
@@ -2280,7 +2250,7 @@ Por otro lado, se hará uso de las técnicas de reconocimiento para dos tareas: pr
 
 \subsection{Selección de Herramientas}
 
-La librería principal que se usará para los elementos de Visión por Computador sigue siendo OpenCV. Se usarán las funcionalidades ofertadas por esta librería para todo el proceso de Visión por Computador. Hay que destacar que para la detección facial se han implementado dos alternativas: Por un lado, se soporta por defecto la detección simple por componentes principales que implementa OpenCV, y por otro, mediante una opción de compilación, se da soporte para la librería desarrollada por Modesto Castrillón Encara2 \cite{Castrillon05}. De esta forma se mantienen los requisitos software del proyecto, especialmente en relación a la licencia del proyecto. Para la detección de colisiones se ha optado por usar el propio motor de juego de Panda3D que ofrece estas capacidades, lo que evitará mantener dos modelos de forma independiente.
+La librería principal que se usará para los elementos de Visión por Computador sigue siendo OpenCV. Se usarán las funcionalidades ofertadas por esta librería para todo el proceso de Visión por Computador. Hay que destacar que para la detección facial se han implementado dos alternativas: Por un lado, se soporta por defecto la detección simple por componentes principales que implementa OpenCV, y por otro, mediante una opción de compilación, se da soporte para la librería desarrollada por Modesto Castrillón Encara2 et alii \cite{Castrillon05}. De esta forma se mantienen los requisitos software del proyecto, especialmente en relación a la licencia del proyecto. Para la detección de colisiones se ha optado por usar el propio motor de juego de Panda3D que ofrece estas capacidades, lo que evitará mantener dos modelos de forma independiente.
 
 \begin{itemize}
 \item Visión por Computador: OpenCV / Encara2
@@ -2407,7 +2377,7 @@ Otra consideración es que existirá un detector por cada cámara conectada al sist
 
 \begin{itemize}
 \item SimpleFaceDetection: Implementación del Detector de Caras que utilizará los métodos ya proporcionados por la libreria OpenCV. Se basa en un clasificador Haar (cascade), basado en los trabajos de Paul Viola \cite{Viola01cvpr}.
-\item Encara2FaceDetection: Implementación del Detector de Caras utilizando la librería desarrollada por Modesto C., Encara2 \cite{Castrillon05}. También necesita un clasificador Haar.
+\item Encara2FaceDetection: Implementación del Detector de Caras utilizando la librería desarrollada por Modesto C., Encara2 et al. \cite{Castrillon05}. También necesita un clasificador Haar.
 \item PresenceDetection: Implementación del Detector de Presencia, usando la librería OpenCV. Esta libería utiliza un algoritmo de detección de diferencias basado en los trabajos de Liyuan Li et al. \cite{LIYUAN03}. Los atributos que se muestran en la definición son los necesarios para la aplicación del algoritmo.
 \item MotionDetection: Implementación del Detector de Movimiento, usando la librería OpenCV que mantiene un historial de imágenes de movimiento.
 \end{itemize}
@@ -3463,9 +3433,9 @@ void SimpleFaceDetection::GetFaceCenterPos(corePoint2D<int> &pos)
 
 En concreto, devolverá la imagen completa con la cara resaltada, así como recortes de la cara en cuestión. 
 
-scr$\backslash$ipercept$\backslash$video$\backslash$Encara2FaceDetection \\
+scr$\backslash$ipercept$\backslash$video$\backslash$Encara2FaceDetection\label{Encara2Details} \\
 
-En este apartado veremos la aplicación del detector Encara2, desarrollado por el tutor, Modesto Castrillón Santana. Los sistemas de detección de caras pueden clasificarse de varias formas. Una de estas clasificaciones los separan según el tipo de conocimiento que utilizan: implícito o explícito. \\
+En este apartado veremos la aplicación del detector Encara2, desarrollado por el tutor, Modesto Castrillón Santana et alii. Los sistemas de detección de caras pueden clasificarse de varias formas. Una de estas clasificaciones los separan según el tipo de conocimiento que utilizan: implícito o explícito. \\
 
 Los detectores que usan conocimiento implícito se centran exclusivamente en la imagen. Entrenan un clasificador con un conjunto de imágenes, teniendo en cuenta un conjunto de restricciones de escala y orientación. Es una solución de fuerza bruta, lenta pero robusta, que sin embargo, ignora información que podría acelerar la detección. \\
 
@@ -3832,7 +3802,7 @@ Con la finalización de esta fase, el SDK y la aplicación se pueden considerar te
 El proyecto ha sufrido un paréntesis en el que el desarrollo se ha detenido. 
 \\
 
-Debido a esto y al reconocimiento de que el alcance ideado inicialmente podía ser demasiado extenso, se han tomado decisiones para acotar la dimensión del mismo. De esta forma, se ha planteado simplificar tanto los mecanismos de interacción avanzada como de creación de contenidos, y las mejoras se añaden como posible trabajo futuro. También se relajará la exigencia y concentración sobre el estudio de múltiples fuentes y salidas para esta propuesta de instalación, centrándonos en el uso de una única cámara y display.
+Debido a esto y al reconocimiento de que el alcance ideado inicialmente podía ser demasiado extenso, se han tomado decisiones para acotar la dimensión del mismo. De esta forma, se ha planteado simplificar tanto los mecanismos de interacción avanzada como de creación de contenidos, y las mejoras se añaden como posible trabajo futuro. También se relajará la exigencia y concentración sobre el estudio de múltiples fuentes y salidas para esta propuesta de instalación, centrándonos en el uso de una única cámara y display, y se limitará el trabajo relacionado con audio a su generación en el Módulo de Producción.
 
 \section{Análisis}
 \subsection{Análisis de Requisitos Hardware}
@@ -6592,6 +6562,68 @@ IMPLEMENT_MIIAPP(Application)
 
 \bibitem{wxFL09} wxWidgets {\em wxWidgets Features} http://www.wxwidgets.org/about/feature2.htm 2009
 
+\bibitem{UDK} Unreal 3 DEvelopment Kit http://www.unrealengine.com/en/udk/
+
+\bibitem{CRYENGINEE} CRYENGINE 3 Educational SDK http://www.crytek.com/news/free-educational-license-for-cryengine--3
+
+\bibitem{CRYSTALSPACE} Crystal Space http://www.crystalspace3d.org/main/Main\_Page
+
+\bibitem{OGRE} OGRE, Object-Oriented Graphics Rendering Engine http://www.ogre3d.org/
+
+\bibitem{OSG} OSG, Open Scene Graph http://www.openscenegraph.org/
+
+\bibitem{IRRLICHT} Irrlicht, Lightning Fast Realtime 3D Engine http://irrlicht.sourceforge.net/
+
+\bibitem{IRRLICHTLICENSE} Irrlicht license http://irrlicht.sourceforge.net/license/
+
+\bibitem{PANDA3D} Panda3D, Platform Agnostic Networked Display Architecture http://www.panda3d.org/
+
+\bibitem{PANDA3DLICENSE} Panda3D license http://www.panda3d.org/license.php
+
+\bibitem{DOXYGEN} Doxygen, generate documentation from source code http://www.stack.nl/~dimitri/doxygen/
+
+\bibitem{BOOST} Boost, C++ libraries http://www.boost.org/
+
+\bibitem{QT} Qt, Cross-platform application and UI development framework http://qt.digia.com/
+
+\bibitem{WXWIDGETS} wxWidgets, A cross-platform GUI and tools library for GTK, MS Windows, and MacOS http://www.wxwidgets.org/
+
+\bibitem{OPENCV} OpenCV, Open Source Computer Vision http://opencv.org/
+
+\bibitem{ENCARA2} Encara2, Real-time face detection http://new-mozart.dis.ulpgc.es/encara2
+
+\bibitem{FMOD} Fmod, Music and Sound Effects System http://www.fmod.org/
+
+\bibitem{OPENAL} OpenAL, Cross-platform 3D Audio API http://www.openal.org/
+
+\bibitem{SDLMIXER} SDL Mixer, Simple Direct Media Layer Mixer http://www.libsdl.org/projects/SDL\_mixer/
+
+\bibitem{CLUNK} Clunk, Open Source 3D-Sound library http://www.ohloh.net/p/clunk
+
+\bibitem{IRRKLANG} Irrklang, High level 3D audio engine http://www.ambiera.com/irrklang/
+
+\bibitem{SFML} SFML, Simple and Fast Multimedia Library http://www.sfml-dev.org/
+
+\bibitem{SFMLLICENSE} SFML License http://www.sfml-dev.org/license.php
+
+\bibitem{CHUCK} Chuck, Strongly-timed Concurrent and On-the.fly Audio Programming Language http://chuck.cs.princeton.edu/
+
+\bibitem{POSTGRESQL} PostgreSQL, The world's most advanced open source database http://www.postgresql.org/
+
+\bibitem{DEBEA} Debea, Debea Database Library http://debea.net/trac
+
+\bibitem{DEBEALICENSE} Debea License http://debea.net/trac/wiki/DebeaLicense
+
+\bibitem{MARSYAS} Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals http://marsyas.info/
+
+\bibitem{PLANESHIFT} PlaneShift, A 3D Fantasy MMORPG http://www.planeshift.it/
+
+\bibitem{HIERROVIRTUAL} CAVACAN, El Hierro Virtual http://serdis.dis.ulpgc.es/~cavacan/
+
+\bibitem{YOFRANKIE} Yo Frankie!, Apricot Open Game Project http://www.yofrankie.org/
+
+\bibitem{SIANI} SIANI, Instituto Universitario de Sistemas Inteligentes y Aplicaciones Numéricas en Ingeniería http://www.siani.es/
+
 \bibitem{KenB01} K. Beck, J. Sutherland et al. {\em Manifesto for Agile Software Development} http://www.agilemanifesto.org 2001
 
 \bibitem{RCol09} R. Colusso {\em Desarrollo ágil de software} http://knol.google.com/k/desarrollo-ágil-de-software 2009
@@ -6657,8 +6689,6 @@ IMPLEMENT_MIIAPP(Application)
 
 \bibitem{KINECT09} Artículo sobre la historia de Kinect en la Wikipedia http://es.wikipedia.org/wiki/Kinect
 
-\bibitem{MARSYAS} Marsyas: Music Analysis, Retrieval and Synthesis for Audio Signals http://marsyas.info/
-
 \bibitem{BELKIN99} Alan Belkin, {\em A Practical Guide to Musical Composition} 1995-1999
 
 \bibitem{RLOPEZ02} Ramón López de Mantaras, Josep Lluis Arcos, {\em AI and Music: From Composition to Expressive Performance} 2002
@@ -6673,8 +6703,15 @@ IMPLEMENT_MIIAPP(Application)
 
 \bibitem{VRASE} vrASE {\em The Smartphone Virtual Reality Case}
 
+\bibitem{GPL2} GNU General Public License v2 http://www.gnu.org/licenses/gpl-2.0.html
+
+\bibitem{LGPL} GNU Lesser General Public License https://www.gnu.org/licenses/lgpl.html
+
+\bibitem{MITL} MIT License http://opensource.org/licenses/mit-license.php 
+
 \bibitem{CCBY10} Creative Commons BY 1.0 http://creativecommons.org/licenses/by/1.0/
 
+licencias usadas: BSD modificada (Panda3D), GPL (doxygen), Boost software license, wxwindows license (wxwidgets, debea), BSD (OpenCV), zlib-png (SFML).
 
 \end{thebibliography}
 
