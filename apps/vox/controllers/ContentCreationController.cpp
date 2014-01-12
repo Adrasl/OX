@@ -2,14 +2,14 @@
 
 #include <debugger.h> 
 
-#define CCTIMELAPSE 1.0f
-#define CCCHANGEBACKGROUNDMUSIC 60.0f
+#define CCTIMELAPSE 2.0f
+#define CCCHANGEBACKGROUNDMUSIC 1.0f
 #define CC_MAX_HEADPOS 90.0f
 #define CC_MIN_HEADPOS -10.0f
 #define CC_MAX_PITCH 2.0f
 #define CC_MIN_PITCH 1.0f
-#define CC_GOOD_STEP 0.01f
-#define CC_EVIL_STEP 0.34f
+#define CC_GOOD_STEP 0.015f
+#define CC_EVIL_STEP 0.17f
 #define CC_RECOVERCOL_EVAL 0.5f
 #define CC_RECOVER_CREATESWARM1_TIME 10.0f
 #define CC_RECOVER_CREATESWARM2_TIME 10.0f
@@ -39,6 +39,7 @@ double ContentCreationController::recover_decorationExited_afterseconds = 0;
 int ContentCreationController::z_step			= 0;
 std::string ContentCreationController::background_sound = "";
 float ContentCreationController::psique			= 1.0f; //0-1-2 good-neutral-evil
+float ContentCreationController::previous_psique= 1.0f; //0-1-2 good-neutral-evil
 float ContentCreationController::energy			=0.5f; //0-1 calm-energetic
 
 std::map<int, std::vector<core::IEntityPersistence*>> ContentCreationController::ccc_ecosystem;
@@ -522,7 +523,10 @@ void ContentCreationController::Update()
 
 						if ( iapp_config && 
 							( (background_sounds.size() == 0) || 
-							  ((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) ) )
+							  ( ((int)floor(previous_psique+0.5f) != (int)floor(psique+0.5f)) && 
+							    ((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) )
+						   ))
+							  //((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) ) )
 						{
 							int n_melodies = 0;
 							int random_index = 0;
@@ -613,6 +617,7 @@ void ContentCreationController::EntityHadAGoodUserFeedback(core::IEntityPersiste
 		corePoint3D<float> spawn_point;
 		entity->GetPosition(spawn_point.x, spawn_point.y, spawn_point.z);
 		
+		previous_psique = psique;
 
 		if (was_good)
 		{	cout << "TOUCHED" << "\n";
@@ -734,7 +739,7 @@ void ContentCreationController::CreatePresetOfEntities1(const double &time)
 		genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
 		genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
 		genesis->SetCollidable(true);
-		genesis->SetTimeToLive(1.5f); 
+		genesis->SetTimeToLive(1.2f); 
 		corePDU3D<double> candidatepdu;
 
 		float user_pos_x, user_pos_y, user_pos_z;

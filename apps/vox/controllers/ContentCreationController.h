@@ -128,7 +128,7 @@ class ContentCreationController : public core::Observer
 		static int z_step;
 
 
-		static float psique; //0-1 good-evil
+		static float psique, previous_psique; //0-1 good-evil
 		static float energy; //0-1 calm-energetic
 
 		static std::map<int, std::vector<std::string>> psique_melody;
