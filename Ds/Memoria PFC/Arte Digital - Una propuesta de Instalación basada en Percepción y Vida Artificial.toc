@@ -46,7 +46,7 @@
 \contentsline {chapter}{\numberline {7}Etapa 2: Aplicaci\'on principal, GUI, Percepci\'on y Producci\'on}{45}
 \contentsline {section}{\numberline {7.1}An\'alisis}{46}
 \contentsline {subsection}{\numberline {7.1.1}An\'alisis de Requisitos de Usuario}{46}
-\contentsline {subsection}{\numberline {7.1.2}Selecci\'on de Herramientas}{46}
+\contentsline {subsection}{\numberline {7.1.2}Selecci\'on de Herramientas}{47}
 \contentsline {section}{\numberline {7.2}Dise\~no}{47}
 \contentsline {subsection}{\numberline {7.2.1}Dise\~no de la Aplicaci\'on}{47}
 \contentsline {subsubsection}{Breve Descripci\'on de los M\'odulos}{47}

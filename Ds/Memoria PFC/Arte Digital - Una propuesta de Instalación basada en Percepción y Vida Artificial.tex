@@ -946,10 +946,10 @@ Se define un núcleo que albergará la definición de estas interfaces abstractas, 
 Para el desarrollo de la primera demo se pretende conseguir una aplicación ejecutable que integre el modelo de interfaz y la separación de módulos definida en la etapa anterior, centrándose en implementar las funcionalidades de un subconjunto de módulos básicos. 
 \\
 
-Como puede verse en la Figura \ref{F_BloquesResumen_Etapa2}, los módulos a abordar (resaltados en color) son aquellos que aportan la capacidades mínimas para que ésta se ejecute y provea de las herramientas que permitan, posteriormente, analizar y generar contenido. Esto es, nos centraremos en capturar y mostrar la información que se manejará en la aplicación. Los módulos a abordar son: IGui, IPercept e IProd. 
+Como puede verse en la Figura \ref{F_BloquesResumen_Etapa2}, los componentes a abordar (resaltados en color) son aquellos que aportan la capacidades mínimas para que ésta se ejecute y provea de las herramientas que permitan, posteriormente, analizar y generar contenido. Esto es, nos centraremos en capturar y mostrar la información que se manejará en la aplicación. A la izquierda, en azul, se resalta el componente de interfaces 'core'. A la derecha, con el marco resaltado, vemos a 'vox' (Virtual Operating Experience) que será nuestra propuesta de instalación y representa a la aplicación. Entre ambos extremos se representan en color los módulos igui, ipercept e iprod, y en gris a ipersistence e icog, todas implementaciones de sus correspondientes interfaces definidas en 'core', con la tecnología elegida. De esta forma, tendremos una aplicación, que se compone de varios módulos, que implementan una interfaz.
 \\
 
-La intención es únicamente crear la estructura básica de la aplicación, así como establecer una relación de las dependencias entre los módulos, cargando en cada caso correctamente las librerías de las que dependen. 
+Durante esta etapa, la intención es únicamente crear la estructura básica de la aplicación, así como establecer una relación de las dependencias entre los módulos, cargando en cada caso correctamente las librerías de las que dependen. 
 \\
 
 En este punto no se tratan la gestión del usuario ni de sus datos. No existirá como un objeto dentro de la aplicación aún. Sin embargo, puede verse como un actor en el diagrama de Casos de Uso que se muestra en la Figura \ref{F_CasosdeUsoPrimeraDemo}, dado que participa como actor en dichos procesos. Tampoco se abordarán aún la Persistencia ni, por tanto, la Base de Datos.
@@ -1563,16 +1563,16 @@ IMPLEMENT_MIIAPP(Application)
 Se sigue una filosofía de pruebas continuas para resolver en el momento en que aparecen los incidentes que puedan surgir al hacer cambios. Así mismo, cuando se añade una nueva funcionalidad, se usan mecanismos para comprobar que las capacidades incorporadas funcionan correctamente y se mantiene un buen rendimiento.
 
 \begin{itemize}
-\item Comprobación de uso de recursos de la máquina mediante las herramientas del sistema. En la máquina en la que se desarrolla la aplicación muestra consumir un 5\% de CPU y 75Mb de memoria mantenidos. Hay que destacar la posibilidad de que la aplicación consuma mayor CPU en máquinas con menor cantidad de procesadores debido a la sobrecarga introducida por la gestión de hilos. Sin embargo, la tendencia actual se mueve hacia el aumento de número de procesadores.
+\item Comprobación de uso de recursos de la máquina mediante las herramientas del sistema. La máquina en la que se desarrolla muestra un consumo del 5\% de CPU y 75Mb de memoria mantenidos. Hay que destacar la posibilidad de que la aplicación consuma mayor CPU en máquinas con menor cantidad de procesadores debido a la sobrecarga por la gestión de hilos. Sin embargo, la tendencia actual se mueve hacia el aumento de número de procesadores.
 \item Comprobación de la ejecución y cierre correctos, sin salidas de la aplicación inesperadas ni pérdidas de memoria.
-\item Uso de herramientas para medición de fotogramas por segundo para comprobar el rendimiento de la ventana de render. Se comprueba que se mantiene siempre a 60fps para dos ventanas, y 30fps con hasta 10 ventanas de render. Hay que tener en cuenta que 60 es el límite máximo impuesto por la sincronización vertical del monitor.
+\item Uso de herramientas para medición de fotogramas por segundo para comprobar el rendimiento de la ventana de render. Se comprueba que se mantiene siempre a 60fps para dos ventanas, y 30fps con hasta 10 ventanas de render.
 \item Uso de distintas opciones de configuración para comprobar las variantes del uso de los módulos, por ahora mediante macros: Abrir distinto número de ventanas de render (entre 1 y 10) y captura desde distintas cantidades de cámaras web (entre 1 y 2).
 \end{itemize}
 
 Las características de la máquina de referencia son las siguientes:
 
 \begin{itemize}
-\item Procesador Intel Core i7 CPU 870 2.92Ghz (4 núcleos reales con hyperthreading, símil 8 núcleos).
+\item Procesador Intel Core i7 CPU 870 2.92Ghz (4 núcleos reales, 8 núcleos lógicos).
 \item 6Gb de Memoria Principal.
 \item Sistema Operativo Windows 7 64 bits
 \item Tarjeta gráfica GeForce GTS 240
@@ -3436,7 +3436,7 @@ Con el fin de mejorar la eficiencia en los procesos de detección de objetos, es 
 \begin{center}
 \includegraphics[width=\textwidth]{recursos_memoria/haar_features.png}
 \end{center}
-\caption{ \label{F_IPercept_SimpleFAceDetection_HaarFeatures} PerceptVideo: Haar features \cite{LIENHART} \cite{KBERGGREN} \cite{AHARVEY}.}
+\caption{ \label{F_IPercept_SimpleFAceDetection_HaarFeatures} PerceptVideo: Características Haar \cite{LIENHART} \cite{KBERGGREN} \cite{AHARVEY}.}
 \end{figure}
 
 Para ello, será necesario disponer de un clasificador. Este clasificador se entrenará con imágenes positivas, es decir, imágenes que representan al objeto de estudio; y a continuación con imágenes negativas, otras imágenes arbitrarias donde no aparezca el sujeto. Una vez que el clasificador ha sido entrenado será posible contrastar una nueva imagen (del tamaño de la imagen de entrenamiento), de forma que el clasificador será capaz de distinguir si corresponde con el objeto que se busca. En el caso práctico en el que se dispone de una imagen de una escena, que puede contener un sujeto, el procedimiento consiste en utilizar una ventana deslizante que avanza por el espacio de la imagen, utilizando el clasificador para comprobar si dicha ventana (sub-imagen) contiene al sujeto. De hecho, es el clasificador sobre el que se realiza el escalado, en lugar de la imagen, ya que es más eficiente de esta forma. \\
