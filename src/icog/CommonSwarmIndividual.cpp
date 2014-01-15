@@ -138,7 +138,7 @@ void CommonSwarmIndividual::ClassifyEcosystem()
 
 				float envelope = 0.05f;
 				corePoint3D<float> position;
-				(*entity_iter)->GetPosition(position.x, position.y, position.z); //retomar, se está llamando a una entidad que ya ha sido destruída
+				(*entity_iter)->GetPosition(position.x, position.y, position.z); 
 				core::icog::CommonObstacle *obstacle = dynamic_cast<core::icog::CommonObstacle*> (*entity_iter);
 				if (obstacle)
 					envelope = obstacle->GetBoundingRadius();

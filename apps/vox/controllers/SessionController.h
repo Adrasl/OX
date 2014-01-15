@@ -12,19 +12,6 @@
 
 class Application;
 
-//basura
-//class User : public core::IUserPersistence
-//{	public:
-//		 User(){}
-//		~User(){}
-//};
-
-//class World : public core::IWorldPersistence
-//{	public:
-//		 World(){}
-//		~World(){}
-//};
-
 class SessionController : public core::Subject
 {
 	public:
@@ -45,16 +32,13 @@ class SessionController : public core::Subject
 		bool CloseSession();
 		bool CloseWorld();
 		bool LoadDefaultData();
-		////bool DeleteUser(int user_id);
-		////bool DeleteWorld(int world_id);
 		bool IsSessionClosed();
 		bool IsCurrentUser(const std::string &name);
 		bool IsCurrentWorld(const std::string &name);
 
 	private:
-		//User	*app_user;
-		static boost::mutex m_mutex;
 
+		static boost::mutex m_mutex;
 		core::ipersistence::UserPersistence		*app_user, *default_user;
 		core::ipersistence::WorldPersistence	*app_world, *default_world;
 		int session_permissions;

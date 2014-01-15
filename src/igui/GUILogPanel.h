@@ -33,8 +33,6 @@ namespace core
 				static wxTextCtrl *log_ctrl;
 
 				DECLARE_EVENT_TABLE()
-				
-				//void OnConfigureButton(wxCommandEvent& WXUNUSED(event));
 
 		};
 	}

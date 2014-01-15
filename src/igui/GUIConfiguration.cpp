@@ -203,7 +203,6 @@ void GUIConfiguration::render(wxDC& dc)
 
 void GUIConfiguration::InitGeneralPanel()
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int width, height;
 	GetClientSize(&width, &height);
 
@@ -218,7 +217,6 @@ void GUIConfiguration::InitGeneralPanel()
 
 void GUIConfiguration::InitVisualizationPanel()
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int width, height;
 	GetClientSize(&width, &height);
 
@@ -240,8 +238,6 @@ void GUIConfiguration::InitVisualizationPanel()
 
 void GUIConfiguration::InitCamPanel()
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
-
 	int width, height;
 	GetClientSize(&width, &height);
 
@@ -307,8 +303,6 @@ void GUIConfiguration::InitCamPanel()
 		str_vector_Mode[0] = _("Live Cam");
 		str_vector_Mode[1] = _("Video clip");
 		cam_mode = new wxRadioBox(cam_panel, wxID_CAM_MODE, _("Use"), wxPoint(250, 50), wxDefaultSize, 2, str_vector_Mode, 0, wxHORIZONTAL );
-		//videoClipURL = new wxStaticText(win_panel, wxID_ANY, _("Video Clip URL: "), wxPoint(90,100));
-
 
 		ShowCamFlipHV();
 
@@ -317,8 +311,6 @@ void GUIConfiguration::InitCamPanel()
 
 void GUIConfiguration::InitWinPanel()
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
-
 	win_panel = new wxPanel(panel_book, wxID_ANY);
 
 	int width, height;
@@ -543,7 +535,6 @@ void GUIConfiguration::ShowCamLayoutManual()
 }
 void GUIConfiguration::OnOKButton(wxCommandEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	if (app_config != NULL)
 	{
 		app_config->SetNumCams(num_cams);
@@ -580,7 +571,6 @@ void GUIConfiguration::OnCancelButton(wxCommandEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnCalibrateButton(wxCommandEvent& WXUNUSED(event))
 {
-	//calebrate cams
 	GUIGenericController *guiGc	= GUIGenericController::GetInstance();
 	if (guiGc)
 		guiGc->Calibrate();
@@ -621,8 +611,6 @@ void GUIConfiguration::OnTrainBackground(wxCommandEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnCamSelected(wxCommandEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
-
 	int i = cam_choice->GetSelection()+1;
 
 	core::CameraData data = cam_map[i];
@@ -638,8 +626,6 @@ void GUIConfiguration::OnCamSelected(wxCommandEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnWinSelected(wxCommandEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
-
 	int i = window_choice->GetSelection()+1;
 
 	core::DisplayData data = win_map[i];
@@ -659,7 +645,6 @@ void GUIConfiguration::OnWinSelected(wxCommandEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnNumCamChanged(wxSpinEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	if (app_config != NULL)
 	{
 		num_cams = num_cams_ctrl->GetValue();
@@ -681,7 +666,6 @@ void GUIConfiguration::OnNumCamChanged(wxSpinEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnNumWinChanged(wxSpinEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	if (app_config !=NULL)
 	{
 		num_windows = num_windows_ctrl->GetValue();
@@ -703,7 +687,6 @@ void GUIConfiguration::OnNumWinChanged(wxSpinEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnWinResolutionChanged(wxSpinEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	unsigned int res_x = win_res_x_ctrl->GetValue();
 	unsigned int res_y = win_res_y_ctrl->GetValue();
 
@@ -715,8 +698,6 @@ void GUIConfiguration::OnWinResolutionChanged(wxSpinEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnWinCoordsChanged(wxSpinDoubleEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
-
 	int i = window_choice->GetSelection()+1;
 
 	win_map[i].x = win_x->GetValue();
@@ -728,8 +709,6 @@ void GUIConfiguration::OnWinCoordsChanged(wxSpinDoubleEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnCamCoordsChanged(wxSpinDoubleEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
-
 	int i = cam_choice->GetSelection()+1;
 
 	cam_map[i].x = cam_x->GetValue();
@@ -739,8 +718,6 @@ void GUIConfiguration::OnCamCoordsChanged(wxSpinDoubleEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnCamFlipV(wxCommandEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
-
 	int i = cam_choice->GetSelection()+1;
 
 	cam_map[i].flip_v = cam_flip_v->GetValue();
@@ -748,8 +725,6 @@ void GUIConfiguration::OnCamFlipV(wxCommandEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnCamFlipH(wxCommandEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
-
 	int i = cam_choice->GetSelection()+1;
 
 	cam_map[i].flip_h = cam_flip_h->GetValue();
@@ -757,8 +732,6 @@ void GUIConfiguration::OnCamFlipH(wxCommandEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnWinFlipV(wxCommandEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
-
 	int i = window_choice->GetSelection()+1;
 
 	win_map[i].flip_v = win_flip_v->GetValue();
@@ -768,8 +741,6 @@ void GUIConfiguration::OnWinFlipV(wxCommandEvent& WXUNUSED(event))
 
 void GUIConfiguration::OnWinFlipH(wxCommandEvent& WXUNUSED(event))
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
-
 	int i = window_choice->GetSelection()+1;
 
 	win_map[i].flip_h = win_flip_h->GetValue();
@@ -827,9 +798,6 @@ void GUIConfiguration::OnCamModeChanged(wxCommandEvent& WXUNUSED(event))
 	SetEvtHandlerEnabled(false);
 
 	wxString video_url_basename = videoClipURL_TextControl->GetLabel();
-	//Abort if the file doesn't exist
-	//bool file_found = wxDir::GetFirst(videoClipURL_TextControl->GetLabel());
-	//wxString file_found = wxFindFirstFile(video_url.c_str());
 	if ( video_url_basename.empty() )
 	{
 		wxMessageDialog *dialog = new wxMessageDialog(this, "Please add a video source basename");
@@ -838,19 +806,10 @@ void GUIConfiguration::OnCamModeChanged(wxCommandEvent& WXUNUSED(event))
 		SetEvtHandlerEnabled(true);
 		return;
 	}
-	/*if ( file_found.empty() )
-	{
-		wxMessageDialog *dialog = new wxMessageDialog(this, "The file could not be found.");
-		dialog->ShowModal();
-		cam_mode->SetSelection(0);
-		SetEvtHandlerEnabled(true);
-		return;
-	}*/
 
 	//Apply the change
 	GUIGenericController *guiGc	= GUIGenericController::GetInstance();
 	int mode_index = cam_mode->GetSelection();
-	//int camera_index = cam_choice->GetSelection()+1;
 
 	std::string video_url_basename_str = video_url_basename;
 	if ( mode_index == 0)
@@ -872,7 +831,6 @@ void GUIConfiguration::OnLayoutRadioChanged(wxCommandEvent& WXUNUSED(event))
 
 void GUIConfiguration::LoadConfig()
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	if (app_config != NULL)
 	{
 		on_boot_num_cams    = num_cams    = app_config->GetNumCams();
@@ -910,7 +868,6 @@ void GUIConfiguration::LoadConfig()
 void GUIConfiguration::OnWinFront(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = window_choice->GetSelection()+1;
 	win_map[i].x = 0.0f;
 	win_map[i].y = 1.0f;
@@ -924,7 +881,6 @@ void GUIConfiguration::OnWinFront(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnCamFront(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = cam_choice->GetSelection()+1;
 	cam_map[i].x = 0.0f;
 	cam_map[i].y = 1.0f;
@@ -938,7 +894,6 @@ void GUIConfiguration::OnCamFront(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnWinBack(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = window_choice->GetSelection()+1;
 	win_map[i].x = 0.0f;
 	win_map[i].y = -1.0f;
@@ -952,7 +907,6 @@ void GUIConfiguration::OnWinBack(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnCamBack(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = cam_choice->GetSelection()+1;
 	cam_map[i].x = 0.0f;
 	cam_map[i].y = -1.0f;
@@ -966,7 +920,6 @@ void GUIConfiguration::OnCamBack(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnWinLeft(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = window_choice->GetSelection()+1;
 	win_map[i].x = -1.0f;
 	win_map[i].y = 0.0f;
@@ -980,7 +933,6 @@ void GUIConfiguration::OnWinLeft(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnCamLeft(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = cam_choice->GetSelection()+1;
 	cam_map[i].x = -1.0f;
 	cam_map[i].y = 0.0f;
@@ -994,7 +946,6 @@ void GUIConfiguration::OnCamLeft(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnWinRight(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = window_choice->GetSelection()+1;
 	win_map[i].x = 1.0f;
 	win_map[i].y = 0.0f;
@@ -1008,7 +959,6 @@ void GUIConfiguration::OnWinRight(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnCamRight(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = cam_choice->GetSelection()+1;
 	cam_map[i].x = 1.0f;
 	cam_map[i].y = 0.0f;
@@ -1022,7 +972,6 @@ void GUIConfiguration::OnCamRight(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnWinUp(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = window_choice->GetSelection()+1;
 	win_map[i].x = 0.0f;
 	win_map[i].y = 0.0f;
@@ -1036,7 +985,6 @@ void GUIConfiguration::OnWinUp(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnCamUp(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = cam_choice->GetSelection()+1;
 	cam_map[i].x = 0.0f;
 	cam_map[i].y = 0.0f;
@@ -1050,7 +998,6 @@ void GUIConfiguration::OnCamUp(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnWinDown(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = window_choice->GetSelection()+1;
 	win_map[i].x = 0.0f;
 	win_map[i].y = 0.0f;
@@ -1064,7 +1011,6 @@ void GUIConfiguration::OnWinDown(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnCamDown(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = cam_choice->GetSelection()+1;
 	cam_map[i].x = 0.0f;
 	cam_map[i].y = 0.0f;
@@ -1078,7 +1024,6 @@ void GUIConfiguration::OnCamDown(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnWinOU(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = window_choice->GetSelection()+1;
 	win_map[i].flip_v = false;
 	win_map[i].flip_h = false;
@@ -1090,7 +1035,6 @@ void GUIConfiguration::OnWinOU(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnWinOD(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = window_choice->GetSelection()+1;
 	win_map[i].flip_v = true;
 	win_map[i].flip_h = false;
@@ -1102,7 +1046,6 @@ void GUIConfiguration::OnWinOD(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnWinSU(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = window_choice->GetSelection()+1;
 	win_map[i].flip_v = false;
 	win_map[i].flip_h = true;
@@ -1114,7 +1057,6 @@ void GUIConfiguration::OnWinSU(wxCommandEvent& WXUNUSED(event))
 void GUIConfiguration::OnWinSD(wxCommandEvent& WXUNUSED(event))
 {
 	SetEvtHandlerEnabled(false);
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 	int i = window_choice->GetSelection()+1;
 	win_map[i].flip_v = true;
 	win_map[i].flip_h = true;
@@ -1177,95 +1119,10 @@ void GUIConfiguration::EnableDisplayControls(const bool &value)
 void GUIConfiguration::EnableCameraControls(const bool &value)
 {
 	cam_flip->Enable(value);
-	//cam_mode->Enable(value);
-
 	cam_flip_v->Enable(value);
 	cam_flip_h->Enable(value);
 
 	cam_x->Enable(value);
 	cam_y->Enable(value);
 	cam_z->Enable(value);
-	
-	//calibrate_cam_button->Enable(value);
 }
-
-//
-//void GUIConfiguration::DoLogout()
-//{
-//	user_logged_in = false;
-//	Clear();
-//}
-//void GUIConfiguration::DoLogin(const std::string &name, const std::string &passwd)
-//{
-//	GUIGenericController *guiGc	= GUIGenericController::GetInstance();
-//	bool login = false;
-//	if (guiGc != NULL)
-//		login = guiGc->LoginUser(name, passwd);
-//	if (login)
-//	{
-//		//DoLogin
-//		user_logged_in = true;
-//		guiGc->ViewUserInfoPanel();
-//	}
-//	else
-//	{
-//		user_logged_in = false;
-//		wxMessageDialog message_dialog(this, _("User/password incorrect"), "Message box", wxOK | wxICON_EXCLAMATION | wxSTAY_ON_TOP);
-//		message_dialog.ShowModal();
-//	}
-//}
-//void GUIConfiguration::OnLoginButton(wxCommandEvent& WXUNUSED(event))
-//{
-//	s_user_name = user_name->GetValue();
-//	s_user_password = user_passwd->GetValue();
-//	DoLogin(s_user_name, s_user_password);
-//}
-//
-//void GUIConfiguration::OnNewUserButton(wxCommandEvent& WXUNUSED(event))
-//{
-//	s_user_name = new_user_name->GetValue();
-//	std::string pass = new_user_passwd->GetValue();
-//	std::string pass2 = new_user_passwd2->GetValue();
-//	s_user_password = ( pass == pass2 ) ? pass : "";
-//	GUIGenericController *guiGc	= GUIGenericController::GetInstance();
-//	bool exists = false;
-//	if (guiGc != NULL)
-//		exists = guiGc->UserExists(s_user_name);
-//	if  (exists)
-//	{
-//		wxMessageDialog message_dialog(this, _("User already exists"), "Message box", wxOK | wxICON_EXCLAMATION | wxSTAY_ON_TOP);
-//		message_dialog.ShowModal();
-//	}
-//	else if (s_user_password != "")
-//	{
-//		bool created = guiGc->CreateUser(s_user_name, s_user_password);
-//		if (created) 
-//			DoLogin(s_user_name, s_user_password);
-//		else 
-//		{
-//			wxMessageDialog message_dialog(this, _("Could not create user"), "Message box", wxOK | wxICON_EXCLAMATION | wxSTAY_ON_TOP);
-//			message_dialog.ShowModal();
-//		}
-//	}
-//	else 
-//	{
-//		wxMessageDialog message_dialog(this, _("Passwords void or missmatch"), "Message box", wxOK | wxICON_EXCLAMATION | wxSTAY_ON_TOP);
-//		message_dialog.ShowModal();
-//	}
-//}
-//
-////void GUIConfiguration::OnDeleteUserButton(wxCommandEvent& WXUNUSED(event))
-////{
-////	s_user_name = user_name->GetValue();
-////	s_user_password = user_passwd->GetValue();
-////	GUIGenericController *guiGc	= GUIGenericController::GetInstance();
-////	bool deleted = false;
-////	if (guiGc != NULL)
-////		deleted = guiGc->DeleteUser(name, passwd);
-////	if (!deleted)
-////	{
-////		wxMessageDialog message_dialog(this, _("Could not delete user: user/password incorrect."), "Message box", wxOK | wxICON_EXCLAMATION | wxSTAY_ON_TOP);
-////		message_dialog.ShowModal();
-////	}
-////
-////}

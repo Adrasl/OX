@@ -146,10 +146,6 @@ void EntityPersistence::Save()
 	try 
 	{	boost::mutex::scoped_lock lock(m_mutex);
 		dba::Storeable::stState state = this->getState();
-		//ar->getOStream().put(this);
-		//ar->getOStream().commit();
-		//ar->getOutputStream()->bind("entity_table", "scale", StoreableFilter<&scale>, dba::Database::StoreType::FLOAT)
-		//ar->getOutputStream()->bind("entity_table", "scale", dba::Float, dba::Database::StoreType::FLOAT)
 		ar->getOStream().put(this);
 	} 
 	catch (const dba::SQLException& pEx)	{ ProcessException(pEx); }

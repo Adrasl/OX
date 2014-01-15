@@ -2,10 +2,8 @@
 #define _WORLDPERSISTENCE_
 
 #include <core/IPersistence/IWorldPersistence.h>
-//#include <core/IPersistence/IEntityPersistence.h>
 #include <ipersistence/types.h>
 #include <ipersistence/mainpersistence.h>
-//#include <ipersistence/EntityPersistence.h>
 #include <dba/dba.h>
 #include <string>
 #include <boost/thread.hpp>
@@ -52,7 +50,6 @@ namespace core
 				int permissions;
 				std::map<int, EntityPersistence*> actual_entities;
 				std::list<EntityPersistence>  entities;
-				//std::map<int, EntityPersistence*> indexed_entities;
 
 			private:
 

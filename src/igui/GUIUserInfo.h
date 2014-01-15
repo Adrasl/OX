@@ -49,7 +49,7 @@ namespace core
 				IApplicationConfiguration *app_config;
 				wxBitmap background_image;
 
-				wxTextCtrl *world_name;//, *user_passwd, *new_user_name, *new_user_passwd, *new_user_passwd2;				
+				wxTextCtrl *world_name;
 				wxButton *run_button, 
 					     *logout_button, 
 						 *newworld_button, 
@@ -64,7 +64,6 @@ namespace core
 
 				DECLARE_EVENT_TABLE()
 
-				//void DoLogin(const std::string &name, const std::string &passwd);
 				void ReloadUserInfo()	  { SetUser(user); }
 				void SaveUserPermissions(){ user->SetPermissions(s_user_permissions); user->Save(); }
 				void OnRunButton(wxCommandEvent& WXUNUSED(event));

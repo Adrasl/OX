@@ -11,9 +11,7 @@ GUIGenericController::GUIGenericController(MainGui *main_gui_) : main_gui(main_g
 }
 
 GUIGenericController::~GUIGenericController()
-{
-	//if ( main_gui != NULL )  delete main_gui;
-}
+{}
 
 bool GUIGenericController::CreateUser(const std::string &name, const std::string &passwd)
 {

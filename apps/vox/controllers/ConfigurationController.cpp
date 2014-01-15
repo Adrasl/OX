@@ -2,7 +2,6 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
-//#include <boost/filesystem/progress.hpp>
 #include <string>
 #include <sstream>
 #include <debugger.h> 
@@ -174,22 +173,16 @@ bool ConfigurationController::Load()
 			app_config->SetNumDisplays(1);
 			app_config->SetUseRecognition(true);
 			app_config->SetAutoLogin(false);
-			core::CameraData cam_data1;//, cam_data2;
+			core::CameraData cam_data1;
 			cam_data1.flip_h = true;
 			cam_data1.flip_v = false;
-			//cam_data2.flip_h = false;
-			//cam_data2.flip_v = false;
 			cam_data1.y = 1.0;
 			core::DisplayData win_data1, win_data2;
 			win_data1.y = 1.0;
 			win_data1.resolution_x = 1066;
 			win_data1.resolution_y = 600;
-			//win_data2.resolution_x = 800;
-			//win_data2.resolution_y = 600;
 			app_config->SetCameraData(1, cam_data1);
-			//app_config->SetCameraData(2, cam_data2);
 			app_config->SetDisplayData(1, win_data1);
-			//app_config->SetDisplayData(2, win_data2);
 
 			Save();
 		}

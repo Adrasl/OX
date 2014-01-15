@@ -57,9 +57,9 @@ namespace core
 				static void ClassifyEcosystem();
 				static void ClearEcosystem();
 
-				virtual void Think(); // By default it will fly with the flock, 
-									  // and stay away from other species. 
-									  // Override as preferred.
+				/** \brief IA Evaluation. By default it will fly with the flock, and stay away from other species. Override as preferred. **/
+				virtual void Think(); 
+
 				virtual core::corePoint3D<float> CalculateSeparation();   
 				virtual core::corePoint3D<float> CalculateAlignment();      
 				virtual core::corePoint3D<float> CalculateCohesion();   

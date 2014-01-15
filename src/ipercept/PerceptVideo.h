@@ -115,8 +115,6 @@ namespace core
 				static std::map< int, CvMat* > distortion;
 				static std::map< int, IplImage* > undistort_mapx;
 				static std::map< int, IplImage* > undistort_mapy;
-				//////static std::map< int, IplImage* > foreground_img;
-				//static std::map< int, IplImage* > motion_img;
 				static std::map< int, CvMat* > homography;
 				static std::map<int, vector2I> cam_capture_size;
 				
@@ -135,8 +133,6 @@ namespace core
 				static std::vector<IPresenceDetection*> presence_detectors;
 				static bool calibrating, show_cam_capture, show_homography, show_face_detection, show_foreground, show_motion;
 
-//				static std::map<int, CvGaussBGStatModelParams*> background_params;
-//				static std::map<int, CvBGStatModel*> background_model;
 				static int background_trainning_frames;
 				static double las_time, capture_fps;
 				static double timestamp_Recording_latestframe;
@@ -144,9 +140,6 @@ namespace core
 
 				static corePoint3D<double> BoundinBoxMin, BoundinBoxMax;
 
-
-
-				
 		};
 	}
 }

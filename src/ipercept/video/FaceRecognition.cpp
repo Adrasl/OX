@@ -7,8 +7,8 @@ using namespace core::ipercept;
 using namespace cv;
 
 int SAVE_EIGENFACE_IMAGES = 1;		// Set to 0 if you dont want images to be saved
-//#define USE_MAHALANOBIS_DISTANCE	// better accuracy.
 
+//#define USE_MAHALANOBIS_DISTANCE	// better accuracy.
 #define IMAGE_WIDTH		112
 #define IMAGE_HEIGHT	92
 
@@ -27,8 +27,7 @@ FaceRecognition::FaceRecognition(IApplicationConfiguration *appconfig): app_conf
 	face_width  = IMAGE_WIDTH;
 	face_height = IMAGE_HEIGHT;
 	if( eigen_vector.size() > 0 )
-	//{	projected_test_face = (float *)cvAlloc( eigen_vector.size()*sizeof(float) );
-		initialized = true;	//};
+		initialized = true;	
 }
 
 FaceRecognition::~FaceRecognition()
@@ -80,8 +79,8 @@ int FaceRecognition::RecognizeFromImage(char* data, const int &size_x, const int
 	if(equalized && (eigen_vector.size() > 0))
 	{
 		cvEigenDecomposite( equalized, eigen_vector.size(), eigen_vector_pp, 0, 0, average_image, projected_test_face);
-		candidate		= FindBestCandidate(projected_test_face, likeness);// encuentra una cara aquí
-		candidate_index	= (candidate != -1) ? facepic_to_person_indexes->data.i[candidate] : -1; //pero no está registrada aquí
+		candidate		= FindBestCandidate(projected_test_face, likeness);// Si encuentra una cara aquí
+		candidate_index	= (candidate != -1) ? facepic_to_person_indexes->data.i[candidate] : -1; //pero no está registrada aquí, es posible que no se hayan borrado los ficheros bin/facedata.xml, bin/data/recon/eigen_pic, bin/data/recon/face_pic
 	}
 
 	zimage->imageData = default_data;
@@ -159,16 +158,13 @@ void FaceRecognition::AddUser(std::vector<core::Image> faces, const int &user_id
 
 void FaceRecognition::Train()
 {
-	//CvMat *train_person;
 	cvReleaseImage( &average_image );
 	for (unsigned int i = 0; i < eigen_vector.size(); i++) 
 		if (eigen_vector[i])
 			cvReleaseImage(&eigen_vector[i]);
-	//cvFree(&eigen_vector); 
-	eigen_vector.clear();
-	//cvFree(&facepic_to_person_indexes);
 
-	//user_names.clear();
+	eigen_vector.clear();
+
 	cvFree(&eigen_values);
 	cvFree(&projected_trainning_faces);
 
@@ -243,7 +239,6 @@ void FaceRecognition::Train()
 		IplImage *u8image = convertFloat32ToUchar8(eigen_vector[i]);
 		cvSaveImage(eigen_path_c.str().c_str(), u8image);
 		cvReleaseImage(&u8image);
-		//cvReleaseImage(eigen_vector_pp[i]);	
 	}
 
 	std::stringstream average_path_c;
@@ -253,7 +248,6 @@ void FaceRecognition::Train()
 	cvReleaseImage(&u8image);
 
 	StoreTrainningData();
-	//cvFree(&eigen_vector_pp);
 	initialized = true;
 }
 
@@ -320,7 +314,7 @@ bool FaceRecognition::LoadTrainningData()
 	{	std::stringstream ss_index;
 		ss_index << "eigen_vector_" << i;
 		eigen_vector.push_back((IplImage *)cvReadByName(file_storage, 0, ss_index.str().c_str(), 0));	
-		eigen_vector_pp[i] = cvCloneImage(eigen_vector[i]); }//MEMLEAK!
+		eigen_vector_pp[i] = cvCloneImage(eigen_vector[i]); }
 
 	cvReleaseFileStorage( &file_storage );
 	return true;

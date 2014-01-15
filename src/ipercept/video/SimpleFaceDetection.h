@@ -2,9 +2,6 @@
 #define _SIMPLEFACEDETECTION_
 
 #include <boost/thread.hpp>
-//#include <boost/archive/binary_oarchive.hpp>
-//#include <boost/archive/binary_iarchive.hpp>
-
 #include <core/IPercept/video/IFaceDetection.h>
 #include <core/IPercept/IPerceptVideo.h>
 #include <core/IApplicationConfiguration.h>
@@ -63,7 +60,6 @@ namespace core
 				IplImage  *image, *face_img;
 				int cam_index;
 
-				//CENCARA2_2Detector *ENCARAFaceDetector;
 				 corePoint2D<int> faceCenterPos, faceRec_a, faceRec_b;
 
 				 IApplicationConfiguration *app_config;

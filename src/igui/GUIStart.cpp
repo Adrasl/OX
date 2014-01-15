@@ -23,7 +23,6 @@ GUIStart::GUIStart(IApplicationConfiguration *app_config_, wxWindow *parent, wxW
 	std::stringstream s_image;
 	if ( app_config != NULL )
 		s_image << app_config->GetUIResourceDirectory() << "ProjectVOX.png";
-	//background_image = wxBitmap("c:/etc/ProjectVOX.png", wxBITMAP_TYPE_ANY);
 	background_image = wxBitmap(s_image.str(), wxBITMAP_TYPE_ANY);
 
 	login_button = new wxButton(this, wxID_LOGIN, "Log in", wxPoint(185,240), wxSize(70, 19));

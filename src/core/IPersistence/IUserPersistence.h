@@ -19,6 +19,7 @@ namespace core
 
 			virtual void SetName(const std::string &name_) = 0;
 			virtual void SetPassword(const std::string &password_) = 0;
+			/** \brief (Permissions not available yet). **/
 			virtual void SetPermissions(const int &permissions_) = 0;
 			virtual void SetPosition(const float &x, const float &y, const float &z) = 0;
 			virtual void SetOrientation(const float &x, const float &y, const float &z) = 0;
@@ -29,6 +30,7 @@ namespace core
 			
 			virtual std::string GetName() = 0;
 			virtual std::string GetPassword() = 0;
+			/** \brief (Permissions not available yet). **/
 			virtual int			GetPermissions() = 0;
 			virtual void GetPosition(float &x, float &y, float &z) = 0;
 			virtual void GetOrientation(float &x, float &y, float &z) = 0;

@@ -18,7 +18,7 @@ namespace core
 			virtual void Init()=0;
 			virtual void SetApp(IApplication *app_) = 0 ;
 			virtual void SetAppConfig(IApplicationConfiguration *app_config_) = 0;
-			//virtual void Capture()=0;
+
 			virtual void Calibrate(const bool &value)=0;
 			virtual void CalculateHomography()=0;
 			virtual void TrainBackground()=0;
@@ -54,6 +54,7 @@ namespace core
 			virtual int  RecognizeCurrentFace() = 0;
 			/** \brief Uses latest set of faces to add a new user and retrain Face Recognizer */
 			virtual void AddNewUserToRecognition(const int &user_id) = 0;
+			/** \brief Returns wether the face pool has enough candidate faces or not. */
 			virtual bool IsFacePoolReady() = 0;
 	};
 }

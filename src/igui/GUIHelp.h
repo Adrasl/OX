@@ -34,10 +34,6 @@ namespace core
 
 				DECLARE_EVENT_TABLE()
 
-				//void InitShortCuts();
-				//void OnViewFullScreen(wxCommandEvent& WXUNUSED(event));
-				//void OnClose(wxCommandEvent& WXUNUSED(event));
-
 		};
 	}
 }

@@ -26,8 +26,6 @@ SimpleFaceDetection::SimpleFaceDetection(IApplicationConfiguration *appconfig, I
 SimpleFaceDetection::~SimpleFaceDetection()
 {
 	cvReleaseImage(&image);
-	//if(ENCARAFaceDetector)
-	//	delete ENCARAFaceDetector;
 }
 
 void SimpleFaceDetection::Delete()
@@ -48,19 +46,12 @@ void SimpleFaceDetection::DoInit()
 	{
 		assert(!m_thread);
 		m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&SimpleFaceDetection::DoMainLoop, this ) ));
-		//m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::function0<void>(&SimpleFaceDetection::DoMainLoop)));
-
 	}
 }
 
 void SimpleFaceDetection::DoMainLoop()
 {
 	initialized = true;
-
-	//char ENCARAdataDir[256];
-	//char *ENCARA2=getenv("ENCARA2");
-	//sprintf(ENCARAdataDir,"%s\\ENCARA2data",ENCARA2);
-	//ENCARAFaceDetector = new CENCARA2_2Detector(ENCARAdataDir,320,240);
 
 	while(!stop_requested)
 	{
@@ -74,7 +65,6 @@ void SimpleFaceDetection::Iterate()
 	boost::mutex::scoped_try_lock lock(m_mutex);
 	if (lock)
 	{
-		//Capture();
 		Process();
 	}
 }
@@ -117,64 +107,19 @@ void SimpleFaceDetection::SetCurrentImage(const int &size_x, const int &size_y, 
 		if(aux_img) 
 		{	cvReleaseImage(&aux_img);
 			delete aux_img;          }
-		//if(new_image) free(new_image);
-
-		//double timestamp = (double)clock()/CLOCKS_PER_SEC;
-		//std::cout << "Encara2 Period: " << timestamp-las_time << "\n";
-		//las_time = timestamp;
 
 		updated = true;
 	}
 }
 
 void SimpleFaceDetection::Capture()
-{
-	//char *old_image = (image) ? image->imageData : NULL;
-	//int size_x, size_y, n_channels, depth, width_step;
-	//char *new_image = NULL;
-	//
-	////while(!new_image)
-	//{	new_image = (v_perception) ? v_perception->GetCopyOfCurrentImage(cam_index, size_x, size_y, n_channels, depth, width_step) : NULL;
-	//	//m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(10));
-	//}
-
-	//if(new_image)
-	//{
-	//	CvSize size;
-	//	size.width = size_x;
-	//	size.height = size_y;
-	//	IplImage *aux_img = image;
-	//	image = cvCreateImage(size, depth, n_channels);
-	//	//image->imageData = new_image;
-	//	char *idata = image->imageData;
-
-	//	for (int y = 0; y < image->height; y++) {
-	//		for (int x = 0; x < image->width; x++) {
-	//			((uchar*)(idata + width_step*y))[x*3]   = ((uchar*)(new_image+width_step*y))[x*3];
-	//			((uchar*)(idata + width_step*y))[x*3+1] = ((uchar*)(new_image+width_step*y))[x*3+1];
-	//			((uchar*)(idata + width_step*y))[x*3+2] = ((uchar*)(new_image+width_step*y))[x*3+2];
-	//		}
-	//	}
-
-	//	Image fd_image(NULL, size_x, size_y, n_channels, depth, width_step);
-	//	
-	//	int face_x, face_y;
-	//	Apply();
-
-	//	if(aux_img) 
-	//	{	cvReleaseImage(&aux_img);
-	//		delete aux_img;          }
-	//	if(new_image) free(new_image);
-	//}
-}
+{}
 
 bool SimpleFaceDetection::Apply()
 {
 	IplImage *h = image;
 	if (h)
 	{
-		//ENCARAFaceDetector->ApplyENCARA2(h,2);
-		//ENCARAFaceDetector->PaintFacialData(h,CV_RGB(0,255,0));
 		return detect_and_draw();
 	}
 	return false;
@@ -297,7 +242,6 @@ bool SimpleFaceDetection::detect_and_draw()
     if(cascade)
 	{
         CvSeq * faces = cvHaarDetectObjects(small_img, cascade, cvCreateMemStorage(0), haar_scale, min_neighbors, haar_flags, min_size);
-		//int x, y, w, h, n;
         if (faces)
 			for( int i = 0; i < (faces ? faces->total : 0); i++ )
 			{
@@ -349,6 +293,6 @@ IplImage* SimpleFaceDetection::Sub_Image(IplImage *image, CvRect roi)
 	cvSetImageROI(image,roi);
 	result = cvCreateImage( cvSize(roi.width, roi.height), image->depth, image->nChannels );
 	cvCopy(image,result);
-	cvResetImageROI(image); // release image ROI
+	cvResetImageROI(image);
 	return result;
 }

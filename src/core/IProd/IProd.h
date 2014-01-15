@@ -29,6 +29,7 @@ namespace core
 			virtual void CloseWorld() = 0; 
 
 			virtual void SetUserPosition(const core::corePoint3D<double> &pos) = 0;
+			/** \brief Sets Camera PDU (Protocol Data unit) that refers to position, velocity and acceleration. **/
 			virtual void SetCamerasPDU(core::corePDU3D<double> pdu) = 0;
 
 
@@ -54,8 +55,6 @@ namespace core
 			virtual void SetFogIntensity(const float &intensity) = 0;
 			virtual void SetBackgroundAndFog(const float &bg_R=0.5f, const float &bg_G=0.5f, const float &bg_B=0.5f, const float &f_R=0.5f, const float &f_G=0.5f, const float &f_B=0.5f, const float &intensity=0.5f, const float animation_time=.0f) =0;
 			
-			//virtual void EnableSimpleGlowEffect(const bool &enable = true) = 0;
-
 			virtual void EnableSimpleInverEffect(const bool &enable = true) {}
 			virtual void EnableSimpleBloomEffect(const bool &enable = true) {}
 			virtual void EnableSimpleToonEffect(const bool &enable = true) {}

@@ -20,15 +20,6 @@ PresenceDetection::PresenceDetection(IPerceptVideo* video_perception, const int 
 	presenceCenterPos.x = -1;
 	presenceCenterPos.y = -1;
 
-	////default values
-	//background_params = new CvGaussBGStatModelParams;
-	//background_params->win_size=2;	
-	//background_params->n_gauss=5;
-	//background_params->bg_threshold=0.7;
-	//background_params->std_threshold=3.5;
-	//background_params->minArea=40;
-	//background_params->weight_init=0.05;
-	//background_params->variance_init=45;
 	background_params = new CvGaussBGStatModelParams;
 	background_params->win_size=10;	
 	background_params->n_gauss=5;
@@ -37,13 +28,6 @@ PresenceDetection::PresenceDetection(IPerceptVideo* video_perception, const int 
 	background_params->minArea=40;
 	background_params->weight_init=0.05;
 	background_params->variance_init=45;
-	////DEBUG CAM
-	//cvNamedWindow("FOREG",1);
-	//cvNamedWindow("NOT FOREG",1);
-	//cvNamedWindow("IMAGEA",1);
-	//cvNamedWindow("IMAGEB",1);
-	//cvNamedWindow("LATESTBKG",1);
-	//cvNamedWindow("MIX",1);
 }
 
 PresenceDetection::~PresenceDetection()
@@ -72,7 +56,6 @@ void PresenceDetection::DoInit()
 	{
 		assert(!m_thread);
 		m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&PresenceDetection::DoMainLoop, this ) ));
-		//m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::function0<void>(&PresenceDetection::DoMainLoop)));
 	}
 }
 
@@ -141,7 +124,6 @@ bool PresenceDetection::Apply()
 			int depth			= image->depth;
 			int width_step		= image->widthStep;
 
-			//IplImage *eroded, *dilated, *imgA, *imgB, *notForeg, *notForegbw, *foreg, *foregbw, *mix;
 			IplImage *imgA, *imgB, *notForeg, *foreg, *mix;
 			imgA		= cvCreateImage(size, depth, n_channels);
 			imgB		= cvCreateImage(size, depth, n_channels);
@@ -172,11 +154,6 @@ bool PresenceDetection::Apply()
 				aux_model = background_model;
 				background_model = bg_trainning_model;
 				bg_trainning_model = aux_model;
-				//if(background_model)  //PIERDE MEMORIA SI o SI //retomar
-				//{	background_model->release;
-				//	delete background_model;	}
-				//background_model = bg_trainning_model;
-				//bg_trainning_model = NULL;
 				IplImage *img_Aux = latest_bkg;
 				latest_bkg = mix;
 				cvReleaseImage(&img_Aux);
@@ -187,9 +164,6 @@ bool PresenceDetection::Apply()
 		}
 		cvUpdateBGStatModel( h, background_model, 0 );
 
-		//CvArr *foregroung_array;
-		//cvConvertImage(background_model->foreground, foregroung_array);
-		//---------------------
 		IplImage *eroded;
 		int size_x     = background_model->foreground->width;
 		int size_y     = background_model->foreground->height;
@@ -243,7 +217,6 @@ bool PresenceDetection::Apply()
 			double mC = pow((*foreground_moments).mu20 + (*foreground_moments).mu02, 2);
 			presence_eccentricity = (mA - mB) / mC ;
 		}
-		//---------------------
 		return true;
 	}
 	return false;
@@ -279,13 +252,6 @@ char * PresenceDetection::GetCopyOfCurrentImage(int &size_x, int &size_y, int &n
 				((uchar*)(copy + width_step*y))[x]   = ((uchar*)(source+width_step*y))[x];
 			}
 		}
-		//for (int y = 0; y < image->height; y++) {
-		//	for (int x = 0; x < image->width; x++) {
-		//		((uchar*)(copy + width_step*y))[x*3]   = ((uchar*)(source+width_step*y))[x*3];
-		//		((uchar*)(copy + width_step*y))[x*3+1] = ((uchar*)(source+width_step*y))[x*3+1];
-		//		((uchar*)(copy + width_step*y))[x*3+2] = ((uchar*)(source+width_step*y))[x*3+2];
-		//	}
-		//}
 		cvReleaseImage(&eroded);
 		cvReleaseImage(&dilated);
 		return copy;
@@ -327,12 +293,8 @@ void PresenceDetection::DoTrainBackground()
 	if (lock)
 	{
 		background_trainning_frames = 0;
-		//CvBGStatModel *background_model = background_model;
-
 		if (!background_model && image)
 			background_model = cvCreateGaussianBGModel(image ,background_params);
-		//if(old_background_model)
-		//	cvReleaseBGStatModel( &old_background_model );
 	}
 }
 
@@ -376,11 +338,6 @@ void PresenceDetection::SetCurrentImage(const int &size_x, const int &size_y, co
 		if(aux_img) 
 		{	cvReleaseImage(&aux_img);
 			delete aux_img;          }
-		//if(new_image) free(new_image);
-
-		//double timestamp = (double)clock()/CLOCKS_PER_SEC;
-		//std::cout << "Encara2 Period: " << timestamp-las_time << "\n";
-		//las_time = timestamp;
 
 		updated = true;
 	}

@@ -1,6 +1,4 @@
 #include <Entities/OXStandAloneEntity.h>
-//#include <controllers/ContentCreationController.h>
-//#include <Entities/OXBoidsEntity.h>
 
 #include <debugger.h> 
 
@@ -16,11 +14,9 @@ OXStandAloneEntity::OXStandAloneEntity(core::IEntityPersistence* ent, const floa
 
 		entity				= ent; 
 		nodepath			= NULL;
-		//collidable			= true;
 		ready_to_die		= false;
 		ignore_collisons	= false;
 		already_loaded_in_scene = false;
-		//time_to_live		= 1.5;
 		karma				= 0.5; //good(0) --> evil(1)
 		energy				= 0.0; //calm(0) --> exited(1)
 		delta_time			= 0.0;
@@ -176,24 +172,10 @@ void OXStandAloneEntity::OnUpdate()
 	if (animate_touching)
 		rotation_speed_touchingfactor = 1.75*(recovercollisions_afterseconds - current_timestamp);
 
-	////Animate if destroying
-	//bool animate_dying = killme_afterseconds - current_timestamp > 0.0;
-	//if (animate_dying)
-	//{	float scale;
-	//	this->GetScale(scale);
-	//	this->SetScale(scale*(killme_afterseconds - current_timestamp));
-	//}
-
 	//Update entity
 	float x, y, z;
 	float h, p, r;
 	float scale = 1.0;
-	//this->GetPosition(x, y, z);
-	//this->SetPosition(x, y - delta_time*3.0f, z);
-	//this->GetOrientation(h, p, r);
-	//this->SetOrientation(h+delta_time*12.0f*rotation_speed_touchingfactor, 
-	//	                 p+delta_time*60.0f*rotation_speed_touchingfactor, 
-	//					 r+delta_time*120.0f*rotation_speed_touchingfactor);
 	
 	this->GetPositionOrientationScale(x, y, z, 
 									  h, p, r, 
@@ -223,18 +205,12 @@ void OXStandAloneEntity::OnDeath()
 void OXStandAloneEntity::KillMyself()
 {	//I'm ready to die and ask my owner to destroy me and forget about me.
 	//In the the next frame Mainprod will destroy me.
-	ready_to_die = true; //descomentar //retomar x, provoca inconsistencia con CheckCollisions
-
-//	ContentCreationController::Instance()->RemoveEntityFromCurrentWorld((core::IEntity*)this);
+	ready_to_die = true; 
 }
 
 void OXStandAloneEntity::OnDestroy()
 {
 	boost::mutex::scoped_lock lock(m_mutex);
-
-	//if (entity)
-	//{	entity->Delete();
-	//}
 }
 
 void OXStandAloneEntity::ReceiveDamage()
@@ -260,9 +236,6 @@ void OXStandAloneEntity::OnCollisionCall(IEntity *otherEntity)
 	if (!ignore_collisons && !(current_timestamp - recovercollisions_afterseconds < 0))
 	{
 		IEntity *prod3dntity = (OXStandAloneEntity *)otherEntity;
-		//std::map<NatureOfEntity, float>::iterator found  = otherEntities_feedback.find(id); 
-		//if ( found != otherEntities_feedback.end() ) 
-		//retomar
 	}
 }
 

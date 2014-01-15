@@ -343,8 +343,6 @@ MeshFactory::MeshFactory() : a_stream(NULL), dataset_size(16), field_size(10), v
 {
 	fSample = &MeshFactory::DistanceToWeightedPointsInRange;
 	vMarchCube = &MeshFactory::vMarchCube1;
-
-	//SetUpSpatialGridIndex();
 }
 
 void MeshFactory::SetMarchingCubesConfig(const unsigned int &datasetSize, const float &fieldSize, 
@@ -354,7 +352,6 @@ void MeshFactory::SetMarchingCubesConfig(const unsigned int &datasetSize, const 
 	field_size = fieldSize;
 	voxelscope_distance = voxelscopeDistance;
 	metaball_weightfactor = metaballWeightfactor;
-	//fTargetValue = (fieldSize/datasetSize)*targetValue; //target value as voxel size proportion //retomar
 	fTargetValue = targetValue;
 
 	SetUpSpatialGridIndex();
@@ -370,7 +367,7 @@ void MeshFactory::SetUpSpatialGridIndex()
 	gridpoints_indexed.clear();
 	
 	int point_id = 0;
-	float fStepSizeinv = 1;//field_size/dataset_size; //dataset_size/field_size;
+	float fStepSizeinv = 1;
 	float weight_offset = 0.5;
 	int iX, iY, iZ;
 	for(iX = 0; iX < dataset_size; iX++)
@@ -403,32 +400,23 @@ void MeshFactory::SetUpSpatialGridIndex()
 
 		double timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 		double dif_time = timestamp2 - timestamp;
-		//cout << "Setting up Spatial grid: " << dif_time << "sec\n";
-
-	//RTFileStream grid_stream; //stream not implemented
-	//spatial_grid_index.Save(grid_stream);
-	//spatial_grid_index.Save("c:/etc/grid_spatial_index.txt");
-	
-	//Descomentame - no seguro si se usa
-	//cout << "Saving Grid: please wait, this may take a while.\n";
-	//if (a_stream)
-	//	delete a_stream;
-	//a_stream = new RTFileStream();
-	//spatial_grid_index.Save(*a_stream);
 }
 
+//RTree callback
 bool MeshFactory::RegisterPointIDIntoSearchResults(int id) 
 {	//printf("Hit data rect %d\n", id);
 	RTree_search_results.push_back(id);
 	return true; // keep going
 }
 
+//RTree callback
 bool MeshFactory::RegisterPointIDIntoGlobalSearchResults(int id) 
 {	//printf("Hit data rect %d\n", id);
 	global_rTree_search_results.push_back(id);
 	return true; // keep going
 }
 
+//RTree callback
 bool MeshFactory::RegisterGridPointIDIntoSearchResults(int id) 
 {	//printf("Hit data rect %d\n", id);
 	grid_rTree_search_results.push_back(id);
@@ -487,7 +475,6 @@ float MeshFactory::DistanceToWeightedPointsInRange(float fX, float fY, float fZ)
     double fResult = 0.0;
     double fDx, fDy, fDz;
 
-	//float search_delta = voxelscopeDistance * dataset_size / field_size;
 	float search_delta = voxelscope_distance;
 	RTree_search_results.clear();
 	Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
@@ -526,11 +513,8 @@ int  MeshFactory::vMarchCube1(float fX, float fY, float fZ, float fScale, std::v
 
         int iCorner, iVertex, iVertexTest, iEdge, iTriangle, iFlagIndex, iEdgeFlags;
         float fOffset;
-        //GLvector sColor;
 		vector3F sColor;
         float CubeValue[8];
-        //GLvector asEdgeVertex[12];
-        //GLvector asEdgeNorm[12];
         vector3F asEdgeVertex[12];
         vector3F asEdgeNorm[12];
 
@@ -578,9 +562,7 @@ int  MeshFactory::vMarchCube1(float fX, float fY, float fZ, float fScale, std::v
                 }
         }
 
-
         //Draw the triangles that were found.  There can be up to five per cube
-
         for(iTriangle = 0; iTriangle < 5; iTriangle++)
         {
                 if(TriangleConnectionTable[iFlagIndex][3*iTriangle] < 0)
@@ -589,10 +571,6 @@ int  MeshFactory::vMarchCube1(float fX, float fY, float fZ, float fScale, std::v
                 for(iCorner = 0; iCorner < 3; iCorner++)
                 {
                         iVertex = TriangleConnectionTable[iFlagIndex][3*iTriangle+iCorner];
-                        //vGetColor(sColor, asEdgeVertex[iVertex], asEdgeNorm[iVertex]);
-                        //glColor3f(sColor.fX, sColor.fY, sColor.fZ);
-                        //glNormal3f(asEdgeNorm[iVertex].fX,   asEdgeNorm[iVertex].fY,   asEdgeNorm[iVertex].fZ);
-                        //glVertex3f(asEdgeVertex[iVertex].fX, asEdgeVertex[iVertex].fY, asEdgeVertex[iVertex].fZ);
 						vertex[nTriangles*3+iCorner].x = asEdgeVertex[iVertex].x;
 						vertex[nTriangles*3+iCorner].y = asEdgeVertex[iVertex].y;
 						vertex[nTriangles*3+iCorner].z = asEdgeVertex[iVertex].z;
@@ -630,229 +608,20 @@ void MeshFactory::vMarchingCubes()
             (this->*vMarchCube)(iX*fStepSize, iY*fStepSize, iZ*fStepSize, fStepSize, vertex, color, edge_normal);
         }
 }
-/*
-NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<vector3F> > source_weighted_data)
-{
-	//fSample = fSample1;
-	//fSample = fSample3;
-	//fSample = DistanceToWeightedPoints;
-	fSample = &MeshFactory::DistanceToWeightedPointsInRange;
-	vMarchCube = &MeshFactory::vMarchCube1;
-
-	//RTree<int, float, 3, float> spatial_index;
-
-	int point_id = 0;
-	spatial_index.RemoveAll();
-	weight_index.clear();
-	source_weighted_points.clear();
-	source_weighted_points_indexed.clear();
-	
-
-	source_weighted_points = source_weighted_data;
-	for (std::map< int, std::vector<vector3F> >::iterator iter = source_weighted_data.begin(); iter != source_weighted_data.end(); iter++)
-	{	for (std::vector<vector3F>::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); iter2++)
-		{	float envelope = 0.1*(iter->first);
-			Rect3F point_rect((*iter2).x-envelope,(*iter2).y-envelope,(*iter2).z-envelope,
-			                  (*iter2).x+envelope,(*iter2).y+envelope,(*iter2).z+envelope);
-			spatial_index.Insert(point_rect.min, point_rect.max, point_id);
-			source_weighted_points_indexed[point_id] = (*iter2);
-			weight_index[point_id] = iter->first;
-			point_id++;
-		}
-	}
-
-	CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3n3c4t2();
-	PT(GeomVertexData) vdata = new GeomVertexData("vertices", format, GeomEnums::UH_static);
-
-	GeomVertexWriter vertex, normal, color, texcoord;
-	vertex = GeomVertexWriter(vdata, "vertex");
-	normal = GeomVertexWriter(vdata, "normal");
-	color = GeomVertexWriter(vdata, "color");
-	texcoord = GeomVertexWriter(vdata, "texcoord");
-	
-	//CONTENT-------------------
-	
-	//vSetTime(0.5);
-	int nVertices=0;
-
-	iDataSetSize = dataset_size;
-	fStepSize = field_size/dataset_size;
-	float fStepSizeinv = dataset_size/field_size;
-	
-	float iX, iY, iZ;
-
-	float search_delta = voxelscope_distance;
-	global_rTree_search_results.clear();
-	Rect3F search_rect(0,0,0, field_size,field_size,field_size);
-	int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoGlobalSearchResults_callback, NULL);
-
-	std::map<std::string, bool> visited;
-
-	RTree<int, float, 3, float> aux_spatial_grid_index;// = spatial_grid_index;
-	//aux_spatial_grid_index.Load("c:/etc/grid_spatial_index.txt");
-	if (a_stream)
-	{	a_stream->Begin();
-		aux_spatial_grid_index.Load(*a_stream);//TOO SLOWWWWWWWWWWWWW
-		//La clave está en clonar el árbol sinque tarde.... ¬¬'
-	}
-	Rect3F grid_search_rect_whole(0, 0, 0, dataset_size, dataset_size, dataset_size);
-	int grid_overlapping_size_whole = aux_spatial_grid_index.Search(grid_search_rect_whole.min, grid_search_rect_whole.max, RegisterGridPointIDIntoSearchResults_callback, NULL);
-
-
-////----------------------
-//	RTree<int, float, 3, float> aux_spatial_grid_index;// = spatial_grid_index;
-//	RTree<int, float, 3, float> aux_spatial_grid_index2;// = spatial_grid_index;
-//
-//	Rect3F point_rect(10,10,10,11,11,11);
-//	Rect3F point_rect2(12,12,12,13,13,13);
-//	aux_spatial_grid_index.Insert(point_rect.min, point_rect.max, 1);
-//	aux_spatial_grid_index.Insert(point_rect2.min, point_rect2.max, 2);
-//
-//	if (a_stream)
-//		delete a_stream;
-//	a_stream = new RTFileStream();
-//	aux_spatial_grid_index.Save(*a_stream);
-//
-//	if (a_stream)
-//		aux_spatial_grid_index2.Load(*a_stream);
-//
-//	RTFileStream *b_stream;
-//	aux_spatial_grid_index2.Save(*b_stream);
-//
-//	Rect3F grid_search_rect_whole(0, 0, 0, 100, 100, 100);
-//	int grid_overlapping_size_whole = aux_spatial_grid_index2.Search(grid_search_rect_whole.min, grid_search_rect_whole.max, RegisterGridPointIDIntoSearchResults_callback, NULL);
-////----------------------
-
-
-	for (std::vector<int>::iterator s_iter = global_rTree_search_results.begin(); s_iter != global_rTree_search_results.end(); s_iter++)
-	{
-		std::map< int, vector3F >::iterator id_iter = source_weighted_points_indexed.find(*s_iter);
-		if (id_iter == source_weighted_points_indexed.end())
-			continue;
-
-		iX = id_iter->second.x;
-		iY = id_iter->second.y;
-		iZ = id_iter->second.z;
-		float weight_offset = 0;// weight_index[id_iter->first]/2;
-		//-----------------------------
-		//FIX!!!! IGNORES TOO MANY GRID CELLS, but this approach is dimension explosive
-		//-----------------------------
-
-		int jX, jY, jZ, jXini, jYini, jZini, jXend, jYend, jZend;
-		int grid_coord_x, grid_coord_y, grid_coord_z;
-
-		//GRID cells coordinates 0->dataset_size
-		grid_coord_x = iX*fStepSizeinv;
-		grid_coord_y = iY*fStepSizeinv;
-		grid_coord_z = iZ*fStepSizeinv;
-		jXini = ((iX - weight_offset) > 0) ? (iX - weight_offset)*fStepSizeinv : 0;
-		jYini = ((iY - weight_offset) > 0) ? (iY - weight_offset)*fStepSizeinv : 0;
-		jZini = ((iZ - weight_offset) > 0) ? (iZ - weight_offset)*fStepSizeinv : 0;
-		jXend = ((iX + weight_offset) > 0) ? (iX + weight_offset)*fStepSizeinv+1 : 0;
-		jYend = ((iY + weight_offset) > 0) ? (iY + weight_offset)*fStepSizeinv+1 : 0;
-		jZend = ((iZ + weight_offset) > 0) ? (iZ + weight_offset)*fStepSizeinv+1 : 0;
-
-		grid_rTree_search_results.clear();
-		Rect3F grid_search_rect(jXini, jYini, jZini, jXend, jYend, jZend);
-		int grid_overlapping_size = aux_spatial_grid_index.Search(grid_search_rect.min, grid_search_rect.max, RegisterGridPointIDIntoSearchResults_callback, NULL);
-
-		//for (jX = jXini; jX <= jXend; jX++)
-		//for (jY = jYini; jY <= jYend; jY++)
-		//for (jZ = jZini; jZ <= jZend; jZ++)
-		for (std::vector<int>::iterator g_iter = grid_rTree_search_results.begin(); g_iter != grid_rTree_search_results.end(); g_iter++)
-		{
-			int kX, kY, kZ;
-			std::map< int, vector3F >::iterator grid_iterator = gridpoints_indexed.find(*g_iter);
-			if (grid_iterator != gridpoints_indexed.end())
-			{
-				kX = grid_iterator->second.x;
-				kY = grid_iterator->second.y;
-				kZ = grid_iterator->second.z;
-				vector3F zero_vector;
-				zero_vector.x = zero_vector.y =zero_vector.z = 0;
-				std::vector<vector3F> v_vertex;
-				std::vector<vector3F> v_color;
-				std::vector<vector3F> v_edge_normal;
-				v_vertex.resize(dataset_size, zero_vector);
-				v_color.resize(dataset_size, zero_vector);
-				v_edge_normal.resize(dataset_size, zero_vector);
-											//coordenada real del cubo 0->field_size
-				int nTriangles = (this->*vMarchCube)(kX*fStepSize, kY*fStepSize, kZ*fStepSize, fStepSize, v_vertex, v_color, v_edge_normal);
-				for ( int i = 0; i < nTriangles; i++)
-				{
-					vertex.add_data3f(v_vertex[i*3].x,v_vertex[i*3].y,v_vertex[i*3].z);
-					normal.add_data3f(v_edge_normal[i*3].x,v_edge_normal[i*3].y,v_edge_normal[i*3].z);
-					color.add_data4f(v_color[i*3].x,v_color[i*3].y,v_color[i*3].z, 1.0);
-					texcoord.add_data2f(1, 0);
-
-					vertex.add_data3f(v_vertex[i*3+1].x,v_vertex[i*3+1].y,v_vertex[i*3+1].z);
-					normal.add_data3f(v_edge_normal[i*3+1].x,v_edge_normal[i*3+1].y,v_edge_normal[i*3+1].z);
-					color.add_data4f(v_color[i*3+1].x,v_color[i*3+1].y,v_color[i*3+1].z, 1.0);
-					texcoord.add_data2f(1, 1);
-
-					vertex.add_data3f(v_vertex[i*3+2].x,v_vertex[i*3+2].y,v_vertex[i*3+2].z);
-					normal.add_data3f(v_edge_normal[i*3+2].x,v_edge_normal[i*3+2].y,v_edge_normal[i*3+2].z);
-					color.add_data4f(v_color[i*3+2].x,v_color[i*3+2].y,v_color[i*3+2].z, 1.0);
-					texcoord.add_data2f(0, 1);
-				}
-				nVertices += nTriangles*3;
-			}
-
-			aux_spatial_grid_index.Remove(grid_search_rect.min, grid_search_rect.max, *g_iter);
-			//grid_rTree_search_results.erase(*g_iter);
-		}
-	}
-
-	//TRIANGLES
-	PT(GeomTriangles) tris;
-	tris = new GeomTriangles(Geom::UH_static);
-	for (int i = 0; i<nVertices; i = i+3)
-	{	tris->add_vertex(i+0);
-		tris->add_vertex(i+1);
-		tris->add_vertex(i+2);
-		tris->close_primitive();
-	}
-
-	PT(Geom) squareGeom = new Geom(vdata) ;
-	squareGeom->add_primitive(tris) ;
-	PT(GeomNode) squareGN = new GeomNode("square") ;
-	squareGN->add_geom(squareGeom) ;
-
-	NodePath* quad = new NodePath( (PandaNode*)squareGN );
-	quad->set_two_sided(true);
-	quad->set_texture_off();
-
-	//Texture *text = TexturePool::load_texture("/c/etc/Iris.png");
-	//quad->set_transparency(TransparencyAttrib::M_alpha);
-	//quad->set_texture(text);
-
-	return quad;
-}*/
 
 
 NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
 {
-//----------------
-//----------------------
-	RTree<int, float, 3, float> aux_spatial_grid_index;// = spatial_grid_index;
-	RTree<int, float, 3, float> aux_spatial_grid_index2;// = spatial_grid_index;
-
+	RTree<int, float, 3, float> aux_spatial_grid_index;
+	RTree<int, float, 3, float> aux_spatial_grid_index2;
 	Rect3F point_rect(10,10,10,24,24,24);
 	Rect3F point_rect2(22,22,22,33,33,33);
 	aux_spatial_grid_index.Insert(point_rect.min, point_rect.max, 1);
 	aux_spatial_grid_index.Insert(point_rect2.min, point_rect2.max, 2);
 	Rect3F grid_search_rect_whole(0, 0, 0,5, 5, 5);
 	int grid_overlapping_size_whole = aux_spatial_grid_index.Search(grid_search_rect_whole.min, grid_search_rect_whole.max, RegisterGridPointIDIntoSearchResults_callback, NULL);
-//----------------------
-	//----------------
-	
-	//fSample = fSample1;
-	//fSample = fSample3;
-	//fSample = DistanceToWeightedPoints;
 	fSample = &MeshFactory::DistanceToWeightedPointsInRange;
 	vMarchCube = &MeshFactory::vMarchCube1;
-
-	//RTree<int, float, 3, float> spatial_index;
 
 	int point_id = 0;
 	spatial_index.RemoveAll();
@@ -883,8 +652,6 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<doub
 	color = GeomVertexWriter(vdata, "color");
 	texcoord = GeomVertexWriter(vdata, "texcoord");
 	
-	//CONTENT-------------------
-	
 	//vSetTime(0.5);
 	int nVertices=0;
 
@@ -912,7 +679,7 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<doub
 		iZ = id_iter->second.position.z;
 		float weight_offset = 0;// weight_index[id_iter->first]/2;
 		//-----------------------------
-		//FIX!!!! IGNORES TOO MANY GRID CELLS, but this approach is dimension explosive
+		//IMPROVE!!!! IGNORES TOO MANY GRID CELLS, but the approach is dimension explosive
 		//-----------------------------
 
 		int jX, jY, jZ, jXini, jYini, jZini, jXend, jYend, jZend;
@@ -939,10 +706,6 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<doub
 			if (v_iter == visited.end())
 			{
 				visited[point_str.str()] = true;
-
-				//vector3F v_vertex[dataset_size-1];
-				//vector3F v_color[dataset_size-1];
-				//vector3F v_edge_normal[dataset_size-1];
 				vector3F zero_vector, centeredOriginOffset_vector;
 				zero_vector.x = zero_vector.y =zero_vector.z = 0;
 				centeredOriginOffset_vector.x = centeredOriginOffset_vector.y = centeredOriginOffset_vector.z = field_size/2;
@@ -952,7 +715,7 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<doub
 				v_vertex.resize(dataset_size, zero_vector);
 				v_color.resize(dataset_size, zero_vector);
 				v_edge_normal.resize(dataset_size, zero_vector);
-											//coordenada real del cubo 0->field_size
+				//coordenada real del cubo 0->field_size
 				int nTriangles = (this->*vMarchCube)(jX*fStepSize, jY*fStepSize, jZ*fStepSize, fStepSize, v_vertex, v_color, v_edge_normal);
 				for ( int i = 0; i < nTriangles; i++)
 				{	//retomar centrar malla en el origen de verdad de la buena
@@ -994,10 +757,6 @@ NodePath* MeshFactory::CreateVoxelized(std::map< int, std::vector<corePDU3D<doub
 	NodePath* quad = new NodePath( (PandaNode*)squareGN );
 	quad->set_two_sided(true);
 	quad->set_texture_off();
-
-	//Texture *text = TexturePool::load_texture("/c/etc/Iris.png");
-	//quad->set_transparency(TransparencyAttrib::M_alpha);
-	//quad->set_texture(text);
 
 	return quad;
 }

@@ -37,8 +37,6 @@ namespace core
 				virtual void SetScale(const float &value)									{ scale = value; }
 				virtual void SetPsique(const int &value)									{ psique = value; Changed();}
 				virtual void SetModel(const std::string &value)								{ model = value; Changed();	}
-				//virtual void AddWorld(const core::ipersistence::WorldPersistence &world) 
-				//														{ worlds.push_back(world);			}
 				virtual std::string GetName()							{ return name;						}
 				virtual std::string GetPassword()						{ return password;					}
 				virtual int			GetPermissions()					{ return permissions;				}
@@ -61,10 +59,6 @@ namespace core
 					  orientation_x, orientation_y, orientation_z,
 					  up_x, up_y, up_z,
 					  scale;
-				//std::list<core::ipersistence::WorldPersistence> worlds;
-				//std::string image;
-				//std::string empathy;
-				//std::string permissions;
 
 			private:
 

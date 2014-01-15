@@ -24,9 +24,6 @@
 #include <collisionBox.h>
 #include <collisionNode.h>
 #include <boundingSphere.h>
-//#include <audioManager.h>
-//#include <audioSound.h>
-//#include <virtualFileSystem.h>
 #include <filename.h>
 #include <texturePool.h>
 
@@ -44,11 +41,8 @@
 #if PANDA_NUMERIC_VERSION >= 1008000
 #define Colorf LColorf
 #endif
-////#include <cpp_drunken_octo_robot_master/p3util/cActor.h>
-//#include <cpp_drunken_octo_robot_master/p3util/cBufferViewer.h>
-#include "p3util/cCommonFilters.h"
-//#include <cpp_drunken_octo_robot_master/p3util/cOnscreenText.h>
 
+#include "p3util/cCommonFilters.h"
 
 #include <boost/thread.hpp>
 
@@ -60,51 +54,10 @@
 #include <core/IPersistence/IEntityPersistence.h>
 #include <debugger.h>
 
-//#include <boost/archive/binary_oarchive.hpp>
-//#include <boost/archive/binary_iarchive.hpp>
-
 namespace core
 {
 	namespace iprod
 	{
-
-		////--------------------------
-		////SERIALIZE ME
-		//class NodoSerio 
-		//{
-		//	private:
-		//		friend class boost::serialization::access;
-		//		template<class Archive>
-		//		void serialize(Archive & ar, const unsigned int version)
-		//		{
-		//			ar & nodo;
-		//		}
-		//		//PandaNode nodo;
-		//		NodePath nodo;
-		//	public:
-		//		NodoSerio(NodePath value) :nodo(value)	{}
-		//};
-		////--------------------------
-
-		//--------------------------
-		//SERIALIZE ME
-		/*class NodoSerio
-		{
-			private:
-				friend class boost::serialization::access;
-				template<class Archive>
-				void serialize(Archive & ar, const unsigned int version)
-				{
-					ar & mierda;
-				}
-				int mierda;
-			public:
-				NodoSerio()	: mierda(666) {}
-		};*/
-		//--------------------------
-
-
-
 		class MainProd : public core::IProd
 		{
 			public:
@@ -151,8 +104,7 @@ namespace core
 				virtual void SetFogIntensity(const float &intensity);
 				virtual void SetBackgroundAndFog(const float &bg_R=0.5f, const float &bg_G=0.5f, const float &bg_B=0.5f, const float &f_R=0.5f, const float &f_G=0.5f, const float &f_B=0.5f, const float &intensity=0.5f, const float animation_time=.0f);
 
-				//After activating this feature it wont be possible to resize the windows and reorient them anymore
-				//virtual void PrepareSimpleEffects();
+				//After activating these features it wont be possible to resize the windows and reorient them anymore
 				virtual void EnableSimpleInverEffect(const bool &enable = true);
 				virtual void EnableSimpleBloomEffect(const bool &enable = true);
 				virtual void EnableSimpleToonEffect(const bool &enable = true);
@@ -162,8 +114,6 @@ namespace core
 
 				static NodePath* CreateQuad();
 				static void AddTestQuad();
-
-
 			
 			private:
 
@@ -199,8 +149,6 @@ namespace core
 				static std::map< const CollisionSolid *, Prod3DEntity* >			entities_collider_array;
 				static std::vector< Prod3DEntity * >								entity_collidable_array_to_register;
 				static std::map< Prod3DEntity *, double >							entity_array_to_be_loaded_afterseconds;
-				//static std::map< Prod3DEntity *, double >							entity_array_to_be_removed_afterseconds;
-				
 
 				static core::corePoint3D<double> pt0, pt1, pti, vel, vel0, vel1, acc;
 				static double last_interval, last_time, last_loop_t;
@@ -210,18 +158,10 @@ namespace core
 				static void ClearAvatarModel();
 				void SetUpUser(void *graphic_node = NULL);
 
-				//---destroy when ready---------------------
-				//static NodePath environment, pandaActor, pandaActor2, pandaActor3, pandaActor4;
-				//------------------------------------------
-
 			private:
 
 				static void LoadEntityIntoScene(Prod3DEntity * entity);
 				static void RemoveEntityFromScene(Prod3DEntity * entity);
-
-
-				//static NodePath* CreateQuad();
-
 				static bool insert_now;
 
 				IApplication* app;
@@ -240,7 +180,6 @@ namespace core
 				static bool CheckDesiredBackgroundAndFogRanges();
 
 				static AsyncTask::DoneStatus SpinCameraTask(GenericAsyncTask* task, void* data);
-
 
 				static boost::shared_ptr<boost::thread> m_thread;
 				static boost::try_mutex m_mutex;
@@ -261,13 +200,8 @@ namespace core
 				static char **m_argv;
 				static NodePath cam_viewpoint;
 				static NodePath origin, up;
-
 				static int dummy_erase_me;
-
-				//static 		PT(AudioManager) AM;
-				//static		PT(AudioSound) mySound;
 				static		VirtualFileSystem* vfs;
-				//static		string filename;
 
 				//sfml
 				static double listener_position[];
@@ -278,8 +212,6 @@ namespace core
 				static double sound_pos[];
 				static sf::Sound Sound;
 
-
-				//static PT(Fog) m_fog;
 				static Fog m_fog;
 				static corePoint3D<float> background_color, desired_background_color;
 				static corePoint3D<float> fog_color, desired_fog_color;
@@ -304,8 +236,8 @@ namespace core
 				static AnimControlCollection SceneAnimControlCollection;
 
 				static NodePath* fake_background_quad; //Panda won't allow changing the background color while using
-										  //post processing filters, so we create a non-illuminated quad 
-										  //relative to the cam, with that color...
+													  //post processing filters, so, we create a non-illuminated quad 
+													  //relative to the cam, with that color...
 				static NodePath* default_ambientLight;
 
 		};

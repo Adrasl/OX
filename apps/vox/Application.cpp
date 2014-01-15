@@ -5,14 +5,9 @@
 //#include <windows.h>
 //#endif
 ////---------------------------------------
-
 //REMEMBER ENVIRONMENT
-//PATH=%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\debug\bin;..\..\extern\panda3d\debug\python;..\..\extern\panda3d\debug\python\DLLs;
-//PATH=%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\debug\bin;..\..\extern\panda3d\debug\python;..\..\extern\panda3d\debug\python\DLLs;..\..\extern\openal\debug;..\..\extern\openal\build\Debug;..\..\extern\alure\build\Debug;
-
 //DEBUG
 //PATH=%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\debug\bin;..\..\extern\panda3d\debug\python;..\..\extern\panda3d\debug\python\DLLs;..\..\extern\sfml\extlibs\bin;
-
 //RELEASE
 //PATH=..\..\extern\opencv\bin;%PATH%;..\..\extern\bin;..\..\extern\bin\opencv;..\..\extern\panda3d\lib;..\..\extern\panda3d\built\bin;..\..\extern\panda3d\built\python;..\..\extern\panda3d\built\python\libs;..\..\..\BBDD\PostgreSQL\bin;..\..\extern\debea\vc_release_static;..\..\extern\sfml\extlibs\bin;
 
@@ -21,9 +16,6 @@
 #endif
 
 #include <debugger.h> 
-//#define CRTDBG_MAP_ALLOC
-//#include <stdlib.h>
-//#include <crtdbg.h>
 
 #define MAINLOOP_EVT 12345
 #define BENEFIT_OF_THE_DOUBT 100
@@ -38,7 +30,6 @@ core::IApplication* Application::app = NULL;
 Application::Application(void) : app_maingui(NULL), app_mainpercept(NULL), app_mainprod(NULL), session_controller(NULL), configuration_controller(NULL), runningscene_controller(NULL), user_dataModel_controller(NULL), app_mainpersistence(NULL), benefit_of_the_doubt(0), avatar_entity(NULL), contentcreation_controller(NULL)
 {
 	//_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-
 	app = (IApplication*) this;
 	app_timer.SetOwner(this, MAINLOOP_EVT);
 
@@ -89,8 +80,7 @@ Application::~Application(void)
 	if ( app_config ) delete app_config;
 
 	//_CrtDumpMemoryLeaks();
-
-//	fclose(stdout);
+	//fclose(stdout);
 	//#ifdef _MSVC
 	//#ifdef _DEBUG
 	//_CrtDumpMemoryLeaks();
@@ -101,9 +91,6 @@ Application::~Application(void)
 
 bool Application::OnInit()
 {
-	//freopen("VOX_log_info.txt", "w+", stdout);
-	//printf("LOGGING...\n");
-
 	#ifdef WIN32
 	unsigned int cores = boost::thread::hardware_concurrency();
 	int mask = (1 << cores)-1;
@@ -211,7 +198,6 @@ void Application::OnIdle(wxIdleEvent &event)
 						{
 							std::string world_name = world_names[world_names.size()-1];
 							app_maingui->LogIn(name, passwd);
-							//session_controller->OpenSession(name, passwd, world_name);
 							this->RunWorld(world_name);
 						}
 					}
@@ -263,7 +249,6 @@ void Application::ExitApplication()
 void Application::DoMainLoopStuff(wxTimerEvent& event)
 {
 	//To Do important/frequent stuff
-	//app_mainprod->DoStuff();
 }
 
 bool Application::PostLogMessage(const std::string &message)
@@ -368,8 +353,6 @@ bool Application::RunWorld(const std::string &name)
 			core::IUserPersistence  *user  = session_controller->GetCurrentUser();
 			core::IWorldPersistence *world = session_controller->GetCurrentWorld();
 
-			//edit entities depending on psique before creating 3dprodEntities
-
 			app_mainpercept;	//SetUser
 			if (user && world)
 			{	for (int i=0; i < world->GetNumEntities(); i++)
@@ -390,7 +373,7 @@ bool Application::RunWorld(const std::string &name)
 						case NatureOfEntity::BOID		:
 					   {	new_entity = new iprod::OXBoidsEntity(ient); break;	   }
 						//case NatureOfEntity::TREE		:
-					 //  {	new_entity = new iprod::OXTreeEntity(ient); break;	   }
+						//{	new_entity = new iprod::OXTreeEntity(ient); break;	   }
 						default							: 
 					   {	new_entity = new iprod::Prod3DEntity(ient); break;	   }
 					}
@@ -433,7 +416,7 @@ bool Application::RunDefaultWorld()
 						case NatureOfEntity::BOID		:
 					   {	new_entity = new iprod::OXBoidsEntity(ient); break;	   }
 						//case NatureOfEntity::TREE		:
-					 //  {	new_entity = new iprod::OXTreeEntity(ient); break;	   }
+						//  {	new_entity = new iprod::OXTreeEntity(ient); break;	   }
 						default							: 
 					   {	new_entity = new iprod::Prod3DEntity(ient); break;	   }
 					}
@@ -512,12 +495,6 @@ void Application::SetAutoLogin(const bool &value)
 		app_config->SetAutoLogin(value);
 }
 
-//bool Application::RunWorld(const std::string &world_id)
-//{
-//	if (session_controller != NULL) 
-//		return session_controller->RunWorld(world_id);
-//	return false;
-//}
 bool Application::CloseSession()
 {
 	if ( (session_controller != NULL) && (app_mainprod != NULL) ) 
@@ -529,32 +506,7 @@ bool Application::CloseSession()
 }
 
 void Application::ResetProductionModule()
-{
-	//BASURAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!!!!!!!
-	//if (app_mainprod != NULL)
-	//{
-	//	app_mainprod->Delete();
-	//	delete app_mainprod;
-	//	app_mainprod = NULL;
-	//	app_mainprod = (core::IProd *) new core::iprod::MainProd(argc, argv); 
-	//	app_mainprod->SetApp((IApplication *)this);
-	//	PostLogMessage("Initializing production module...");
-	//	app_mainprod->Init();
-	//}
-}
-//bool Application::DeleteUser(int user_id)
-//{
-//	if (session_controller != NULL) 
-//		return session_controller->DeleteUser(user_id);
-//	return false;
-//}
-//bool Application::DeleteWorld(int world_id)
-//{
-//	if (session_controller != NULL) 
-//		return session_controller->DeleteWorld(world_id);
-//	return false;
-//}
-
+{}
 
 bool Application::Calibrate()
 {

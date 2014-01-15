@@ -1,16 +1,10 @@
 #ifndef _USERDATAMODELCONTROLLER_
 #define _USERDATAMODELCONTROLLER_
 
-//#include <Application.h>
-//#include <core/IPersistence/IPersistence.h>
-//#include <core/IPersistence/IUserPersistence.h>
-//#include <core/IPersistence/IWorldPersistence.h>
-//#include <ipersistence/types.h>
 #include <core/IUserDataModelController.h>
 #include <boost/thread.hpp>
 #include <core/types.h>
 #include <vector>
-//#include <SpatialIndex.h>
 #include <RTreeTemplate/RTree.h>
 
 

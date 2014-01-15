@@ -51,7 +51,6 @@ MainFrame::MainFrame(MainGui *maingui, wxWindow *parent, wxWindowID id, const wx
 	user_panel  = new GUIUser	 (appc, dummy_panel, wxID_ANY, wxDefaultPosition, client_size);
 	userinfo_panel  = new GUIUserInfo (appc, dummy_panel, wxID_ANY, wxDefaultPosition, client_size);
 	configure_panel = new GUIConfiguration(appc, dummy_panel, wxID_ANY, wxDefaultPosition, client_size);
-	//configure_panel->SetAppConfig(core::igui::MainGui::GetInstance()->GetAppConfig());
 	start_panel->Reparent(this);
 
 	file_menu = new wxMenu;
@@ -116,7 +115,6 @@ void MainFrame::OnViewFullScreen(wxCommandEvent& WXUNUSED(event))
 	bool value = this->IsFullScreen();
 	if (main_gui != NULL)
 		main_gui->SetAllWindowsFullScreen(!value);
-	//core::igui::MainGui::GetInstance()->ShowAll(!value);
 }
 
 void MainFrame::Delete()
@@ -159,7 +157,6 @@ void MainFrame::OnFileLogin(wxCommandEvent& WXUNUSED(event))
 
 void MainFrame::LogOut()
 {
-	//DismissPanels();
 	userinfo_panel->Clear();
 	user_panel->Clear();
 	ViewUserInfo();

@@ -28,11 +28,8 @@ namespace core
 				virtual ~GUIConfiguration();
 
 				void Delete();
-				//void Clear();
 
 				void SetAppConfig(IApplicationConfiguration *app_config_) {app_config = app_config_;}
-				//void SetNumCams(const unsigned int &value)		{ num_cams = value;		}
-				//void SetNumDisplays(const unsigned int &value)	{ num_windows = value;	}
 				void SetCameraData(const int &id, const CameraData &value)			{ cam_map[id]=value; num_cams_ctrl->SetValue(cam_map.size()); }
 				void SetDisplayData(const int &id, const DisplayData &value)		{ win_map[id]=value; num_windows_ctrl->SetValue(win_map.size()); }
 
@@ -73,8 +70,8 @@ namespace core
 
 				wxCheckBox *cam_capture, *homography, *face_detection, *foreground, *motion;
 
-				wxRadioBox *win_flip, *cam_flip, //_hv, *win_flip_grafphical,
-					       *win_layout, *cam_mode;//_dice, *win_layout_manual;
+				wxRadioBox *win_flip, *cam_flip, 
+					       *win_layout, *cam_mode;
 
 				wxBitmapToggleButton *win_up_opposite, *win_down_opposite, *win_up_straight, *win_down_straight,
 									 *win_front, *win_back, *win_left, *win_right, *win_up, *win_down, 
@@ -125,8 +122,6 @@ namespace core
 				void EnableDisplayControls(const bool &value = true);
 				void EnableCameraControls(const bool &value = true);
 
-				//void DoLogout();
-				//void DoLogin(const std::string &name, const std::string &passwd);
 				void OnOKButton(wxCommandEvent& WXUNUSED(event));
 				void OnCancelButton(wxCommandEvent& WXUNUSED(event));
 				void OnCalibrateButton(wxCommandEvent& WXUNUSED(event));

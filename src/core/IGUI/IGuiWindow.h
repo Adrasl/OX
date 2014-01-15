@@ -11,8 +11,6 @@ namespace core
 		public:
 
 			virtual ~IGuiWindow(){}
-			//virtual void Delete()=0;
-			//virtual void Update()=0;
 			virtual void Show( const bool &value = true )=0;
 			virtual void FullScreen( const bool &value = true )=0;
 

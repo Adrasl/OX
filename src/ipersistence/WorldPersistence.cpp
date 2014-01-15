@@ -12,6 +12,7 @@ BEGIN_STORE_TABLE(WorldPersistence, dba::Storeable, "world_table")
 	BIND_INT	(WorldPersistence::permissions,	dba::Int,							"permissions")
 	BIND_COL	(WorldPersistence::entities,	dba::stdList<EntityPersistence>,	"fk_world")
 END_STORE_TABLE()
+
 //SQL schema
 dba::SQL WorldPersistence::schema(
 "CREATE TABLE world_table ("
@@ -19,7 +20,6 @@ dba::SQL WorldPersistence::schema(
 "  name VARCHAR,"
 "  owner VARCHAR,"
 "  permissions INT"
-//"  fk_user INT"
 ")");
 
 boost::mutex WorldPersistence::m_mutex;
@@ -55,7 +55,6 @@ bool WorldPersistence::Load(const int &id)
 		WorldPersistence new_object;
 		dba::SQLIStream istream = ar->getIStream();
 		istream.setWhereId(id);
-		//istream.open(new_object);
 		bool success = istream.get(&new_object);
 		this->operator =(new_object);
 		return success;
@@ -131,7 +130,6 @@ void WorldPersistence::AddEntity(core::IEntityPersistence *entity)
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
 		core::ipersistence::EntityPersistence* entity_to_add = (core::ipersistence::EntityPersistence*)entity;
-		//core::ipersistence::EntityPersistence new_entity(entity.GetName());
 		entities.push_back((*(core::ipersistence::EntityPersistence*)entity));
 		int entity_toAdd_id = entity_to_add->getId();
 		std::map<int, EntityPersistence*>::iterator entity_to_add_iterator = actual_entities.find(entity_toAdd_id);
@@ -184,14 +182,4 @@ core::IEntityPersistence* WorldPersistence::GetEntity(const int &i)
 		}
 	}
 	return result;
-
-	/*boost::mutex::scoped_lock lock(m_mutex);
-	core::IEntityPersistence* result = NULL;
-	std::list<core::ipersistence::EntityPersistence>::iterator iter = entities.begin();
-	unsigned int index = 0;
-	for ( ; (index != i) && (index < entities.size() ) ; index++)
-		iter++;
-	if (index == i)
-		result = (core::IEntityPersistence*)&(*iter);
-	return result;*/
 }

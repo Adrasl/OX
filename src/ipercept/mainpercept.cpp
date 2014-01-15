@@ -6,18 +6,6 @@
 using namespace core;
 using namespace core::ipercept;
 
-//PerceptAudio *MainPercept::perceptAudio_module = NULL;
-//PerceptVideo *MainPercept::perceptVideo_module = NULL;
-
-//IApplication *MainPercept::app = NULL;
-////IApplicationConfiguration *MainPercept::app_config = NULL;
-//IUserDataModelController *MainPercept::user_dataModel_controller = NULL;
-//
-//boost::try_mutex MainPercept::m_mutex;
-//boost::shared_ptr<boost::thread> MainPercept::m_thread;
-//bool MainPercept::initialized = false;
-//bool MainPercept::stop_requested = false;
-
 #define THRESHOLD 0.25
 #define OFFSET_STEP 0.25
 
@@ -44,12 +32,9 @@ void MainPercept::Delete()
 
 void MainPercept::Init()
 {
-	//if (perceptAudio_module == NULL)
-	//	perceptAudio_module = new PerceptAudio();
 	if (perceptVideo_module == NULL)
 		perceptVideo_module = new PerceptVideo(app_config);
 
-	//perceptAudio_module->Init();
 	perceptVideo_module->Init();
 
 	DoInit();
@@ -62,14 +47,12 @@ void MainPercept::DoInit()
 	if (!initialized)
 	{
 		assert(!m_thread);
-		//m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::function0<void>(&MainPercept::DoMainLoop)));
 		m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&MainPercept::DoMainLoop, this ) ));
 	}
 }
 
 void MainPercept::DoMainLoop()
 {
-	//InitMatrixTransform();
 	initialized = true;
 	
 	while(!stop_requested)
@@ -113,55 +96,6 @@ void MainPercept::CalculatePointCloud()
 
 	}
 }
-//
-//void MainPercept::InitMatrixTransform()
-//{
-//	MatrixTransform_CubeFRONT.setState(gmtl::Matrix<float, 4, 4>::FULL);
-//	MatrixTransform_CubeBACK.setState(gmtl::Matrix<float, 4, 4>::FULL);
-//	MatrixTransform_CubeLEFT.setState(gmtl::Matrix<float, 4, 4>::FULL);
-//	MatrixTransform_CubeRIGHT.setState(gmtl::Matrix<float, 4, 4>::FULL);
-//	MatrixTransform_CubeTOP.setState(gmtl::Matrix<float, 4, 4>::FULL);
-//	MatrixTransform_CubeBOTTOM.setState(gmtl::Matrix<float, 4, 4>::FULL);
-//	MatrixTransform.setState(gmtl::Matrix<float, 4, 4>::FULL);
-//
-//	for (int i = 0; i < 4; i++) //Transposed memory order
-//	for (int j = 0; j < 4; j++)
-//	{
-//		MatrixTransform_CubeFRONT[i][j] = 0.0;
-//		MatrixTransform_CubeBACK[i][j] = 0.0;
-//		MatrixTransform_CubeLEFT[i][j] = 0.0;
-//		MatrixTransform_CubeRIGHT[i][j] = 0.0;
-//		MatrixTransform_CubeTOP[i][j] = 0.0;
-//		MatrixTransform_CubeBOTTOM[i][j] = 0.0;
-//	}
-//
-//	//FRONT
-//	MatrixTransform_CubeFRONT[0][0] = 1.0;
-//	MatrixTransform_CubeFRONT[2][1] = -1.0;
-//	MatrixTransform_CubeFRONT[3][3] = 1.0;
-//	//BACK
-//	MatrixTransform_CubeBACK[0][0] = -1.0;
-//	MatrixTransform_CubeBACK[2][1] = -1.0;
-//	MatrixTransform_CubeBACK[3][3] = 1.0;
-//	//LEFT
-//	MatrixTransform_CubeLEFT[1][0] = -1.0;
-//	MatrixTransform_CubeLEFT[2][1] = -1.0;
-//	MatrixTransform_CubeLEFT[3][3] = 1.0;
-//	//RIGHT
-//	MatrixTransform_CubeRIGHT[1][0] = -1.0;
-//	MatrixTransform_CubeRIGHT[2][1] = -1.0;
-//	MatrixTransform_CubeRIGHT[3][3] = 1.0;
-//	//UP
-//	MatrixTransform_CubeTOP[0][0] = 1.0;
-//	MatrixTransform_CubeTOP[1][1] = 1.0;
-//	MatrixTransform_CubeTOP[3][3] = 1.0;
-//	//DOWN
-//	MatrixTransform_CubeBOTTOM[0][0] = -1.0;
-//	MatrixTransform_CubeBOTTOM[1][1] = 1.0;
-//	MatrixTransform_CubeBOTTOM[3][3] = 1.0;
-//}
-
-//-------------------------------------------------------
 
 void MainPercept::Calibrate(const bool &value)
 {

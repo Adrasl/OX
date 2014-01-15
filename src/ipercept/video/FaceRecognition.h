@@ -35,16 +35,6 @@ namespace core
 				IApplicationConfiguration *app_config;
 				CvHaarClassifierCascade* cascade;
 
-				//-------------------
-				//IplImage ** face_image_array; // array of face images
-				//CvMat    *  person_number_array; // array of person numbers
-				//CvMat    *  trainning_person_number_array; // array of person numbers			
-				//std::vector<std::string> user_names;			// array of person names (indexed by the person number). Added by Shervin.
-				//int eigen_vector_size; // the number of eigenvalues			
-				//CvMat * eigen_values; // eigenvalues
-				//CvMat * projected_trainning_faces; // projected training faces
-				//float * projected_test_face;
-				//---------
 				int     face_width, face_height;	
 				float * projected_test_face;
 
@@ -55,9 +45,8 @@ namespace core
 				CvMat	 *projected_trainning_faces;
 				CvMat	 *eigen_values;
 				IplImage *average_image;
-				bool	  initialized;
-				//---------
 
+				bool	  initialized;
 				bool LoadTrainningData();
 				void StoreTrainningData();
 				int  FindBestCandidate(float *projected_test_face_, float &likeness,  const bool &use_mahalanobis = false);

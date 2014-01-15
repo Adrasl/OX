@@ -13,7 +13,6 @@ namespace core
 			virtual ~IPerceptAudio(){}
 			virtual void Delete()=0;
 			virtual void Init()=0;
-			//virtual void Capture()=0;
 
 	};
 }

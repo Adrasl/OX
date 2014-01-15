@@ -14,19 +14,10 @@
 #include <GeomVertexWriter.h>
 #include <GeomTriangles.h>
 
-//#define DATASET_SIZE 75 // Subdivisions // heavy impact on time
-#define DATASET_SIZE 75 // Subdivisions // heavy impact on time 16x16x16
-#define FIELD_SIZE 10.0 // Mesh Space (0,0,0)-(FS,FS,FS)
-#define DELTA_RANGE 0.005 // scope for measuring distance
-#define WEIGHT_FACTOR 0.085 // weight factor
-
-//using namespace core;
-//struct vector3F
-//{
-//        float x;
-//        float y;
-//        float z;     
-//};
+#define DATASET_SIZE 75		// Subdivisions // heavy impact on time 16x16x16
+#define FIELD_SIZE 10.0		// Mesh Space (0,0,0)-(FS,FS,FS)
+#define DELTA_RANGE 0.005	// scope for measuring distance
+#define WEIGHT_FACTOR 0.085	// weight factor
 
 namespace core
 {
@@ -51,9 +42,6 @@ namespace core
 				void vMarchingCubes();
 				int vMarchCube1(float fX, float fY, float fZ, float fScale, std::vector<vector3F> &vertex, std::vector<vector3F> &color, std::vector<vector3F> &edge_normal);
 				float DistanceToWeightedPointsInRange(float fX, float fY, float fZ);
-				//bool RegisterPointIDIntoSearchResults(int id, void* arg);
-				//bool RegisterPointIDIntoGlobalSearchResults(int id, void* arg);
-
 				float fGetOffset(float fValue1, float fValue2, float fValueDesired);
 				void vGetNormal(vector3F &rfNormal, float fX, float fY, float fZ);
 				void vGetColor(vector3F &rfColor, vector3F &rfPosition, vector3F &rfNormal);
@@ -105,10 +93,6 @@ namespace core
 				//  For example: TriangleConnectionTable[3] list the 2 triangles formed when corner[0] 
 				//  and corner[1] are inside of the surface, but the rest of the cube is not.
 				static const int TriangleConnectionTable[256][16];
-
-
 		};
-
-
 	}
 }

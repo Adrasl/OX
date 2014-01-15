@@ -25,7 +25,6 @@
 
 #include <SFML/Audio.hpp>
 
-//#include <pandaFramework.h>
 
 namespace core
 {
@@ -83,8 +82,6 @@ namespace core
 				virtual void OnCollisionCall(IEntity *otherEntity); 
 				virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo);
 				virtual void StartAnimations();
-				//virtual void PlaySound(const std::string &label, const bool &loop);
-				//virtual void PlayAnimation(const std::string &label);
 
 			protected:
 
@@ -94,7 +91,7 @@ namespace core
 
 				boost::mutex m_mutex;
 
-				std::string					data; //3d model file
+				std::string					data; //3dmodel file
 				core::IEntityPersistence	*entity;
 				NodePath					*nodepath;
 				coreSound<sf::Sound, sf::SoundBuffer> sound_create, sound_destroy, sound_idle, sound_touch;

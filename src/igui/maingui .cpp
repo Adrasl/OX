@@ -11,9 +11,7 @@ using namespace core::igui;
 MainGui* MainGui::instance = NULL; 
 boost::mutex MainGui::m_mutex;
 MainFrame* MainGui::main_frame = NULL;
-//wxWindow* MainGui::viewer_win;
 int MainGui::last_win_id = 0;
-//std::map<int, IGuiWindow*> MainGui::registered_windows;
 std::map<core::IGuiWindow*, int> MainGui::registered_windows;
 std::map<core::IGuiWindow*, int> MainGui::fullscreenable_windows;
 
@@ -27,7 +25,6 @@ MainGui::MainGui(IApplicationConfiguration *app_config_, const std::string &titl
 MainGui::~MainGui()
 {
 	if ( generic_controller )  delete generic_controller;
-	//ReleaseInstance();
 }
 
 void MainGui::Delete()
@@ -54,15 +51,7 @@ MainGui* MainGui::GetInstance(IApplicationConfiguration *app_config_, const std:
 }
 
 void MainGui::ReleaseInstance()
-{
-	//boost::mutex::scoped_lock lock(m_mutex);
-	//if (instance != NULL)
-	//{
-	//	main_frame->Delete();
-	//	delete instance;
-	//	instance = NULL;
-	//}
-}
+{}
 
 void MainGui::RegisterWindow(core::IGuiWindow *window)
 {

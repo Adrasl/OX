@@ -23,6 +23,7 @@ namespace core
 			virtual bool PostLogMessage(const std::string &message) = 0;
 			virtual bool CreateUser(const std::string &name, const std::string &passwd) = 0;
 			virtual bool CreateWorld(const std::string &name, const std::string &owner, const int &permissions) = 0;
+			/** \brief (Permissions not available yet) **/
 			virtual bool SaveWorldPermissions(const std::string &name, const int permissions) = 0;
 			virtual bool LoginUser(const std::string &name, const std::string &passwd) = 0;
 			virtual void LogOut() = 0;
@@ -39,7 +40,6 @@ namespace core
 			virtual void GetWorldList(const std::string &user_name, std::vector<std::string> &names, std::vector<int> &permissions)=0;
 			virtual bool GetAutoLogin() =0;
 			virtual void SetAutoLogin(const bool &value) =0;
-			//virtual bool RunWorld(const int &world_id) = 0;
 			virtual bool CloseSession() = 0;
 			virtual bool DeleteUser(const std::string &name) = 0;
 			virtual bool DeleteWorld(const std::string &name) = 0;

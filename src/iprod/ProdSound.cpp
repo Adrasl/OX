@@ -53,10 +53,9 @@ void ProdSound::DoMainLoop()
 	//sf::Sound Sound;
 	//Sound.SetBuffer(Buffer);
 	//Sound.SetLoop(true);
-	////Sound.SetPitch(1.5f);
-	////Sound.SetVolume(75.f);
+	//Sound.SetPitch(1.5f);
+	//Sound.SetVolume(75.f);
 	//Sound.SetVolume(100.f);
-
 	//Sound.Play();
 	//Sound.Pause();
 	//Sound.Play();

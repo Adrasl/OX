@@ -21,13 +21,15 @@ namespace core
 
 			virtual void SetName(const std::string &name_) = 0;
 			virtual void SetOwner(const std::string &user_owner) = 0;			
+			/** \brief (Permissions not available yet). **/
 			virtual void SetPermissions(const int &permissions_) = 0;
 			virtual void AddEntity(core::IEntityPersistence *entity) = 0;
 			virtual void RemoveEntity(core::IEntityPersistence *entity) = 0;
 			
 			virtual std::string GetName() = 0;
 			virtual std::string GetOwner() = 0;
-			virtual int			GetNumEntities() = 0;			
+			virtual int			GetNumEntities() = 0;	
+			/** \brief (Permissions not available yet). **/
 			virtual int			GetPermissions() = 0;
 			virtual void		GetId(int &value)= 0;
 			virtual core::IEntityPersistence* GetEntity(const int &i) = 0;

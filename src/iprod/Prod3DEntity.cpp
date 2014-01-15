@@ -407,30 +407,6 @@ void Prod3DEntity::StartAnimations()
 	{
 		auto_bind(nodepath->node(), anim_collection, PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
 		anim_collection.loop_all(true);
-		//PT(AnimControl) newAnim = anim_collection.get_anim(0);
-		//newAnim->play();
-		//newAnim->loop(true);
 	}
 }
 
-//void Prod3DEntity::PlaySound(const std::string &label, const bool &loop){}
-//void Prod3DEntity::PlaySound(const std::string &label, const bool &loop){}
-
-//void Prod3DEntity::PlayAnimation(const std::string &label){}
-//void Prod3DEntity::PlayAnimation(const std::string &label){}
-
-
-
-
-/*_collider_Ptr->add_in_pattern( "into-%in" );
-global::_framework.get_event_handler().add_hook( "into-" + _collider_Ptr->get_name(), &TestFunction );
-
-void Prod3DEntity::TestFunction( const Event * e )
- {
-    TypedWritableReferenceCount * value = e->get_parameter(0).get_ptr();
-    PT(CollisionEntry) entry = DCAST(CollisionEntry, value); 
-    nassertv(entry != NULL);
-    
-    cerr << "Collision from " << entry->get_from_node_path() 
-         << " into " << entry->get_into_node_path() << "\n";
- }*/

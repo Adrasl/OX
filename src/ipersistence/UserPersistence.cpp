@@ -23,8 +23,8 @@ BEGIN_STORE_TABLE(UserPersistence, dba::Storeable, "user_table")
 	BIND_FLT(UserPersistence::up_y,				dba::Float,			"up_y"			)
 	BIND_FLT(UserPersistence::up_z,				dba::Float,			"up_z"			)
 	BIND_FLT(UserPersistence::scale,			dba::Float,			"scale"			)
-	//BIND_COL(UserPersistence::worlds, dba::stdList<WorldPersistence>, "fk_user")
 END_STORE_TABLE()
+
 //SQL schema
 dba::SQL UserPersistence::schema(
 "CREATE TABLE user_table ("
@@ -85,7 +85,6 @@ bool UserPersistence::Load(const int &id)
 		UserPersistence new_object;
 		dba::SQLIStream istream = ar->getIStream();
 		istream.setWhereId(id);
-		//istream.open(new_object);
 		bool success = istream.get(&new_object);
 		this->operator =(new_object);
 		return success;
@@ -118,7 +117,6 @@ void UserPersistence::Save()
 {
 	try 
 	{	boost::mutex::scoped_lock lock(m_mutex);
-		//dba::Storeable::stState state = this->getState();
 		ar->getOStream().put(this);
 	} 
 	catch (const dba::SQLException& pEx)	{ ProcessException(pEx); }

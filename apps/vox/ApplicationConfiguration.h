@@ -1,7 +1,6 @@
 #ifndef _APPLICATIONCONFIGURATION_
 #define _APPLICATIONCONFIGURATION_
 
-//#include <core/Export.h>
 #include <core/IApplicationConfiguration.h>
 #include <string>
 #include <vector>
@@ -10,8 +9,6 @@
 
 using namespace core;
 
-//namespace core
-//{
 	/** 
 		\brief Contains the configuration of the application. 
 		The information for this class is read from the config.ini file and other configuration files.
@@ -107,28 +104,11 @@ using namespace core;
 
 			virtual void Modified() { modified = true; }
 
-		//private:
-
-			//std::string root_directory, data_directory, model_directory, sound_directory, 
-			//	        image_directory, ui_resource_directory, db_host, db_port, db_name, 
-			//			db_user, db_password, language;
-			
-			//unsigned int num_cams;
-			//unsigned int num_displays;
-
-
-			//bool modified;
-
 		private:
-			//ApplicationConfiguration();
-			//~ApplicationConfiguration();
-
+			
 			static boost::mutex m_mutex;
 			static ApplicationConfiguration *instance;
-			//static std::map< unsigned int, core::CameraData >  cam_map;
-			//static std::map< unsigned int, core::DisplayData > win_map;
-
+			
 	};
-//}
 
 #endif

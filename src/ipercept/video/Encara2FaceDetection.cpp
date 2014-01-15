@@ -13,10 +13,6 @@ Encara2FaceDetection::Encara2FaceDetection(IPerceptVideo* video_perception, cons
 	faceRec_b.x = -1; faceRec_b.y = -1;
 	faceCenterPos.x = -1;
 	faceCenterPos.y = -1;
-
-	//std::stringstream ssname;
-	//ssname << "Miniface" << cam_index;
-	//cvNamedWindow(ssname.str().c_str(),1);
 }
 
 Encara2FaceDetection::~Encara2FaceDetection()
@@ -44,8 +40,6 @@ void Encara2FaceDetection::DoInit()
 	{
 		assert(!m_thread);
 		m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Encara2FaceDetection::DoMainLoop, this ) ));
-		//m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::function0<void>(&Encara2FaceDetection::DoMainLoop)));
-		//SetThreadName(m_thread->get_id(), "Encara2FaceDetection");
 	}
 }
 
@@ -70,7 +64,6 @@ void Encara2FaceDetection::Iterate()
 	boost::try_mutex::scoped_try_lock lock(m_mutex);
 	if ((lock)&&(updated))
 	{
-		//Capture();
 		if (updated) Process();
 	}
 }
@@ -101,11 +94,6 @@ void Encara2FaceDetection::SetCurrentImage(const int &size_x, const int &size_y,
 		if(aux_img) 
 		{	cvReleaseImage(&aux_img);
 			delete aux_img;          }
-		//if(new_image) free(new_image);
-
-		//double timestamp = (double)clock()/CLOCKS_PER_SEC;
-		//std::cout << "Encara2 Period: " << timestamp-las_time << "\n";
-		//las_time = timestamp;
 
 		updated = true;
 	}
@@ -115,11 +103,6 @@ void Encara2FaceDetection::Process()
 {
 	face_detected = Apply();
 	updated = false;
-
-	//double timestamp = (double)clock()/CLOCKS_PER_SEC;
-	//std::cout << "Encara2 Period: " << timestamp-las_time << "FPS: " << 1/(timestamp-las_time) << "\n";
-	//las_time = timestamp;
-
 }
 
 bool Encara2FaceDetection::FaceDetected() 
@@ -134,10 +117,7 @@ void Encara2FaceDetection::Capture()
 	int size_x, size_y, n_channels, depth, width_step;
 	char *new_image = NULL;
 	
-	//while(!new_image)
-	{	new_image = (v_perception) ? v_perception->GetCopyOfCurrentImage(cam_index, size_x, size_y, n_channels, depth, width_step) : NULL;
-		//m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(10));
-	}
+	{	new_image = (v_perception) ? v_perception->GetCopyOfCurrentImage(cam_index, size_x, size_y, n_channels, depth, width_step) : NULL;	}
 
 	if(new_image)
 	{
@@ -146,7 +126,7 @@ void Encara2FaceDetection::Capture()
 		size.height = size_y;
 		IplImage *aux_img = image;
 		image = cvCreateImage(size, depth, n_channels);
-		//image->imageData = new_image;
+
 		char *idata = image->imageData;
 
 		for (int y = 0; y < image->height; y++) {
@@ -157,8 +137,6 @@ void Encara2FaceDetection::Capture()
 			}
 		}
 
-		//Image fd_image(NULL, size_x, size_y, n_channels, depth, width_step);
-		//int face_x, face_y;
 		face_detected = Apply();
 
 		if(aux_img) 
@@ -167,7 +145,6 @@ void Encara2FaceDetection::Capture()
 		if(new_image) free(new_image);
 
 		double timestamp = (double)clock()/CLOCKS_PER_SEC;
-		//std::cout << "Encara2 Period: " << timestamp-las_time << "\n";
 		las_time = timestamp;
 	}
 	else
@@ -176,7 +153,6 @@ void Encara2FaceDetection::Capture()
 
 bool Encara2FaceDetection::Apply()
 {
-	//ENCARAFaceDetector->DetectorReset();
 	ENCARAFaceDetector->DetectorLostReset();
 	IplImage *h = image;
 	if (h)
@@ -200,10 +176,6 @@ bool Encara2FaceDetection::Apply()
 			ENCARAFaceDetector->PaintFacialData(h,CV_RGB(0,255,0));
 			if (aux_img) cvReleaseImage(&aux_img);
 			
-			//std::stringstream ssname;
-			//ssname << "Miniface" << cam_index;
-			//cvShowImage(ssname.str().c_str(), face_img);
-
 			return true;
 		}
 	}
@@ -291,7 +263,7 @@ void Encara2FaceDetection::GetFaceRec(corePoint2D<int> &corner_a, corePoint2D<in
 }
 void Encara2FaceDetection::GetFeaturePos(const std::string &feature, corePoint2D<int> &pos)
 {
-	//Nothing, no features available
+	//Nothing so far, no features available
 }
 
 IplImage* Encara2FaceDetection::Sub_Image(IplImage *image, CvRect roi)
@@ -300,6 +272,6 @@ IplImage* Encara2FaceDetection::Sub_Image(IplImage *image, CvRect roi)
 	cvSetImageROI(image,roi);
 	result = cvCreateImage( cvSize(roi.width, roi.height), image->depth, image->nChannels );
 	cvCopy(image,result);
-	cvResetImageROI(image); // release image ROI
+	cvResetImageROI(image); 
 	return result;
 }

@@ -26,12 +26,9 @@ namespace core
 			virtual bool DeleteWorld(const std::string &name) = 0;
 			virtual bool DeleteUser(const std::string &name) = 0;
 			virtual void GetWorldList(const std::string &user_name, std::vector<std::string> &names, std::vector<int> &permissions) = 0;
+			/** \brief Saves the given permissions (not available yet). **/
 			virtual bool SaveWorldPermissions(const std::string &name, const int permissions) = 0;
-
 			virtual void GetUserData(const int &id, std::string &name, std::string &passwd) = 0;
-			//virtual void ListProjects() = 0;
-			//virtual void LoadProject(unsigned int id) = 0;
-			//virtual void LoadProjectInfo(unsigned int id) = 0;
 
 	};
 }

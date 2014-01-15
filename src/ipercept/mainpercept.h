@@ -1,9 +1,6 @@
 #ifndef _MAINPERCEPT_
 #define _MAINPERCEPT_
 
-//#include <gmtl/gmtl.h>
-//#include <gmtl/Matrix.h>
-
 #include <core/IPercept/IPercept.h>
 #include <core/IApplication.h>
 #include <core/IApplicationConfiguration.h>
@@ -89,11 +86,6 @@ namespace core
 				boost::try_mutex m_mutex;
 				bool initialized, stop_requested;
 				bool isReady;
-
-				//gmtl::Matrix<float, 4, 4>	MatrixTransform_CubeFRONT, MatrixTransform_CubeBACK,
-				//			MatrixTransform_CubeLEFT, MatrixTransform_CubeRIGHT,
-				//			MatrixTransform_CubeTOP, MatrixTransform_CubeBOTTOM,
-				//			MatrixTransform;
 
 		};
 	}

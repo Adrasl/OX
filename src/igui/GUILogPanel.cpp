@@ -12,9 +12,6 @@ wxTextCtrl *GUILogPanel::log_ctrl=NULL;
 
 BEGIN_EVENT_TABLE(GUILogPanel, wxPanel)
 	EVT_PAINT	(					  GUILogPanel::OnPaint	)
-	//EVT_BUTTON	( wxID_LOGIN		, OnLoginButton		)
-	//EVT_BUTTON	( wxID_AUTO			, OnAutoButton		)
-	//EVT_BUTTON	( wxID_CONFIGURE	, OnConfigureButton	)
 END_EVENT_TABLE()
 
 GUILogPanel::GUILogPanel(IApplicationConfiguration *app_config_, wxWindow *parent, wxWindowID id, const wxPoint &pos, const wxSize &size, long style, const wxString &name) 
@@ -31,8 +28,6 @@ GUILogPanel::GUILogPanel(IApplicationConfiguration *app_config_, wxWindow *paren
 	top_sizer->Add(log_ctrl, 1, wxEXPAND | wxALL, 10);
 	
 	this->SetSizer(top_sizer);
-	//top_sizer->FitInside(this);
-	//top_sizer->SetSizeHints(this);
 
 	PostMessage("SYSTEM ALIVE...");
 	PostMessage("Loging stuff...");

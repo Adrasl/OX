@@ -6,36 +6,23 @@
 #include <Aclapi.h>
 #endif
 
-
-
-////-- 3D bugged
-//#include <boost/geometry/geometry.hpp>
-//#include <boost/geometry/geometries/geometries.hpp>
-//#include <boost/geometry/geometries/adapted/tuple_cartesian.hpp>
-//#include <boost/geometry/geometries/adapted/c_array_cartesian.hpp>
-//#include <boost/geometry/geometries/cartesian3d.hpp>
-//#include <boost/geometry/extensions/index/rtree/rtree.hpp>
-////-------------------
-
 #include <RTreeTemplate/RTree.h>
 #include <iostream>
 
 #include <debugger.h> 
 
 #define _USE_ENCARA2_
-///#define NUM_BG_TRAINNINGFRAMES 100
 
 using namespace core;
 using namespace core::ipercept;
 using namespace cv;
 using namespace std;
 
-//------RTree callback
+//RTree callback
 bool MySearchCallback(int id, void* arg) 
 { printf("Hit data rect %d\n", id);
   return true; // keep going
 }
-//---------
 
 static enum PlaneOrientation {	FRONT,
 								BACK,
@@ -53,7 +40,6 @@ std::map< std::string, CamWindow* > PerceptVideo::debugcamWindow_array;
 std::vector<bool> PerceptVideo::flip_h;
 std::vector<bool> PerceptVideo::flip_v;
 std::vector<int> PerceptVideo::search_results;
-//IplImage *PerceptVideo::capture_img = NULL;
 std::map<int, IplImage *> PerceptVideo::capture_img;
 boost::try_mutex PerceptVideo::m_mutex, PerceptVideo::bbox_mutex;
 boost::try_mutex PerceptVideo::homography_mutex;
@@ -82,17 +68,11 @@ std::map< int, IplImage* > PerceptVideo::undistort_mapx;
 std::map< int, IplImage* > PerceptVideo::undistort_mapy;
 std::map< int, CvMat* > PerceptVideo::homography;
 std::map<int, vector2I> PerceptVideo::cam_capture_size;
-//std::map< int, CvGaussBGStatModelParams* > PerceptVideo::background_params;
-//////std::map<int, CvBGStatModel*> PerceptVideo::background_model;
-//////std::map< int, IplImage* > PerceptVideo::foreground_img;
-//std::map< int, IplImage* > PerceptVideo::motion_img;
-///int PerceptVideo::background_trainning_frames=0;
 double PerceptVideo::las_time=0;
 double PerceptVideo::capture_fps=10;
 double PerceptVideo::timestamp_Recording_latestframe=0;
 corePoint3D<double> PerceptVideo::BoundinBoxMin, PerceptVideo::BoundinBoxMax;
 
-//typedef Matrix<float, 4, 4> Matrix44f;
 gmtl::Matrix<float, 4, 4>	MatrixTransform_CubeFRONT, MatrixTransform_CubeBACK,
 							MatrixTransform_CubeLEFT, MatrixTransform_CubeRIGHT,
 							MatrixTransform_CubeTOP, MatrixTransform_CubeBOTTOM,
@@ -148,7 +128,6 @@ inline void InitMatrixTransform()
 
 PerceptVideo::PerceptVideo(IApplicationConfiguration *app_config_)
 {
-	//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 
 	app_config = app_config_;
 	if (app_config != NULL)
@@ -207,22 +186,10 @@ PerceptVideo::PerceptVideo(IApplicationConfiguration *app_config_)
 			//Background substraction
 			PresenceDetection *pd = new PresenceDetection(this, i+1);
 			presence_detectors.push_back(pd);
-			//pd->TrainBackground();
-			//////background_params[i+1] = new CvGaussBGStatModelParams;
-			//////background_params[i+1]->win_size=2;	
-			//////background_params[i+1]->n_gauss=5;
-			//////background_params[i+1]->bg_threshold=0.7;
-			//////background_params[i+1]->std_threshold=3.5;
-			//////background_params[i+1]->minArea=15;
-			//////background_params[i+1]->weight_init=0.05;
-			//////background_params[i+1]->variance_init=30;
-			//////background_model[i+1] = cvCreateGaussianBGModel(capture_img[i+1] ,background_params[i+1]);		
 
 			//Motion
 			motion_detectors.push_back(new MotionDetection(this, i+1));
-            //motion_img[i+1] = cvCreateImage( cvGetSize( capture_img[i+1] ), 8, 3 );
-            //cvZero( motion_img[i+1] );
-            //motion_img[i+1]->origin = capture_img[i+1]->origin;	
+
 		}
 		//Face recognizer
 		face_recognizer = new FaceRecognition(app_config);
@@ -239,7 +206,6 @@ void PerceptVideo::ShowCamCapture(const bool &value)
 			window_name << "Cam" << i+1 << ":";
 			camWindow_array[window_name.str()] = new CamWindow(window_name.str());
 			camWindow_array[window_name.str()]->ShowImage(capture_img[i+1]);
-			//cvWaitKey(15);
 		}
 	}
 	else
@@ -265,7 +231,6 @@ void PerceptVideo::ShowHomography(const bool &value)
 	}
 	else
 	{
-
 		for (unsigned int i=0; i<num_cams; i++)
 		{
 			std::stringstream h_window_name;
@@ -337,34 +302,6 @@ void PerceptVideo::ShowForeground(const bool &value)
 	show_foreground = value;
 }
 
-//void PerceptVideo::ShowForeground(const bool &value)
-//{	//Foreground detection
-//	if(value)
-//	{
-//		for (unsigned int i=0; i<num_cams; i++)
-//		{
-//			std::stringstream fg_window_name;
-//			fg_window_name << "Foreground " << i+1 << ":";
-//			debugcamWindow_array[fg_window_name.str()] = new CamWindow(fg_window_name.str());
-//			debugcamWindow_array[fg_window_name.str()]->ShowImage(capture_img[i+1]);
-//		}
-//	}
-//	else
-//	{
-//		for (unsigned int i=0; i<num_cams; i++)
-//		{
-//			std::stringstream fg_window_name;
-//			fg_window_name << "Foreground " << i+1 << ":";
-//			std::map< std::string, CamWindow* >::iterator iter = debugcamWindow_array.find(fg_window_name.str());
-//			if(iter != debugcamWindow_array.end())
-//			{
-//				delete iter->second;
-//				debugcamWindow_array.erase(iter);
-//			}
-//		}
-//	}
-//	show_foreground = value;
-//}
 
 void PerceptVideo::ShowMotion(const bool &value)
 {	//Motion detection
@@ -453,14 +390,6 @@ PerceptVideo::~PerceptVideo()
 		delete (*iter);
 	}
 	presence_detectors.clear();
-	////background substraction
-	//for (static std::map< int, CvGaussBGStatModelParams* >::iterator iter = background_params.begin(); iter != background_params.end(); iter++)
-	//	delete iter->second;
-	//background_params.clear();
-	//for (static std::map< int, CvBGStatModel* >::iterator iter = background_model.begin(); iter != background_model.end(); iter++)
-	//	cvReleaseBGStatModel(&(iter->second));
-	//background_model.clear();
-	//foreground_img.clear();
 
 	//Calibration data
 	for (static std::map< int, CvMat* >::iterator iter = intrinsics.begin(); iter != intrinsics.end(); iter++)
@@ -480,11 +409,6 @@ PerceptVideo::~PerceptVideo()
 	for (static std::map< int, CvMat* >::iterator iter = homography.begin(); iter != homography.end(); iter++)
 		cvReleaseMat( &(iter->second) );
 	homography.clear();
-
-	////Captured images
-	//for (static std::map< int, IplImage* >::iterator iter = capture_img.begin(); iter != capture_img.end(); iter++)
-	//	cvReleaseImage( &(iter->second) );
-	//capture_img.clear();
 
 	//Face_recognition
 	for (std::vector<core::Image>::iterator iter = face_history.begin(); iter != face_history.end(); iter++)
@@ -529,37 +453,9 @@ void PerceptVideo::DoMainLoop()
 {
 	initialized = true;
 
-	//{
-	//	boost::mutex::scoped_lock lock(m_mutex);
-	//	#ifdef WIN32
-	//	unsigned int cores = boost::thread::hardware_concurrency();
-	//	int mask = (cores >= 2 ) ? 2 : 1;
-	//	mask = (cores >= 4 ) ? 8 : cores;
-	//	mask = (cores >= 8 ) ? 16 : cores;
-
-	//	boost::this_thread::get_id();
-	//	//boost::thread::native_handle
-	//	m_thread->native_handle();
-
-	//	HANDLE hProces = GetCurrentProcess();
-	//	HANDLE hThread = m_thread->native_handle();//GetCurrentThread();
-
-	//	int ss = SetSecurityInfo(hProces, SE_UNKNOWN_OBJECT_TYPE ,PROCESS_ALL_ACCESS, NULL, NULL, NULL, NULL);
-	//	int sx = SetSecurityInfo(hThread, SE_UNKNOWN_OBJECT_TYPE ,THREAD_ALL_ACCESS, NULL, NULL, NULL, NULL);
-	//	bool ok = (ss == ERROR_SUCCESS);
-	//	bool ox = (sx == ERROR_SUCCESS);
-	//	//int pe = SetProcessAffinityMask(hProces, 1);
-	//	int re = SetThreadAffinityMask(hThread, 1);
-	//	re = SetThreadAffinityMask(hThread, 1);
-	//	#endif
-	//	//int debug =  5;
-	//	//while(true)
-	//	//{debug = 5;}
-	//}
 	while(!stop_requested)
 	{
 		double timestamp = (double)clock()/CLOCKS_PER_SEC;
-		//std::cout << "Period: " << timestamp-las_time << "\n";
 		las_time = timestamp;
 		Iterate();
 		m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(10));
@@ -587,8 +483,6 @@ void PerceptVideo::Iterate()
 
 void PerceptVideo::SendImages()
 {
-	//boost::mutex::scoped_lock lock(m_mutex);
-
 	for (std::map<int, IplImage *>::iterator iter = capture_img.begin(); iter != capture_img.end(); iter++)
 	{
 		IplImage *image = iter->second;
@@ -646,10 +540,6 @@ void PerceptVideo::Capture()
 		} else
 			return;
 
-
-		//if(aux_img) cvReleaseImage(&aux_img);
-		//IplImage *result;
-
 		//undistort
 		if ( (undistort_mapx[iter->first]) && (undistort_mapy[iter->first]) && (intrinsics[iter->first]) && (distortion[iter->first]))
 		{
@@ -657,7 +547,7 @@ void PerceptVideo::Capture()
 			cvRemap( t, capture_img[index], undistort_mapx[iter->first], undistort_mapy[iter->first] ); // undistort image
 			cvReleaseImage( &t );
 		}
-		//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
+
 		//reorient
 		if ( app_config != NULL )
 		{
@@ -698,9 +588,6 @@ void PerceptVideo::Capture()
 			s_show = app_config->IsShownForeground();
 			if (s_show != show_foreground)
 					ShowForeground(s_show);
-			//////cvUpdateBGStatModel(capture_img[index], background_model[index], (background_trainning_frames >= NUM_BG_TRAINNINGFRAMES) ? 0 : -1 );
-			//////if(background_trainning_frames < NUM_BG_TRAINNINGFRAMES) background_trainning_frames++;
-			//////foreground_img[index] = background_model[index]->foreground;
 
 			s_show = app_config->IsShownMotion();
 			if (s_show != show_motion)
@@ -722,14 +609,7 @@ void PerceptVideo::ShowDebugWindows()
 			std::stringstream window_name;
 			window_name << "Cam" << index << ":";
 			std::map< std::string, CamWindow* >::iterator cam_iter = camWindow_array.find(window_name.str());
-			//if ( (cam_iter != camWindow_array.end()) && (undistort_mapx[iter->first]) && (undistort_mapy[iter->first]) && (intrinsics[iter->first]) && (distortion[iter->first]))
-			//{
-			//	IplImage *t = cvCloneImage( capture_img[index] );
-			//	cvRemap( t, image, undistort_mapx[iter->first], undistort_mapy[iter->first] ); // undistort image
-			//	cvReleaseImage( &t );
-			//}
 			cam_iter->second->ShowImage(image);
-			//cvWaitKey(15);
 		}
 
 		//Homography
@@ -742,22 +622,9 @@ void PerceptVideo::ShowDebugWindows()
 				std::stringstream h_window_name;
 				h_window_name << "Homography " << index << ":";
 				debugcamWindow_array[h_window_name.str()]->ShowImage(h_image);
-				//cvWaitKey(15);
 				cvReleaseImage( &h_image );
 			}
 		}
-
-		////////Background substraction
-		//////if(show_foreground) 
-		//////{
-		//////	if(foreground_img[index])
-		//////	{
-		//////		std::stringstream fg_window_name;
-		//////		fg_window_name << "Foreground " << index << ":";
-		//////		debugcamWindow_array[fg_window_name.str()]->ShowImage(foreground_img[index]);
-		//////		//cvWaitKey(10);
-		//////	}
-		//////}
 	}
 
 	if(show_face_detection) 
@@ -768,7 +635,6 @@ void PerceptVideo::ShowDebugWindows()
 		{
 			std::stringstream window_name;
 			window_name << "face detector " << index << ":";
-			//char *old_image = (image) ? image->imageData : NULL;
 			int size_x, size_y, n_channels, depth, width_step;
 			char *new_image = (*iter)->GetCopyOfCurrentImage(size_x, size_y, n_channels, depth, width_step);
 			if(new_image)
@@ -780,7 +646,6 @@ void PerceptVideo::ShowDebugWindows()
 				image->imageData = new_image;
 
 				debugcamWindow_array[window_name.str()]->ShowImage(image);
-				//cvWaitKey(15);
 				if(image) 
 				{	cvReleaseImage(&image);
 					delete image;          }
@@ -849,7 +714,6 @@ void PerceptVideo::ShowDebugWindows()
 	{
 		//Motion detectors
 		int index = 1;
-		//for (std::vector<IMotionDetection*>::iterator iter = motion_detectors.begin(); iter != motion_detectors.end(); iter++)
 		for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); iter != presence_detectors.end(); iter++)
 		{
 
@@ -873,27 +737,6 @@ void PerceptVideo::ShowDebugWindows()
 					delete zimage;          }
 				free(new_image);
 			}
-
-			//std::stringstream window_name;
-			//window_name << "Presence detector " << index << ":";
-			////window_name << "Motion " << index << ":";
-			//int size_x, size_y, n_channels, depth, width_step;
-			//char *new_image = (*iter)->GetCopyOfCurrentImage(size_x, size_y, n_channels, depth, width_step);
-			//if(new_image)
-			//{
-			//	CvSize size;
-			//	size.width = size_x;
-			//	size.height = size_y;
-			//	IplImage *zimage = cvCreateImage(size, depth, n_channels);
-			//	//zimage->imageData = new_image;
-
-			//	if (debugcamWindow_array.find(window_name.str()) != debugcamWindow_array.end()) 
-			//		debugcamWindow_array[window_name.str()]->ShowImage(zimage);
-			//	if(zimage) 
-			//	{	cvReleaseImage(&zimage);
-			//		delete zimage;          }
-			//	free(new_image);
-			//}
 			index++;
 		}
 	}
@@ -901,41 +744,9 @@ void PerceptVideo::ShowDebugWindows()
 		cvWaitKey(2);
 }
 
-//Image PerceptVideo::GetCopyOfCurrentImage(const int camera_index)
-//{
-//	boost::mutex::scoped_lock lock(m_mutex);
-//	Image result;
-//	result.image = NULL;
-//	std::map<int, IplImage *>::iterator iter = capture_img.find(camera_index);
-//	if (iter != capture_img.end())
-//	{
-//		char *source = capture_img[camera_index]->imageData;
-//		char *copy;
-//		IplImage *image = capture_img[camera_index];
-//		copy = (char *)malloc(sizeof(char)*size_x*size_y*n_channels);
-//
-//		for (int y = 0; y < image->height; y++) {
-//			for (int x = 0; x < image->width; x++) {
-//				((uchar*)(copy + width_step*y))[x*3]   = ((uchar*)(source+width_step*y))[x*3];
-//				((uchar*)(copy + width_step*y))[x*3+1] = ((uchar*)(source+width_step*y))[x*3+1];
-//				((uchar*)(copy + width_step*y))[x*3+2] = ((uchar*)(source+width_step*y))[x*3+2];
-//			}
-//		}
-//
-//		result.width     = image->width;
-//		result.height    = image->height;
-//		result.nchannels = image->nChannels;
-//		result.depth_    = image->depth;
-//		result.widthstep = image->widthStep;
-//		result.image     = copy;
-//	}
-//	return result;
-//}
-
 char * PerceptVideo::GetCopyOfCurrentImage(const int camera_index, int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb)
 {
 	boost::try_mutex::scoped_try_lock lock(m_mutex);
-	//boost::try_mutex::scoped_lock lock(m_mutex);
 	if (lock)
 	{
 		std::map<int, IplImage *>::iterator iter = capture_img.find(camera_index);
@@ -1037,7 +848,7 @@ void PerceptVideo::DoCalibrate()
 
 		while( successes < n_boards )
 		{
-			// Skp every board_dt frames to allow user to move chessboard
+			// Skip every board_dt frames to allow user to move chessboard
 			if( frame++ % board_dt == 0 )
 			{
 				int found = cvFindChessboardCorners( image, board_sz, corners, &corner_count, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS );
@@ -1210,10 +1021,6 @@ void PerceptVideo::CalculateHomography()
 			CvSize board_sz = cvSize( board_w, board_h );
 
 			CvMat *H;
-			//CvMat Hz[4];
-			//CvMat *H = homography[iter->first];
-			//if (H == NULL)
-			//	H = &Hz[0];
 
 			CvPoint2D32f* corners = new CvPoint2D32f[ board_n ];
 			int corner_count;
@@ -1298,9 +1105,6 @@ void PerceptVideo::CalculateHomography()
 					cvReleaseImage( &t );
 				}
 			}
-			//cvReleaseMat( &object_points );
-			//cvReleaseMat( &image_points );
-			//cvReleaseMat( &point_counts );
 
 			// FIND THE HOMOGRAPHY, GET THE IMAGE AND OBJECT POINTS:
 			CvPoint2D32f objPts[4], imgPts[4];
@@ -1363,64 +1167,10 @@ void PerceptVideo::TrainBackground()
 	int index = 1;
 	for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); iter != presence_detectors.end(); iter++)
 		if(*iter) (*iter)->TrainBackground();
-
-
-	//////boost::try_mutex::scoped_lock lock(m_mutex);
-	//////if (lock)
-	//////{
-	//////	for (std::map<int, CvCapture *>::iterator iter = capture_cam_array.begin(); iter!=capture_cam_array.end(); iter++)
-	//////	{
-	//////		std::stringstream backgourndtrainning_window_name;
-	//////		backgourndtrainning_window_name      << "Background trainning " << iter->first << ":";
-	//////		CamWindow *win  = new CamWindow(backgourndtrainning_window_name.str());
-
-	//////		IplImage *image = cvQueryFrame(iter->second);
-	//////		if ( (undistort_mapx[iter->first]) && (undistort_mapy[iter->first]) && (intrinsics[iter->first]) && (distortion[iter->first]))
-	//////		{
-	//////			IplImage *t = cvCloneImage( image );
-	//////			cvRemap( t, image, undistort_mapx[iter->first], undistort_mapy[iter->first] ); // undistort image
-	//////			cvReleaseImage( &t );
-	//////		}
-
-	//////		while( image )
-	//////		{
-	//////			cvUpdateBGStatModel(image, background_model[iter->first], -1 );
-	//////			IplImage *t = cvCloneImage( background_model[iter->first]->foreground );
-
-	//////			CvPoint text_p;
-	//////			text_p.x = text_p.y = 20;
-	//////			CvScalar white = CV_RGB(255,255,255);
-	//////			double hscale = 0.6;
-	//////			double vscale = 0.5;
-	//////			double shear = 0.2;
-	//////			int thickness = 1;
-	//////			int line_type = 8;
-	//////			CvFont font;
-	//////			cvInitFont(&font,CV_FONT_HERSHEY_DUPLEX,hscale,vscale,shear,thickness,line_type);
-	//////			cvPutText(image,"ESC to finish background trainning.",text_p,&font,white);
-	//////			win->ShowImage(t);
-
-	//////			int c = cvWaitKey( 15 );
-	//////			if( c == 27 )			// Handle Esc
-	//////				break;
-	//////			
-	//////			cvReleaseImage( &t );
-	//////			image = cvQueryFrame(iter->second);
-	//////			if ( (undistort_mapx[iter->first]) && (undistort_mapy[iter->first]) && (intrinsics[iter->first]) && (distortion[iter->first]))
-	//////			{
-	//////				IplImage *t = cvCloneImage( image );
-	//////				cvRemap( t, image, undistort_mapx[iter->first], undistort_mapy[iter->first] ); // undistort image
-	//////				cvReleaseImage( &t );
-	//////			}
-	//////		}
-	//////		delete win;
-	//////	}
-	//////}
 }
 
 void PerceptVideo::GetHeadPosition(corePoint3D<double> &result)
 {
-	//boost::mutex::scoped_lock lock(m_mutex);
 	result.x = result.y = result.z = 0;
 
 	int index = 1;
@@ -1434,12 +1184,6 @@ void PerceptVideo::GetHeadPosition(corePoint3D<double> &result)
 			{	width  = iter_cam_size->second.x;
 				height = iter_cam_size->second.y;
 			}
-			//std::map<int, IplImage *>::iterator iter_img = capture_img.find(index);
-			//if (iter_img != capture_img.end())
-			//{
-			//	width  = cvGetSize( iter_img->second ).width;
-			//	height = cvGetSize( iter_img->second ).height;
-			//}
 
 			corePoint2D<int> plane_pos;
 			(*iter)->GetFaceCenterPos(plane_pos);
@@ -1470,7 +1214,7 @@ void PerceptVideo::GetHeadPosition(corePoint3D<double> &result)
 				float pt1_y = ((float*)(pt1.data.ptr + pt1.step*1))[0] - offset_y;
 				
 
-				/** \todo fix this. make general */
+				/** \todo Make generic */
 				//FRONT
 				if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
 				{	result.x =  pt1_x; result.z = -1*pt1_y; }
@@ -1497,7 +1241,6 @@ void PerceptVideo::GetHeadPosition(corePoint3D<double> &result)
 
 void PerceptVideo::GetFeaturePosition(const std::string &feature, corePoint3D<double> &result)
 {
-	//boost::mutex::scoped_lock lock(m_mutex);
 	result.x = result.y = result.z = 0;
 
 	if (feature == "CENTER OF MASS")
@@ -1544,7 +1287,6 @@ std::vector<MotionElement> PerceptVideo::GetMotionElements()
 
 	InitMatrixTransform();
 
-	//for (std::vector<IMotionDetection*>::iterator iter = motion_detectors.begin(); (iter != motion_detectors.end()) ; iter++)
 	for (int unsigned i = 0; i < motion_detectors.size(); i++)
 	{
 		std::vector<MotionElement> raw_motionelements;
@@ -1554,7 +1296,7 @@ std::vector<MotionElement> PerceptVideo::GetMotionElements()
 		core::CameraData cam_data = app_config->GetCameraData(i);
 		PlaneOrientation plane_str;
 
-		/** \todo fix this. make general */
+		/** \todo Make generic */
 		if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
 		{	xz = has_x = has_z = true; plane_str = FRONT; }
 		else if ( (cam_data.x == 0) && (cam_data.y == -1) && (cam_data.z == 0) )
@@ -1587,9 +1329,6 @@ std::vector<MotionElement> PerceptVideo::GetMotionElements()
 		MatrixTransform_Translate.setState(gmtl::Matrix<float, 4, 4>::FULL); //Identity as default
 		MatrixTransform_AxisTransform.setState(gmtl::Matrix<float, 4, 4>::FULL); //Identity as default
 		MatrixTransform_Composited.setState(gmtl::Matrix<float, 4, 4>::FULL); //Identity as default
-		//for (int i = 0; i < 4; i++) //Transposed memory order
-		//for (int j = 0; i < 4; j++)
-		//	MatrixTransform_CubeFRONT[i][j] = 0.0;
 		MatrixTransform_CubeFRONT[0][3] = offset_x;
 		MatrixTransform_CubeFRONT[1][3] = offset_y;
 		
@@ -1620,12 +1359,6 @@ std::vector<MotionElement> PerceptVideo::GetMotionElements()
 			gmtl::Matrix<float, 1, 4>	direction_to_transform, direction_transformed;
 			gmtl::Matrix<float, 1, 4>	rectmin_to_transform, rect_min_transformed;
 			gmtl::Matrix<float, 1, 4>	rectmax_to_transform, rect_max_transformed;
-			
-			//point_to_transform[0][0] = raw_motionelements[i_raw_motion_element].;
-			//point_to_transform[0][1] = ;
-			//point_to_transform[0][2] = ;
-			//point_to_transform[0][3] = ;
-			//transformed_point = point_to_transform * MatrixTransform_Composited;
 			
 			core::vector3F new_direction;
 			core::Rect3F new_rect;
@@ -1672,33 +1405,8 @@ std::vector<MotionElement> PerceptVideo::GetMotionElements()
 	return result;
 }
 
-//double PerceptVideo::ObtainArea()
-//{
-//	boost::mutex::scoped_lock lock(m_mutex);
-//	corePoint3D<double> result;
-//	result.x = result.y = result.z = 0;
-//
-//	int index = 1;
-//	if(app_config)
-//		for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); iter != presence_detectors.end(); iter++)
-//		{
-//			float width, height;
-//			width = height = 0;
-//			std::map<int, IplImage *>::iterator iter_img = capture_img.find(index);
-//			if (iter_img != capture_img.end())
-//			{
-//				width  = cvGetSize( iter_img->second ).width;
-//				height = cvGetSize( iter_img->second ).height;
-//			}
-//
-//			corePoint2D<int> plane_pos;
-//			//(*iter)->GetFaceCenterPos(plane_pos);
-//	return 0.0;
-//}
-
 bool PerceptVideo::PresenceDetected()
 {
-	//boost::mutex::scoped_lock lock(m_mutex);
 	bool result = false;
 
 	int index = 1;
@@ -1724,301 +1432,6 @@ bool PerceptVideo::FaceDetected()
 	return result;
 }
 
-//// BOOST GGL RTree is bugged in 3D
-//void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector<vector3F> > &weighted_points, const float &scale)
-//{
-//		int index = 1;
-//		IplImage *img_xz, *img_yz, *img_xy;
-//		std::map< std::string, IplImage * > presence_images;
-//		img_xz = img_yz = img_xy = NULL;
-//		float has_x, has_y, has_z;
-//		has_x = has_y = has_z = false;
-//
-//		//scale image, classify coordinates
-//		for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); (iter != presence_detectors.end()) && !(has_x && has_y && has_z); iter++)
-//		{
-//			if (!((*iter)->PresenceDetected()))
-//			{	index++;
-//				continue;	}
-//
-//			bool xz, yz, xy;
-//			xz = yz = xy = false;
-//			core::CameraData cam_data = app_config->GetCameraData(index);
-//			float has_x, has_y, has_z;
-//			std::string plane_str = "";
-//
-//			/** \todo fix this. make general */
-//			if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
-//			{	xz = has_x = has_z = true; plane_str = "FRONT"; }
-//			else if ( (cam_data.x == 0) && (cam_data.y == -1) && (cam_data.z == 0) )
-//			{	xz = has_x = has_z = true; plane_str = "BACK"; }
-//			else if ( (cam_data.x == 1) && (cam_data.y == 0) && (cam_data.z == 0) )
-//			{	yz = has_y = has_z = true; plane_str = "RIGHT";  }
-//			else if ( (cam_data.x == -1) && (cam_data.y == 0) && (cam_data.z == 0) )
-//			{	yz = has_y = has_z = true; plane_str = "LEFT"; }
-//			else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == 1) )
-//			{	xy = has_x = has_y = true; plane_str = "UP"; }
-//			else if ( (cam_data.x == 0) && (cam_data.y == 0) && (cam_data.z == -1) )
-//			{	xy = has_x = has_y = true; plane_str = "DOWN"; }
-//
-//
-//			int size_x, size_y, n_channels, depth, width_step;
-//			char *new_image = (*iter)->GetCopyOfCurrentImage(size_x, size_y, n_channels, depth, width_step);
-//			if(new_image)
-//			{
-//				CvSize size, desired_size;
-//				size.width = size_x;
-//				size.height = size_y;
-//				desired_size.width = size_x*scale;
-//				desired_size.height = size_y*scale;
-//
-//				IplImage *zimage = cvCreateImage(size, depth, n_channels);
-//				char *idata = zimage->imageData;
-//				for (int y = 0; y < zimage->height; y++) 
-//					for (int x = 0; x < zimage->width; x++) 
-//						((uchar*)(idata + width_step*y))[x]   = ((uchar*)(new_image+width_step*y))[x];
-//
-//				IplImage *scaled = cvCreateImage(desired_size, depth, n_channels);
-//				cvResize(zimage, scaled, CV_INTER_AREA);
-//				presence_images[plane_str] = scaled;
-//
-//				if(zimage) 
-//				{	cvReleaseImage(&zimage);
-//					delete zimage;          
-//				}
-//				free(new_image); 
-//			}
-//			index++;
-//		}
-//
-//		//set up 3D weighted-points
-//		boost::geometry::index::rtree<boost::geometry::box_3d, int> spatial_index(12, 4); // <box, ID>
-//		//std::map< int, std::vector<vector3F> > weighted_points;	// <weight, points>
-//		std::map< int, vector3F > image_space_points;			// <id, point>
-//		std::map< int, vector3F > relative_points;				// <id, point>
-//		float relative_factor = 1.0;
-//		int point_id = 0;
-//		float delta = 1.0;
-//		bool is3D = false;
-//		if (presence_images.size() > 0)
-//		{
-//			std::map< std::string, IplImage * >::iterator iter = presence_images.begin();
-//			std::map< std::string, IplImage * >::iterator iter2 = presence_images.begin();
-//			iter2++;
-//			
-//			char *scaled_img = iter->second->imageData;
-//			int size_x, size_y, width_step;
-//			size_x = iter->second->width;
-//			size_y = iter->second->height;
-//			width_step = iter->second->widthStep;
-//			relative_factor = (size_x > size_y) ? size_x : size_y;
-//
-//			float offset_x, offset_y;
-//			offset_x = offset_y = 0;
-//			//center of image == center of space (cam calibration)
-//			offset_x = (float)size_x/2;
-//			offset_y = (float)size_y/2;
-//
-//			if (scaled_img)
-//			{	for (int y = 0; y < size_y; y++) {
-//				for (int x = 0; x < size_x; x++) {
-//					if ( ((((uchar*)(scaled_img+width_step*y))[x])  == 0xff) ) //WHITE
-//					{	float x_candidate, y_candidate, z_candidate;
-//						x_candidate = y_candidate = z_candidate = 0.0;
-//						if (iter->first == "FRONT")
-//						{	 x_candidate = (offset_x + x);
-//							 z_candidate = (offset_y + -1*y);	}
-//						else if (iter->first == "BACK")
-//						{	 x_candidate = (offset_x + -1*x);
-//							 z_candidate = (offset_y + -1*y);	}
-//						else if (iter->first == "RIGHT")
-//						{	 y_candidate = (offset_x + x);
-//							 z_candidate = (offset_y + -1*y);	}
-//						else if (iter->first == "LEFT")
-//						{	 y_candidate = (offset_x + -1*x);
-//							 z_candidate = (offset_y + -1*y);	}
-//						else if (iter->first == "UP")
-//						{	 x_candidate = (offset_x + -1*x);
-//							 y_candidate = (offset_y + -1*y);	}
-//						else if (iter->first == "DOWN")
-//						{	 x_candidate = (offset_x + -1*x);
-//							 y_candidate = (offset_y + -1*y);	}
-//
-//						if (presence_images.size() > 1)
-//						{	int size_x2, size_y2;
-//							size_x2 = iter2->second->width;
-//							size_y2 = iter2->second->height;
-//							int offset_x2, offset_y2;
-//							offset_x2 = offset_y2 = 0;
-//							offset_x2 = size_x2;
-//							offset_y2 = size_y2;
-//							char *scaled_img2 = iter2->second->imageData;
-//							relative_factor = (relative_factor > size_x2) ? relative_factor : size_x2;
-//							relative_factor = (relative_factor > size_y2) ? relative_factor : size_y2;
-//
-//							//match data
-//							bool complementary = true;
-//							int first_init, second_init, first_array_size, second_array_size;
-//							first_init = second_init = 0;
-//							first_array_size = size_x2; 
-//							second_array_size = size_y2;
-//							//iter FRONT|BACK
-//							if ((iter->first == "FRONT") || (iter->first == "BACK"))
-//							{	if ((iter2->first == "LEFT") || (iter2->first == "RIGHT"))
-//								{	first_array_size = size_x2; second_array_size = y+1; second_init = y;	}
-//								else if ((iter2->first == "UP") || (iter2->first == "DOWN"))
-//								{	first_array_size = x+1; second_array_size= size_y2;	first_init = x;		}
-//								else 
-//									complementary = false; }
-//							//iter RIGHT|LEFT
-//							else if ((iter->first == "LEFT") || (iter->first == "RIGHT"))
-//							{	if ((iter2->first == "FRONT") || (iter2->first == "BACK"))
-//								{	first_array_size = size_x2; second_array_size = y+1; second_init = y;	}
-//								else if ((iter2->first == "UP") || (iter2->first == "DOWN"))
-//								{	first_array_size = size_x2; second_array_size = x+1; second_init = x;	}
-//								else 
-//									complementary = false; }
-//							//iter UP|DOWN
-//							else if ((iter->first == "UP") || (iter->first == "DOWN"))
-//							{	if ((iter2->first == "FRONT") || (iter->first == "BACK"))
-//								{	first_array_size = x+1; second_array_size = size_y2; first_init = x;	}
-//								else if ((iter2->first == "LEFT") || (iter->first == "RIGHT"))
-//								{	first_array_size = y+1; second_array_size = size_y2; first_init = y;	}
-//								else 
-//									complementary = false; }
-//
-//
-//							if (complementary && (scaled_img2 != NULL))
-//							{	is3D = true;
-//								for (int y2 = second_init; (y2 < second_array_size) && (y2 < size_y2); y2++) {
-//								for (int x2 = first_init;  (x2 < first_array_size)  && (x2 < size_x2); x2++) {
-//									if ( ((((uchar*)(scaled_img2+width_step*y2))[x2])  == 0xff) )
-//									{
-//										if (iter2->first == "FRONT")
-//										{	 x_candidate = offset_x2 + x2;
-//											 z_candidate = offset_y2 + -1*y2;	}
-//										else if (iter2->first == "BACK")
-//										{	 x_candidate = offset_x2 + -1*x2;
-//											 z_candidate = offset_y2 + -1*y2;	}
-//										else if (iter2->first == "RIGHT")
-//										{	 y_candidate = offset_x2 + x2;
-//											 z_candidate = offset_y2 + -1*y2;	}
-//										else if (iter2->first == "LEFT")
-//										{	 y_candidate = offset_x2 + -1*x2;
-//											 z_candidate = offset_y2 + -1*y2;	}
-//										else if (iter2->first == "UP")
-//										{	 x_candidate = offset_x2 + -1*x2;
-//											 y_candidate = offset_y2 + -1*y2;	}
-//										else if (iter2->first == "DOWN")
-//										{	 x_candidate = offset_x2 + -1*x2;
-//											 y_candidate = offset_y2 + -1*y2;	}
-//										
-//										vector3F new_point, relative_point;
-//										new_point.x = x_candidate;
-//										new_point.y = y_candidate;
-//										new_point.z = z_candidate;
-//										relative_point.x = (x_candidate+(relative_factor/2))/relative_factor;
-//										relative_point.y = (y_candidate+(relative_factor/2))/relative_factor;
-//										relative_point.z = (z_candidate+(relative_factor/2))/relative_factor;
-//
-//										image_space_points[point_id] = new_point;
-//										relative_points[point_id] = relative_point;
-//
-//										boost::geometry::point_3d p1(new_point.x,new_point.y,new_point.z);
-//										boost::geometry::point_3d p2(new_point.x+delta,new_point.y+delta,new_point.y+delta);
-//										boost::geometry::box_3d box(p1,p2);
-//										spatial_index.insert(box, point_id);
-//
-//										point_id++;
-//									}
-//								}}
-//							}
-//						}
-//						else
-//						{
-//							vector3F new_point, relative_point;
-//							new_point.x = x_candidate;
-//							new_point.y = y_candidate;
-//							new_point.z = z_candidate;
-//							relative_point.x = (x_candidate+(relative_factor/2))/relative_factor;
-//							relative_point.y = (y_candidate+(relative_factor/2))/relative_factor;
-//							relative_point.z = (z_candidate+(relative_factor/2))/relative_factor;
-//
-//							image_space_points[point_id] = new_point;
-//							relative_points[point_id] = relative_point;
-//
-//							boost::geometry::point_3d p1(new_point.x,new_point.y,new_point.z);
-//							boost::geometry::point_3d p2(new_point.x+delta,new_point.y+delta,new_point.y+delta);
-//							boost::geometry::box_3d box(p1,p2);
-//							spatial_index.insert(box, point_id);
-//
-//							point_id++;
-//						}
-//					}
-//				}}
-//			}
-//		}
-//
-//		//clusterize points, assign weight
-//		//simplfy point cloud by neightbourhood size
-//		int size_step = 1;
-//		int n_steps = 4;
-//		float third_delta = 1.0;
-//		float step_factor = n_steps * size_step;
-//		std::map< int, vector3F >::iterator iter_isp;
-//		for (int i = n_steps; i > 0; i--)
-//		{	iter_isp = image_space_points.begin();
-//			while ( (iter_isp != image_space_points.end()) && !(image_space_points.empty()))
-//			{	vector3F new_point;
-//			    new_point.x = iter_isp->second.x;
-//				new_point.y = iter_isp->second.y;
-//				new_point.z = iter_isp->second.z;
-//
-//				float search_delta = delta * i * size_step;
-//				float search_delta_window = (float)search_delta/2;
-//				boost::geometry::point_3d box_corner_0(new_point.x-search_delta_window,new_point.y-search_delta_window,new_point.z-search_delta_window);
-//				boost::geometry::point_3d box_corner_1(new_point.x+search_delta_window,new_point.y+search_delta_window,new_point.z+search_delta_window);
-//				boost::geometry::box_3d query_box(box_corner_0,box_corner_1);
-//				std::deque<int> overlapping = spatial_index.find(query_box);
-//				float n_deltas = search_delta/delta;
-//				third_delta = (is3D) ? n_deltas : 1.0;
-//				if (overlapping.size() > (0.5 * n_deltas * n_deltas * third_delta))
-//				{
-//					//new_point.x = iter_isp->second.x + search_delta/2;
-//					//new_point.y = iter_isp->second.y + search_delta/2;
-//					//new_point.z = iter_isp->second.z + search_delta/2;
-//
-//					new_point.x = (relative_points[iter_isp->first].x + (relative_factor/2))*5 / relative_factor;
-//					new_point.y = (relative_points[iter_isp->first].y + (relative_factor/2))*5 / relative_factor;
-//					new_point.z = (relative_points[iter_isp->first].z + (relative_factor/2))*5 / relative_factor;
-//
-//					if (weighted_points.find(step_factor) != weighted_points.end())
-//						weighted_points[step_factor].push_back(new_point);
-//					else
-//					{	std::vector<vector3F> new_vector;
-//						new_vector.push_back(new_point);
-//						weighted_points[search_delta] = new_vector;
-//					}
-//
-//					//spatial_index.remove(query_box); //bug with 3D points
-//					for (std::deque<int>::iterator diter = overlapping.begin(); diter != overlapping.end(); diter++)
-//					{	spatial_index.remove(query_box, *diter); 
-//						std::map< int, vector3F >::iterator iterq = image_space_points.find(*diter);
-//						if (iterq != image_space_points.end())
-//							image_space_points.erase(iterq);
-//					}
-//					iter_isp = image_space_points.begin();
-//				}
-//				else
-//					iter_isp++;
-//			}
-//		}
-//
-//		for (std::map< std::string, IplImage * >::iterator iter = presence_images.begin(); iter != presence_images.end(); iter++)
-//			cvReleaseImage(&(iter->second));
-//		presence_images.clear();
-//}
-
 void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector<corePDU3D<double>> > &weighted_points, const float &scale)
 {
 		int index = 1;
@@ -2035,7 +1448,6 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		//scale image, classify coordinate axis
 		//For each Presencen Detector, obtains a scaled image
 		double b1_timestamp = (double)clock()/CLOCKS_PER_SEC;
-		//for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); (iter != presence_detectors.end()) && !(has_x && has_y && has_z); iter++)
 		for (int iter = 0; iter < presence_detectors.size() && !(has_x && has_y && has_z); iter++)
 		{
 			if (!(presence_detectors[iter]->PresenceDetected())) 
@@ -2098,8 +1510,6 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		}
 		double b1_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 		double b1_dif_time = b1_timestamp2 - b1_timestamp;
-		//cout << "CALCULATING Block 1 - scaled image, got axis: " << b1_dif_time << "\n";
-
 
 		//BLOCK 2
 		//----------------------------
@@ -2149,8 +1559,7 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 						switch (iter->first)
 						{
 							case FRONT :
-							{	//std::cout << "------------------------------------VELOCITY = 0" << "\n"; 
-								x_candidate = (offset_x + x);
+							{	 x_candidate = (offset_x + x);
 								 z_candidate = (offset_y + -1*y);
 								 std::map< PlaneOrientation, IMotionDetection * >::iterator iter_motionDetector = mapped_motion_detectors.find(iter->first);
 								 if (iter_motionDetector != mapped_motion_detectors.end())
@@ -2381,8 +1790,6 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		}
 		double b2_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 		double b2_dif_time = b2_timestamp2 - b2_timestamp;
-		//cout << "CALCULATING Block 2 - obtain full cloud, indexed: " << b2_dif_time << "\n";
-
 
 		//BLOCK 3
 		//----------------------------
@@ -2399,16 +1806,9 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		{	iter_isp = image_space_points.begin();
 			int random_i = ( rand() % image_space_points.size() );
 			std::advance( iter_isp, random_i );
-			//int n_index = indexes.size();
-			//int random = (n_index > 0) ? ( rand() % indexes.size() ) : -1;
-			//int random_index = (n_index > 0) ? indexes[random] : -1;
-			//iter_isp = (n_index > 0) ? image_space_points.find(random_index) : image_space_points.begin();
 			int iter_isp_id = iter_isp->first;
 			corePDU3D<double> new_point;
 			new_point = iter_isp->second;
-			//new_point.position.x = iter_isp->second.position.x;
-			//new_point.position.y = iter_isp->second.position.y;
-			//new_point.position.z = iter_isp->second.position.z;
 
 			for (int i = n_steps; i >= 0; )
 			{	float search_delta = 1 + delta * i * size_step; //retomar
@@ -2426,12 +1826,6 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 					(overlapping_size > 1) ) // n_deltas * n_deltas * third_delta))
 				{
 					new_point = relative_points[iter_isp->first];
-					//new_point.position.x = relative_points[iter_isp->first].position.x;
-					//new_point.position.y = relative_points[iter_isp->first].position.y;
-					//new_point.position.z = relative_points[iter_isp->first].position.z;
-					////new_point.position.x = image_space_points[iter_isp->first].x;
-					////new_point.position.y = image_space_points[iter_isp->first].y;
-					////new_point.position.z = image_space_points[iter_isp->first].z;
 
 					if (weighted_points.find(search_delta) != weighted_points.end())
 						weighted_points[search_delta].push_back(new_point);
@@ -2444,12 +1838,6 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 					for (std::vector<int>::iterator diter = search_results.begin(); diter != search_results.end(); diter++)
 					{	spatial_index.Remove(search_rect.min, search_rect.max, *diter);
 						image_space_points.erase(*diter);
-						//for (std::vector<int>::iterator i_iter = indexes.begin(); i_iter != indexes.end();)
-						//{	if ((*i_iter) == *diter)
-						//	{	indexes.erase(i_iter);
-						//		i_iter = indexes.end();
-						//	} else  i_iter++;
-						//}
 					}
 					candidate_step_found = true;
 					i--;
@@ -2457,22 +1845,8 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 				else if (( i==0 ) || overlapping_size == 1 ) //remove if every test failed (noise)
 				{	spatial_index.Remove(search_rect.min, search_rect.max, iter_isp_id);
 					image_space_points.erase(iter_isp_id); 
-					//for (std::vector<int>::iterator i_iter = indexes.begin(); i_iter != indexes.end();)
-					//{	if ((*i_iter) == iter_isp_id)
-					//	{	indexes.erase(i_iter);
-					//		i_iter = indexes.end();
-					//	} else i_iter++;
-					//}
 					i--; }
 				
-				//there is no sense in making all searches if there are not enough points -> find candidate step acording to number of points in current rec
-				//for (int candidate_step = i-1; (!candidate_step_found) && (candidate_step >= 0); candidate_step--) 
-				//{	float search_deltac = 1 + delta * candidate_step * size_step;
-				//	float n_deltasc = search_deltac/delta;
-				//	if (overlapping_size > ( success_criteria * pow(n_deltasc, ((is3D) ? 3 : 2)) ) ) 
-				//		candidate_step_found = true;
-				//	i--;
-				//}
 				float candidate_step = pow(overlapping_size, (is3D) ? 1.0/3.0 : 1.0/2.0);
 				candidate_step*=delta;
 				candidate_step--;
@@ -2482,7 +1856,6 @@ void PerceptVideo::ObtainPresenceVolumeAsWeightPoints(std::map< int, std::vector
 		}
 		double b3_timestamp2 = (double)clock()/CLOCKS_PER_SEC;
 		double b3_dif_time = b3_timestamp2 - b3_timestamp;
-		//cout << "CALCULATING Block 3 - simplifying cloud: " << b3_dif_time << "\n";
 
 		for (std::map< PlaneOrientation, IplImage * >::iterator iter = presence_images.begin(); iter != presence_images.end(); iter++)
 			cvReleaseImage(&(iter->second));
@@ -2507,7 +1880,7 @@ void PerceptVideo::ObtainPresenceVolume(std::vector<float> &result, int &row_ste
 			core::CameraData cam_data = app_config->GetCameraData(index);
 			float has_x, has_y, has_z;
 			std::string plane_str = "";
-			/** \todo fix this. make general */
+			/** \todo Make generic */
 			//FRONT
 			if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
 			{	xz = has_x = has_z = true; plane_str = "FRONT"; }
@@ -2543,13 +1916,10 @@ void PerceptVideo::ObtainPresenceVolume(std::vector<float> &result, int &row_ste
 				for (int y = 0; y < zimage->height; y++) {
 					for (int x = 0; x < zimage->width; x++) {
 						((uchar*)(idata + width_step*y))[x]   = ((uchar*)(new_image+width_step*y))[x];
-						//((uchar*)(idata + width_step*y))[x*3+1] = ((uchar*)(new_image+width_step*y))[x*3+1];
-						//((uchar*)(idata + width_step*y))[x*3+2] = ((uchar*)(new_image+width_step*y))[x*3+2];
 					}
 				}
 
 				IplImage *scaled = cvCreateImage(desired_size, depth, n_channels);
-				//zimage->imageData = new_image;
 				cvResize(zimage, scaled, CV_INTER_AREA);
 				presence_images[plane_str] = scaled;
 
@@ -2573,16 +1943,14 @@ void PerceptVideo::ObtainPresenceVolume(std::vector<float> &result, int &row_ste
 
 			int offset_x, offset_y;
 			offset_x = offset_y = 0;
-			offset_x = size_x;//(size_x+1)/2;
-			offset_y = size_y;//(size_y+1)/2;
+			offset_x = size_x;
+			offset_y = size_y;
 			float factor = 2.5;
 
 			if (scaled_img)
 			{	for (int y = 0; y < size_y; y++) {
 				for (int x = 0; x < size_x; x++) {
-					if ( ((((uchar*)(scaled_img+width_step*y))[x])  == 0xff) )//&&
-						 //((((uchar*)(scaled_img+y))[x*3+1]) == 0xff) &&   
-						 //((((uchar*)(scaled_img+y))[x*3+2]) == 0xff) )
+					if ( ((((uchar*)(scaled_img+width_step*y))[x])  == 0xff) )
 					{	float x_candidate, y_candidate, z_candidate;
 						x_candidate = y_candidate = z_candidate = 0.0;
 						if (iter->first == "FRONT")
@@ -2610,15 +1978,13 @@ void PerceptVideo::ObtainPresenceVolume(std::vector<float> &result, int &row_ste
 							size_y2 = iter2->second->height;
 							int offset_x2, offset_y2;
 							offset_x2 = offset_y2 = 0;
-							offset_x2 = size_x2;//(size_x2+1)/2;
-							offset_y2 = size_y2;//(size_y2+1)/2;
+							offset_x2 = size_x2;
+							offset_y2 = size_y2;
 							char *scaled_img2 = iter2->second->imageData;
 							if (scaled_img2)
 							{	for (int y2 = 0; y2 < size_y2; y2++) {
 								for (int x2 = 0; x2 < size_x2; x2++) {
-									if ( ((((uchar*)(scaled_img2+width_step*y2))[x2])  == 0xff) )//&&
-										 //((((uchar*)(scaled_img2+y))[x*3+1]) == 0xff) &&   
-										 //((((uchar*)(scaled_img2+y))[x*3+2]) == 0xff) )
+									if ( ((((uchar*)(scaled_img2+width_step*y2))[x2])  == 0xff) )
 									{
 										if (iter2->first == "FRONT")
 										{	 x_candidate = (offset_x2 + (float)x2)*factor / (float)size_x2;
@@ -2679,12 +2045,6 @@ void PerceptVideo::ObtainCenterOfMass(corePoint3D<double> &result)
 				width  = iter_cam_size->second.x;
 				height = iter_cam_size->second.y;
 			}
-			//std::map<int, IplImage *>::iterator iter_img = capture_img.find(index);
-			//if (iter_img != capture_img.end())
-			//{
-			//	width  = cvGetSize( iter_img->second ).width;
-			//	height = cvGetSize( iter_img->second ).height;
-			//}
 
 			corePoint2D<int> plane_pos;
 			(*iter)->GetPresenceCenterOfMass(plane_pos);
@@ -2712,7 +2072,7 @@ void PerceptVideo::ObtainCenterOfMass(corePoint3D<double> &result)
 				float pt1_x = ((float*)(pt1.data.ptr + pt1.step*0))[0] - offset_x;
 				float pt1_y = ((float*)(pt1.data.ptr + pt1.step*1))[0] - offset_y;
 				
-				/** \todo fix this. make general */
+				/** \todo Make generic */
 				//FRONT
 				if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
 				{	result.x =  pt1_x; result.z = -1*pt1_y; }
@@ -2763,7 +2123,7 @@ void PerceptVideo::GetMainLateralDominance(corePoint3D<double> &result)
 				counter_x = counter_y = counter_z = 0;
 				core::CameraData cam_data = app_config->GetCameraData(index);
 				
-				/** \todo fix this. make general */
+				/** \todo Make generic */
 				//FRONT
 				if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
 				{	result.x +=  data*0.5; result.z += data*0.5;
@@ -2824,7 +2184,7 @@ void PerceptVideo::GetMainOrientation(corePoint3D<double> &result)
 				counter_x = counter_y = counter_z = 0;
 				core::CameraData cam_data = app_config->GetCameraData(index);
 
-				/** \todo fix this. make general */
+				/** \todo Make generic */
 				//FRONT
 				if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
 				{	result.x +=  sin(data); result.z += cos(data);
@@ -2885,7 +2245,7 @@ void PerceptVideo::GetMainEccentricity(corePoint3D<double> &zero_means_round)
 				counter_x = counter_y = counter_z = 0;
 				core::CameraData cam_data = app_config->GetCameraData(index);
 				
-				/** \todo fix this. make general */
+				/** \todo Make generic */
 				//FRONT
 				if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
 				{	zero_means_round.x +=  data; zero_means_round.z += data;
@@ -2922,7 +2282,6 @@ void PerceptVideo::GetMainEccentricity(corePoint3D<double> &zero_means_round)
 
 void PerceptVideo::GetSpaceBoundingBox(corePoint3D<double> &min, corePoint3D<double> &max, const bool &recalculate)
 {
-	//boost::mutex::scoped_lock lock(m_mutex);
 	min.x = min.y = min.z = 0;
 	max.x = max.y = max.z = 0;
 
@@ -2930,23 +2289,18 @@ void PerceptVideo::GetSpaceBoundingBox(corePoint3D<double> &min, corePoint3D<dou
 	{
 		int index = 1;
 		if(app_config)
-			//for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); iter != presence_detectors.end(); iter++)
 			for (unsigned int i = 1; i <= num_cams; i++)
 			{
 				float width, height;
 				width = height = 0;
-				//std::map<int, IplImage *>::iterator iter_img = capture_img.find(index);
-				//if (iter_img != capture_img.end())
 				std::map<int, vector2I>::iterator iter_cam_size = cam_capture_size.find(i);
 				if (iter_cam_size != cam_capture_size.end())
 				{
-					//width  = cvGetSize( iter_img->second ).width;
-					//height = cvGetSize( iter_img->second ).height;
 					width  = iter_cam_size->second.x;
 					height = iter_cam_size->second.y;
 				}
 
-				corePoint2D<int> min_2dcoord, max_2dcoord;//, pt_min, pt_max;
+				corePoint2D<int> min_2dcoord, max_2dcoord;
 				min_2dcoord.x = min_2dcoord.y = 0;
 				max_2dcoord.x = width; max_2dcoord.y = height;
 				TransformCoordinates(min_2dcoord, index);
@@ -2954,7 +2308,7 @@ void PerceptVideo::GetSpaceBoundingBox(corePoint3D<double> &min, corePoint3D<dou
 
 				core::CameraData cam_data = app_config->GetCameraData(index);
 
-				/** \todo fix this. make general */
+				/** \todo Make generic */
 				//FRONT
 				if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
 				{	min.x =  min_2dcoord.x; min.z = -1*min_2dcoord.y; 
@@ -3033,32 +2387,6 @@ void PerceptVideo::TransformCoordinates(corePoint2D<int> &result, const int &cam
 	result.y = pt1_y;
 }
 
-//void PerceptVideo::GetFeatureVolume(const std::string &feature, int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, char * data)
-//{
-//	//boost::try_mutex::scoped_try_lock lock(m_mutex);
-//	//if (lock)
-//	//{
-//	//	if (feature == "PRESENCE VOLUME")
-//	//	{
-//	//		char *old_image = (image) ? image->imageData : NULL;
-//	//		char *new_image = data; 
-//
-//	//		CvSize size;
-//	//		size.width = size_x;
-//	//		size.height = size_y;
-//	//		IplImage *aux_img = image;
-//	//		image = cvCreateImage(size, depth, n_channels);
-//	//		char *idata = image->imageData;
-//
-//	//		for (int y = 0; y < image->height; y++) 
-//	//			for (int x = 0; x < image->width; x++) 
-//	//				for (int chan = 0; chan <n_channels; chan++)
-//	//					((uchar*)(idata + width_step*y))[x*n_channels+chan]   = ((uchar*)(new_image+width_step*y))[x*n_channels+chan];
-//	//			
-//	//	}
-//	//}
-//}
-
 /** \brief Analizes the current face image in order to recognize whether it is of a known user or not */
 int  PerceptVideo::RecognizeCurrentFace()
 { 
@@ -3088,8 +2416,6 @@ bool PerceptVideo::IsFacePoolReady()
 
 void PerceptVideo::UpdateFaceHistory()
 {
-	//bool presence_detected = PresenceDetected();
-	//bool face_detected = FaceDetected();
 	char *img = NULL;
 	int size_x, size_y, n_channels, depth, width_step;
 	if(presence_detected) 
@@ -3124,7 +2450,6 @@ void PerceptVideo::CalculatePresenceModel(std::vector<float> &result, int &row_s
 		img_xz = img_yz = img_xy = NULL;
 		float has_x, has_y, has_z;
 		has_x = has_y = has_z = false;
-		//for (std::vector<IPresenceDetection*>::iterator iter = presence_detectors.begin(); (iter != presence_detectors.end()) && !(has_x && has_y && has_z); iter++)
 		std::vector<IPresenceDetection*>::iterator presenceDetection_iter = presence_detectors.begin();
 		std::vector<IMotionDetection*>::iterator motionDetection_iter = motion_detectors.begin();
 		if( presence_detectors.size() == motion_detectors.size())
@@ -3135,7 +2460,7 @@ void PerceptVideo::CalculatePresenceModel(std::vector<float> &result, int &row_s
 			core::CameraData cam_data = app_config->GetCameraData(index);
 			float has_x, has_y, has_z;
 			std::string plane_str = "";
-			/** \todo fix this. make general */
+			/** \todo Make generic */
 			//FRONT
 			if ( (cam_data.x == 0) && (cam_data.y == 1) && (cam_data.z == 0) )
 			{	xz = has_x = has_z = true; plane_str = "FRONT"; }
@@ -3175,7 +2500,7 @@ void PerceptVideo::CalculatePresenceModel(std::vector<float> &result, int &row_s
 				char *idata_motion = zimage_motion->imageData;
 				for (int y = 0; y < zimage_presence->height; y++) {
 					for (int x = 0; x < zimage_presence->width; x++) {
-						//presence copy x*3 --- 3 canales esto esta mal
+						//presence copy x*3 
 						((uchar*)(idata_presence + width_step_presence*y))[x]   = ((uchar*)(new_Presenceimage+width_step_presence*y))[x];
 						if (n_channels_presence > 1)((uchar*)(idata_presence + width_step_presence*y))[x*3+1] = ((uchar*)(new_Presenceimage+width_step_presence*y))[x*3+1];
 						if (n_channels_presence > 2)((uchar*)(idata_presence + width_step_presence*y))[x*3+2] = ((uchar*)(new_Presenceimage+width_step_presence*y))[x*3+2];
@@ -3188,7 +2513,6 @@ void PerceptVideo::CalculatePresenceModel(std::vector<float> &result, int &row_s
 
 				IplImage *scaled_presence = cvCreateImage(desired_size, depth_presence, n_channels_presence);
 				IplImage *scaled_motion = cvCreateImage(desired_size, depth_motion, n_channels_motion);
-				//zimage_presence->imageData = new_Presenceimage;
 				cvResize(zimage_presence, scaled_presence, CV_INTER_AREA);
 				cvResize(zimage_motion, scaled_motion, CV_INTER_AREA);
 				presence_images[plane_str] = scaled_presence;
@@ -3223,16 +2547,14 @@ void PerceptVideo::CalculatePresenceModel(std::vector<float> &result, int &row_s
 
 			int offset_x, offset_y;
 			offset_x = offset_y = 0;
-			offset_x = size_x;//(size_x+1)/2;
-			offset_y = size_y;//(size_y+1)/2;
+			offset_x = size_x;
+			offset_y = size_y;
 			float factor = 2.5;
 
 			if (scaled_img)
 			{	for (int y = 0; y < size_y; y++) {
 				for (int x = 0; x < size_x; x++) {
-					if ( ((((uchar*)(scaled_img+width_step*y))[x])  == 0xff) )//&&
-						 //((((uchar*)(scaled_img+y))[x*3+1]) == 0xff) &&   
-						 //((((uchar*)(scaled_img+y))[x*3+2]) == 0xff) )
+					if ( ((((uchar*)(scaled_img+width_step*y))[x])  == 0xff) )
 					{	float x_candidate, y_candidate, z_candidate;
 						x_candidate = y_candidate = z_candidate = 0.0;
 						if (presenceDetection_iter->first == "FRONT")
@@ -3260,16 +2582,14 @@ void PerceptVideo::CalculatePresenceModel(std::vector<float> &result, int &row_s
 							size_y2 = presenceDetection_iter2->second->height;
 							int offset_x2, offset_y2;
 							offset_x2 = offset_y2 = 0;
-							offset_x2 = size_x2;//(size_x2+1)/2;
-							offset_y2 = size_y2;//(size_y2+1)/2;
+							offset_x2 = size_x2;
+							offset_y2 = size_y2;
 							char *scaled_img2 = presenceDetection_iter2->second->imageData;
 							char *scaled_img2_motion = motionDetection_iter2->second->imageData;
 							if (scaled_img2)
 							{	for (int y2 = 0; y2 < size_y2; y2++) {
 								for (int x2 = 0; x2 < size_x2; x2++) {
-									if ( ((((uchar*)(scaled_img2+width_step*y2))[x2])  == 0xff) )//&&
-										 //((((uchar*)(scaled_img2+y))[x*3+1]) == 0xff) &&   
-										 //((((uchar*)(scaled_img2+y))[x*3+2]) == 0xff) )
+									if ( ((((uchar*)(scaled_img2+width_step*y2))[x2])  == 0xff) )
 									{
 										if (presenceDetection_iter2->first == "FRONT")
 										{	 x_candidate = (offset_x2 + (float)x2)*factor / (float)size_x2;
@@ -3292,13 +2612,10 @@ void PerceptVideo::CalculatePresenceModel(std::vector<float> &result, int &row_s
 
 
 										//calculate velocity of point
-										//------------------------------------
 										if  ( ((((uchar*)(scaled_img2_motion+width_step*y2))[x2])  != 0x00) );
 										{
 											//get velocity of point.
-
 										}
-										//------------------------------------
 
 										result.push_back(x_candidate);
 										result.push_back(y_candidate);
@@ -3332,13 +2649,12 @@ void PerceptVideo::CalculateFullUserDataElements(IUserDataModelController* user_
 	user_dataModel_controller;
 }
 
-//------RTree callback
+//RTree callback
 bool PerceptVideo::RegisterPointIDIntoSearchResults(int id, void* arg) 
 {	//printf("Hit data rect %d\n", id);
 	search_results.push_back(id);
 	return true; // keep going
 }
-//---------
 
 bool PerceptVideo::SetCameraRecording(const bool &value)
 {

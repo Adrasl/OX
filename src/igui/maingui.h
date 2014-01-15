@@ -8,7 +8,6 @@
 #include <wx/wx.h>
 #include <wx/artprov.h>
 #include <wx/timer.h>
-//#include <wx/aui/aui.h>
 #include <igui/Export.h>
 #include <igui/MainFrame.h>
 #include <igui/frame.h>
@@ -20,9 +19,7 @@
 
 #include <boost/thread.hpp>
 
-//#define IMPLEMENT_MIIAPP(name) IMPLEMENT_APP(name)
 #define IMPLEMENT_MIIAPP(name) IMPLEMENT_APP_NO_MAIN(name)
-
 
 namespace core
 {
@@ -60,7 +57,6 @@ namespace core
 				bool SaveWorldPermissions(const std::string &name, const int permissions);
 				bool CreateWorld(const std::string &name, const std::string &owner, const int &permissions);
 				bool LoginUser(const std::string &name, const std::string &passwd);
-				//void LogOut();
 				bool UserExists(const std::string &name);
 				bool WorldExists(const std::string &name);
 				bool RunWorld(const std::string &name);
@@ -72,14 +68,11 @@ namespace core
 				void ViewUserInfoPanel();
 				void ViewLogPanel();
 				void ViewConfigurePanel();
-
 				void Calibrate();
 				void CalculateHomography();
 				void TrainBackground();
-
 				bool SetCameraRecording(const bool &value);	
 				bool SetUseRecording(const bool &value, const std::string &video_url_basename);
-
 				void FillLoginUserGUI(const std::string username, const std::string userpasswd);
 				void FillNewUserGUI(const std::string username, const std::string userpasswd);
 
@@ -93,10 +86,8 @@ namespace core
 
 				static MainFrame *main_frame;
 				GUIGenericController *generic_controller;
-				//static wxWindow *viewer_win;
 
 				static int last_win_id;
-
 				static std::map<IGuiWindow*, int> registered_windows;
 				static std::map<IGuiWindow*, int> fullscreenable_windows;
 

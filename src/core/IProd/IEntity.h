@@ -3,14 +3,10 @@
 
 #include <string>
 #include <core/Export.h>
-//#include <core/IApplication.h>
-//#include <core/IApplicationConfiguration.h>
 #include <core/types.h>
 
 namespace core
 {
-	//class IApplication;
-
 	class _COREEXPORT_ IEntity
 	{
 		public:
@@ -24,6 +20,7 @@ namespace core
 			virtual void SetScale(const float &value)=0;
 			virtual void SetPsique(const int &value)=0;
 			virtual void SetTimeToLive(const float &value)=0;
+			/** \brief Sets PDU (Protocol Data unit) that refers to position, velocity and acceleration. **/
 			virtual void SetPDU(const core::corePDU3D<double> &value)=0;
 			virtual float GetTimeToLive()=0;
 			virtual void GetPosition(float &x, float &y, float &z)=0;
@@ -31,6 +28,7 @@ namespace core
 			virtual void GetUp(float &x, float &y, float &z)=0;
 			virtual void GetScale(float &value)=0;
 			virtual void GetPsique(int &value)=0;
+			/** \brief PDU (Protocol Data unit) that refers to position, velocity and acceleration. **/
 			virtual corePDU3D<double> GetPDU()=0;
 
 			virtual void SetPositionVelocityAcceleration(const float &px, const float &py, const float &pz,
@@ -40,18 +38,20 @@ namespace core
 														 float &vx, float &vy, float &vz,
 														 float &ax, float &ay, float &az) = 0;
 
+			/** \brief Redefine in order to customize behaviour on Creation. **/
 			virtual void OnStart()=0;
+			/** \brief Redefine in order to customize behaviour, evaluated on every frame. **/
 			virtual void OnUpdate()=0;
+			/** \brief Redefine in order to customize behaviour on Destruction. **/
 			virtual void OnDestroy()=0;
+			/** \brief Redefine in order to customize behaviour on Collision. **/
 			virtual void OnCollisionCall(IEntity *otherEntity)=0; 
+			/** \brief Redefine in order to customize behaviour on Collision. **/
 			virtual void OnUserCollisionCall(core::corePDU3D<double> collisionInfo)=0;
 
 			virtual bool IsCollidable()=0;
 			virtual bool IsReadyToDie()=0;
 			virtual void SetCollidable(const bool &value)=0;
-
-			//virtual void PlaySound(const std::string &label, const bool &loop)=0;
-			//virtual void PlayAnimation(const std::string &label)=0;
 
 	};
 }

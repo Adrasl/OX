@@ -9,8 +9,6 @@ namespace core
 {
 	namespace iprod
 	{
-		
-		//retomar, esto debería ir en otro fichero común
 		enum NatureOfEntity {
 								STANDALONE		= 1,
 								BOID			= 2,

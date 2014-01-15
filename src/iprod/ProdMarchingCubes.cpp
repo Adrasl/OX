@@ -3,7 +3,6 @@
 
 #include "stdio.h"
 #include "math.h"
-//#include "GL/glut.h"
 
 struct vector3F
 {
@@ -35,36 +34,6 @@ static const float a2fEdgeDirection[12][3] =
         {0.0, 0.0, 1.0},{0.0, 0.0, 1.0},{ 0.0, 0.0, 1.0},{0.0,  0.0, 1.0}
 };
 
-////a2iTetrahedronEdgeConnection lists the index of the endpoint vertices for each of the 6 edges of the tetrahedron
-//static const GLint a2iTetrahedronEdgeConnection[6][2] =
-//{  {0,1},  {1,2},  {2,0},  {0,3},  {1,3},  {2,3} };
-
-////a2iTetrahedronEdgeConnection lists the index of verticies from a cube 
-//// that made up each of the six tetrahedrons within the cube
-//static const GLint a2iTetrahedronsInACube[6][4] =
-//{       {0,5,1,6},
-//        {0,1,2,6},
-//        {0,2,3,6},
-//        {0,3,7,6},
-//        {0,7,4,6},
-//        {0,4,5,6},
-//};
-
-//static const GLfloat afAmbientWhite [] = {0.25, 0.25, 0.25, 1.00}; 
-//static const GLfloat afAmbientRed   [] = {0.25, 0.00, 0.00, 1.00}; 
-//static const GLfloat afAmbientGreen [] = {0.00, 0.25, 0.00, 1.00}; 
-//static const GLfloat afAmbientBlue  [] = {0.00, 0.00, 0.25, 1.00}; 
-//static const GLfloat afDiffuseWhite [] = {0.75, 0.75, 0.75, 1.00}; 
-//static const GLfloat afDiffuseRed   [] = {0.75, 0.00, 0.00, 1.00}; 
-//static const GLfloat afDiffuseGreen [] = {0.00, 0.75, 0.00, 1.00}; 
-//static const GLfloat afDiffuseBlue  [] = {0.00, 0.00, 0.75, 1.00}; 
-//static const GLfloat afSpecularWhite[] = {1.00, 1.00, 1.00, 1.00}; 
-//static const GLfloat afSpecularRed  [] = {1.00, 0.25, 0.25, 1.00}; 
-//static const GLfloat afSpecularGreen[] = {0.25, 1.00, 0.25, 1.00}; 
-//static const GLfloat afSpecularBlue [] = {0.25, 0.25, 1.00, 1.00}; 
-
-
-//GLenum    ePolygonMode = GL_FILL;
 int     iDataSetSize = 16;
 float   fStepSize = 1.0/iDataSetSize;
 float   fTargetValue = 48.0;
@@ -73,265 +42,15 @@ vector3F  sSourcePoint[3];
 bool bSpin = true;
 bool bMove = true;
 bool bLight = true;
-
-
-//void vIdle();
-//void vDrawScene(); 
-//void vResize(GLsizei, GLsizei);
-//void vKeyboard(unsigned char cKey, int iX, int iY);
-//void vSpecial(int iKey, int iX, int iY);
-
-//GLvoid vPrintHelp();
 void vSetTime(float fTime);
 float fSample1(float fX, float fY, float fZ);
 float fSample2(float fX, float fY, float fZ);
 float fSample3(float fX, float fY, float fZ);
 float (*fSample)(float fX, float fY, float fZ) = fSample1;
-
 void vMarchingCubes();
 void vMarchCube1(float fX, float fY, float fZ, float fScale);
 void vMarchCube2(float fX, float fY, float fZ, float fScale);
 void (*vMarchCube)(float fX, float fY, float fZ, float fScale) = vMarchCube1;
-
-//void main(int argc, char **argv) 
-//{ 
-//        //GLfloat afPropertiesAmbient [] = {0.50, 0.50, 0.50, 1.00}; 
-//        //GLfloat afPropertiesDiffuse [] = {0.75, 0.75, 0.75, 1.00}; 
-//        //GLfloat afPropertiesSpecular[] = {1.00, 1.00, 1.00, 1.00}; 
-//
-//        //GLsizei iWidth = 640.0; 
-//        //GLsizei iHeight = 480.0; 
-//
-//        //glutInit(&argc, argv);
-//        //glutInitWindowPosition( 0, 0);
-//        //glutInitWindowSize(iWidth, iHeight);
-//        //glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
-//        //glutCreateWindow( "Marching Cubes" );
-//        //glutDisplayFunc( vDrawScene );
-//        //glutIdleFunc( vIdle );
-//        //glutReshapeFunc( vResize );
-//        //glutKeyboardFunc( vKeyboard );
-//        //glutSpecialFunc( vSpecial );
-//
-//        //glClearColor( 0.0, 0.0, 0.0, 1.0 ); 
-//        //glClearDepth( 1.0 ); 
-//
-//        //glEnable(GL_DEPTH_TEST); 
-//        //glEnable(GL_LIGHTING);
-//        //glPolygonMode(GL_FRONT_AND_BACK, ePolygonMode);
-//
-//        //glLightfv( GL_LIGHT0, GL_AMBIENT,  afPropertiesAmbient); 
-//        //glLightfv( GL_LIGHT0, GL_DIFFUSE,  afPropertiesDiffuse); 
-//        //glLightfv( GL_LIGHT0, GL_SPECULAR, afPropertiesSpecular); 
-//        //glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1.0); 
-//
-//        //glEnable( GL_LIGHT0 ); 
-//
-//        glMaterialfv(GL_BACK,  GL_AMBIENT,   afAmbientGreen); 
-//        glMaterialfv(GL_BACK,  GL_DIFFUSE,   afDiffuseGreen); 
-//        glMaterialfv(GL_FRONT, GL_AMBIENT,   afAmbientBlue); 
-//        glMaterialfv(GL_FRONT, GL_DIFFUSE,   afDiffuseBlue); 
-//        glMaterialfv(GL_FRONT, GL_SPECULAR,  afSpecularWhite); 
-//        glMaterialf( GL_FRONT, GL_SHININESS, 25.0); 
-//
-//        //vResize(iWidth, iHeight); 
-//
-//        //vPrintHelp();
-//        //glutMainLoop(); 
-//}
-
-//GLvoid vPrintHelp()
-//{
-//        printf("Marching Cubes Example by Cory Bloyd (dejaspaminacan@my-deja.com)\n\n");
-//
-//        printf("+/-  increase/decrease sample density\n");
-//        printf("PageUp/PageDown  increase/decrease surface value\n");
-//        printf("s  change sample function\n");
-//        printf("c  toggle marching cubes / marching tetrahedrons\n");
-//        printf("w  wireframe on/off\n");
-//        printf("l  toggle lighting / color-by-normal\n");
-//        printf("Home  spin scene on/off\n");
-//        printf("End  source point animation on/off\n");
-//}
-//
-//
-//void vResize( GLsizei iWidth, GLsizei iHeight ) 
-//{ 
-//        GLfloat fAspect, fHalfWorldSize = (1.4142135623730950488016887242097/2); 
-//
-//        glViewport( 0, 0, iWidth, iHeight ); 
-//        glMatrixMode (GL_PROJECTION);
-//        glLoadIdentity ();
-//
-//        if(iWidth <= iHeight)
-//        {
-//                fAspect = (GLfloat)iHeight / (GLfloat)iWidth;
-//                glOrtho(-fHalfWorldSize, fHalfWorldSize, -fHalfWorldSize*fAspect,
-//                        fHalfWorldSize*fAspect, -10*fHalfWorldSize, 10*fHalfWorldSize);
-//        }
-//        else
-//        {
-//                fAspect = (GLfloat)iWidth / (GLfloat)iHeight; 
-//                glOrtho(-fHalfWorldSize*fAspect, fHalfWorldSize*fAspect, -fHalfWorldSize,
-//                        fHalfWorldSize, -10*fHalfWorldSize, 10*fHalfWorldSize);
-//        }
-// 
-//        glMatrixMode( GL_MODELVIEW );
-//}
-//
-//void vKeyboard(unsigned char cKey, int iX, int iY)
-//{
-//        switch(cKey)
-//        {
-//                case 'w' :
-//                {
-//                        if(ePolygonMode == GL_LINE)
-//                        {
-//                                ePolygonMode = GL_FILL;
-//                        }
-//                        else
-//                        {
-//                                ePolygonMode = GL_LINE;
-//                        }
-//                        glPolygonMode(GL_FRONT_AND_BACK, ePolygonMode);
-//                } break;
-//                case '+' :
-//                case '=' :
-//                {
-//                        ++iDataSetSize;
-//                        fStepSize = 1.0/iDataSetSize;
-//                } break;
-//                case '-' :
-//                {
-//                        if(iDataSetSize > 1)
-//                        {
-//                                --iDataSetSize;
-//                                fStepSize = 1.0/iDataSetSize;
-//                        }
-//                } break;
-//                case 'c' :
-//                {
-//                        if(vMarchCube == vMarchCube1)
-//                        {
-//                                vMarchCube = vMarchCube2;//Use Marching Tetrahedrons
-//                        }
-//                        else
-//                        {
-//                                vMarchCube = vMarchCube1;//Use Marching Cubes
-//                        }
-//                } break;
-//                case 's' :
-//                {
-//                        if(fSample == fSample1)
-//                        {
-//                                fSample = fSample2;
-//                        }
-//                        else if(fSample == fSample2)
-//                        {
-//                                fSample = fSample3;
-//                        }
-//                        else
-//                        {
-//                                fSample = fSample1;
-//                        }
-//                } break;
-//                case 'l' :
-//                {
-//                        if(bLight)
-//                        {
-//                                glDisable(GL_LIGHTING);//use vertex colors
-//                        }
-//                        else
-//                        {
-//                                glEnable(GL_LIGHTING);//use lit material color
-//                        }
-//
-//                        bLight = !bLight;
-//                };
-//        }
-//}
-//
-//
-//void vSpecial(int iKey, int iX, int iY)
-//{
-//        switch(iKey)
-//        {
-//                case GLUT_KEY_PAGE_UP :
-//                {
-//                        if(fTargetValue < 1000.0)
-//                        {
-//                                fTargetValue *= 1.1;
-//                        }
-//                } break;
-//                case GLUT_KEY_PAGE_DOWN :
-//                {
-//                        if(fTargetValue > 1.0)
-//                        {
-//                                fTargetValue /= 1.1;
-//                        }
-//                } break;
-//                case GLUT_KEY_HOME :
-//                {
-//                        bSpin = !bSpin;
-//                } break;
-//                case GLUT_KEY_END :
-//                {
-//                        bMove = !bMove;
-//                } break;
-//        }
-//}
-//
-//void vIdle()
-//{
-//        glutPostRedisplay();
-//}
-//
-//void vDrawScene() 
-//{ 
-//        static GLfloat fPitch = 0.0;
-//        static GLfloat fYaw   = 0.0;
-//        static GLfloat fTime = 0.0;
-//
-//        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
-//
-//        glPushMatrix(); 
-//
-//        if(bSpin)
-//        {
-//                fPitch += 4.0;
-//                fYaw   += 2.5;
-//        }
-//        if(bMove)
-//        {
-//                fTime  += 0.025;
-//        }
-//
-//        vSetTime(fTime);
-//
-//        glTranslatef(0.0, 0.0, -1.0);  
-//        glRotatef( -fPitch, 1.0, 0.0, 0.0);
-//        glRotatef(     0.0, 0.0, 1.0, 0.0);
-//        glRotatef(    fYaw, 0.0, 0.0, 1.0);
-//
-//        glPushAttrib(GL_LIGHTING_BIT);
-//                glDisable(GL_LIGHTING);
-//                glColor3f(1.0, 1.0, 1.0);
-//                glutWireCube(1.0); 
-//        glPopAttrib(); 
-//
-//
-//        glPushMatrix(); 
-//        glTranslatef(-0.5, -0.5, -0.5);
-//        glBegin(GL_TRIANGLES);
-//                vMarchingCubes();
-//        glEnd();
-//        glPopMatrix(); 
-//
-//
-//        glPopMatrix(); 
-//
-//        glutSwapBuffers(); 
-//}
 
 //fGetOffset finds the approximate point of intersection of the surface
 // between two points with the values fValue1 and fValue2
@@ -345,7 +64,6 @@ float fGetOffset(float fValue1, float fValue2, float fValueDesired)
         }
         return (fValueDesired - fValue1)/fDelta;
 }
-
 
 //vGetColor generates a color from a given position and normal of a point
 void vGetColor(vector3F &rfColor, vector3F &rfPosition, vector3F &rfNormal)
@@ -475,11 +193,8 @@ void vMarchCube1(float fX, float fY, float fZ, float fScale)
 
         int iCorner, iVertex, iVertexTest, iEdge, iTriangle, iFlagIndex, iEdgeFlags;
         float fOffset;
-        //GLvector sColor;
 		vector3F sColor;
         float CubeValue[8];
-        //GLvector asEdgeVertex[12];
-        //GLvector asEdgeNorm[12];
         vector3F asEdgeVertex[12];
         vector3F asEdgeNorm[12];
 
@@ -537,119 +252,10 @@ void vMarchCube1(float fX, float fY, float fZ, float fScale)
                 for(iCorner = 0; iCorner < 3; iCorner++)
                 {
                         iVertex = TriangleConnectionTable[iFlagIndex][3*iTriangle+iCorner];
-                        //vGetColor(sColor, asEdgeVertex[iVertex], asEdgeNorm[iVertex]);
-                        //glColor3f(sColor.fX, sColor.fY, sColor.fZ);
-                        //glNormal3f(asEdgeNorm[iVertex].fX,   asEdgeNorm[iVertex].fY,   asEdgeNorm[iVertex].fZ);
-                        //glVertex3f(asEdgeVertex[iVertex].fX, asEdgeVertex[iVertex].fY, asEdgeVertex[iVertex].fZ);
                 }
         }
 }
-
-////vMarchTetrahedron performs the Marching Tetrahedrons algorithm on a single tetrahedron
-//GLvoid vMarchTetrahedron(GLvector *pasTetrahedronPosition, GLfloat *pafTetrahedronValue)
-//{
-//        extern GLint aiTetrahedronEdgeFlags[16];
-//        extern GLint a2iTetrahedronTriangles[16][7];
-//
-//        GLint iEdge, iVert0, iVert1, iEdgeFlags, iTriangle, iCorner, iVertex, iFlagIndex = 0;
-//        GLfloat fOffset, fInvOffset, fValue = 0.0;
-//        GLvector asEdgeVertex[6];
-//        GLvector asEdgeNorm[6];
-//        GLvector sColor;
-//
-//        //Find which vertices are inside of the surface and which are outside
-//        for(iVertex = 0; iVertex < 4; iVertex++)
-//        {
-//                if(pafTetrahedronValue[iVertex] <= fTargetValue) 
-//                        iFlagIndex |= 1<<iVertex;
-//        }
-//
-//        //Find which edges are intersected by the surface
-//        iEdgeFlags = aiTetrahedronEdgeFlags[iFlagIndex];
-//
-//        //If the tetrahedron is entirely inside or outside of the surface, then there will be no intersections
-//        if(iEdgeFlags == 0)
-//        {
-//                return;
-//        }
-//        //Find the point of intersection of the surface with each edge
-//        // Then find the normal to the surface at those points
-//        for(iEdge = 0; iEdge < 6; iEdge++)
-//        {
-//                //if there is an intersection on this edge
-//                if(iEdgeFlags & (1<<iEdge))
-//                {
-//                        iVert0 = a2iTetrahedronEdgeConnection[iEdge][0];
-//                        iVert1 = a2iTetrahedronEdgeConnection[iEdge][1];
-//                        fOffset = fGetOffset(pafTetrahedronValue[iVert0], pafTetrahedronValue[iVert1], fTargetValue);
-//                        fInvOffset = 1.0 - fOffset;
-//
-//                        asEdgeVertex[iEdge].fX = fInvOffset*pasTetrahedronPosition[iVert0].fX  +  fOffset*pasTetrahedronPosition[iVert1].fX;
-//                        asEdgeVertex[iEdge].fY = fInvOffset*pasTetrahedronPosition[iVert0].fY  +  fOffset*pasTetrahedronPosition[iVert1].fY;
-//                        asEdgeVertex[iEdge].fZ = fInvOffset*pasTetrahedronPosition[iVert0].fZ  +  fOffset*pasTetrahedronPosition[iVert1].fZ;
-//                        
-//                        vGetNormal(asEdgeNorm[iEdge], asEdgeVertex[iEdge].fX, asEdgeVertex[iEdge].fY, asEdgeVertex[iEdge].fZ);
-//                }
-//        }
-//        //Draw the triangles that were found.  There can be up to 2 per tetrahedron
-//        for(iTriangle = 0; iTriangle < 2; iTriangle++)
-//        {
-//                if(a2iTetrahedronTriangles[iFlagIndex][3*iTriangle] < 0)
-//                        break;
-//
-//                for(iCorner = 0; iCorner < 3; iCorner++)
-//                {
-//                        iVertex = a2iTetrahedronTriangles[iFlagIndex][3*iTriangle+iCorner];
-//
-//                        vGetColor(sColor, asEdgeVertex[iVertex], asEdgeNorm[iVertex]);
-//                        glColor3f(sColor.fX, sColor.fY, sColor.fZ);
-//                        glNormal3f(asEdgeNorm[iVertex].fX,   asEdgeNorm[iVertex].fY,   asEdgeNorm[iVertex].fZ);
-//                        glVertex3f(asEdgeVertex[iVertex].fX, asEdgeVertex[iVertex].fY, asEdgeVertex[iVertex].fZ);
-//                }
-//        }
-//}
-//
-//
-//
-////vMarchCube2 performs the Marching Tetrahedrons algorithm on a single cube by making six calls to vMarchTetrahedron
-//GLvoid vMarchCube2(GLfloat fX, GLfloat fY, GLfloat fZ, GLfloat fScale)
-//{
-//        GLint iVertex, iTetrahedron, iVertexInACube;
-//        GLvector asCubePosition[8];
-//        GLfloat  afCubeValue[8];
-//        GLvector asTetrahedronPosition[4];
-//        GLfloat  afTetrahedronValue[4];
-//
-//        //Make a local copy of the cube's corner positions
-//        for(iVertex = 0; iVertex < 8; iVertex++)
-//        {
-//                asCubePosition[iVertex].fX = fX + a2fVertexOffset[iVertex][0]*fScale;
-//                asCubePosition[iVertex].fY = fY + a2fVertexOffset[iVertex][1]*fScale;
-//                asCubePosition[iVertex].fZ = fZ + a2fVertexOffset[iVertex][2]*fScale;
-//        }
-//
-//        //Make a local copy of the cube's corner values
-//        for(iVertex = 0; iVertex < 8; iVertex++)
-//        {
-//                afCubeValue[iVertex] = fSample(asCubePosition[iVertex].fX,
-//                                                   asCubePosition[iVertex].fY,
-//                                               asCubePosition[iVertex].fZ);
-//        }
-//
-//        for(iTetrahedron = 0; iTetrahedron < 6; iTetrahedron++)
-//        {
-//                for(iVertex = 0; iVertex < 4; iVertex++)
-//                {
-//                        iVertexInACube = a2iTetrahedronsInACube[iTetrahedron][iVertex];
-//                        asTetrahedronPosition[iVertex].fX = asCubePosition[iVertexInACube].fX;
-//                        asTetrahedronPosition[iVertex].fY = asCubePosition[iVertexInACube].fY;
-//                        asTetrahedronPosition[iVertex].fZ = asCubePosition[iVertexInACube].fZ;
-//                        afTetrahedronValue[iVertex] = afCubeValue[iVertexInACube];
-//                }
-//                vMarchTetrahedron(asTetrahedronPosition, afTetrahedronValue);
-//        }
-//}
-        
+   
 
 //vMarchingCubes iterates over the entire dataset, calling vMarchCube on each cube
 void vMarchingCubes()
@@ -663,48 +269,6 @@ void vMarchingCubes()
         }
 }
 
-
-//// For any edge, if one vertex is inside of the surface and the other is outside of the surface
-////  then the edge intersects the surface
-//// For each of the 4 vertices of the tetrahedron can be two possible states : either inside or outside of the surface
-//// For any tetrahedron the are 2^4=16 possible sets of vertex states
-//// This table lists the edges intersected by the surface for all 16 possible vertex states
-//// There are 6 edges.  For each entry in the table, if edge #n is intersected, then bit #n is set to 1
-
-//GLint aiTetrahedronEdgeFlags[16]=
-//{
-//        0x00, 0x0d, 0x13, 0x1e, 0x26, 0x2b, 0x35, 0x38, 0x38, 0x35, 0x2b, 0x26, 0x1e, 0x13, 0x0d, 0x00, 
-//};
-//
-//
-//// For each of the possible vertex states listed in aiTetrahedronEdgeFlags there is a specific triangulation
-//// of the edge intersection points.  a2iTetrahedronTriangles lists all of them in the form of
-//// 0-2 edge triples with the list terminated by the invalid value -1.
-////
-//// I generated this table by hand
-//
-//GLint a2iTetrahedronTriangles[16][7] =
-//{
-//        {-1, -1, -1, -1, -1, -1, -1},
-//        { 0,  3,  2, -1, -1, -1, -1},
-//        { 0,  1,  4, -1, -1, -1, -1},
-//        { 1,  4,  2,  2,  4,  3, -1},
-//
-//        { 1,  2,  5, -1, -1, -1, -1},
-//        { 0,  3,  5,  0,  5,  1, -1},
-//        { 0,  2,  5,  0,  5,  4, -1},
-//        { 5,  4,  3, -1, -1, -1, -1},
-//
-//        { 3,  4,  5, -1, -1, -1, -1},
-//        { 4,  5,  0,  5,  2,  0, -1},
-//        { 1,  5,  0,  5,  3,  0, -1},
-//        { 5,  2,  1, -1, -1, -1, -1},
-//
-//        { 3,  4,  2,  2,  4,  1, -1},
-//        { 4,  1,  0, -1, -1, -1, -1},
-//        { 2,  3,  0, -1, -1, -1, -1},
-//        {-1, -1, -1, -1, -1, -1, -1},
-//};
 
 // For any edge, if one vertex is inside of the surface and the other is outside of the surface
 //  then the edge intersects the surface

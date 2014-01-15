@@ -111,10 +111,6 @@ ContentCreationController::ContentCreationController()
 	fog_intensity[IA_Karma::NEUTRAL] = 0.05;
 	fog_intensity[IA_Karma::EVIL] = 0.01;
 
-	//fog_intensity[IA_Karma::GOOD] = 0.0001;
-	//fog_intensity[IA_Karma::NEUTRAL] = 0.0001;
-	//fog_intensity[IA_Karma::EVIL] = 0.0001;
-
 	current_background_color.x = background_color[IA_Karma::NEUTRAL].x; current_background_color.y = background_color[IA_Karma::NEUTRAL].y; current_background_color.z = background_color[IA_Karma::NEUTRAL].z;
 	current_fog_color.x = fog_color[IA_Karma::NEUTRAL].x; current_fog_color.y = fog_color[IA_Karma::NEUTRAL].y; current_fog_color.z = fog_color[IA_Karma::NEUTRAL].z; 
 	current_fog_intensity = fog_intensity[IA_Karma::NEUTRAL];
@@ -160,23 +156,7 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		evil_melodies.push_back(sound_filename_ME1.str());
 		evil_melodies.push_back(sound_filename_ME2.str());
 
-		////////sound_filename_base << iapp_config->GetSoundDirectory();
-		//////////sound_filename_MG1 << sound_filename_base.str() << "MG0008.wav";
-		////////sound_filename_MG1 << sound_filename_base.str() << "MG0009.wav";
-		////////sound_filename_MN1 << sound_filename_base.str() << "MN0001.wav";
-		//////////sound_filename_ME1 << sound_filename_base.str() << "ME0002.wav";
-		//////////sound_filename_ME1 << sound_filename_base.str() << "ME0004.wav";
-		//////////sound_filename_ME1 << sound_filename_base.str() << "ME0005.wav";
-		////////sound_filename_ME1 << sound_filename_base.str() << "ME0006.wav";
-
-		////////std::vector<std::string> good_melodies;
-		////////std::vector<std::string> neutral_melodies;
-		////////std::vector<std::string> evil_melodies;
-
-		////////good_melodies.push_back(sound_filename_MG1.str());
-		////////neutral_melodies.push_back(sound_filename_MN1.str());
-		////////evil_melodies.push_back(sound_filename_ME1.str());
-				
+					
 		psique_melody[IA_Karma::GOOD]	= good_melodies;
 		psique_melody[IA_Karma::NEUTRAL]= neutral_melodies;
 		psique_melody[IA_Karma::EVIL]	= evil_melodies;
@@ -187,8 +167,8 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 						  sound_filename_DCE1, sound_filename_DEE1;
 
 		sound_filename_DCG1 << sound_filename_base.str() << "DG0006.wav";
-		sound_filename_DEG1 << sound_filename_base.str() << "DG0009.wav"; //
-		sound_filename_DCN1 << sound_filename_base.str() << "DC0004.wav"; //DN0001.wav
+		sound_filename_DEG1 << sound_filename_base.str() << "DG0009.wav"; 
+		sound_filename_DCN1 << sound_filename_base.str() << "DC0004.wav"; 
 		sound_filename_DEN1 << sound_filename_base.str() << "DN0002.wav";
 		sound_filename_DCE1 << sound_filename_base.str() << "DE0006.wav";
 		sound_filename_DEE1 << sound_filename_base.str() << "DE0005.wav";
@@ -222,16 +202,6 @@ void ContentCreationController::SetApp(IApplication *app_, core::IApplicationCon
 		psique_energy_decoration[IA_Karma::NEUTRAL]	= by_energy_neutral_decorations;
 		psique_energy_decoration[IA_Karma::EVIL]	= by_energy_evil_decorations;
 	}
-
-	//current_world = app->GetDefaultWorld();
-	//current_user = app->GetDefaultUser();
-	//RestartCurrentUserBackgroundAndFog();
-	//DoNotifiedBySessionController("RUN WORLD");
-	//if (app_mainprod)
-	//	app_mainprod->SetBackgroundAndFog(current_background_color.x, current_background_color.y, current_background_color.z,
-	//							  current_fog_color.x, current_fog_color.y, current_fog_color.z,
-	//							  current_fog_intensity);
-
 }
 
 
@@ -247,12 +217,6 @@ ContentCreationController *ContentCreationController::Instance ()
 		std::vector<std::string> good_melodies;
 		std::vector<std::string> neutral_melodies;
 		std::vector<std::string> evil_melodies;
-
-
-
-		//stats<tag::variance(lazy)
-
-		//retomar //Reset statistical accumulators, make static
 
 		ResetStatisticalAccumulators();
 
@@ -296,16 +260,6 @@ void ContentCreationController::Reset()
 
 	{	boost::mutex::scoped_lock lock(m_mutex);
 
-		//current_world = app->GetCurrentWorld();
-		//current_user  = app->GetCurrentUser();
-
-		//if (!current_world && !current_user)
-		//{
-		//	//current_world = app->GetDefaultWorld();
-		//	//current_user = app->GetDefaultUser();
-		//	RestartCurrentUserBackgroundAndFog();
-		//}
-
 		if (current_world)
 		{	int num_entities = current_world->GetNumEntities();
 			for (int i=0; i < current_world->GetNumEntities(); i++)
@@ -322,13 +276,6 @@ void ContentCreationController::Reset()
 					
 					int ient_psique = 0;
 					ient->GetPsique(ient_psique);
-					//RTree_Entities_by_entityIDs[entity_id] = ient;
-					//RTree_Entities_by_Psique[(NatureOfEntity)ient_psique].push_back(ient);
-					//if (RTree_Entities_SpatialIndexes.find((NatureOfEntity)ient_psique) != RTree_Entities_SpatialIndexes.end())
-					//	RTree_Entities_SpatialIndexes[(NatureOfEntity)ient_psique]->Insert(position_rect.min, position_rect.max, entity_id);
-					//RTree_Everything_spatialIndexes.Insert(position_rect.min, position_rect.max, entity_id);
-					//retomar //descomentar: el rect está generando volúmenes negativos?!
-
 					int species = 0;
 					ient->GetType(species);
 					std::map<int, std::vector<core::IEntityPersistence*>>::iterator iter_ccc_ecosystem = ccc_ecosystem.find(species);
@@ -344,7 +291,7 @@ void ContentCreationController::Reset()
 
 void ContentCreationController::Update()
 {
-	if (!sesion_is_prepared)		//return;
+	if (!sesion_is_prepared)		
 	{		boost::mutex::scoped_lock lock(m_mutex);
 			bool restart = current_user == NULL;
 			current_world = app->GetDefaultWorld();
@@ -353,7 +300,7 @@ void ContentCreationController::Update()
 	}
 
 	if (app_mainprod)
-	{	//app_mainprod->PrepareSimpleEffects();
+	{	
 		app_mainprod->EnableSimpleInverEffect();
 		app_mainprod->EnableSimpleBloomEffect();
 		app_mainprod->EnableSimpleBackgroundVolumetricLightEffect();
@@ -409,19 +356,13 @@ void ContentCreationController::Update()
 		presence_detected = app_mainpercept->PresenceDetected(); //retomar, posible alternativa para cerrar la sesión tras un tiempo sin presencia
 		app_mainpercept->GetHeadPosition(head_pos);
 		app_mainpercept->GetFeaturePosition("CENTER OF MASS", presence_center_of_mass);
-		//app_mainpercept->GetSpaceBoundingBox(space_bounding_box_min, space_bounding_box_max);
 		app_mainpercept->GetMainLateralDominance(main_lateraldominance);
 		app_mainpercept->GetMainOrientation(main_orientation);
 		app_mainpercept->GetMainEccentricity(main_eccentricity);
 		motion_elements = app_mainpercept->GetMotionElements(); //The first one is about the whole image
 	}
 
-	//space_bounding_box_max.x = space_bounding_box_max.y = space_bounding_box_max.z = 0.0;
-	//space_bounding_box_min.x = space_bounding_box_min.y = space_bounding_box_min.z = 0.0;
-	//presence_center_of_mass.x = presence_center_of_mass.y = presence_center_of_mass.z = 0.0;
-
 	{	boost::mutex::scoped_lock lock(m_mutex);
-	
 		//Feed accumulators
 		accumulators_head_pos.x(head_pos.x);
 		accumulators_head_pos.y(head_pos.y);
@@ -460,7 +401,7 @@ void ContentCreationController::Update()
 			double max_eccentricity_dispersion_value = 0.5f;
 
 			double factor = 0.8f * (n_motionElements/max_motion_mean_value) +					//the more amount of segments moving and
-							0.2f * (dispersion_eccentricity/max_eccentricity_dispersion_value);		//the more geometric changes, the more energyc the user is being
+							0.2f * (dispersion_eccentricity/max_eccentricity_dispersion_value);	//the more geometric changes, the more energyc the user is being
 
 			energy = factor*((float)IA_Energy::EXITED);
 			accumulators_motion_CALMorEXITED(energy);
@@ -524,9 +465,7 @@ void ContentCreationController::Update()
 						if ( iapp_config && 
 							( (background_sounds.size() == 0) || 
 							  ( ((int)floor(previous_psique+0.5f) != (int)floor(psique+0.5f)) && 
-							    ((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) )
-						   ))
-							  //((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) ) )
+							    ((current_timestamp - music_timestamp) > CCCHANGEBACKGROUNDMUSIC) )))
 						{
 							int n_melodies = 0;
 							int random_index = 0;
@@ -547,8 +486,8 @@ void ContentCreationController::Update()
 								relativetoheadpos_pitch = CC_MAX_PITCH;
 
 							app_mainprod->SetPitchBackgroundSound( background_sound,relativetoheadpos_pitch);
-							//cout << "HEAD POS Z: " << head_pos.z << "\n";
-							//cout << "MELODY PITCH: " << relativetoheadpos_pitch << "\n";
+							cout << "HEAD POS Z: " << head_pos.z << "\n";
+							cout << "MELODY PITCH: " << relativetoheadpos_pitch << "\n";
 						}
 					}
 				}
@@ -561,8 +500,6 @@ void ContentCreationController::Update()
 			if (current_world && (current_timestamp - createdEntity_timesptamp >= CCTIMELAPSE)) 
 			{
 				CreatePresetOfEntities1(1.0f);
-				////CreatePresetOfEntities2(1.25f);
-				//CreatePresetOfEntities2(1.5f);
 			}
 		}
 	}
@@ -572,8 +509,6 @@ void ContentCreationController::Update()
 		if (new_timed_entities.size() > 0)
 		{
 			app->AddNewEntitiesIntoCurrentWorld(new_timed_entities);
-			//for (std::map<core::IEntity *, double>::iterator entity_iter = new_timed_entities.begin(); entity_iter != new_timed_entities.end(); entity_iter++)
-			//	app->AddNewEntityIntoCurrentWorld(entity_iter->first, entity_iter->second);
 		}
 
 		if (animate_background)
@@ -643,15 +578,12 @@ void ContentCreationController::EntityHadAGoodUserFeedback(core::IEntityPersiste
 		{	int previous_psique = 1.0f;
 			current_user->GetPsique(previous_psique);
 			current_user->SetPsique(floor(psique + 0.5));
-			//if (previous_psique != floor(psique + 0.5))
-				//current_user->Save();
 		}
 	}
 }
 
 void ContentCreationController::Notified(void* callinginstance, const std::string &tag, const int &flag)
 {
-	//boost::mutex::scoped_lock lock(m_mutex); 
 	if ((tag == "RUN WORLD") || (tag == "CLOSE WORLD"))
 	{	boost::mutex::scoped_lock lock(m_mutex);
 		DoNotifiedBySessionController(tag);
@@ -717,16 +649,11 @@ void ContentCreationController::CreatePresetOfEntities1(const double &time)
 	if (current_world)
 	{
 		//create new entities and insert them into the world
-		//------------------------------------------------------
-		//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
-		//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
-
 		std::stringstream model_url;
 		if ( iapp_config )
-			model_url << iapp_config->GetModelDirectory() << "tricube_004";	 //"panda-model";	
+			model_url << iapp_config->GetModelDirectory() << "tricube_004";
 		std::string modelpath = model_url.str();
 		Filename pandafile = Filename::from_os_specific(modelpath);
-		//std::cout << pandafile.get_fullpath() << "\n";
 		
 		entity_id++;
 		z_step++;
@@ -751,12 +678,11 @@ void ContentCreationController::CreatePresetOfEntities1(const double &time)
 		candidatepdu.position.z = RandomFloat(user_pos_z - 0.2, user_pos_z + 2.0);
 		float scale = RandomFloat( 0.25,  0.75);
 
-		//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
 		genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
 		genesis->SetScale(scale);
 		genesis->attach(instance);
 
-		core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
+		core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); 
 		current_world->AddEntity(((core::IEntityPersistence *)genesis));
 		current_world->Save();
 
@@ -770,16 +696,11 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 	if (current_world)
 	{
 		//create new entities and insert them into the world
-		//------------------------------------------------------
-		//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
-		//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
-
 		std::stringstream model_url;
 		if ( iapp_config )
-			model_url << iapp_config->GetModelDirectory() << "tricube_006";	 //"panda-model";	
+			model_url << iapp_config->GetModelDirectory() << "tricube_006";
 		std::string modelpath = model_url.str();
 		Filename pandafile = Filename::from_os_specific(modelpath);
-		//std::cout << pandafile.get_fullpath() << "\n";
 		
 		entity_id++;
 		z_step++;
@@ -804,12 +725,11 @@ void ContentCreationController::CreatePresetOfEntities2(const double &time)
 		candidatepdu.position.z = RandomFloat(user_pos_z - 0.1, user_pos_z + 1.0);
 		float scale = RandomFloat( 0.05,  0.1);
 
-		//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
 		genesis->SetPosition(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z);
 		genesis->SetScale(scale);
 		genesis->attach(instance);
 
-		core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); //retomar descomentar (float)z_step/5.0 );
+		core::iprod::OXStandAloneEntity *new_entity = new core::iprod::OXStandAloneEntity((core::IEntityPersistence *)genesis); 
 		current_world->AddEntity(((core::IEntityPersistence *)genesis));
 		current_world->Save();
 
@@ -823,10 +743,6 @@ void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> 
 	if (current_world)
 	{
 		//create new entities and insert them into the world
-		//------------------------------------------------------
-		//Rect3F search_rect(fX-search_delta,fY-search_delta,fZ-search_delta, fX+search_delta,fY+search_delta,fZ+search_delta);
-		//int overlapping_size = spatial_index.Search(search_rect.min, search_rect.max, RegisterPointIDIntoSearchResults_callback, NULL);
-
 		std::stringstream model_url;
 		if ( iapp_config )
 			model_url << iapp_config->GetModelDirectory() << "tricube_002";	 
@@ -869,12 +785,6 @@ void ContentCreationController::CreatePresetOfSwarm1AtCoords(corePoint3D<float> 
 			user_pos_x = user_pos_y =user_pos_z = 0;
 			if (current_user)
 				current_user->GetPosition(user_pos_x, user_pos_y, user_pos_z);
-			////candidatepdu.position.x = RandomFloat(user_pos_x - 1.0, user_pos_x + 1.0);
-			////candidatepdu.position.y = RandomFloat(user_pos_y + 5.0, user_pos_y + 6.0);
-			////candidatepdu.position.z = RandomFloat(user_pos_z - 0.5, user_pos_z + 1.0);
-			//candidatepdu.position.x = RandomFloat(0.4f, 0.8f);
-			//candidatepdu.position.y = RandomFloat( 6.0f, 6.4f);
-			//candidatepdu.position.z = RandomFloat(0.5f, 1.0f);
 			candidatepdu.position.x = RandomFloat(spawn_point.x-0.20f, spawn_point.x-0.05f);
 			candidatepdu.position.y = RandomFloat(spawn_point.y-0.20f, spawn_point.y-0.05f);
 			candidatepdu.position.z = RandomFloat(spawn_point.z-0.20f, spawn_point.z-0.05f);
@@ -913,13 +823,6 @@ void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> 
 		std::string modelpath = model_url.str();
 		Filename pandafile = Filename::from_os_specific(modelpath);
 
-		////SpecialSound, only one of them will be so special
-		//std::string decoration_sound_filename;
-		//if (false)//((int)psique < psique_energy_decoration.size())
-		//{	int decorations_size = psique_energy_decoration[0][1].size();
-		//	decoration_sound_filename = (*((psique_energy_decoration[(int)floor(psique+0.5f)][1].begin())+(rand()%(psique_energy_decoration[(int)floor(psique+0.5f)][1].size()))));
-		//}
-
 		for (int i = 0; i < 7; i++)
 		{
 			entity_id++;
@@ -931,21 +834,10 @@ void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> 
 			genesis->SetPsique(NatureOfEntity::STANDALONE);
 			genesis->SetModelData(pandafile);			
 			genesis->SetCollidable(false);
-			if (false)//((i == 0) && !(recover_decorationExited_afterseconds - current_timestamp > 0)) // I am special
-			{
-				//genesis->SetSoundDataCreate(decoration_sound_filename);
-				//genesis->SetTimeToLive(time);
-				//recover_decorationExited_afterseconds = current_timestamp + CC_RECOVER_EXITEDDECOTARION_TIME;
-				//recover_decorationCalm_afterseconds = current_timestamp + CC_RECOVER_CALMDECOTARION_TIME;
-			}
+			if (false)
+			{}
 			else
 				genesis->SetTimeToLive(RandomFloat(time*0.01, time));
-			//genesis->SetSoundDataCreate(iapp_config->GetSoundDirectory()+"B0007.wav");
-			//genesis->SetSoundDataDestroy(iapp_config->GetSoundDirectory()+"D0004.wav");
-			//genesis->SetSoundDataTouch(iapp_config->GetSoundDirectory()+"D0003.wav");
-			
-			//int n_decorations = 0;
-			//int random_index = 0;
 
 			corePDU3D<double> candidatepdu;
 			float user_pos_x, user_pos_y, user_pos_z;
@@ -963,7 +855,6 @@ void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> 
 			candidatepdu.acceleration.z = 0.0f;
 			float scale = RandomFloat(0.08f, 0.08f);
 
-			//cout << "NEW ENTITY POS: " << candidatepdu.position.x << ", " << candidatepdu.position.y << ", " << candidatepdu.position.z << "\n";
 			genesis->SetPositionVelocityAcceleration(candidatepdu.position.x, candidatepdu.position.y, candidatepdu.position.z,
 													 candidatepdu.velocity.x, candidatepdu.velocity.y, candidatepdu.velocity.z,
 													 candidatepdu.acceleration.x, candidatepdu.acceleration.y, candidatepdu.acceleration.z);
@@ -983,11 +874,9 @@ void ContentCreationController::CreatePresetOfSwarm2AtCoords(corePoint3D<float> 
 																					 /*cohesion_factor_    */ 0.05f,
 																					 /*attraction_factor_  */ 0.0f,
 																					 /*avoidance_factor_   */ 0.0f,
-																					 /*worldlimits_factor_ */ 1.5f); //retomar descomentar (float)z_step/5.0 );
+																					 /*worldlimits_factor_ */ 1.5f); 
 			current_world->AddEntity(((core::IEntityPersistence *)genesis));
 			current_world->Save();
-
-			//createdEntity_timesptamp = current_timestamp;
 			new_timed_entities[(core::IEntity *)new_entity] = 0.1f;
 		}
 	}	
@@ -1032,26 +921,4 @@ void ContentCreationController::ResetStatisticalAccumulators()
 		accumulators_main_eccentricity.y = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
 		accumulators_main_eccentricity.z = accumulator_set<double, stats<tag::mean, tag::median, tag::variance > >();
 
-
-		//USAGE EXAMPLE
-
-		//accumulator_set<double, stats<tag::mean, tag::moment<2> > > acc(tag::rolling_window::window_size = 3);
-
-		//acc(1.2);
-		//acc(2.3);
-		//acc(3.4);
-		//acc(4.5);
-
-		//std::cout << "Mean:   " << extract_result< tag::mean >( acc ) << std::endl;
-		//std::cout << "Moment: " << extract_result< tag::moment<2> >( acc ) << std::endl;
-		//double conteo = extract_result< tag::count >( acc );
-		//double count = extract_result< tag::count >( accumulators_motion_NumElements );
-		//double max = extract_result< tag::max >( accumulators_motion_NumElements );
-		//double min = extract_result< tag::min >( accumulators_motion_NumElements );
-		//double mean = extract_result< tag::mean >( accumulators_motion_NumElements );
-		//double median = extract_result< tag::median >( accumulators_motion_NumElements );
-		//double rolling_sum = extract_result< tag::rolling_sum >( accumulators_motion_NumElements );
-		//double rolling_mean = extract_result< tag::rolling_mean >( accumulators_motion_NumElements );
-		//double variance = extract_result< tag::variance >( accumulators_motion_NumElements );
-		//double dispersión = pow((float)variance, 0.5f);
 }

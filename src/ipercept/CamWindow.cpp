@@ -24,18 +24,10 @@ void CamWindow::ShowImage(const IplImage *image)
 
 void CamWindow::Show(const bool &value)
 {
-	//isShown = value;
-	//if (value == true)
-	//	cvDestroyWindow(window_name.c_str());
-	//else
-	//	cvNamedWindow(window_name.c_str(),1);
-	
-	//nothing - cvWindows cannot be edited
 	bool nothing = value;
 }
 
 void CamWindow::FullScreen(const bool &value)
 {
-	//nothing - cvWindows cannot be edited
 	bool nothing = value;
 }

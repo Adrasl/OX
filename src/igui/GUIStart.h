@@ -37,10 +37,6 @@ namespace core
 				
 				wxButton *login_button, *start_button, *configure_button;
 
-				//void InitShortCuts();
-				//void OnViewFullScreen(wxCommandEvent& WXUNUSED(event));
-				//void OnClose(wxCommandEvent& WXUNUSED(event));
-
 				void OnLoginButton(wxCommandEvent& WXUNUSED(event));
 				void OnAutoButton(wxCommandEvent& WXUNUSED(event));
 				void OnConfigureButton(wxCommandEvent& WXUNUSED(event));

@@ -27,10 +27,6 @@
 #include <vector>
 #include <random>
 
-//class Application;
-//class core::iprod::OXStandAloneEntity;
-//class core::iprod::OXBoidsEntity;
-
 using namespace boost::accumulators;
 
 enum NatureOfEntity {
@@ -104,7 +100,6 @@ class ContentCreationController : public core::Observer
 
 	private:
 
-		//static boost::shared_ptr<boost::thread> m_thread;
 		static boost::mutex m_mutex;
 
 		static IApplication *app;
@@ -129,7 +124,7 @@ class ContentCreationController : public core::Observer
 
 
 		static float psique, previous_psique; //0-1 good-evil
-		static float energy; //0-1 calm-energetic
+		static float energy; //0-1 calm-energic
 
 		static std::map<int, std::vector<std::string>> psique_melody;
 		static std::map<int, std::map<int, std::vector<std::string>>> psique_energy_decoration;
@@ -176,17 +171,6 @@ class ContentCreationController : public core::Observer
 
 
 		std::tr1::ranlux64_base_01 randomEngine;
-		//std::tr1::normal_distribution<double> randomDistribution(-20.0,20.0);
-
-		//http://composicionmusical.com/oido-musical/elementos-musicales
-		//sonido: duración/tiempo, timbre/textura, intensidad/volumen, altura(grave, agudo)
-		//elementos: ritmo, melodía, contrapunto, armonía.
-		//ritmo: patrón de repetición
-		//melodía: combinación de sonidos a partir de un ritmo
-		//contrapunto: melodías que se enfrentan a la principal, regido por las leyes de la armonía.
-		
-
-
 };
 
 #endif

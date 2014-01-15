@@ -6,35 +6,17 @@ using namespace core;
 using namespace core::ipercept;
 using namespace cv;
 
-
-// various tracking parameters (in seconds)
+//seconds
 const double MHI_DURATION = 1;
 const double MAX_TIME_DELTA = 0.5;
 const double MIN_TIME_DELTA = 0.05;
 
-//const int N = 4;// number of cyclic frame buffer used for motion detection (should, probably, depend on FPS)
-//// ring image buffer
-//IplImage **buf = 0;
-//int last = 0;
-
-// temporary images
-//IplImage *mhi = 0; // MHI
-//IplImage *orient = 0; // orientation
-//IplImage *mask = 0; // valid orientation mask
-//IplImage *segmask = 0; // motion segmentation map
-//CvMemStorage* storage = 0; // temporary storage
-
-// parameters:
-//  img - input video frame
-//  dst - resultant motion picture
-//  args - optional parameters
 void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_threshold )
 {
 	boost::try_mutex::scoped_lock lock(m_mutex);
 
 	if (lock)
 	{
-
 		boost::mutex::scoped_lock lock2(m_mutex_motion_areas);
 
 		motion_elements.clear();
@@ -77,34 +59,10 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 			cvReleaseImage(&show_frame);
 		show_frame = cvCreateImage(size,IPL_DEPTH_8U,3);
 
-		////else
-		////{
-		////	cvReleaseImage(&show_frame);
-		////	show_frame = cvCreateImage(size,IPL_DEPTH_8U,3);
-		////}
-		////preparing output velocities (flow)
-
-		//if (velx)
-		//	cvReleaseImage(&velx);
-		//if (vely)
-		//	cvReleaseImage(&vely);
-		//velx = cvCreateImage(size,IPL_DEPTH_32F,1);
-		//vely = cvCreateImage(size,IPL_DEPTH_32F,1);
-
-	
-
 		//Calculating dense Optical Flow (Lucas Kanade)
 		block_size.height = block_size.width = 3;
 		if (previous_frame && current_frame)
 			cvCalcOpticalFlowLK(previous_frame, current_frame, block_size, velx, vely);
-
-		//if (velx_Mat)
-		//	cvReleaseMat(&velx_Mat);
-		//if (vely_Mat)
-		//	cvReleaseMat(&vely_Mat);
-		//velx_Mat = cvCreateMat(size.height, size.width, CV_32FC1); 
-		//vely_Mat = cvCreateMat(size.height, size.width, CV_32FC1);
-
 		cvConvert(velx, velx_Mat);
 		cvConvert(vely, vely_Mat);
 
@@ -117,13 +75,6 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 				int vel_y_here = (int)cvGetReal2D( vely, y, x);
 				cvLine( show_frame, cvPoint(x, y), cvPoint(x+vel_x_here, y+vel_y_here), cvScalarAll(255));
 			}}
-			/*
-			for (int y=0; y<size.height; y+=50) {
-			for (int x=0; x<size.width; x+=50) {
-				int vel_x_here = cvmGet(velx_Mat, x, y); 
-				int vel_y_here = cvmGet(velx_Mat, x, y);
-				cvLine( show_frame, cvPoint(x, y), cvPoint(x+vel_x_here, y+vel_y_here), cvScalarAll(255));
-			}} , velx_Mat(NULL), vely_Mat(NULL)*/ //retomar parece haber un problema al acceder con cvmGet, alternativa más eficiente pero que falla, tema de hilos?
 		}
 
 		//MHI
@@ -184,7 +135,6 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 
 		// iterate through the motion components,
 		// One more iteration (i == -1) corresponds to the whole image (global motion)
-		//for( i = -1; i < seq->total; i++ ) {
 		for( i = -1; i < seq->total; i++ ) 
 		{
 
@@ -227,16 +177,14 @@ void  MotionDetection::UpdateMHI( IplImage* img, IplImage* dst, int diff_thresho
 			cvCircle( dst, center, cvRound(magnitude*1.2), color, 3, CV_AA, 0 );
 			cvLine( dst, center, cvPoint( cvRound( center.x + magnitude*cos(angle*CV_PI/180)), cvRound( center.y - magnitude*sin(angle*CV_PI/180))), color, 3, CV_AA, 0 );
 
-			//{	boost::mutex::scoped_lock lock2(m_mutex_motion_areas);
-					MotionElement me;
-					me.magnitude = magnitude;
-					me.rect.min[0] = comp_rect.x;
-					me.rect.min[1] = comp_rect.y;
-					me.rect.max[0] = comp_rect.x + comp_rect.width;
-					me.rect.max[1] = comp_rect.y + comp_rect.height;
-					me.direction = vector3F(magnitude*cos(angle*CV_PI/180), -1 * magnitude*sin(angle*CV_PI/180), 0);
-					motion_elements.push_back(me);
-			//}
+			MotionElement me;
+			me.magnitude = magnitude;
+			me.rect.min[0] = comp_rect.x;
+			me.rect.min[1] = comp_rect.y;
+			me.rect.max[0] = comp_rect.x + comp_rect.width;
+			me.rect.max[1] = comp_rect.y + comp_rect.height;
+			me.direction = vector3F(magnitude*cos(angle*CV_PI/180), -1 * magnitude*sin(angle*CV_PI/180), 0);
+			motion_elements.push_back(me);
 		}
 	}
 }
@@ -294,7 +242,6 @@ void MotionDetection::DoInit()
 	{
 		assert(!m_thread);
 		m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&MotionDetection::DoMainLoop, this ) ));
-		//m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::function0<void>(&MotionDetection::DoMainLoop)));
 	}
 }
 
@@ -311,10 +258,8 @@ void MotionDetection::DoMainLoop()
 
 void MotionDetection::Iterate()
 {
-	//boost::try_mutex::scoped_try_lock lock(m_mutex);
-	if (/*(lock)&&*/(updated))
+	if ((updated))
 	{
-		//Capture();
 		if(updated) Process();
 	}
 }
@@ -340,10 +285,7 @@ void MotionDetection::Capture()
 	int size_x, size_y, n_channels, depth, width_step;
 	char *new_image = NULL;
 	
-	//while(!new_image)
-	{	new_image = (v_perception) ? v_perception->GetCopyOfCurrentImage(cam_index, size_x, size_y, n_channels, depth, width_step) : NULL;
-	//	m_thread->sleep(boost::get_system_time()+boost::posix_time::milliseconds(10));
-	}
+	{	new_image = (v_perception) ? v_perception->GetCopyOfCurrentImage(cam_index, size_x, size_y, n_channels, depth, width_step) : NULL;	}
 
 	if(new_image)
 	{
@@ -352,7 +294,7 @@ void MotionDetection::Capture()
 		size.height = size_y;
 		IplImage *aux_img = image;
 		image = cvCreateImage(size, depth, n_channels);
-		//image->imageData = new_image;
+
 		char *idata = image->imageData;
 
 		for (int y = 0; y < image->height; y++) {
@@ -373,17 +315,12 @@ void MotionDetection::Capture()
             UpdateMHI( image, motion, 30 );
 		//-------------------------------
 
-		//Image fd_image(NULL, size_x, size_y, n_channels, depth, width_step);
-		//int face_x, face_y;
-		//Apply(fd_image, 2, face_x, face_y);
-
 		if(aux_img) 
 		{	cvReleaseImage(&aux_img);
 			delete aux_img;          }
 		if(new_image) free(new_image);
 
 		double timestamp = (double)clock()/CLOCKS_PER_SEC;
-		//std::cout << "MOTION Period: " << timestamp-las_time << "\n";
 		las_time = timestamp;
 	}
 	else
@@ -487,7 +424,6 @@ char * MotionDetection::GetCopyOfCurrentImageOpticalFlow(int &size_x, int &size_
 }
 corePoint3D<float> MotionDetection::GetMotionAtCoords(corePoint2D<int> coords)
 {
-	//std::cout << "+++++++++++++++++++++++ENTERED GetMotionAtCoords" << "\n";
 	corePoint3D<float> result;
 	result.y = result.x = result.z = 0.0;
 	if (velx && vely && velx_Mat && velx_Mat)
@@ -497,6 +433,6 @@ corePoint3D<float> MotionDetection::GetMotionAtCoords(corePoint2D<int> coords)
 		result.x = (int)cvGetReal2D( velx, coords.y, coords.x);
 		result.y = (int)cvGetReal2D( vely, coords.y, coords.x);
 	}
-	//std::cout << "MOTION AT COORDS X: " << result.x << ", VEL Y: " << result.y << ", VEL Z: " << result.z << "\n";
+
 	return result;
 }

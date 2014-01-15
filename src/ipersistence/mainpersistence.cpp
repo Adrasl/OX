@@ -22,7 +22,6 @@ MainPersistence::MainPersistence(IApplicationConfiguration *app_config_) : app(N
 {
 	try 
 	{
-		//ApplicationConfiguration *app_config = ApplicationConfiguration::GetInstance();
 		if (app_config == NULL)
 			return;
 
@@ -43,14 +42,16 @@ MainPersistence::MainPersistence(IApplicationConfiguration *app_config_) : app(N
 
 
 
-		//dba float filter tests---------------------------------------
+		//dba float filter tests
+		//----------------------------------------------------------------
 		dba::ConvSpec convs = ar.getConversionSpecs();
 		convs.mDbCharset;
 		convs.mDecimalPoint;
-		convs.mDbCharset = dba::ConvSpec::charset();//dba::ConvSpec::UTF8;
+		convs.mDbCharset = dba::ConvSpec::charset();
+		//dba::ConvSpec::UTF8;
 		//convs.mDecimalPoint = ',';
 		//ar.setConversionSpecs(convs);
-		//std::string prueba = dba::Float::toString();
+
 		float  my_float = 19123.9;
 		double my_double = 17456.9;
 		std::cout << "float: " << my_float << " // double: " << my_double << "\n";
@@ -85,11 +86,9 @@ MainPersistence::MainPersistence(IApplicationConfiguration *app_config_) : app(N
 		ar.getOStream().sendUpdate((*(WorldPersistence::GetSchema())));
 		//first id //
 		ar.getOStream().sendUpdate(dba::SQL("INSERT INTO debea_object_count VALUES (:d)") << 1);
-
 		//printf("Decimal point ,");
 		core::ipersistence::EntityPersistence test("stuff");
 		test.Save();
-
 		//convs.mDecimalPoint = '.';
 		//ar.setConversionSpecs(convs);
 		//printf("Decimal point .");
@@ -130,7 +129,6 @@ MainPersistence::MainPersistence(IApplicationConfiguration *app_config_) : app(N
 		mundoLoad.SetName("cambie otra vez 2");
 		mundoLoad.Save();
 
-		//user_1.AddWorld(mundo3);
 		user_1.Save();
 
 		core::ipersistence::UserPersistence userLoadloco;
@@ -163,7 +161,7 @@ MainPersistence::MainPersistence(IApplicationConfiguration *app_config_) : app(N
 		ent_3.Save();
 		ent_4.Save();
 		ent_5.Save();
-		mundo1.AddEntity( ((core::IEntityPersistence*)&ent_1) );//duplicates entities :S
+		mundo1.AddEntity( ((core::IEntityPersistence*)&ent_1) );
 		mundo1.AddEntity( ((core::IEntityPersistence*)&ent_2) );
 		mundo1.AddEntity( ((core::IEntityPersistence*)&ent_3) );
 		mundo3.AddEntity( ((core::IEntityPersistence*)&ent_1) );
@@ -259,17 +257,12 @@ void MainPersistence::Delete()
 void MainPersistence::GetUserData(const int &id, std::string &name, std::string &passwd)
 {
 	try 
-	{
-		//std::vector<std::string> &names;
-		//std::vector<std::string> &passwords;
-		std::string names_, passwords_;
+	{	std::string names_, passwords_;
 		std::stringstream query;
 		query << "SELECT name,password FROM user_table WHERE id = " << "'" << id << "'";
 		std::auto_ptr<dba::DbResult> res(ar.getIStream().sendQuery(dba::SQL(query.str().c_str()).into(names_).into(passwords_)) );
 		while(res->fetchRow()) 
 		{ 
-			//names.push_back(names_);
-			//passwords.push_back(passwords_);
 			names_;
 			passwords_;
 		}
@@ -279,21 +272,6 @@ void MainPersistence::GetUserData(const int &id, std::string &name, std::string 
 	catch (const dba::SQLException& pEx)	{ ProcessException(pEx); }
 	catch (const dba::Exception& pEx)		{ ProcessException(pEx); }
 }
-
-//void MainPersistence::ListProjects()
-//{
-//	//for (int i = 0; i < 100; i++)
-//	//{	std::stringstream wop;
-//	//	wop << "Desde IPersistence con amor.." << i;
-//	//	if (app != NULL) app->PostLogMessage(wop.str());
-//	//}
-//}
-
-//void MainPersistence::LoadProject(unsigned int id)
-//{}
-//
-//void MainPersistence::LoadProjectInfo(unsigned int id)
-//{}
 
 bool MainPersistence::UserExists(const std::string &name)
 {

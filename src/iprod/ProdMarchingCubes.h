@@ -13,12 +13,7 @@
 #define WEIGHT_FACTOR 0.085 // weight factor
 
 using namespace core;
-//struct vector3F
-//{
-//        float x;
-//        float y;
-//        float z;     
-//};
+
 
 //These tables are used so that everything can be done in little loops that you can look at all at once
 // rather than in pages and pages of unrolled code.
@@ -43,7 +38,7 @@ static const float a2fEdgeDirection[12][3] =
         {0.0, 0.0, 1.0},{0.0, 0.0, 1.0},{ 0.0, 0.0, 1.0},{0.0,  0.0, 1.0}
 };
 
-int     iDataSetSize = 50; //16x16x16 cubes // never used
+int     iDataSetSize = 50; //16x16x16 cubes 
 float	metafactor = 1.0;
 float   fStepSize = 1.0/iDataSetSize;
 float   fTargetValue = 48.0;
@@ -75,13 +70,14 @@ int vMarchCube1(float fX, float fY, float fZ, float fScale, vector3F vertex[], v
 void vMarchCube2(float fX, float fY, float fZ, float fScale);
 int (*vMarchCube)(float fX, float fY, float fZ, float fScale, vector3F vertex[], vector3F color[], vector3F edge_normal[]) = vMarchCube1;
 
-
+//RTree callback
 bool RegisterPointIDIntoSearchResults(int id, void* arg) 
 {	//printf("Hit data rect %d\n", id);
 	RTree_search_results.push_back(id);
 	return true; // keep going
 }
 
+//RTree callback
 bool RegisterPointIDIntoGlobalSearchResults(int id, void* arg) 
 {	//printf("Hit data rect %d\n", id);
 	global_rTree_search_results.push_back(id);
@@ -244,19 +240,6 @@ float fSample1(float fX, float fY, float fZ)
 float fSample2(float fX, float fY, float fZ)
 {
         double fResult = 0.0;
-  //      double fDx, fDy, fDz;
-		//fDx = fX - sSourcePoint[0].x;
-		//fDy = fY - sSourcePoint[0].y;
-  //      fResult += 0.5/(fDx*fDx + fDy*fDy);
-
-		//fDx = fX - sSourcePoint[1].x;
-		//fDz = fZ - sSourcePoint[1].y;
-  //      fResult += 0.75/(fDx*fDx + fDz*fDz);
-
-		//fDy = fY - sSourcePoint[2].y;
-		//fDz = fZ - sSourcePoint[2].y;
-  //      fResult += 1.0/(fDy*fDy + fDz*fDz);
-
         return fResult;
 }
 
@@ -289,11 +272,8 @@ int  vMarchCube1(float fX, float fY, float fZ, float fScale, vector3F vertex[], 
 
         int iCorner, iVertex, iVertexTest, iEdge, iTriangle, iFlagIndex, iEdgeFlags;
         float fOffset;
-        //GLvector sColor;
 		vector3F sColor;
         float CubeValue[8];
-        //GLvector asEdgeVertex[12];
-        //GLvector asEdgeNorm[12];
         vector3F asEdgeVertex[12];
         vector3F asEdgeNorm[12];
 
@@ -352,10 +332,6 @@ int  vMarchCube1(float fX, float fY, float fZ, float fScale, vector3F vertex[], 
                 for(iCorner = 0; iCorner < 3; iCorner++)
                 {
                         iVertex = TriangleConnectionTable[iFlagIndex][3*iTriangle+iCorner];
-                        //vGetColor(sColor, asEdgeVertex[iVertex], asEdgeNorm[iVertex]);
-                        //glColor3f(sColor.fX, sColor.fY, sColor.fZ);
-                        //glNormal3f(asEdgeNorm[iVertex].fX,   asEdgeNorm[iVertex].fY,   asEdgeNorm[iVertex].fZ);
-                        //glVertex3f(asEdgeVertex[iVertex].fX, asEdgeVertex[iVertex].fY, asEdgeVertex[iVertex].fZ);
 						vertex[nTriangles*3+iCorner].x = asEdgeVertex[iVertex].x;
 						vertex[nTriangles*3+iCorner].y = asEdgeVertex[iVertex].y;
 						vertex[nTriangles*3+iCorner].z = asEdgeVertex[iVertex].z;
@@ -685,13 +661,7 @@ int TriangleConnectionTable[256][16] =
 
 NodePath* CreateVoxelized(std::map< int, std::vector<corePDU3D<double>> > source_weighted_data)
 {
-	//fSample = fSample1;
-	//fSample = fSample3;
-	//fSample = DistanceToWeightedPoints;
 	fSample = DistanceToWeightedPointsInRange;
-	//cout << "Create voxelized - iDataSetSize: " << iDataSetSize << "\n";
-
-	//RTree<int, float, 3, float> spatial_index;
 
 	int point_id = 0;
 	spatial_index.RemoveAll();
@@ -750,7 +720,7 @@ NodePath* CreateVoxelized(std::map< int, std::vector<corePDU3D<double>> > source
 		iZ = id_iter->second.position.z;
 		float weight_offset = 0;// weight_index[id_iter->first]/2;
 		//-----------------------------
-		//FIX!!!! IGNORES TOO MANY GRID CELLS, but this approach is dimension explosive
+		//IGNORES TOO MANY GRID CELLS, but this approach is dimension explosive
 		//-----------------------------
 
 		int jX, jY, jZ, jXini, jYini, jZini, jXend, jYend, jZend;
@@ -824,17 +794,12 @@ NodePath* CreateVoxelized(std::map< int, std::vector<corePDU3D<double>> > source
 	quad->set_two_sided(true);
 	quad->set_texture_off();
 
-	//Texture *text = TexturePool::load_texture("/c/etc/Iris.png");
-	//quad->set_transparency(TransparencyAttrib::M_alpha);
-	//quad->set_texture(text);
-
 	return quad;
 }
 
 NodePath* CreateVoxelized(std::vector<corePDU3D<double>> &source_data)
 {
 	fSample = DistanceToPoints;
-	//source_points = source_data;
 	metafactor = 0.1+(9.9f/source_data.size());
 	source_points.clear();
 	for (unsigned int i = 0; i < source_data.size(); i++)
@@ -856,9 +821,6 @@ NodePath* CreateVoxelized(std::vector<corePDU3D<double>> &source_data)
 
 	iDataSetSize = DATASET_SIZE;
 	fStepSize = FIELD_SIZE/DATASET_SIZE;
-	//sSourcePoint[0].x = sSourcePoint[0].y = sSourcePoint[0].z =0.5;
-	//sSourcePoint[1].x = sSourcePoint[1].y = sSourcePoint[2].z =1.5;
-	//sSourcePoint[2].x = sSourcePoint[2].y = sSourcePoint[1].z =1.0;
 	
 	int iX, iY, iZ;
 	for(iX = 0; iX < iDataSetSize; iX++)
@@ -907,10 +869,6 @@ NodePath* CreateVoxelized(std::vector<corePDU3D<double>> &source_data)
 	NodePath* quad = new NodePath( (PandaNode*)squareGN );
 	quad->set_two_sided(true);
 	quad->set_texture_off();
-
-	//Texture *text = TexturePool::load_texture("/c/etc/Iris.png");
-	//quad->set_transparency(TransparencyAttrib::M_alpha);
-	//quad->set_texture(text);
 
 	return quad;
 }

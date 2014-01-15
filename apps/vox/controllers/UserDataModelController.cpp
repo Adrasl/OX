@@ -69,6 +69,7 @@ core::corePoint3D<double> UserDataModelController::GetThresholdDistanceToMinMax(
 core::corePoint3D<double> UserDataModelController::GetSpaceOffset()										{ boost::mutex::scoped_lock lock(m_mutex); return space_offset; }
 void UserDataModelController::GetBoundingBox( core::corePoint3D<double> &min, core::corePoint3D<double> &max)	{ boost::mutex::scoped_lock lock(m_mutex);  min = space_bounding_box_min; max = space_bounding_box_max; }
 
+//RTree callback
 bool UserDataModelController::RegisterPointIDIntoSearchResults(int id) 
 {	//printf("Hit data rect %d\n", id);
 	RTree_search_results.push_back(id);

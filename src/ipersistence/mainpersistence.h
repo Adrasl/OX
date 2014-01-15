@@ -36,12 +36,7 @@ namespace core
 				virtual bool SaveWorldPermissions(const std::string &name, const int permissions);
 				virtual bool DeleteUser(const std::string &name);
 				virtual void MainPersistence::GetWorldList(const std::string &user_name, std::vector<std::string> &names, std::vector<int> &permissions);
-
 				virtual void GetUserData(const int &id, std::string &name, std::string &passwd);
-				//virtual void ListProjects	();
-				//virtual void LoadProject	(unsigned int id);
-				//virtual void LoadProjectInfo(unsigned int id);
-
 				static dba::SQLArchive * GetArchive() { return &ar;             }
 				static dba::SQL * GetCounterCreate () { return &counter_create; }
 
@@ -49,7 +44,7 @@ namespace core
 
 				IApplication* app;
 				IApplicationConfiguration *app_config;
-				/** SQL Archive */
+
 				static dba::SQLArchive ar;
 				static dba::SQL counter_create;
 

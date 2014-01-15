@@ -20,7 +20,6 @@ namespace core
 			virtual void Calibrate(const bool &value)=0;
 			virtual void CalculateHomography()=0;
 			virtual void TrainBackground()=0;
-			//virtual void Capture()=0;
 
 			virtual char * GetCopyOfCurrentImage(const int camera_index, int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb = false) = 0;
 			virtual char * GetCopyOfCurrentFeature(const std::string &feature, int &size_x, int &size_y, int &n_channels, int &depth, int &width_step, const bool &switch_rb = false) = 0;
@@ -56,6 +55,7 @@ namespace core
 			virtual void AddNewUserToRecognition(const int &user_id) = 0;
 			/** \brief Obtains the motion elements*/
 			virtual std::vector<MotionElement> GetMotionElements() = 0;
+			/** \brief Returns wether the face pool has enough candidate faces or not. */
 			virtual bool IsFacePoolReady() = 0;
 
 	};
