@@ -1,101 +1,0 @@
-10
-
-dir
-57
-https://192.168.0.192/svn/ProjectOX/trunk/projectVOX/docs/paquetes/wxWidgets-2.9.0
-https://192.168.0.192/svn/ProjectOX
-
-
-
-2010-07-24T17:20:23.522619Z
-3
-stickmanoo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-609ce8a7-1bd4-4f44-ac93-a8e25030bf39
-
-build
-dir
-
-locale
-dir
-
-interface
-dir
-
-utils
-dir
-
-debian
-dir
-
-tests
-dir
-
-include
-dir
-
-samples
-dir
-
-art
-dir
-
-lib
-dir
-
-demos
-dir
-
-src
-dir
-
-docs
-dir
-
-autogen.sh
-file
-
-
-
-
-2009-09-04T04:51:38.000000Z
-1c2e481008e1de94deeb3adae7ee3a4c
-2010-07-24T17:20:23.522619Z
-3
-stickmanoo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-52
-

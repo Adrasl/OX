@@ -222,7 +222,6 @@ namespace core
 
 				static unsigned int num_windows;
 
-				static float m_peo, m_caca;
 				static bool use_master_display;
 				static Prod3DWindow*	master_prod3Dwindow;
 				static WindowFramework*	master_pandawindow;

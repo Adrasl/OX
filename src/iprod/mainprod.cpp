@@ -54,8 +54,6 @@ char** MainProd::m_argv;
 NodePath MainProd::cam_viewpoint = NodePath();
 NodePath MainProd::origin = NodePath();
 NodePath MainProd::up = NodePath();
-float MainProd::m_peo=0;
-float MainProd::m_caca=0;
 sf::SoundBuffer MainProd::sound_Buffer;
 double MainProd::listener_position[]	= {50.0f,50.0f,1.0f};
 double MainProd::listener_target[]		= {0.0f,-1.0f,0.0f};
@@ -218,25 +216,25 @@ void MainProd::DoMainLoop()
 		DisplayInformation	*dp = gp->get_display_information();
 		GraphicsDevice		*gd = gp->get_device();
 
-		//---------------Sound stuff-----------------------------
-		sf::SoundBuffer Buffer;
-		if (!Buffer.LoadFromFile("f://etc//repos//OX//motor.wav"))
-			int error_loadfromfile = 1;		
-		unsigned int chan = Buffer.GetChannelsCount();
-		sf::Listener::SetGlobalVolume(100.f);
-		Sound.SetBuffer(Buffer);
-		Sound.SetLoop(true);
-		Sound.SetPosition(sound_pos[0], sound_pos[1], sound_pos[2]);
-		//Sound.SetRelativeToListener(true);
-		Sound.SetMinDistance(10.f);
-		Sound.SetAttenuation(0.75f);
-		Sound.SetPitch(1.0f);
-		Sound.SetVolume(100.f);
-		//Recorder.Start();
-		//------------------------------------------------------
-		//initialized = true;
-		//Sound.Play();	
-		//-------------------------------
+		////---------------Sound stuff-----------------------------
+		//sf::SoundBuffer Buffer;
+		//if (!Buffer.LoadFromFile("f://etc//repos//OX//motor.wav"))
+		//	int error_loadfromfile = 1;		
+		//unsigned int chan = Buffer.GetChannelsCount();
+		//sf::Listener::SetGlobalVolume(100.f);
+		//Sound.SetBuffer(Buffer);
+		//Sound.SetLoop(true);
+		//Sound.SetPosition(sound_pos[0], sound_pos[1], sound_pos[2]);
+		////Sound.SetRelativeToListener(true);
+		//Sound.SetMinDistance(10.f);
+		//Sound.SetAttenuation(0.75f);
+		//Sound.SetPitch(1.0f);
+		//Sound.SetVolume(100.f);
+		////Recorder.Start();
+		////------------------------------------------------------
+		////initialized = true;
+		////Sound.Play();	
+		////-------------------------------
 
 	}
 

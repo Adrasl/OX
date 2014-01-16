@@ -1,176 +1,0 @@
-10
-
-dir
-57
-https://192.168.0.192/svn/ProjectOX/trunk/projectVOX/docs/paquetes/wxWidgets-2.9.0/tests
-https://192.168.0.192/svn/ProjectOX
-
-
-
-2010-07-24T17:20:23.522619Z
-3
-stickmanoo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-609ce8a7-1bd4-4f44-ac93-a8e25030bf39
-
-image
-dir
-
-uris
-dir
-
-mbconv
-dir
-
-weakref
-dir
-
-xlocale
-dir
-
-strings
-dir
-
-geometry
-dir
-
-lists
-dir
-
-arrays
-dir
-
-controls
-dir
-
-html
-dir
-
-events
-dir
-
-intl
-dir
-
-thread
-dir
-
-window
-dir
-
-regex
-dir
-
-benchmarks
-dir
-
-filesys
-dir
-
-longlong
-dir
-
-formatconverter
-dir
-
-filename
-dir
-
-archive
-dir
-
-exec
-dir
-
-base64
-dir
-
-textfile
-dir
-
-vectors
-dir
-
-filekind
-dir
-
-net
-dir
-
-misc
-dir
-
-scopeguard
-dir
-
-datetime
-dir
-
-testdata.fc
-file
-
-
-
-
-2009-09-04T04:53:13.000000Z
-851f07c74fad3bccbfa9c8a120d1dc3b
-2010-07-24T17:20:23.522619Z
-3
-stickmanoo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-150
-
-xml
-dir
-
-fontmap
-dir
-
-config
-dir
-
-font
-dir
-
-hashes
-dir
-
-cmdline
-dir
-
-streams
-dir
-

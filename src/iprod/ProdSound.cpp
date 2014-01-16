@@ -47,6 +47,7 @@ void ProdSound::DoMainLoop()
 	if (!Buffer.LoadFromFile("f://etc//repos//OX//motor.wav"))
 	{
 		printf("Failed: LoadFromFile\n");
+		return;
 	}
 	unsigned int chan = Buffer.GetChannelsCount();
 
