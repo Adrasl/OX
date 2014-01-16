@@ -1,0 +1,11 @@
+digraph "F:/etc/repos/OX/src/icog" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e47f67a30d4d4d4212d15d4ad651f8fe {
+    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_e47f67a30d4d4d4212d15d4ad651f8fe.html"]
+  dir_2821e726829dde8e00928ddc69088ffd [shape=box, label="icog", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_2821e726829dde8e00928ddc69088ffd.html"];
+  }
+  dir_f4b985054fc4de7cedd74d4b3d6a239a [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_f4b985054fc4de7cedd74d4b3d6a239a.html"];
+  dir_2821e726829dde8e00928ddc69088ffd->dir_f4b985054fc4de7cedd74d4b3d6a239a [headlabel="11", labeldistance=1.5 headhref="dir_000021_000012.html"];
+}

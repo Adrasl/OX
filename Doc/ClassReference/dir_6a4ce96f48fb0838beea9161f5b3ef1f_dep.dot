@@ -1,0 +1,15 @@
+digraph "F:/etc/repos/OX/apps/vox/Entities" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_7fab6f42d54affe984b707344f2bfa52 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="vox" fontname="Helvetica", fontsize="10", URL="dir_7fab6f42d54affe984b707344f2bfa52.html"]
+  dir_6a4ce96f48fb0838beea9161f5b3ef1f [shape=box, label="Entities", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_6a4ce96f48fb0838beea9161f5b3ef1f.html"];
+  }
+  dir_e47f67a30d4d4d4212d15d4ad651f8fe [shape=box label="src" fillcolor="white" style="filled" color="red" URL="dir_e47f67a30d4d4d4212d15d4ad651f8fe.html"];
+  dir_11839170ff1ed4a5ebd123e6b2fcdd2e [shape=box label="controllers" URL="dir_11839170ff1ed4a5ebd123e6b2fcdd2e.html"];
+  dir_6a4ce96f48fb0838beea9161f5b3ef1f->dir_e47f67a30d4d4d4212d15d4ad651f8fe [headlabel="14", labeldistance=1.5 headhref="dir_000010_000011.html"];
+  dir_6a4ce96f48fb0838beea9161f5b3ef1f->dir_11839170ff1ed4a5ebd123e6b2fcdd2e [headlabel="2", labeldistance=1.5 headhref="dir_000010_000008.html"];
+  dir_11839170ff1ed4a5ebd123e6b2fcdd2e->dir_e47f67a30d4d4d4212d15d4ad651f8fe [headlabel="16", labeldistance=1.5 headhref="dir_000008_000011.html"];
+  dir_11839170ff1ed4a5ebd123e6b2fcdd2e->dir_6a4ce96f48fb0838beea9161f5b3ef1f [headlabel="3", labeldistance=1.5 headhref="dir_000008_000010.html"];
+}

@@ -1,0 +1,21 @@
+digraph "F:/etc/repos/OX/apps" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_b6a209811d0594c2245ab88f8f3a00c7 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="OX" fontname="Helvetica", fontsize="10", URL="dir_b6a209811d0594c2245ab88f8f3a00c7.html"]
+  subgraph clusterdir_d1ed516e4a2a04220095fb6e72ed51f4 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_d1ed516e4a2a04220095fb6e72ed51f4.html"];
+    dir_d1ed516e4a2a04220095fb6e72ed51f4 [shape=plaintext label="apps"];
+    dir_3ecbd4bebe0977f901a1cf91371055fc [shape=box label="PruebaEncara2" color="black" fillcolor="white" style="filled" URL="dir_3ecbd4bebe0977f901a1cf91371055fc.html"];
+    dir_2d4b34e4e4074d4d099eab5f19ee5f9e [shape=box label="testbedeafloat" color="black" fillcolor="white" style="filled" URL="dir_2d4b34e4e4074d4d099eab5f19ee5f9e.html"];
+    dir_55a2b440103060ebd54ddceadb19df21 [shape=box label="testconsole" color="black" fillcolor="white" style="filled" URL="dir_55a2b440103060ebd54ddceadb19df21.html"];
+    dir_230b4dc63bc0e4e5ec44425b95ff8612 [shape=box label="testdba" color="black" fillcolor="white" style="filled" URL="dir_230b4dc63bc0e4e5ec44425b95ff8612.html"];
+    dir_7fab6f42d54affe984b707344f2bfa52 [shape=box label="vox" color="red" fillcolor="white" style="filled" URL="dir_7fab6f42d54affe984b707344f2bfa52.html"];
+    dir_502ea5c98b438528a83ad6d476494ca2 [shape=box label="voxc" color="red" fillcolor="white" style="filled" URL="dir_502ea5c98b438528a83ad6d476494ca2.html"];
+  }
+  }
+  dir_e47f67a30d4d4d4212d15d4ad651f8fe [shape=box label="src" fillcolor="white" style="filled" color="red" URL="dir_e47f67a30d4d4d4212d15d4ad651f8fe.html"];
+  dir_502ea5c98b438528a83ad6d476494ca2->dir_e47f67a30d4d4d4212d15d4ad651f8fe [headlabel="18", labeldistance=1.5 headhref="dir_000006_000011.html"];
+  dir_7fab6f42d54affe984b707344f2bfa52->dir_e47f67a30d4d4d4212d15d4ad651f8fe [headlabel="45", labeldistance=1.5 headhref="dir_000007_000011.html"];
+}

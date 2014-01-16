@@ -1,0 +1,12 @@
+digraph "F:/etc/repos/OX" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_b6a209811d0594c2245ab88f8f3a00c7 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_b6a209811d0594c2245ab88f8f3a00c7.html"];
+    dir_b6a209811d0594c2245ab88f8f3a00c7 [shape=plaintext label="OX"];
+    dir_d1ed516e4a2a04220095fb6e72ed51f4 [shape=box label="apps" color="red" fillcolor="white" style="filled" URL="dir_d1ed516e4a2a04220095fb6e72ed51f4.html"];
+    dir_e47f67a30d4d4d4212d15d4ad651f8fe [shape=box label="src" color="red" fillcolor="white" style="filled" URL="dir_e47f67a30d4d4d4212d15d4ad651f8fe.html"];
+  }
+  dir_d1ed516e4a2a04220095fb6e72ed51f4->dir_e47f67a30d4d4d4212d15d4ad651f8fe [headlabel="63", labeldistance=1.5 headhref="dir_000001_000011.html"];
+}

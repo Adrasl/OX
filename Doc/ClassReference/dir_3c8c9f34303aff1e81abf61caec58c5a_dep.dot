@@ -1,0 +1,20 @@
+digraph "F:/etc/repos/OX/src/ipercept" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e47f67a30d4d4d4212d15d4ad651f8fe {
+    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_e47f67a30d4d4d4212d15d4ad651f8fe.html"]
+  subgraph clusterdir_3c8c9f34303aff1e81abf61caec58c5a {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_3c8c9f34303aff1e81abf61caec58c5a.html"];
+    dir_3c8c9f34303aff1e81abf61caec58c5a [shape=plaintext label="ipercept"];
+    dir_86fee3de50417a25290c3c5975b6e302 [shape=box label="video" color="black" fillcolor="white" style="filled" URL="dir_86fee3de50417a25290c3c5975b6e302.html"];
+  }
+  }
+  dir_f10492b040ab898fd5fad18eb0180e82 [shape=box label="igui" fillcolor="white" style="filled" color="red" URL="dir_f10492b040ab898fd5fad18eb0180e82.html"];
+  dir_f4b985054fc4de7cedd74d4b3d6a239a [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_f4b985054fc4de7cedd74d4b3d6a239a.html"];
+  dir_86fee3de50417a25290c3c5975b6e302->dir_f4b985054fc4de7cedd74d4b3d6a239a [headlabel="19", labeldistance=1.5 headhref="dir_000024_000012.html"];
+  dir_3c8c9f34303aff1e81abf61caec58c5a->dir_86fee3de50417a25290c3c5975b6e302 [headlabel="5", labeldistance=1.5 headhref="dir_000023_000024.html"];
+  dir_3c8c9f34303aff1e81abf61caec58c5a->dir_f10492b040ab898fd5fad18eb0180e82 [headlabel="1", labeldistance=1.5 headhref="dir_000023_000013.html"];
+  dir_3c8c9f34303aff1e81abf61caec58c5a->dir_f4b985054fc4de7cedd74d4b3d6a239a [headlabel="33", labeldistance=1.5 headhref="dir_000023_000012.html"];
+  dir_f10492b040ab898fd5fad18eb0180e82->dir_f4b985054fc4de7cedd74d4b3d6a239a [headlabel="26", labeldistance=1.5 headhref="dir_000013_000012.html"];
+}

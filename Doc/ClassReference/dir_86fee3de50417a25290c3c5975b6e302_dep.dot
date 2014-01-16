@@ -1,0 +1,11 @@
+digraph "F:/etc/repos/OX/src/ipercept/video" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_3c8c9f34303aff1e81abf61caec58c5a {
+    graph [ bgcolor="#ddddee", pencolor="black", label="ipercept" fontname="Helvetica", fontsize="10", URL="dir_3c8c9f34303aff1e81abf61caec58c5a.html"]
+  dir_86fee3de50417a25290c3c5975b6e302 [shape=box, label="video", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_86fee3de50417a25290c3c5975b6e302.html"];
+  }
+  dir_f4b985054fc4de7cedd74d4b3d6a239a [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_f4b985054fc4de7cedd74d4b3d6a239a.html"];
+  dir_86fee3de50417a25290c3c5975b6e302->dir_f4b985054fc4de7cedd74d4b3d6a239a [headlabel="19", labeldistance=1.5 headhref="dir_000024_000012.html"];
+}

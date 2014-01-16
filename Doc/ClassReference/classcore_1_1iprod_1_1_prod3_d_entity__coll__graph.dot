@@ -1,0 +1,20 @@
+digraph "core::iprod::Prod3DEntity"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="core::iprod::Prod3DEntity",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="core::IEntity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcore_1_1_i_entity.html"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sound_destroy\nsound_create\nsound_touch\nsound_idle" ,fontname="Helvetica"];
+  Node3 [label="core::coreSound\< sf\l::Sound, sf::SoundBuffer \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcore_1_1core_sound.html"];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" position" ,fontname="Helvetica"];
+  Node4 [label="core::corePoint3D\<\l double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcore_1_1core_point3_d.html"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pdu" ,fontname="Helvetica"];
+  Node5 [label="core::corePDU3D\< double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcore_1_1core_p_d_u3_d.html"];
+  Node4 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" acceleration\nposition\nvelocity" ,fontname="Helvetica"];
+  Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" entity" ,fontname="Helvetica"];
+  Node6 [label="core::IEntityPersistence",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcore_1_1_i_entity_persistence.html"];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="core::Subject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcore_1_1_subject.html"];
+}

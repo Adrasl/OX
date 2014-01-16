@@ -1,0 +1,19 @@
+digraph "F:/etc/repos/OX/apps/vox" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_d1ed516e4a2a04220095fb6e72ed51f4 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="apps" fontname="Helvetica", fontsize="10", URL="dir_d1ed516e4a2a04220095fb6e72ed51f4.html"]
+  subgraph clusterdir_7fab6f42d54affe984b707344f2bfa52 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_7fab6f42d54affe984b707344f2bfa52.html"];
+    dir_7fab6f42d54affe984b707344f2bfa52 [shape=plaintext label="vox"];
+    dir_11839170ff1ed4a5ebd123e6b2fcdd2e [shape=box label="controllers" color="black" fillcolor="white" style="filled" URL="dir_11839170ff1ed4a5ebd123e6b2fcdd2e.html"];
+    dir_6a4ce96f48fb0838beea9161f5b3ef1f [shape=box label="Entities" color="black" fillcolor="white" style="filled" URL="dir_6a4ce96f48fb0838beea9161f5b3ef1f.html"];
+  }
+  }
+  dir_e47f67a30d4d4d4212d15d4ad651f8fe [shape=box label="src" fillcolor="white" style="filled" color="red" URL="dir_e47f67a30d4d4d4212d15d4ad651f8fe.html"];
+  dir_6a4ce96f48fb0838beea9161f5b3ef1f->dir_e47f67a30d4d4d4212d15d4ad651f8fe [headlabel="14", labeldistance=1.5 headhref="dir_000010_000011.html"];
+  dir_6a4ce96f48fb0838beea9161f5b3ef1f->dir_11839170ff1ed4a5ebd123e6b2fcdd2e [headlabel="2", labeldistance=1.5 headhref="dir_000010_000008.html"];
+  dir_11839170ff1ed4a5ebd123e6b2fcdd2e->dir_e47f67a30d4d4d4212d15d4ad651f8fe [headlabel="16", labeldistance=1.5 headhref="dir_000008_000011.html"];
+  dir_11839170ff1ed4a5ebd123e6b2fcdd2e->dir_6a4ce96f48fb0838beea9161f5b3ef1f [headlabel="3", labeldistance=1.5 headhref="dir_000008_000010.html"];
+}

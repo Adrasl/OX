@@ -1,0 +1,19 @@
+digraph "F:/etc/repos/OX/src/core" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e47f67a30d4d4d4212d15d4ad651f8fe {
+    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_e47f67a30d4d4d4212d15d4ad651f8fe.html"]
+  subgraph clusterdir_f4b985054fc4de7cedd74d4b3d6a239a {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_f4b985054fc4de7cedd74d4b3d6a239a.html"];
+    dir_f4b985054fc4de7cedd74d4b3d6a239a [shape=plaintext label="core"];
+    dir_ae4e6586aac2703f95699ed9b5be7a0b [shape=box label="ICog" color="black" fillcolor="white" style="filled" URL="dir_ae4e6586aac2703f95699ed9b5be7a0b.html"];
+    dir_2508355a45bb0fe81e46be77a6e31aa7 [shape=box label="IGUI" color="black" fillcolor="white" style="filled" URL="dir_2508355a45bb0fe81e46be77a6e31aa7.html"];
+    dir_65a1daa15407c92a0c723a18caca6dbf [shape=box label="IPercept" color="red" fillcolor="white" style="filled" URL="dir_65a1daa15407c92a0c723a18caca6dbf.html"];
+    dir_734c5ab54a1faa8a5f6913b986f48d96 [shape=box label="IPersistence" color="black" fillcolor="white" style="filled" URL="dir_734c5ab54a1faa8a5f6913b986f48d96.html"];
+    dir_2cc41543a0c57df6efb2e4068cf39b0f [shape=box label="IProd" color="black" fillcolor="white" style="filled" URL="dir_2cc41543a0c57df6efb2e4068cf39b0f.html"];
+  }
+  }
+  dir_f4b985054fc4de7cedd74d4b3d6a239a->dir_2cc41543a0c57df6efb2e4068cf39b0f [headlabel="1", labeldistance=1.5 headhref="dir_000012_000019.html"];
+  dir_f4b985054fc4de7cedd74d4b3d6a239a->dir_734c5ab54a1faa8a5f6913b986f48d96 [headlabel="2", labeldistance=1.5 headhref="dir_000012_000018.html"];
+}

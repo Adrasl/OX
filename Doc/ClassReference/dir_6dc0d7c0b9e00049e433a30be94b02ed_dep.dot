@@ -1,0 +1,11 @@
+digraph "F:/etc/repos/OX/src/igui/controllers" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_f10492b040ab898fd5fad18eb0180e82 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="igui" fontname="Helvetica", fontsize="10", URL="dir_f10492b040ab898fd5fad18eb0180e82.html"]
+  dir_6dc0d7c0b9e00049e433a30be94b02ed [shape=box, label="controllers", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_6dc0d7c0b9e00049e433a30be94b02ed.html"];
+  }
+  dir_f4b985054fc4de7cedd74d4b3d6a239a [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_f4b985054fc4de7cedd74d4b3d6a239a.html"];
+  dir_6dc0d7c0b9e00049e433a30be94b02ed->dir_f4b985054fc4de7cedd74d4b3d6a239a [headlabel="2", labeldistance=1.5 headhref="dir_000022_000012.html"];
+}

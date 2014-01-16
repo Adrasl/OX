@@ -1,0 +1,11 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Exception",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="dba_tests::TestDbException",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classdba__tests_1_1_test_db_exception.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="dba_tests::TestSQLException",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classdba__tests_1_1_test_s_q_l_exception.html"];
+}

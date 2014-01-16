@@ -1,0 +1,9 @@
+digraph "F:/etc/repos/OX/src/iprod/p3util" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_af12849983fc12d4f5269fde8e6f1aac {
+    graph [ bgcolor="#ddddee", pencolor="black", label="iprod" fontname="Helvetica", fontsize="10", URL="dir_af12849983fc12d4f5269fde8e6f1aac.html"]
+  dir_440a1eb3397d381268c6e65aab297a6e [shape=box, label="p3util", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_440a1eb3397d381268c6e65aab297a6e.html"];
+  }
+}

@@ -1,0 +1,9 @@
+digraph "F:/etc/repos/OX/src/core/IPercept/video" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_65a1daa15407c92a0c723a18caca6dbf {
+    graph [ bgcolor="#ddddee", pencolor="black", label="IPercept" fontname="Helvetica", fontsize="10", URL="dir_65a1daa15407c92a0c723a18caca6dbf.html"]
+  dir_a82f741324b6d79d7b1a786821dbc137 [shape=box, label="video", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_a82f741324b6d79d7b1a786821dbc137.html"];
+  }
+}

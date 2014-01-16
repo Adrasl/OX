@@ -1,0 +1,9 @@
+digraph "F:/etc/repos/OX/src/core/IGUI" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_f4b985054fc4de7cedd74d4b3d6a239a {
+    graph [ bgcolor="#ddddee", pencolor="black", label="core" fontname="Helvetica", fontsize="10", URL="dir_f4b985054fc4de7cedd74d4b3d6a239a.html"]
+  dir_2508355a45bb0fe81e46be77a6e31aa7 [shape=box, label="IGUI", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_2508355a45bb0fe81e46be77a6e31aa7.html"];
+  }
+}
